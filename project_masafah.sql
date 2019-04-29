@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2019 at 02:35 PM
+-- Generation Time: Apr 29, 2019 at 02:44 PM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.0.31
 
@@ -269,7 +269,7 @@ CREATE TABLE `countries` (
 --
 
 INSERT INTO `countries` (`id`, `name_en`, `name_ar`, `country_code`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'KUWAITt', 'الكويت', '965', 1, '2017-12-23 21:00:00', '2018-06-25 14:19:45'),
+(1, 'KUWAIT', 'الكويت', '965', 1, '2017-12-23 21:00:00', '2019-04-15 08:34:17'),
 (4, 'UAE', 'الامارات', '971', 1, '2018-02-15 17:14:01', '2018-03-20 08:46:19'),
 (5, 'SAUDI ARABIA', 'السعودية', '966', 1, '2018-02-15 17:15:13', '2018-03-20 08:46:14'),
 (6, 'BAHRAIN', 'البحرين', '973', 1, '2018-02-15 17:17:37', '2018-03-20 08:46:01'),
@@ -362,12 +362,33 @@ CREATE TABLE `knet_payments` (
 
 CREATE TABLE `language_management` (
   `id` int(10) UNSIGNED NOT NULL,
+  `title` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `label_en` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `label_ar` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `language_management`
+--
+
+INSERT INTO `language_management` (`id`, `title`, `label_en`, `label_ar`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'text_successRegistered', 'Successfully registered !', 'سجلت بنجاح !', 1, '2019-04-14 12:36:47', '2019-04-14 12:56:40'),
+(2, 'text_errorMobile', 'Your have enter wrong mobile number', 'لديك أدخل رقم الجوال خاطئ', 1, '2019-04-14 12:37:16', '2019-04-14 12:56:28'),
+(3, 'text_accountDeactivated', 'Your account has been deactivated, Kindly contact Administrator.', 'تم إلغاء تنشيط حسابك ، يرجى الاتصال بالمسؤول.', 1, '2019-04-14 12:37:41', '2019-04-14 12:56:15'),
+(4, 'text_successLoggout', 'Successfully logged out', 'تم تسجيل الخروج بنجاح', 1, '2019-04-14 12:38:00', '2019-04-14 12:55:45'),
+(5, 'text_tokenMismatch', 'Token Mismatch', 'عدم تطابق الرمز', 1, '2019-04-14 12:38:39', '2019-04-14 12:55:28'),
+(6, 'text_OTPrequired', 'OTP required', 'مكتب المدعي العام المطلوبة', 1, '2019-04-14 12:39:09', '2019-04-14 12:55:06'),
+(7, 'text_wrongOTP', 'Your have enter wrong OTP!', 'لديك أدخل خطأ مكتب المدعي العام!', 1, '2019-04-14 12:39:42', '2019-04-14 12:54:00'),
+(8, 'text_languageError', 'Language parameter required', 'معلمة اللغة المطلوبة', 1, '2019-04-14 14:22:16', '2019-04-14 14:22:42'),
+(9, 'text_errorMobile8Digit', 'Either you have enter wrong mobile number or number not equal to 8 digits', 'إما أن تدخل رقم هاتف خاطئ أو رقمًا لا يساوي 8 أرقام', 1, '2019-04-15 07:40:23', '2019-04-15 07:40:23'),
+(10, 'text_unauthorized', 'Unauthorized', 'غير مصرح', 1, '2019-04-15 08:01:11', '2019-04-15 08:01:11'),
+(11, 'text_errorName', 'The name field is required.', 'حقل الاسم مطلوب.', 1, '2019-04-15 08:08:54', '2019-04-15 08:13:51'),
+(12, 'text_errorCountry', 'The country field is required.', 'حقل البلد مطلوب.', 1, '2019-04-15 08:10:01', '2019-04-15 08:19:59'),
+(13, 'text_errorEmail', 'Either email address already exist or invalid.', 'إما أن عنوان البريد الإلكتروني موجود بالفعل أو غير صالح.', 1, '2019-04-15 08:14:40', '2019-04-15 08:19:10'),
+(14, 'text_successUpdated', 'Profile Successfully Updated', 'تم تحديث الملف الشخصي بنجاح', 1, '2019-04-15 08:25:28', '2019-04-15 08:25:28');
 
 -- --------------------------------------------------------
 
@@ -665,7 +686,39 @@ INSERT INTO `log_activities` (`id`, `subject`, `url`, `method`, `ip`, `agent`, `
 (267, 'RegisteredUser -  has been updated by admin', 'http://localhost/masafah/admin/registeredUsers/11', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 10:00:14', '2019-04-08 10:00:14'),
 (268, 'RegisteredUser -  has been created by admin', 'http://localhost/masafah/admin/registeredUsers', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 10:01:01', '2019-04-08 10:01:01'),
 (269, 'RegisteredUser -  has been updated by admin', 'http://localhost/masafah/admin/registeredUsers/12', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 10:01:20', '2019-04-08 10:01:20'),
-(270, 'RegisteredUser - [\"teatea\",\"tagee\"] has been trashed by admin', 'http://localhost/masafah/admin/registeredUsers/delete', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 10:01:42', '2019-04-08 10:01:42');
+(270, 'RegisteredUser - [\"teatea\",\"tagee\"] has been trashed by admin', 'http://localhost/masafah/admin/registeredUsers/delete', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 10:01:42', '2019-04-08 10:01:42'),
+(271, 'LanguageManagement - Successfully registered ! has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:36:47', '2019-04-14 12:36:47'),
+(272, 'LanguageManagement - Your have enter wrong mobile number has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:37:16', '2019-04-14 12:37:16'),
+(273, 'LanguageManagement - Your account has been deactivated, Kindly contact Administrator. has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:37:41', '2019-04-14 12:37:41'),
+(274, 'LanguageManagement - Successfully logged out has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:38:00', '2019-04-14 12:38:00'),
+(275, 'LanguageManagement - Token Mismatch has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:38:39', '2019-04-14 12:38:39'),
+(276, 'LanguageManagement - OTP required has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:39:09', '2019-04-14 12:39:09'),
+(277, 'LanguageManagement - Your have enter wrong OTP! has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:39:42', '2019-04-14 12:39:42'),
+(278, 'LanguageManagement - Your have enter wrong OTP! has been updated by admin', 'http://localhost/masafah/admin/languageManagement/7', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:52:06', '2019-04-14 12:52:06'),
+(279, 'LanguageManagement - Your have enter wrong OTP! has been updated by admin', 'http://localhost/masafah/admin/languageManagement/7', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:52:29', '2019-04-14 12:52:29'),
+(280, 'LanguageManagement - Your have enter wrong OTP! has been updated by admin', 'http://localhost/masafah/admin/languageManagement/7', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:54:00', '2019-04-14 12:54:00'),
+(281, 'LanguageManagement - Your have enter wrong OTP! has been updated by admin', 'http://localhost/masafah/admin/languageManagement/7', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:54:10', '2019-04-14 12:54:10'),
+(282, 'LanguageManagement - OTP required has been updated by admin', 'http://localhost/masafah/admin/languageManagement/6', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:55:06', '2019-04-14 12:55:06'),
+(283, 'LanguageManagement - Token Mismatch has been updated by admin', 'http://localhost/masafah/admin/languageManagement/5', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:55:28', '2019-04-14 12:55:28'),
+(284, 'LanguageManagement - Successfully logged out has been updated by admin', 'http://localhost/masafah/admin/languageManagement/4', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:55:45', '2019-04-14 12:55:45'),
+(285, 'LanguageManagement - Your account has been deactivated, Kindly contact Administrator. has been updated by admin', 'http://localhost/masafah/admin/languageManagement/3', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:56:15', '2019-04-14 12:56:15'),
+(286, 'LanguageManagement - Your have enter wrong mobile number has been updated by admin', 'http://localhost/masafah/admin/languageManagement/2', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:56:28', '2019-04-14 12:56:28'),
+(287, 'LanguageManagement - Successfully registered ! has been updated by admin', 'http://localhost/masafah/admin/languageManagement/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:56:40', '2019-04-14 12:56:40'),
+(288, 'LanguageManagement - Language parameter required has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 14:22:16', '2019-04-14 14:22:16'),
+(289, 'LanguageManagement - Language parameter required has been updated by admin', 'http://localhost/masafah/admin/languageManagement/8', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 14:22:42', '2019-04-14 14:22:42'),
+(290, 'LanguageManagement - Either you have enter wrong mobile number or number not equal to 8 digits has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 07:40:23', '2019-04-15 07:40:23'),
+(291, 'LanguageManagement - Unauthorized has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:01:11', '2019-04-15 08:01:11'),
+(292, 'LanguageManagement - Name is required has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:08:54', '2019-04-15 08:08:54'),
+(293, 'LanguageManagement - Country is required has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:10:01', '2019-04-15 08:10:01'),
+(294, 'LanguageManagement - The name field is required. has been updated by admin', 'http://localhost/masafah/admin/languageManagement/11', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:13:51', '2019-04-15 08:13:51'),
+(295, 'LanguageManagement - The country id field is required. has been updated by admin', 'http://localhost/masafah/admin/languageManagement/12', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:14:14', '2019-04-15 08:14:14'),
+(296, 'LanguageManagement - The email field is required. has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:14:40', '2019-04-15 08:14:40'),
+(297, 'LanguageManagement - Either email address already exist or invalid. has been updated by admin', 'http://localhost/masafah/admin/languageManagement/13', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:19:10', '2019-04-15 08:19:10'),
+(298, 'LanguageManagement - The country field is required. has been updated by admin', 'http://localhost/masafah/admin/languageManagement/12', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:19:59', '2019-04-15 08:19:59'),
+(299, 'LanguageManagement - Profile Successfully Updated has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:25:28', '2019-04-15 08:25:28'),
+(300, 'Country - KUWAIT has been updated by admin', 'http://localhost/masafah/admin/countries/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:34:17', '2019-04-15 08:34:17'),
+(301, 'RegisteredUser -  has been updated by admin', 'http://localhost/masafah/admin/registeredUsers/26', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:34:28', '2019-04-15 08:34:28'),
+(302, 'RegisteredUser -  has been updated by admin', 'http://localhost/masafah/admin/registeredUsers/26', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:39:25', '2019-04-15 08:39:25');
 
 -- --------------------------------------------------------
 
@@ -678,6 +731,17 @@ CREATE TABLE `migrations` (
   `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `migrations`
+--
+
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2016_06_01_000001_create_oauth_auth_codes_table', 1),
+(2, '2016_06_01_000002_create_oauth_access_tokens_table', 1),
+(3, '2016_06_01_000003_create_oauth_refresh_tokens_table', 1),
+(4, '2016_06_01_000004_create_oauth_clients_table', 1),
+(5, '2016_06_01_000005_create_oauth_personal_access_clients_table', 1);
 
 -- --------------------------------------------------------
 
@@ -705,6 +769,119 @@ CREATE TABLE `notifications` (
 
 INSERT INTO `notifications` (`id`, `send_to`, `subject`, `subject_ar`, `message`, `message_ar`, `link`, `notification_date`, `sent_status`, `created_at`, `updated_at`) VALUES
 (1, 0, 'General', 'General', 'General', 'General', '', '2018-06-26 16:35:00', 0, '2018-06-25 13:36:23', '2018-06-25 13:36:23');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_access_tokens`
+--
+
+CREATE TABLE `oauth_access_tokens` (
+  `id` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `client_id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `scopes` text COLLATE utf8_unicode_ci,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `oauth_access_tokens`
+--
+
+INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
+('0459104bd0ac8658eb3ff0e43fb9be0fd46f2dc8b2f4d8dcc4745a744660aaadd40a4ef75001222e', 26, 1, '87988798', '[\"*\"]', 0, '2019-04-14 12:28:36', '2019-04-14 12:28:36', '2029-04-14 15:28:36'),
+('185219c7162633e2ebde5982df4b816ef21f344f4482c1943c40f8c7979d5f18f242a481f391e2fd', 2, 1, '25725725', '[\"*\"]', 1, '2019-04-14 08:32:24', '2019-04-14 08:32:24', '2029-04-14 11:32:24'),
+('456f6e395762f0cc1f9d705eb1c28486dc2379aa2ee299d2f933d67ab25ecfdb05f82662a8a4027d', 2, 1, '25725725', '[\"*\"]', 1, '2019-04-14 10:18:11', '2019-04-14 10:18:11', '2029-04-14 13:18:11'),
+('7fcf23f65869f701a7d621b0dcb56b6678d1d3b49948549d3d64f84aeed38a08fea9cc1ae8b358a5', 2, 1, '25725725', '[\"*\"]', 0, '2019-04-14 08:29:28', '2019-04-14 08:29:28', '2029-04-14 11:29:28'),
+('877381cca0122f6f7511727d2a66625b65daff1f3d8b3b973075a9853d9ea92c2fe2dcb894333706', 26, 1, '87988798', '[\"*\"]', 0, '2019-04-14 14:16:16', '2019-04-14 14:16:16', '2029-04-14 17:16:16'),
+('b2618b623fe9f9ddd3382885555c5aec555eb7195ba52d8f21fc8b6f973b6ee395d430498d5dd241', 26, 1, '87988798', '[\"*\"]', 0, '2019-04-14 14:19:17', '2019-04-14 14:19:17', '2029-04-14 17:19:17'),
+('c44aac173841b2cd7b5e406881616e54b7d1d2f0a0d500dd2a42fd922c56ac51a24d5a3a17b32a5d', 26, 1, '87988798', '[\"*\"]', 0, '2019-04-14 12:27:34', '2019-04-14 12:27:34', '2029-04-14 15:27:34'),
+('c7414d245e0740b04b2ec1446d9e6dfe9794c2794919fe06e5c4871b6f4f8a3b09c7ba0a31445617', 2, 1, '25725725', '[\"*\"]', 1, '2019-04-14 10:47:03', '2019-04-14 10:47:03', '2029-04-14 13:47:03'),
+('cb0bb79ac44a0427dc7bd223fcc1b63a776453c9d860ef555392eac61ab5fe8a6f0fd209f19c3f84', 2, 1, '25725725', '[\"*\"]', 0, '2019-04-14 10:52:01', '2019-04-14 10:52:01', '2029-04-14 13:52:01'),
+('d2a2483a32b198c3e9cc6732bd8ece599995f058b268a0584b3718cf9e34a776e894805bb48fd47e', 2, 1, '25725725', '[\"*\"]', 0, '2019-04-14 10:35:37', '2019-04-14 10:35:37', '2029-04-14 13:35:37'),
+('e2e32d42048a06a61feef7062f90dea7be77aaa80944459294ad31e734d918c8a6cbad65ae18fc5e', 2, 1, '25725725', '[\"*\"]', 0, '2019-04-14 10:35:10', '2019-04-14 10:35:10', '2029-04-14 13:35:10'),
+('f1995ad0d4dc84582ebb0e20821bc6123dc4eb9dca6b047bd5324a8b04db83de27677b092b1d5c84', 2, 1, '25725725', '[\"*\"]', 0, '2019-04-14 12:24:33', '2019-04-14 12:24:33', '2029-04-14 15:24:33'),
+('fb93d7191ee388d5cd37dede5f5fc68cc2f9b99e10a715af93663de3f5a3faac476bd922a57b5102', 2, 1, '25725725', '[\"*\"]', 1, '2019-04-14 10:50:53', '2019-04-14 10:50:53', '2029-04-14 13:50:53'),
+('ff599ec915d863d77aeeeadd77d114efaeafcc54f92fa33e0bf4aa8a5a7010f86510a345e2bfa8be', 26, 1, '87988798', '[\"*\"]', 0, '2019-04-14 14:23:08', '2019-04-14 14:23:08', '2029-04-14 17:23:08');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_auth_codes`
+--
+
+CREATE TABLE `oauth_auth_codes` (
+  `id` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `scopes` text COLLATE utf8_unicode_ci,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_clients`
+--
+
+CREATE TABLE `oauth_clients` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `secret` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `redirect` text COLLATE utf8_unicode_ci NOT NULL,
+  `personal_access_client` tinyint(1) NOT NULL,
+  `password_client` tinyint(1) NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `oauth_clients`
+--
+
+INSERT INTO `oauth_clients` (`id`, `user_id`, `name`, `secret`, `redirect`, `personal_access_client`, `password_client`, `revoked`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'Events Personal Access Client', '5pdRmfhcMabEhfCntzIvall40pMGAImOhzvfDM7n', 'http://localhost', 1, 0, 0, '2019-04-10 11:51:17', '2019-04-10 11:51:17'),
+(2, NULL, 'Events Password Grant Client', '1FQXRRgJp0WJQSMmNtOyA5NVR9LYegYtBl1Uhzxu', 'http://localhost', 0, 1, 0, '2019-04-10 11:51:17', '2019-04-10 11:51:17');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_personal_access_clients`
+--
+
+CREATE TABLE `oauth_personal_access_clients` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `oauth_personal_access_clients`
+--
+
+INSERT INTO `oauth_personal_access_clients` (`id`, `client_id`, `created_at`, `updated_at`) VALUES
+(1, 1, '2019-04-10 21:00:00', '2019-04-10 21:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_refresh_tokens`
+--
+
+CREATE TABLE `oauth_refresh_tokens` (
+  `id` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `access_token_id` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -834,10 +1011,10 @@ CREATE TABLE `push_report` (
 CREATE TABLE `registered_users` (
   `id` int(10) UNSIGNED NOT NULL,
   `fullname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `original_password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `mobile` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `original_password` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `mobile` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `profile_image` text COLLATE utf8_unicode_ci,
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -845,6 +1022,7 @@ CREATE TABLE `registered_users` (
   `address` text COLLATE utf8_unicode_ci,
   `location` text COLLATE utf8_unicode_ci,
   `phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `otp` varchar(10) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -854,19 +1032,23 @@ CREATE TABLE `registered_users` (
 -- Dumping data for table `registered_users`
 --
 
-INSERT INTO `registered_users` (`id`, `fullname`, `email`, `password`, `original_password`, `mobile`, `profile_image`, `status`, `remember_token`, `country_id`, `address`, `location`, `phone`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Arshad', 'arshad@gmail.com', '6297787ba54529df693c9b80e2820259cf4dd3ea', '25825825', '99353599', NULL, 1, NULL, 4, NULL, NULL, NULL, '2018-06-27 09:38:59', '2018-07-03 13:53:26', NULL),
-(2, NULL, 'shams@gmail.com', '786177b28e32c85e26c3129fe3849433af909f85', '258258', '25725725', NULL, 1, NULL, 5, 'fdaf', NULL, '', '2018-06-27 14:00:45', '2019-04-08 08:55:15', '2019-04-08 08:55:15'),
-(3, NULL, 'mintra@gmail.com', '43a366ca2d7b7babf54ec2e8c210370136f95665', '254254', '55885588', NULL, 1, NULL, 1, 'Kuwait City', NULL, '', '2018-06-28 07:10:20', '2019-04-08 08:55:15', '2019-04-08 08:55:15'),
-(4, 'Noor Mohammed', 'noor@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '89789785', NULL, 1, NULL, 1, NULL, NULL, NULL, '2018-06-28 07:35:24', '2018-06-28 07:35:24', NULL),
-(5, 'Salim', 'salim@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '12345678', '1554716813.jpg', 1, NULL, 1, NULL, NULL, NULL, '2018-07-02 09:08:20', '2019-04-08 09:46:53', NULL),
-(6, NULL, 'makaan@gmal.com', '7c222fb2927d828af22f592134e8932480637c0d', '12345678', '25252525', NULL, 1, NULL, 1, 'Khaian', NULL, '', '2018-07-03 13:38:29', '2019-04-08 08:55:15', '2019-04-08 08:55:15'),
-(7, NULL, 'adm@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '25252578', NULL, 1, NULL, 1, 'd', NULL, '', '2018-07-03 13:44:19', '2018-07-03 13:44:30', '2018-07-03 13:44:30'),
-(8, 'Mohammed', 'Mohammed@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '55555555', '', 1, NULL, 1, NULL, NULL, NULL, '2019-04-08 08:01:18', '2019-04-08 09:46:09', NULL),
-(9, 'dfasf', 'fdsaf@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '78787878', NULL, 1, NULL, 1, NULL, NULL, NULL, '2019-04-08 08:55:05', '2019-04-08 08:55:15', '2019-04-08 08:55:15'),
-(10, 'taher', 'ytahe@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '85859598', '', 1, NULL, 1, NULL, NULL, NULL, '2019-04-08 09:54:34', '2019-04-08 09:58:43', '2019-04-08 09:58:43'),
-(11, 'teatea', 'daf@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '32323232', '', 1, NULL, 1, NULL, NULL, NULL, '2019-04-08 09:59:48', '2019-04-08 10:01:42', '2019-04-08 10:01:42'),
-(12, 'tagee', 'ta@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '89898989', '', 1, NULL, 1, NULL, NULL, NULL, '2019-04-08 10:01:01', '2019-04-08 10:01:42', '2019-04-08 10:01:42');
+INSERT INTO `registered_users` (`id`, `fullname`, `email`, `password`, `original_password`, `mobile`, `profile_image`, `status`, `remember_token`, `country_id`, `address`, `location`, `phone`, `otp`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Arshad', 'arshad@gmail.com', '6297787ba54529df693c9b80e2820259cf4dd3ea', '25825825', '99353599', NULL, 1, NULL, 4, NULL, NULL, NULL, '', '2018-06-27 09:38:59', '2018-07-03 13:53:26', NULL),
+(2, NULL, 'shams@gmail.com', '786177b28e32c85e26c3129fe3849433af909f85', '258258', '25725725', NULL, 1, NULL, 5, 'fdaf', NULL, '', '', '2018-06-27 14:00:45', '2019-04-08 08:55:15', '2019-04-08 08:55:15'),
+(3, NULL, 'mintra@gmail.com', '43a366ca2d7b7babf54ec2e8c210370136f95665', '254254', '55885588', NULL, 1, NULL, 1, 'Kuwait City', NULL, '', '', '2018-06-28 07:10:20', '2019-04-08 08:55:15', '2019-04-08 08:55:15'),
+(4, 'Noor Mohammed', 'noor@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '89789785', NULL, 1, NULL, 1, NULL, NULL, NULL, '', '2018-06-28 07:35:24', '2018-06-28 07:35:24', NULL),
+(5, 'Salim', 'salim@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '12345678', '1554716813.jpg', 1, NULL, 1, NULL, NULL, NULL, '', '2018-07-02 09:08:20', '2019-04-08 09:46:53', NULL),
+(6, NULL, 'makaan@gmal.com', '7c222fb2927d828af22f592134e8932480637c0d', '12345678', '25252525', NULL, 1, NULL, 1, 'Khaian', NULL, '', '', '2018-07-03 13:38:29', '2019-04-08 08:55:15', '2019-04-08 08:55:15'),
+(7, NULL, 'adm@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '25252578', NULL, 1, NULL, 1, 'd', NULL, '', '', '2018-07-03 13:44:19', '2018-07-03 13:44:30', '2018-07-03 13:44:30'),
+(8, 'Mohammed', 'Mohammed@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '55555555', '', 1, NULL, 1, NULL, NULL, NULL, '', '2019-04-08 08:01:18', '2019-04-08 09:46:09', NULL),
+(9, 'dfasf', 'fdsaf@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '78787878', NULL, 1, NULL, 1, NULL, NULL, NULL, '', '2019-04-08 08:55:05', '2019-04-08 08:55:15', '2019-04-08 08:55:15'),
+(10, 'taher', 'ytahe@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '85859598', '', 1, NULL, 1, NULL, NULL, NULL, '', '2019-04-08 09:54:34', '2019-04-08 09:58:43', '2019-04-08 09:58:43'),
+(11, 'teatea', 'daf@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '32323232', '', 1, NULL, 1, NULL, NULL, NULL, '', '2019-04-08 09:59:48', '2019-04-08 10:01:42', '2019-04-08 10:01:42'),
+(12, 'tagee', 'ta@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '89898989', '', 1, NULL, 1, NULL, NULL, NULL, '82140', '2019-04-08 10:01:01', '2019-04-14 12:04:59', '2019-04-08 10:01:42'),
+(24, NULL, '', '', '', '85858585', NULL, 1, NULL, NULL, NULL, NULL, NULL, '32695', '2019-04-11 14:52:42', '2019-04-11 14:52:42', NULL),
+(26, 'testing', 'test@g.com', '', '', '87988798', '1555317654.jpg', 1, NULL, 1, NULL, NULL, NULL, '80945', '2019-04-14 12:26:56', '2019-04-15 08:40:54', NULL),
+(27, NULL, '', '', '', '87988777', NULL, 0, NULL, NULL, NULL, NULL, NULL, '49561', '2019-04-14 13:31:09', '2019-04-14 13:31:09', NULL),
+(28, NULL, '', '', '', '87988998', NULL, 0, NULL, NULL, NULL, NULL, NULL, '30184', '2019-04-14 13:32:17', '2019-04-14 13:32:17', NULL);
 
 -- --------------------------------------------------------
 
@@ -1055,7 +1237,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `email`, `password`, `original_password`, `civilid`, `mobile`, `user_role_id`, `permission_id`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Superadmin', 'admin', 'sagirhashim@gmail.com', '$2y$10$/SSSo/hc.7L9VCxw8Vu6PuZ1MIB.XAaybdc5FuZ9fzLvV66OmZPGe', '123456', NULL, '12345678', 1, 2, 1, '052V0LEkeYEEipYEU89I6fsmAGNPFBZQOQPZvOEUHvCTQOtPjohpHvnt66jP', NULL, '2019-04-07 15:03:26'),
+(1, 'Superadmin', 'admin', 'sagirhashim@gmail.com', '$2y$10$/SSSo/hc.7L9VCxw8Vu6PuZ1MIB.XAaybdc5FuZ9fzLvV66OmZPGe', '123456', NULL, '12345678', 1, 2, 1, 'CYFkzqYcWBS00AufdWPxib2uannoQdsle5NZ4OgXxYWfx4d3jmcB60avTw4R', NULL, '2019-04-17 14:32:48'),
 (6, 'hashim', 'hashim', 'hashimvavisa@gmail.com', '$2y$10$vtZdXUgTjTVKUQbEkxxEpOqkTcFZ4WKXWsVP3fisHW2DXGrzmF8dq', '123456', NULL, '93969696', 5, 1, 1, NULL, '2018-12-26 09:14:40', '2018-12-26 09:14:58');
 
 -- --------------------------------------------------------
@@ -1224,6 +1406,41 @@ ALTER TABLE `notifications`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `oauth_access_tokens`
+--
+ALTER TABLE `oauth_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_access_tokens_user_id_index` (`user_id`),
+  ADD KEY `oauth_access_tokens_client_id_index` (`client_id`);
+
+--
+-- Indexes for table `oauth_auth_codes`
+--
+ALTER TABLE `oauth_auth_codes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `oauth_clients`
+--
+ALTER TABLE `oauth_clients`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_clients_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `oauth_personal_access_clients`
+--
+ALTER TABLE `oauth_personal_access_clients`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_personal_access_clients_client_id_index` (`client_id`);
+
+--
+-- Indexes for table `oauth_refresh_tokens`
+--
+ALTER TABLE `oauth_refresh_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_refresh_tokens_access_token_id_index` (`access_token_id`);
+
+--
 -- Indexes for table `packages`
 --
 ALTER TABLE `packages`
@@ -1256,8 +1473,8 @@ ALTER TABLE `permissions`
 --
 ALTER TABLE `registered_users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `registered_users_email_unique` (`email`),
-  ADD UNIQUE KEY `registered_users_mobile_unique` (`mobile`);
+  ADD UNIQUE KEY `registered_users_mobile_unique` (`mobile`),
+  ADD KEY `registered_users_email_unique` (`email`) USING BTREE;
 
 --
 -- Indexes for table `serviceprovider_images`
@@ -1418,24 +1635,36 @@ ALTER TABLE `knet_payments`
 -- AUTO_INCREMENT for table `language_management`
 --
 ALTER TABLE `language_management`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `log_activities`
 --
 ALTER TABLE `log_activities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=271;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=303;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `oauth_clients`
+--
+ALTER TABLE `oauth_clients`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `oauth_personal_access_clients`
+--
+ALTER TABLE `oauth_personal_access_clients`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
@@ -1460,7 +1689,7 @@ ALTER TABLE `permissions`
 -- AUTO_INCREMENT for table `registered_users`
 --
 ALTER TABLE `registered_users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `serviceprovider_images`
