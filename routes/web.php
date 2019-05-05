@@ -84,7 +84,6 @@ Route::get('serviceProviders/requirements', 'Admin\ServiceProviderController@req
 Route::get('serviceProviders/{id}/requirementViewed', 'Admin\ServiceProviderController@requirementViewed');
 Route::get('serviceProviders/{id}/requirements', 'Admin\ServiceProviderController@requirement');
 
-
 // Service Provider Quotation Form routes
 Route::get('serviceProviders/dynamicForm/{id}', 'Admin\ServiceProviderController@dynamicForm');
 Route::get('serviceProviders/quotationForm', 'Admin\ServiceProviderController@quotationForm');

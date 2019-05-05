@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -11,7 +9,7 @@ use Illuminate\Http\Request;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
 //Route::get('/user', function (Request $request) {
 //    return $request->user();
@@ -21,13 +19,23 @@ use Illuminate\Http\Request;
 //Route::get('registeredUsers', 'API\RegisteredUserController@index');
 
 //Authentication 
-Route::post('login', 'API\AuthController@login');
-Route::post('register', 'API\AuthController@register');
-Route::get('logout', 'API\AuthController@logout');
-Route::post('verifyOTP', 'API\AuthController@verifyOTP');
-Route::post('resendOTP', 'API\AuthController@resendOTP');
 
-//User Profile
-Route::get('profile', 'API\UserProfileController@profile');
-Route::post('profile/update', 'API\UserProfileController@update');
- 
+/* User */
+Route::post('/user/login', 'API\User\AuthController@login');
+Route::post('/user/register', 'API\User\AuthController@register');
+Route::get('/user/logout', 'API\User\AuthController@logout');
+Route::post('/user/verifyOTP', 'API\User\AuthController@verifyOTP');
+Route::post('/user/resendOTP', 'API\User\AuthController@resendOTP');
+
+/* Company */
+Route::post('/company/login', 'API\User\CompanyEntryController@login');
+Route::post('/company/register', 'API\User\CompanyEntryController@register');
+
+//Profile
+Route::get('/user/profile', 'API\UserProfileController@profile');
+Route::post('/user/profile/update', 'API\UserProfileController@update');
+
+//Pages
+Route::get('/user/getTermsAndConditions', 'API\PagesController@getTermsAndConditions');
+
+Route::post('/sendMail', 'API\User\AuthController@sendMail');

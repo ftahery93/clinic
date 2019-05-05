@@ -2,28 +2,28 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Validator;
+use App\Helpers\LogActivity;
+use App\Helpers\Permit;
+use App\Http\Controllers\Controller;
+use App\Models\Admin\CmsPage;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Redirect;
 use Session;
-use DB;
+use Validator;
 use View;
-use Carbon\Carbon;
-use App\Models\Admin\CmsPage;
 use Yajra\Datatables\Datatables;
-use Yajra\Datatables\Html\Builder;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Helpers\Permit;
-use App\Helpers\LogActivity;
 
-class CmsPageController extends Controller {
+class CmsPageController extends Controller
+{
 
     protected $ViewAccess;
     protected $EditAccess;
     protected $CreateAccess;
     protected $DeleteAccess;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
         $this->middleware('permission:cmsPages');
     }
@@ -33,7 +33,8 @@ class CmsPageController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
 
         //Check Create Access Permission
         $this->CreateAccess = Permit::AccessPermission('cmsPages-create');
@@ -44,33 +45,34 @@ class CmsPageController extends Controller {
         //Check Edit Access Permission
         $this->EditAccess = Permit::AccessPermission('cmsPages-edit');
 
-
         $CmsPage = CmsPage::
-                select('id', 'name_en', 'status', 'created_at')
-                ->get();
+            select('id', 'name_en', 'status', 'created_at')
+            ->get();
 
         //Ajax request
         if (request()->ajax()) {
 
             return Datatables::of($CmsPage)
-                            ->editColumn('created_at', function ($CmsPage) {
-                                $newYear = new Carbon($CmsPage->created_at);
-                                return $newYear->format('d/m/Y');
-                            })                            
-                            ->editColumn('status', function ($CmsPage) {
-                                return $CmsPage->status == 1 ? '<div class="label label-success status" sid="' . $CmsPage->id . '" value="0"><i class="entypo-check"></i></div>' : '<div class="label label-secondary status"  sid="' . $CmsPage->id . '" value="1"><i class="entypo-cancel"></i></div>';
-                            })
-                            ->editColumn('action', function ($CmsPage) {
-                                if ($this->EditAccess)
-                                    return '<a href="'.url('admin/cmsPages') .'/' . $CmsPage->id . '/edit" class="btn btn-info tooltip-primary btn-small" data-toggle="tooltip" data-placement="top" title="Edit Records" data-original-title="Edit Records"><i class="entypo-pencil"></i></a>';
-                            })
-                            ->make();
+                ->editColumn('created_at', function ($CmsPage) {
+                    $newYear = new Carbon($CmsPage->created_at);
+                    return $newYear->format('d/m/Y');
+                })
+                ->editColumn('status', function ($CmsPage) {
+                    return $CmsPage->status == 1 ? '<div class="label label-success status" sid="' . $CmsPage->id . '" value="0"><i class="entypo-check"></i></div>' : '<div class="label label-secondary status"  sid="' . $CmsPage->id . '" value="1"><i class="entypo-cancel"></i></div>';
+                })
+                ->editColumn('action', function ($CmsPage) {
+                    if ($this->EditAccess) {
+                        return '<a href="' . url('admin/cmsPages') . '/' . $CmsPage->id . '/edit" class="btn btn-info tooltip-primary btn-small" data-toggle="tooltip" data-placement="top" title="Edit Records" data-original-title="Edit Records"><i class="entypo-pencil"></i></a>';
+                    }
+
+                })
+                ->make();
         }
 
         return view('admin.cmsPages.index')
-                        ->with('CreateAccess', $this->CreateAccess)
-                        ->with('DeleteAccess', $this->DeleteAccess)
-                        ->with('EditAccess', $this->EditAccess);
+            ->with('CreateAccess', $this->CreateAccess)
+            ->with('DeleteAccess', $this->DeleteAccess)
+            ->with('EditAccess', $this->EditAccess);
     }
 
     /**
@@ -78,12 +80,14 @@ class CmsPageController extends Controller {
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create()
+    {
 
         //Check Create Access Permission
         $this->CreateAccess = Permit::AccessPermission('cmsPages-create');
-        if (!$this->CreateAccess)
+        if (!$this->CreateAccess) {
             return redirect('errors/401');
+        }
 
         return view('admin.cmsPages.create');
     }
@@ -94,22 +98,22 @@ class CmsPageController extends Controller {
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
 
         // validate
         $validator = Validator::make($request->only(['name_en', 'name_ar', 'description_en', 'description_ar']), [
-                    'name_en' => 'required',
-                    'name_ar' => 'required',
-                    'description_en' => 'required',
-                    'description_ar' => 'required'
+            'name_en' => 'required',
+            'name_ar' => 'required',
+            'description_en' => 'required',
+            'description_ar' => 'required',
         ]);
-
 
         // validation failed
         if ($validator->fails()) {
 
             return redirect('admin/cmsPages/create')
-                            ->withErrors($validator)->withInput();
+                ->withErrors($validator)->withInput();
         } else {
             $input = $request->all();
 
@@ -130,7 +134,8 @@ class CmsPageController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($id)
+    {
         //
     }
 
@@ -140,18 +145,20 @@ class CmsPageController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit($id)
+    {
 
         //Check Edit Access Permission
         $this->EditAccess = Permit::AccessPermission('cmsPages-edit');
-        if (!$this->EditAccess)
+        if (!$this->EditAccess) {
             return redirect('errors/401');
+        }
 
         $CmsPage = CmsPage::find($id);
 
         // show the edit form and pass the nerd
         return View::make('admin.cmsPages.edit')
-                        ->with('CmsPage', $CmsPage);
+            ->with('CmsPage', $CmsPage);
     }
 
     /**
@@ -161,12 +168,14 @@ class CmsPageController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
 
         //Check Edit Access Permission
         $this->EditAccess = Permit::AccessPermission('cmsPages-edit');
-        if (!$this->EditAccess)
+        if (!$this->EditAccess) {
             return redirect('errors/401');
+        }
 
         //Ajax request
         if (request()->ajax()) {
@@ -177,17 +186,16 @@ class CmsPageController extends Controller {
         $CmsPage = CmsPage::findOrFail($id);
         // validate
         $validator = Validator::make($request->only(['name_en', 'name_ar', 'description_en', 'description_ar']), [
-                    'name_en' => 'required',
-                    'name_ar' => 'required',
-                    'description_en' => 'required',
-                    'description_ar' => 'required'
+            'name_en' => 'required',
+            'name_ar' => 'required',
+            'description_en' => 'required',
+            'description_ar' => 'required',
         ]);
-
 
         // validation failed
         if ($validator->fails()) {
             return redirect('admin/cmsPages/' . $id . '/edit')
-                            ->withErrors($validator)->withInput();
+                ->withErrors($validator)->withInput();
         } else {
 
             $input = $request->all();
@@ -209,26 +217,28 @@ class CmsPageController extends Controller {
      * @param  int  $ids
      * @return \Illuminate\Http\Response
      */
-    public function destroyMany(Request $request) {
+    public function destroyMany(Request $request)
+    {
         //Check Delete Access Permission
         $this->DeleteAccess = Permit::AccessPermission('cmsPages-delete');
-        if (!$this->DeleteAccess)
+        if (!$this->DeleteAccess) {
             return redirect('errors/401');
+        }
 
         $all_data = $request->except('_token', 'table-4_length');
 
         //logActivity
         //fetch title
         $CmsPage = CmsPage::
-                select('name_en')
-                ->whereIn('id', $all_data['ids'])
-                ->get();
+            select('name_en')
+            ->whereIn('id', $all_data['ids'])
+            ->get();
 
         $name = $CmsPage->pluck('name_en');
         $groupname = $name->toJson();
 
         LogActivity::addToLog('CmsPage - ' . $groupname, 'deleted');
-   
+
         $all_data = array_get($all_data, 'ids');
         foreach ($all_data as $id) {
             CmsPage::destroy($id);

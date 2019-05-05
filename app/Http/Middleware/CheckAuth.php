@@ -2,10 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
-use App\Models\API\RegisteredUser;
 use App\Models\Admin\LanguageManagement;
-use Illuminate\Support\Facades\Auth;
+use Closure;
 
 class CheckAuth
 {
@@ -16,12 +14,13 @@ class CheckAuth
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $lang)
-    {       
+    public function handle($request, Closure $next)
+    {
+        $language = $request->header('Accept-Language');
         if (!$request->user('api')) {
-		 return response()->json([
-                    'message' => LanguageManagement::getLabel('text_unauthorized',$lang)
-              ]);
+            return response()->json([
+                'message' => LanguageManagement::getLabel('text_unauthorized', $language),
+            ]);
         }
         return $next($request);
     }
