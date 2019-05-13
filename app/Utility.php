@@ -21,7 +21,6 @@ class Utility
             'id.required' => $this->getMessage($language, 'required_id'),
             'category.required' => $this->getMessage($language, 'required_category'),
             'price.required' => $this->getMessage($language, 'required_price'),
-            'image.required' => $this->getMessage($language, 'required_image'),
             'fullname.required' => $this->getMessage($language, 'text_errorName'),
             'country_id.required' => $this->getMessage($language, 'text_errorCountry'),
             'otp.required' => $this->getMessage($language, 'text_OTPrequired'),

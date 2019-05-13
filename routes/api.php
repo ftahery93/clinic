@@ -18,7 +18,7 @@
 //Route::resource('registeredUsers', 'Admin\RegisteredUserController');
 //Route::get('registeredUsers', 'API\RegisteredUserController@index');
 
-//Authentication 
+//Authentication
 
 /* User */
 Route::post('/user/login', 'API\User\AuthController@login');
@@ -28,14 +28,22 @@ Route::post('/user/verifyOTP', 'API\User\AuthController@verifyOTP');
 Route::post('/user/resendOTP', 'API\User\AuthController@resendOTP');
 
 /* Company */
-Route::post('/company/login', 'API\User\CompanyEntryController@login');
-Route::post('/company/register', 'API\User\CompanyEntryController@register');
+Route::post('/company/login', 'API\Company\CompanyEntryController@login');
+Route::post('/company/register', 'API\Company\CompanyEntryController@register');
+Route::get('/company/getProfile', 'API\Company\CompanyProfileController@getProfile');
+Route::get('/company/getCompanyDetails', 'API\Company\CompanyProfileController@getCompanyDetails');
+Route::get('/company/getPendingShipments', 'API\Company\ShipmentController@getPendingShipments');
+Route::get('/company/getMyShipments', 'API\Company\ShipmentController@getMyShipments');
+Route::get('/company/acceptShipment', 'API\Company\ShipmentController@acceptShipment');
 
 //Profile
-Route::get('/user/profile', 'API\UserProfileController@profile');
-Route::post('/user/profile/update', 'API\UserProfileController@update');
+Route::get('/user/profile', 'API\User\UserProfileController@profile');
+Route::post('/user/profile/update', 'API\User\UserProfileController@update');
 
 //Pages
 Route::get('/user/getTermsAndConditions', 'API\PagesController@getTermsAndConditions');
+
+/* Address */
+Route::get('/user/getAddress', 'API\User\UserController@getAddress');
 
 Route::post('/sendMail', 'API\User\AuthController@sendMail');

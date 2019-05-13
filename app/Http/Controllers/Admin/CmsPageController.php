@@ -66,6 +66,7 @@ class CmsPageController extends Controller
                     }
 
                 })
+                ->rawColumns(['status', 'action'])
                 ->make();
         }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\User;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
 use App\Models\Admin\RegisteredUser;
+use App\Models\Admin\User;
 use App\Utility;
 use Illuminate\Http\Request;
 use Image;
@@ -21,6 +22,12 @@ class UserProfileController extends Controller
         $this->language = $request->header('Accept-Language');
     }
 
+    public function getUserProfile(Request $request)
+    {
+        $user = RegisteredUser::find($request->user('api')->id);
+        return collect($user);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -29,12 +36,13 @@ class UserProfileController extends Controller
     public function profile(Request $request)
     {
 
-        $User = RegisteredUser::find($request->user('api')->id);
-        $User = collect($User)->only(['fullname', 'email', 'mobile', 'country_id', 'profile_image']);
+        $user = User::find($request->user('api')->id);
+        //$User = collect($User)->only(['fullname', 'email', 'mobile', 'country_id', 'profile_image']);
 
-        $User['profile_image'] = url('public/images/' . $User['profile_image']);
+        //$User['profile_image'] = url('public/images/' . $User['profile_image']);
         // show the edit form and pass the nerd
-        return response()->json($User);
+        //return response()->json($User);
+        return collect($user);
     }
 
     /**

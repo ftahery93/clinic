@@ -4,12 +4,13 @@ namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
+use App\Models\Admin\User;
 use App\Models\API\RegisteredUser;
 use App\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Validator;
 use Mail;
+use Validator;
 
 //use GuzzleHttp\Exception\GuzzleException;
 //use GuzzleHttp\Client;
@@ -61,7 +62,7 @@ class AuthController extends Controller
     {
         $validator = [
             'mobile' => 'required|digits:8|unique:registered_users',
-            'is_user' => 'required'
+            'is_user' => 'required',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
@@ -72,7 +73,7 @@ class AuthController extends Controller
             'mobile' => $request->mobile,
             'status' => 0,
             'otp' => substr(str_shuffle("0123456789"), 0, 5),
-            'is_user' => $request->is_user
+            'is_user' => $request->is_user,
         ]);
 
         return response()->json([
@@ -110,7 +111,8 @@ class AuthController extends Controller
 
         // validate the info, create rules for the inputs
         $rules = array(
-            'mobile' => 'required|digits:8', // make sure the email is an actual email
+            //'mobile' => 'required|digits:8', // make sure the email is an actual email
+
         );
 
         // run the validation rules on the inputs from the form
@@ -120,27 +122,30 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => LanguageManagement::getLabel('text_errorMobile8Digit', $this->Lang)], 417);
         } else {
-
+            /*
             //check Mobile from database
             if (!RegisteredUser::where('mobile', '=', $request->input('mobile'))->exists()) {
-                return response()->json(['error' => LanguageManagement::getLabel('text_errorMobile', $this->Lang)], 417);
+            return response()->json(['error' => LanguageManagement::getLabel('text_errorMobile', $this->Lang)], 417);
             }
             //check Mobile from database
             elseif (!RegisteredUser::where('mobile', '=', $request->input('mobile'))
-                ->where('status', '=', 1)
-                ->exists()) {
-                return response()->json(['error' => LanguageManagement::getLabel('text_accountDeactivated', $this->Lang)], 401);
+            ->where('status', '=', 1)
+            ->exists()) {
+            return response()->json(['error' => LanguageManagement::getLabel('text_accountDeactivated', $this->Lang)], 401);
             }
 
             // attempt to do the login
             $RegisteredUser = RegisteredUser::where('mobile', $request->input('mobile'))->get()->first();
             $tokenResult = $RegisteredUser->createToken($RegisteredUser->mobile, ['*']);
             $token = $tokenResult->token;
+             */
 
             // $token->expires_at = config('global.AuthExpiryDate');
 
             //$token->save();
-
+            $user = User::where('username', $request->username)->get()->first();
+            //return $user->email;
+            $tokenResult = $user->createToken('Masafah');
             return response()->json([
                 'access_token' => $tokenResult->accessToken,
                 'token_type' => 'Bearer',
@@ -280,7 +285,8 @@ class AuthController extends Controller
         ]);
     }
 
-    public function sendMail(){
+    public function sendMail()
+    {
         $data = array('name' => "Fakhruddin Tahery");
         Mail::send([], $data, function ($message) {
             $message->to('hashimeng21@hotmail.com', 'Hellooo')->subject

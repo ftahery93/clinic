@@ -111,12 +111,12 @@ CMS Pages
                                         }
                                     },
                                     columns: [
-                                        {data: 1, name: 'name_en'},
-                                        {data: 2, name: 'status', orderable: false, searchable: false, class: 'text-center'},
-                                        {data: 3, name: 'created_at', class: 'text-center'},
-                                        {data: 4, name: 'action', orderable: false, searchable: false, class: 'text-center'}
+                                        {data: 'name_en',name:'name_en'},
+                                        {data: 'status',name:'status', orderable: false, searchable: false, class: 'text-center'},
+                                        {data: 'created_at',name:'created_at', class: 'text-center'},
+                                        {data: 'action',name:'action', orderable: false, searchable: false, class: 'text-center'}
                                     ],
-                                    order: [[3, 'desc']],
+                                    order: [[0, 'asc']],
                                     "fnDrawCallback": function (oSettings) {
                                         $('input.icheck-14').iCheck({
                                             checkboxClass: 'icheckbox_polaris',

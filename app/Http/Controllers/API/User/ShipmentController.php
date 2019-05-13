@@ -23,7 +23,6 @@ class ShipmentController extends Controller
     public function addShipment(Request $request)
     {
         $validationMessages = [
-            'name' => 'required',
             'category_id' => 'required',
             'delivery_companies_id' => 'required',
             'price' => 'required',
@@ -38,16 +37,14 @@ class ShipmentController extends Controller
         }
 
         $shipment = new Shipment();
-        $shipment->name = $request->name;
         $shipment->category_id = $request->category_id;
-        $shipment->description = $request->description;
         $shipment->price = $request->price;
         $shipment->address_id_from = $request->address_id_from;
         $shipment->address_id_to = $request->address_id_to;
         $shipment->pickup_time = $request->pickup_time;
 
         $companies = Company::findMany($request->delivery_company_ids);
-    
+        // send notification to all the companies using player id
 
         $shipment->save();
     }

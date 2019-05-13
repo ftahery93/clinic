@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\API\Company;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Utility;
+use App\Models\Admin\LanguageManagement;
 use App\Models\API\Company;
+use App\Utility;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+
 
 class CompanyEntryController extends Controller
 {
@@ -14,7 +17,6 @@ class CompanyEntryController extends Controller
     public $language;
     public function __construct(Request $request)
     {
-        $this->middleware('api');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
     }
@@ -22,27 +24,42 @@ class CompanyEntryController extends Controller
     public function register(Request $request)
     {
         $validator = [
+            'name' => 'required',
             'email' => 'required|unique:companies|email',
             'mobile' => 'required|digits:8|unique:companies',
-            'is_user' => 'required',
             'password' => 'required',
-            'confirm_password' => 'required|same:password'
+            'confirm_password' => 'required|same:password',
+            'image' => 'required',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError) {
             return $checkForError;
         }
+
+        $file_data = $request->image;
+        $file_name = 'company_image_' . time() . '.png';
+
+        if ($file_data != null) {
+            Storage::disk('public')->put('company_images/' . $file_name, base64_decode($file_data));
+        }
         $registeredCompany = Company::create([
+            'name' => $request->name,
+            'email' => $request->email,
             'mobile' => $request->mobile,
+            'image' => $file_name,
             'status' => 0,
             'otp' => substr(str_shuffle("0123456789"), 0, 5),
             'password' => bcrypt($request->password),
             'approved' => false,
         ]);
 
+        $token = $registeredCompany->createToken('Masafah')->accessToken;
+
         return response()->json([
             'message' => LanguageManagement::getLabel('text_successRegistered', $this->language),
+            'access_token' => $token,
+            'token_type' => 'Bearer',
         ]);
     }
 
@@ -51,7 +68,7 @@ class CompanyEntryController extends Controller
         $valdiationMessages = [
             'email' => 'required',
             'password' => 'required',
-            'player_id' => 'required'
+            //'player_id' => 'required',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $valdiationMessages, 422);
@@ -59,26 +76,37 @@ class CompanyEntryController extends Controller
             return $checkForError;
         }
 
-        if (!Company::where('mobile', '=', $request->input('mobile'))
+        if (!Company::where('email', $request->email)
             ->where('status', '=', 1)
             ->exists()) {
-            return response()->json(['error' => LanguageManagement::getLabel('text_accountDeactivated', $this->Lang)], 401);
-        } elseif (!RegisteredUser::where('mobile', '=', $request->input('mobile'))->exists()) {
-            return response()->json(['error' => LanguageManagement::getLabel('text_errorMobile', $this->Lang)], 417);
+            return response()->json(['error' => LanguageManagement::getLabel('text_accountDeactivated', $this->language)], 401);
+        } elseif (!Company::where('email', $request->email)->exists()) {
+            return response()->json(['error' => LanguageManagement::getLabel('text_errorMobile', $this->language)], 417);
         }
 
-        $registeredCompany = Company::where('mobile', $request->input('mobile'))->get()->first();
+        $registeredCompany = Company::where('email', $request->email)->get()->first();
 
-        if ($registeredCompany->approved) {
-            $tokenResult = $registeredCompany->createToken($registeredCompany->mobile, ['*']);
+        if (Hash::check($request->password, $registeredCompany->password)) {
 
-            return response()->json([
-                'access_token' => $tokenResult->accessToken,
-                'token_type' => 'Bearer',
-            ]);
+            if ($registeredCompany->approved) {
+                $token = $registeredCompany->createToken('Masafah')->accessToken;
+                //TO-DO THis needs to be implemented once the app is integrated 
+                // $registeredCompany->update([
+                //     'player_id' => $request->player_id,
+                // ]);
+
+                return response()->json([
+                    'access_token' => $token,
+                    'token_type' => 'Bearer',
+                ]);
+            } else {
+                return response()->json([
+                    'error' => LanguageManagement::getLabel('text_accountNotApproved', $this->Lang),
+                ], 401);
+            }
         } else {
             return response()->json([
-                'error' => LanguageManagement::getLabel('text_accountNotApproved', $this->Lang)
+                'error' => LanguageManagement::getLabel('invalid_credentials', $this->Lang),
             ], 401);
         }
     }

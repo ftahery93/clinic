@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\API\Company;
 
 use App\Http\Controllers\Controller;
+use App\Models\API\Company;
+use App\Models\API\CompanyUser;
 use App\Utility;
 use Illuminate\Http\Request;
-use App\Models\API\CompanyUser;
 
 class CompanyProfileController extends Controller
 {
@@ -13,8 +14,7 @@ class CompanyProfileController extends Controller
     public $language;
     public function __construct(Request $request)
     {
-        $this->middleware('api');
-        $this->middleware('checkAuth');
+        //$this->middleware('companyAuth');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
     }
@@ -34,30 +34,18 @@ class CompanyProfileController extends Controller
 
     public function getCompanyDetails(Request $request)
     {
-        $validationMessages = [
-            'id' => 'required',
-        ];
-
-        $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
-        if ($checkForError) {
-            return $checkForError;
-        }
-
-        $company = Company::find($request->id);
+        $company = Company::find($request->user('api')->id);
 
         if ($company) {
             return $company;
         }
     }
 
-    public function profile(Request $request)
+    public function getProfile(Request $request)
     {
 
-        $company = CompanyUser::find($request->user('api')->id);
+        $company = Company::find($request->user('company')->id);
         $company = collect($company)->only(['name', 'email', 'mobile', 'description', 'image']);
-
-        $company['profile_image'] = url('public/images/' . $company['image']);
-        // show the edit form and pass the nerd
         return response()->json($company);
     }
 
