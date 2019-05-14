@@ -1,0 +1,45 @@
+{
+    "name": "tesark/msg91-php",
+    "description": "Send SMS and OTP using MSG91 service",
+    "keywords": ["sms and otp", "sms", "otp", "mobile sms", "mobile otp", "laravel sms", "laravel otp", "sms otp", "msg91 sms", "msg91 otp"],
+    "type": "package",
+    "license": "MIT",
+    "require": {
+        "guzzlehttp/guzzle": "~6.2",
+        "monolog/monolog": "~1.13 ",
+        "hassankhan/config": "0.8.2"
+    },
+    "authors": [
+        {
+            "name": "VenkaSkpi",
+            "email": "venkatsamuthiram5@gmail.com"
+        },
+        {
+            "name": "Chandresh Rajkumar Manonmani",
+            "email": "chan@tqube.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "~6.3@dev",
+        "phpdocumentor/phpdocumentor": "2.*",
+        "squizlabs/php_codesniffer": "^3.0@dev",
+        "jakub-onderka/php-parallel-lint": "dev-master",
+        "satooshi/php-coveralls": "^2.0@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sender\\": "src/Sender"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sender\\": "tests/Sender"
+        }
+    },
+    "scripts": {
+        "test": [
+            "parallel-lint . --exclude vendor",
+            "phpunit -c phpunit.xml.dist --coverage-clover coverage.xml"
+        ]
+    }
+}
