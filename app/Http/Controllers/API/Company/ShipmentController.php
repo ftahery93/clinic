@@ -44,9 +44,15 @@ class ShipmentController extends Controller
         ]);
     }
 
-    public function getMyShipments(Request $request)
+    public function getShipments(Request $request)
     {
         $shipments = Shipment::where('status', 2)->where('company_id', $request->company('api')->id)->get();
+        return collect($shipments);
+    }
+
+    public function getShipmentHistory(Request $request)
+    {
+        $shipments = Shipment::where('status', 4)->where('company_id', $request->user('api')->id)->get();
         return collect($shipments);
     }
 }

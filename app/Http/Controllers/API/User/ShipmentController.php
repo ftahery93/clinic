@@ -53,6 +53,8 @@ class ShipmentController extends Controller
     {
         $pending = [];
         $accepted = [];
+        $pickedUp = [];
+        $delivered = [];
 
         $shipments = Shipment::where('user_id', $request->user('api')->id);
 
@@ -65,12 +67,21 @@ class ShipmentController extends Controller
                     case 2:
                         $accepted[] = $shipment;
                         break;
+                    case 3:
+                        $pickedUp[] = $shipment;
+                        break;
+                    case 4:
+                        $delivered[] = $shipment;
+                        break;
+
                 }
             }
 
             return response()->json([
                 'pending' => $pending,
                 'accepted' => $accepted,
+                'pickedUp' => $pickedUp,
+                'delivered' => $delivered,
             ]);
         }
     }

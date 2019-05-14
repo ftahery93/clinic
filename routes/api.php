@@ -35,13 +35,14 @@ Route::get('/company/getCompanyDetails', 'API\Company\CompanyProfileController@g
 Route::get('/company/getPendingShipments', 'API\Company\ShipmentController@getPendingShipments');
 Route::get('/company/getMyShipments', 'API\Company\ShipmentController@getMyShipments');
 Route::get('/company/acceptShipment', 'API\Company\ShipmentController@acceptShipment');
+Route::get('/company/getShipmentHistory','API\Company\ShipmentController@getShipmentHistory');
 
 //Profile
 Route::get('/user/profile', 'API\User\UserProfileController@profile');
 Route::post('/user/profile/update', 'API\User\UserProfileController@update');
 
 //Pages
-Route::get('/user/getTermsAndConditions', 'API\PagesController@getTermsAndConditions');
+Route::get('/user/getTermsAndConditions', 'API\User\PagesController@getTermsAndConditions');
 
 /* Address */
 Route::get('/user/getAddress', 'API\User\UserController@getAddress');
