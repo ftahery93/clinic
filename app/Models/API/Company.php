@@ -52,7 +52,7 @@ class Company extends Authenticatable
 
     public function getImageAttribute($value)
     {
-        return $value ? url('/uploads/book_images/' . $value) : null;
+        return $value ? url('/uploads/company_images/' . $value) : null;
     }
 
 }

@@ -37,10 +37,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'api' => [
-            'driver' => 'passport',
-            'provider' => 'users',
-        ],
+        // 'api' => [
+        //     'driver' => 'passport',
+        //     'provider' => 'users',
+        // ],
         // 'company' => [
         //     'driver' => 'passport',
         //     'provider' => 'companies',
@@ -75,10 +75,10 @@ return [
         //     'driver' => 'eloquent',
         //     'model' => App\Models\API\RegisteredUser::class,
         // ],
-        'company' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\API\Company::class,
-        ],
+        // 'company' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Models\API\Company::class,
+        // ],
         'vendors' => [
             'driver' => 'eloquent',
             'model' => App\Models\Vendor\User::class,
@@ -115,12 +115,12 @@ return [
         //     'table' => 'password_resets',
         //     'expire' => 60,
         // ],
-        'companies' => [
-            'provider' => 'companies',
-            'email' => 'admin.auth.emails.password',
-            'table' => 'password_resets',
-            'expire' => 60,
-        ],
+        // 'companies' => [
+        //     'provider' => 'companies',
+        //     'email' => 'admin.auth.emails.password',
+        //     'table' => 'password_resets',
+        //     'expire' => 60,
+        // ],
         'vendors' => [
             'provider' => 'vendors',
             'email' => 'admin.auth.emails.password',

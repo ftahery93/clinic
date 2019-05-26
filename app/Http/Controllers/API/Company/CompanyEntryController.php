@@ -4,21 +4,23 @@ namespace App\Http\Controllers\API\Company;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
+use App\Models\API\Authentication;
 use App\Models\API\Company;
 use App\Utility;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Storage;
 
 class CompanyEntryController extends Controller
 {
     public $utility;
     public $language;
+    private $access_token;
     public function __construct(Request $request)
     {
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
+        $this->access_token = uniqid(base64_encode(str_random(50)));
     }
 
     public function register(Request $request)
@@ -54,12 +56,15 @@ class CompanyEntryController extends Controller
             'approved' => false,
         ]);
 
-        $token = $registeredCompany->createToken('Masafah')->accessToken;
+        $token = '' . $registeredCompany->id . '' . $registeredCompany->name . '' . $this->access_token;
+        Authentication::create([
+            'access_token' => $token,
+            'user_id' => $registeredCompany->id,
+        ]);
 
         return response()->json([
             'message' => LanguageManagement::getLabel('text_successRegistered', $this->language),
             'access_token' => $token,
-            'token_type' => 'Bearer',
         ]);
     }
 
@@ -89,15 +94,19 @@ class CompanyEntryController extends Controller
         if (Hash::check($request->password, $registeredCompany->password)) {
 
             if ($registeredCompany->approved) {
-                $token = $registeredCompany->createToken('Masafah')->accessToken;
-                //TO-DO THis needs to be implemented once the app is integrated 
+                $token = '' . $registeredCompany->id . '' . $registeredCompany->name . '' . $this->access_token;
+                Authentication::create([
+                    'access_token' => $token,
+                    'user_id' => $registeredCompany->id,
+                ]);
+                
+                //TO-DO THis needs to be implemented once the app is integrated
                 // $registeredCompany->update([
                 //     'player_id' => $request->player_id,
                 // ]);
 
                 return response()->json([
                     'access_token' => $token,
-                    'token_type' => 'Bearer',
                 ]);
             } else {
                 return response()->json([

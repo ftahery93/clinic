@@ -5,15 +5,12 @@ namespace App\Http\Controllers\API\User;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
 use App\Models\Admin\User;
+use App\Models\API\Authentication;
 use App\Models\API\RegisteredUser;
 use App\Utility;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Mail;
-use Validator;
-
-//use GuzzleHttp\Exception\GuzzleException;
-//use GuzzleHttp\Client;
 
 class AuthController extends Controller
 {
@@ -25,11 +22,13 @@ class AuthController extends Controller
      */
     public $utility;
     public $language;
+    private $accessToken;
     public function __construct(Request $request)
     {
-        $this->middleware('api');
+        //$this->middleware('api');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
+        $this->accessToken = uniqid(base64_encode(str_random(50)));
     }
 
     /**
@@ -45,7 +44,13 @@ class AuthController extends Controller
      *         operationId="register",
      *         summary="Register a user to app",
      *         @SWG\Parameter(
-     *             name="User",
+     *             name="Mobile",
+     *             in="body",
+     *             required=true,
+     *             @SWG\Schema(ref="#/definitions/User"),
+     *        ),
+     *          @SWG\Parameter(
+     *             name="Password",
      *             in="body",
      *             required=true,
      *             @SWG\Schema(ref="#/definitions/User"),
@@ -62,29 +67,27 @@ class AuthController extends Controller
     {
         $validator = [
             'mobile' => 'required|digits:8|unique:registered_users',
-            'is_user' => 'required',
+            'password' => 'required',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError) {
             return $checkForError;
         }
+        $otp = substr(str_shuffle("0123456789"), 0, 5);
         $registeredUser = RegisteredUser::create([
             'mobile' => $request->mobile,
+            'password' => bcrypt($request->password),
             'status' => 0,
-            'otp' => substr(str_shuffle("0123456789"), 0, 5),
-            'is_user' => $request->is_user,
+            'otp' => $otp,
         ]);
 
         return response()->json([
             'message' => LanguageManagement::getLabel('text_successRegistered', $this->language),
-
+            'otp' => $otp,
         ]);
     }
 
-    /**
-     * Authentication.
-     */
     /**
      *
      * @SWG\Post(
@@ -108,52 +111,43 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        $validator = [
+            'mobile' => 'required|digits:8',
+            'password' => 'required',
+        ];
 
-        // validate the info, create rules for the inputs
-        $rules = array(
-            //'mobile' => 'required|digits:8', // make sure the email is an actual email
-
-        );
-
-        // run the validation rules on the inputs from the form
-        $validator = Validator::make($request->all(), $rules);
-
-        // if the validator fails, redirect back to the form
-        if ($validator->fails()) {
-            return response()->json(['error' => LanguageManagement::getLabel('text_errorMobile8Digit', $this->Lang)], 417);
-        } else {
-            /*
-            //check Mobile from database
-            if (!RegisteredUser::where('mobile', '=', $request->input('mobile'))->exists()) {
-            return response()->json(['error' => LanguageManagement::getLabel('text_errorMobile', $this->Lang)], 417);
-            }
-            //check Mobile from database
-            elseif (!RegisteredUser::where('mobile', '=', $request->input('mobile'))
-            ->where('status', '=', 1)
-            ->exists()) {
-            return response()->json(['error' => LanguageManagement::getLabel('text_accountDeactivated', $this->Lang)], 401);
-            }
-
-            // attempt to do the login
-            $RegisteredUser = RegisteredUser::where('mobile', $request->input('mobile'))->get()->first();
-            $tokenResult = $RegisteredUser->createToken($RegisteredUser->mobile, ['*']);
-            $token = $tokenResult->token;
-             */
-
-            // $token->expires_at = config('global.AuthExpiryDate');
-
-            //$token->save();
-            $user = User::where('username', $request->username)->get()->first();
-            //return $user->email;
-            $tokenResult = $user->createToken('Masafah');
-            return response()->json([
-                'access_token' => $tokenResult->accessToken,
-                'token_type' => 'Bearer',
-                //'expires_at' => Carbon::parse(
-                //   $tokenResult->token->expires_at
-                // )->toDateTimeString()
-            ]);
+        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForError) {
+            return $checkForError;
         }
+
+        if (!RegisteredUser::where('mobile', '=', $request->input('mobile'))->exists()) {
+            return response()->json(['error' => LanguageManagement::getLabel('text_errorMobile', $this->Lang)], 417);
+        } elseif (!RegisteredUser::where('mobile', '=', $request->input('mobile'))
+                ->where('status', '=', 1)
+                ->exists()) {
+            return response()->json(['error' => LanguageManagement::getLabel('text_accountDeactivated', $this->Lang)], 401);
+        }
+
+        $registeredUser = RegisteredUser::where('mobile', $request->input('mobile'))->get()->first();
+
+        if (Hash::check($request->password, $registeredUser->password)) {
+            $token = '' . $registeredUser->id . '' . $registeredUser->mobile . '' . $this->accessToken;
+            Authentication::create([
+                'access_token' => $token,
+                'user_id' => $registeredUser->id,
+            ]);
+
+            return response()->json([
+                'user' => collect($registeredUser)->only('id', 'mobile', 'name', 'email'),
+                'access_token' => $token,
+            ]);
+        } else {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('invalid_credentils', $this->language),
+            ], 401);
+        }
+
     }
 
     /**
@@ -179,16 +173,11 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        if ($request->user('api')) {
-            $request->user('api')->token()->revoke();
-            return response()->json([
-                'message' => LanguageManagement::getLabel('text_successLoggout', $this->Lang),
-            ]);
-        } else {
-            return response()->json([
-                'message' => LanguageManagement::getLabel('text_tokenMismatch', $this->Lang),
-            ]);
-        }
+        $authenticateEntry = Authentication::where('access_token', $request->header('Authorization'))->get()->first();
+        $authenticateEntry->delete();
+        return response()->json([
+            'message' => LanguageManagement::getLabel('text_successLoggout', $this->Lang),
+        ]);
     }
 
     /**
@@ -214,9 +203,6 @@ class AuthController extends Controller
      */
     public function verifyOTP(Request $request)
     {
-
-        $input = $request->all();
-
         $validator = [
             'otp' => 'required',
             'mobile' => 'required',
@@ -231,16 +217,10 @@ class AuthController extends Controller
         } else {
             $registeredUser = RegisteredUser::where('mobile', $request->input('mobile'))->get()->first();
             $registeredUser->update(array('status' => 1));
-            $tokenResult = $registeredUser->createToken($registeredUser->mobile, ['*']);
-            //$token = $tokenResult->token;
-
-            // $token->expires_at = config('global.AuthExpiryDate');
-
-            //$token->save();
+            $token = '' . $registeredUser->id . '' . $registeredUser->mobile . '' . $this->accessToken;
 
             return response()->json([
-                'access_token' => $tokenResult->accessToken,
-                'token_type' => 'Bearer',
+                'access_token' => $token,
                 'user' => $registeredUser,
             ]);
         }
@@ -283,15 +263,5 @@ class AuthController extends Controller
         return response()->json([
             'otp' => $input['otp'],
         ]);
-    }
-
-    public function sendMail()
-    {
-        $data = array('name' => "Fakhruddin Tahery");
-        Mail::send([], $data, function ($message) {
-            $message->to('hashimeng21@hotmail.com', 'Hellooo')->subject
-                ('Laravel Basic Testing Mail');
-            $message->from('fakhriwild@gmail.com', 'Fakhruddin Tahery');
-        });
     }
 }

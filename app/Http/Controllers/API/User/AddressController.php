@@ -13,7 +13,6 @@ class AddressController extends Controller
     public $language;
     public function __construct(Request $request)
     {
-        $this->middleware('api');
         $this->middleware('checkAuth');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
@@ -26,6 +25,7 @@ class AddressController extends Controller
             'block' => 'required',
             'street' => 'required',
             'area' => 'required',
+            'building' => 'required',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
@@ -38,7 +38,9 @@ class AddressController extends Controller
             'block' => $request->block,
             'street' => $request->street,
             'area' => $request->area,
+            'building' => $request->building,
             'notes' => $request->notes,
+            'user_id' => $request->id,
         ]);
 
         return response()->json([
@@ -46,19 +48,16 @@ class AddressController extends Controller
         ]);
     }
 
-    public function getAddress(Request $request)
+    public function getAddress($id)
     {
-        $validationMessages = [
-            'id' => 'required',
-        ];
-
-        $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
-        if ($checkForError) {
-            return $checkForError;
-        }
-
-        $address = Address::find($request->id);
-
+        $address = Address::find($id);
         return collect($address)->only('id', 'name', 'street', 'block', 'area', 'notes');
     }
+
+    public function getAddresses(Request $request)
+    {
+        $addresses = Address::where('user_id', $request->id)->get();
+        return collect($addresses);
+    }
+
 }

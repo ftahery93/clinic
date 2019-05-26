@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\API\Company;
-use App\Shipment;
+use App\Models\Admin\LanguageManagement;
+use App\Models\API\Price;
+use App\Models\API\Shipment;
 use App\Utility;
 use Illuminate\Http\Request;
 
@@ -24,11 +25,11 @@ class ShipmentController extends Controller
     {
         $validationMessages = [
             'category_id' => 'required',
-            'delivery_companies_id' => 'required',
-            'price' => 'required',
-            'address_id_from' => 'required',
-            'address_id_to' => 'required',
+            //'delivery_companies_id' => 'required',
+            'address_from_id' => 'required',
+            'address_to_id' => 'required',
             'pickup_time' => 'required',
+            'quantity' => 'required',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
@@ -36,17 +37,27 @@ class ShipmentController extends Controller
             return $checkForError;
         }
 
+        $price = Price::find(1);
+
         $shipment = new Shipment();
         $shipment->category_id = $request->category_id;
-        $shipment->price = $request->price;
-        $shipment->address_id_from = $request->address_id_from;
-        $shipment->address_id_to = $request->address_id_to;
+        $shipment->price = $price->price;
+        $shipment->address_from_id = $request->address_from_id;
+        $shipment->address_to_id = $request->address_to_id;
         $shipment->pickup_time = $request->pickup_time;
+        $shipment->quantity = $request->quantity;
+        $shipment->user_id = $request->id;
+        $shipment->status = 1;
 
-        $companies = Company::findMany($request->delivery_company_ids);
+        //$companies = Company::findMany($request->delivery_company_ids);
         // send notification to all the companies using player id
 
         $shipment->save();
+
+        return response()->json([
+            'message' => LanguageManagement::getLabel('add_shipment_success', $this->language),
+            'shipment_id' => $shipment->id,
+        ]);
     }
 
     public function getShipments(Request $request)
@@ -56,7 +67,7 @@ class ShipmentController extends Controller
         $pickedUp = [];
         $delivered = [];
 
-        $shipments = Shipment::where('user_id', $request->user('api')->id);
+        $shipments = Shipment::where('user_id', $request->ustger('api')->id);
 
         if ($shipments) {
             foreach ($shipments as $shipment) {

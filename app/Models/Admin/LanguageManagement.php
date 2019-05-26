@@ -18,13 +18,11 @@ class LanguageManagement extends Model
             ->first();
 
         if ($lang == 'en') {
-            return $label["lable_en"];
+            return $label["label_en"];
         }
 
         if ($lang == 'ar') {
             return $label->label_ar;
         }
-
     }
-
 }

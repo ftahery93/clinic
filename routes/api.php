@@ -27,15 +27,24 @@ Route::get('/user/logout', 'API\User\AuthController@logout');
 Route::post('/user/verifyOTP', 'API\User\AuthController@verifyOTP');
 Route::post('/user/resendOTP', 'API\User\AuthController@resendOTP');
 
+Route::post('/user/addAddress', 'API\User\AddressController@addAddress');
+Route::get('/user/getAddress/{id}', 'API\User\AddressController@getAddress');
+
+/* User shipments  */
+Route::post('/user/addShipment', 'API\User\ShipmentController@addShipment');
+
 /* Company */
 Route::post('/company/login', 'API\Company\CompanyEntryController@login');
 Route::post('/company/register', 'API\Company\CompanyEntryController@register');
 Route::get('/company/getProfile', 'API\Company\CompanyProfileController@getProfile');
 Route::get('/company/getCompanyDetails', 'API\Company\CompanyProfileController@getCompanyDetails');
+Route::get('/company/getCompanyDetailsById/{id}', 'API\Company\CompanyProfileController@getCompanyDetailsById');
 Route::get('/company/getPendingShipments', 'API\Company\ShipmentController@getPendingShipments');
 Route::get('/company/getMyShipments', 'API\Company\ShipmentController@getMyShipments');
-Route::get('/company/acceptShipment', 'API\Company\ShipmentController@acceptShipment');
-Route::get('/company/getShipmentHistory','API\Company\ShipmentController@getShipmentHistory');
+Route::get('/company/acceptShipment/{shipment_id}', 'API\Company\ShipmentController@acceptShipment');
+Route::get('/company/getShipmentHistory', 'API\Company\ShipmentController@getShipmentHistory');
+Route::get('/company/shipmentPickedUp/{shipment_id}', 'API\Company\ShipmentController@shipmentPickedUp');
+Route::get('/company/shipmentDelivered/{shipment_id}', 'API\Company\ShipmentController@shipmentDelivered');
 
 //Profile
 Route::get('/user/profile', 'API\User\UserProfileController@profile');
@@ -46,5 +55,10 @@ Route::get('/user/getTermsAndConditions', 'API\User\PagesController@getTermsAndC
 
 /* Address */
 Route::get('/user/getAddress', 'API\User\UserController@getAddress');
+
+/* Wallet APIs */
+Route::post('/company/addToWallet', 'API\Company\WalletController@addToWallet');
+Route::post('/company/deductFromWallet', 'API\Company\WalletController@deductFromWallet');
+Route::get('/company/getWalletOffers', 'API\Company\WalletController@getWalletOffers');
 
 Route::post('/sendMail', 'API\User\AuthController@sendMail');

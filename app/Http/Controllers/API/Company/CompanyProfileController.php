@@ -14,7 +14,7 @@ class CompanyProfileController extends Controller
     public $language;
     public function __construct(Request $request)
     {
-        //$this->middleware('companyAuth');
+        $this->middleware('checkAuth');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
     }
@@ -34,10 +34,19 @@ class CompanyProfileController extends Controller
 
     public function getCompanyDetails(Request $request)
     {
-        $company = Company::find($request->user('api')->id);
+        $company = Company::find($request->id);
 
         if ($company) {
             return $company;
+        }
+    }
+
+    public function getCompanyDetailsById($id)
+    {
+        $company = Company::find($id);
+
+        if ($company) {
+            return collect($company);
         }
     }
 
