@@ -8,6 +8,8 @@ use App\Models\API\Price;
 use App\Models\API\Shipment;
 use App\Utility;
 use Illuminate\Http\Request;
+use App\Helpers\Notification;
+use App\Models\API\Company;
 
 class ShipmentController extends Controller
 {
@@ -25,7 +27,7 @@ class ShipmentController extends Controller
     {
         $validationMessages = [
             'category_id' => 'required',
-            //'delivery_companies_id' => 'required',
+            'delivery_companies_id' => 'required',
             'address_from_id' => 'required',
             'address_to_id' => 'required',
             'pickup_time' => 'required',
@@ -48,9 +50,15 @@ class ShipmentController extends Controller
         $shipment->quantity = $request->quantity;
         $shipment->user_id = $request->id;
         $shipment->status = 1;
+        $shipment->payment_type = 1;
 
-        //$companies = Company::findMany($request->delivery_company_ids);
-        // send notification to all the companies using player id
+        $deliveryCompanies =  array_map('intval',explode(",", $request->delivery_companies_id));
+        $companies = Company::findMany($deliveryCompanies);
+        $playerIds = [];
+        foreach ($companies as $company) {
+            $playerIds[] = $company->player_id;
+        }
+        Notification::sendNotificationToMultipleUser($playerIds);
 
         $shipment->save();
 
@@ -84,7 +92,6 @@ class ShipmentController extends Controller
                     case 4:
                         $delivered[] = $shipment;
                         break;
-
                 }
             }
 
