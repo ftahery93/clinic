@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Authentication extends Model
 {
-    protected $table = "Authentication";
+    protected $table = "authentication";
     protected $fillable = array('access_token', 'user_id');
     protected $hidden = array('created_at', 'updated_at');
 }
