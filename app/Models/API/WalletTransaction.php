@@ -4,9 +4,9 @@ namespace App\Models\API;
 
 use Illuminate\Database\Eloquent\Model;
 
-class WalletIn extends Model
+class WalletTransaction extends Model
 {
-    protected $table = "wallet_in";
+    protected $table = "wallet_transactions";
     protected $fillable = array('company_id', 'amount');
     protected $hidden = array('created_at', 'updated_at');
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Company;
 use App\Http\Controllers\Controller;
 use App\Models\API\Company;
 use App\Models\API\CompanyUser;
+use App\Models\API\FreeDelivery;
 use App\Utility;
 use Illuminate\Http\Request;
 
@@ -115,5 +116,20 @@ class CompanyProfileController extends Controller
             'message' => LanguageManagement::getLabel('text_successUpdated', $this->Lang),
 
         ]);
+    }
+
+    public function getFreeDeliveriesCount(Request $request)
+    {
+        $freeDeliveries = FreeDelivery::where('company_id', $request->id)->get()->first();
+
+        if ($freeDeliveries != null) {
+            return response()->json([
+                'count' => $freeDeliveries->quantity,
+            ]);
+        } else {
+            return response()->json([
+                'count' => 0,
+            ]);
+        }
     }
 }

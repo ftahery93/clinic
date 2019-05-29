@@ -41,10 +41,11 @@ Route::get('/company/getCompanyDetails', 'API\Company\CompanyProfileController@g
 Route::get('/company/getCompanyDetailsById/{id}', 'API\Company\CompanyProfileController@getCompanyDetailsById');
 Route::get('/company/getPendingShipments', 'API\Company\ShipmentController@getPendingShipments');
 Route::get('/company/getMyShipments', 'API\Company\ShipmentController@getMyShipments');
-Route::get('/company/acceptShipment/{shipment_id}', 'API\Company\ShipmentController@acceptShipment');
+Route::post('/company/acceptShipments', 'API\Company\ShipmentController@acceptShipment');
 Route::get('/company/getShipmentHistory', 'API\Company\ShipmentController@getShipmentHistory');
 Route::get('/company/shipmentPickedUp/{shipment_id}', 'API\Company\ShipmentController@shipmentPickedUp');
 Route::get('/company/shipmentDelivered/{shipment_id}', 'API\Company\ShipmentController@shipmentDelivered');
+Route::get('/company/getFreeDeliveriesCount', 'API\Company\CompanyProfileController@getFreeDeliveriesCount');
 
 //Profile
 Route::get('/user/profile', 'API\User\UserProfileController@profile');

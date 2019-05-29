@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
 use App\Models\API\Authentication;
 use App\Models\API\Company;
+use App\Models\API\FreeDelivery;
+use App\Models\API\Wallet;
 use App\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -62,6 +64,15 @@ class CompanyEntryController extends Controller
             'user_id' => $registeredCompany->id,
         ]);
 
+        Wallet::create([
+            'company_id' => $registeredCompany->id,
+            'amount' => 0,
+        ]);
+        FreeDelivery::create([
+            'company_id' => $registeredCompany->id,
+            'quantity' => 0,
+        ]);
+
         return response()->json([
             'message' => LanguageManagement::getLabel('text_successRegistered', $this->language),
             'access_token' => $token,
@@ -99,7 +110,7 @@ class CompanyEntryController extends Controller
                     'access_token' => $token,
                     'user_id' => $registeredCompany->id,
                 ]);
-                
+
                 //TO-DO THis needs to be implemented once the app is integrated
                 // $registeredCompany->update([
                 //     'player_id' => $request->player_id,
