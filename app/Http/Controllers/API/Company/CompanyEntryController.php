@@ -84,7 +84,7 @@ class CompanyEntryController extends Controller
         $valdiationMessages = [
             'email' => 'required',
             'password' => 'required',
-            //'player_id' => 'required',
+            'player_id' => 'required',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $valdiationMessages, 422);

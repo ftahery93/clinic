@@ -9,8 +9,6 @@ use App\Models\API\Authentication;
 use App\Models\API\RegisteredUser;
 use App\Utility;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Mail;
 
 class AuthController extends Controller
 {
@@ -77,7 +75,6 @@ class AuthController extends Controller
         $otp = substr(str_shuffle("0123456789"), 0, 5);
         $registeredUser = RegisteredUser::create([
             'mobile' => $request->mobile,
-            'password' => bcrypt($request->password),
             'status' => 0,
             'otp' => $otp,
         ]);
@@ -113,7 +110,6 @@ class AuthController extends Controller
     {
         $validator = [
             'mobile' => 'required|digits:8',
-            'password' => 'required',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
@@ -121,32 +117,20 @@ class AuthController extends Controller
             return $checkForError;
         }
 
-        if (!RegisteredUser::where('mobile', '=', $request->input('mobile'))->exists()) {
-            return response()->json(['error' => LanguageManagement::getLabel('text_errorMobile', $this->Lang)], 417);
-        } elseif (!RegisteredUser::where('mobile', '=', $request->input('mobile'))
-                ->where('status', '=', 1)
-                ->exists()) {
-            return response()->json(['error' => LanguageManagement::getLabel('text_accountDeactivated', $this->Lang)], 401);
-        }
-
-        $registeredUser = RegisteredUser::where('mobile', $request->input('mobile'))->get()->first();
-
-        if (Hash::check($request->password, $registeredUser->password)) {
-            $token = '' . $registeredUser->id . '' . $registeredUser->mobile . '' . $this->accessToken;
-            Authentication::create([
-                'access_token' => $token,
-                'user_id' => $registeredUser->id,
+        $registeredUser = RegisteredUser::where('mobile', $request->mobile)->get()->first();
+        if ($registeredUser != null) {
+            $otp = substr(str_shuffle("0123456789"), 0, 5);
+            $registeredUser->update([
+                'otp' => $otp,
             ]);
 
             return response()->json([
-                'user' => collect($registeredUser)->only('id', 'mobile', 'name', 'email'),
-                'access_token' => $token,
+                'otp' => $otp,
             ]);
         } else {
-            return response()->json([
-                'error' => LanguageManagement::getLabel('invalid_credentils', $this->language),
-            ], 401);
+            return response()->json(['error' => LanguageManagement::getLabel('mobile_not_found', $this->Lang)], 401);
         }
+        //$token = '' . $registeredUser->id . '' . $registeredUser->mobile . '' . $this->accessToken;
 
     }
 
@@ -211,14 +195,12 @@ class AuthController extends Controller
         if ($checkForError) {
             return $checkForError;
         }
-        //Verify OTP from database
-        if (!RegisteredUser::where('otp', '=', $request->input('otp'))->where('mobile', '=', $request->input('mobile'))->exists()) {
+
+        if (!RegisteredUser::where('otp', $request->otp)->where('mobile', $request->mobile)->exists()) {
             return response()->json(['error' => LanguageManagement::getLabel('text_wrongOTP', $this->language)], 417);
         } else {
-            $registeredUser = RegisteredUser::where('mobile', $request->input('mobile'))->get()->first();
-            $registeredUser->update(array('status' => 1));
+            $registeredUser = RegisteredUser::where('mobile', $request->mobile)->get()->first();
             $token = '' . $registeredUser->id . '' . $registeredUser->mobile . '' . $this->accessToken;
-
             return response()->json([
                 'access_token' => $token,
                 'user' => $registeredUser,
