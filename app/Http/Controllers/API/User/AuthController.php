@@ -65,7 +65,6 @@ class AuthController extends Controller
     {
         $validator = [
             'mobile' => 'required|digits:8|unique:registered_users',
-            'password' => 'required',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);

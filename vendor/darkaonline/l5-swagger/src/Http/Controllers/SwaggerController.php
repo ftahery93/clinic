@@ -22,11 +22,12 @@ class SwaggerController extends BaseController
         $filePath = config('l5-swagger.paths.docs').'/'.
             (! is_null($jsonFile) ? $jsonFile : config('l5-swagger.paths.docs_json', 'api-docs.json'));
 
-        if (File::extension($filePath) === '') {
-            $filePath .= '.json';
-        }
         if (! File::exists($filePath)) {
-            abort(404, 'Cannot find '.$filePath);
+            try {
+                Generator::generateDocs();
+            } catch (\Exception $e) {
+                abort(404, 'Cannot find '.$filePath.' and cannot be generated.');
+            }
         }
 
         $content = File::get($filePath);
@@ -47,42 +48,35 @@ class SwaggerController extends BaseController
             Generator::generateDocs();
         }
 
-        if (config('l5-swagger.proxy')) {
-            $proxy = Request::server('REMOTE_ADDR');
-            Request::setTrustedProxies([$proxy]);
-        }
-
-        $extras = [];
-        if (array_key_exists('validatorUrl', config('l5-swagger'))) {
-            // This allows for a null value, since this has potentially
-            // desirable side effects for swagger. See the view for more
-            // details.
-            $extras['validatorUrl'] = config('l5-swagger.validatorUrl');
+        if ($proxy = config('l5-swagger.proxy')) {
+            if (! is_array($proxy)) {
+                $proxy = [$proxy];
+            }
+            Request::setTrustedProxies($proxy, \Illuminate\Http\Request::HEADER_X_FORWARDED_ALL);
         }
 
         // Need the / at the end to avoid CORS errors on Homestead systems.
         $response = Response::make(
             view('l5-swagger::index', [
-                'apiKey'             => config('l5-swagger.api.auth_token'),
-                'apiKeyVar'          => config('l5-swagger.api.key_var'),
-                'securityDefinition' => config('l5-swagger.api.security_definition'),
-                'apiKeyInject'       => config('l5-swagger.api.key_inject'),
-                'secure'             => Request::secure(),
-                'urlToDocs'          => route('l5-swagger.docs', config('l5-swagger.paths.docs_json', 'api-docs.json')),
-                'requestHeaders'     => config('l5-swagger.headers.request'),
-                'docExpansion'       => config('l5-swagger.docExpansion'),
-                'highlightThreshold' => config('l5-swagger.highlightThreshold'),
-            ], $extras),
+                'secure' => Request::secure(),
+                'urlToDocs' => route('l5-swagger.docs', config('l5-swagger.paths.docs_json', 'api-docs.json')),
+                'operationsSorter' => config('l5-swagger.operations_sort'),
+                'configUrl' => config('l5-swagger.additional_config_url'),
+                'validatorUrl' => config('l5-swagger.validator_url'),
+            ]),
             200
         );
 
-        $headersView = config('l5-swagger.headers.view');
-        if (is_array($headersView) and ! empty($headersView)) {
-            foreach ($headersView as $key => $value) {
-                $response->header($key, $value);
-            }
-        }
-
         return $response;
+    }
+
+    /**
+     * Display Oauth2 callback pages.
+     *
+     * @return string
+     */
+    public function oauth2Callback()
+    {
+        return \File::get(swagger_ui_dist_path('oauth2-redirect.html'));
     }
 }

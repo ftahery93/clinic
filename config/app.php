@@ -165,6 +165,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        L5Swagger\L5SwaggerServiceProvider::class,
     ],
     /*
     |--------------------------------------------------------------------------

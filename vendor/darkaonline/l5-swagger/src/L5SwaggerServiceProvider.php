@@ -2,12 +2,8 @@
 
 namespace L5Swagger;
 
-use L5Swagger\Console\PublishCommand;
 use Illuminate\Support\ServiceProvider;
 use L5Swagger\Console\GenerateDocsCommand;
-use L5Swagger\Console\PublishViewsCommand;
-use L5Swagger\Console\PublishAssetsCommand;
-use L5Swagger\Console\PublishConfigCommand;
 
 class L5SwaggerServiceProvider extends ServiceProvider
 {
@@ -32,16 +28,13 @@ class L5SwaggerServiceProvider extends ServiceProvider
             __DIR__.'/../resources/views' => config('l5-swagger.paths.views'),
         ], 'views');
 
-        //Publish assets
-        $this->publishes([
-            __DIR__.'/../resources/assets' => config('l5-swagger.paths.assets'),
-        ], 'assets');
-
         //Include routes
-
         \Route::group(['namespace' => 'L5Swagger'], function ($router) {
             require __DIR__.'/routes.php';
         });
+
+        //Register commands
+        $this->commands([GenerateDocsCommand::class]);
     }
 
     /**
@@ -54,43 +47,9 @@ class L5SwaggerServiceProvider extends ServiceProvider
         $configPath = __DIR__.'/../config/l5-swagger.php';
         $this->mergeConfigFrom($configPath, 'l5-swagger');
 
-        $this->app['command.l5-swagger.publish'] = $this->app->share(
-            function () {
-                return new PublishCommand();
-            }
-        );
-
-        $this->app['command.l5-swagger.publish-config'] = $this->app->share(
-            function () {
-                return new PublishConfigCommand();
-            }
-        );
-
-        $this->app['command.l5-swagger.publish-views'] = $this->app->share(
-            function () {
-                return new PublishViewsCommand();
-            }
-        );
-
-        $this->app['command.l5-swagger.publish-assets'] = $this->app->share(
-            function () {
-                return new PublishAssetsCommand();
-            }
-        );
-
-        $this->app['command.l5-swagger.generate'] = $this->app->share(
-            function () {
-                return new GenerateDocsCommand();
-            }
-        );
-
-        $this->commands(
-            'command.l5-swagger.publish',
-            'command.l5-swagger.publish-config',
-            'command.l5-swagger.publish-views',
-            'command.l5-swagger.publish-assets',
-            'command.l5-swagger.generate'
-        );
+        $this->app->singleton('command.l5-swagger.generate', function () {
+            return new GenerateDocsCommand();
+        });
     }
 
     /**
@@ -101,10 +60,6 @@ class L5SwaggerServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            'command.l5-swagger.publish',
-            'command.l5-swagger.publish-config',
-            'command.l5-swagger.publish-views',
-            'command.l5-swagger.publish-assets',
             'command.l5-swagger.generate',
         ];
     }

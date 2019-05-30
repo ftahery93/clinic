@@ -159,17 +159,17 @@ Route::get('routeCacheClear', 'Admin\CacheController@routeCacheClear');
 Route::get('viewCacheClear', 'Admin\CacheController@viewCacheClear');
 Route::get('cacheClear', 'Admin\CacheController@cacheClear');
 
-Route::get('/updateapp', function()
-{
-    exec('composer dump-autoload');
-    echo 'composer dump-autoload complete';
-});
+// Route::get('/updateapp', function()
+// {
+//     exec('composer dump-autoload');
+//     echo 'composer dump-autoload complete';
+// });
 
-//Errors 
-Route::get('errors/401', function () {
-    return view('errors.401');
-});
-Route::get('errors/505', function () {
-    return view('errors.505');
-});
+// //Errors 
+// Route::get('errors/401', function () {
+//     return view('errors.401');
+// });
+// Route::get('errors/505', function () {
+//     return view('errors.505');
+// });
 
