@@ -21,6 +21,63 @@ class WalletController extends Controller
         $this->language = $request->header('Accept-Language');
     }
 
+    /**
+     *
+     * @SWG\Post(
+     *         path="/masafah_upgrade/public/api/company/addToWallet",
+     *         tags={"Company Wallet"},
+     *         operationId="addToWallet",
+     *         summary="Add to company's wallet",
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Update profile body",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="wallet_id",
+     *                  type="integer",
+     *                  description="Company Wallet ID - *(Required)",
+     *                  example=34
+     *              ),
+     *              @SWG\Property(
+     *                  property="amount",
+     *                  type="double",
+     *                  description="Amount to be added - *(Required)",
+     *                  example=50.00
+     *              ),
+     *              @SWG\Property(
+     *                  property="isOffer",
+     *                  type="boolean",
+     *                  description="Amount added to wallet is under offers - *(Required)",
+     *                  example=true
+     *              ),
+     *          ),
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=422,
+     *             description="Unprocessable entity"
+     *        ),
+     *     )
+     *
+     */
     public function addToWallet(Request $request)
     {
         $validator = [
@@ -75,40 +132,88 @@ class WalletController extends Controller
         }
 
     }
-
+    /*
     public function deductFromWallet(Request $request)
     {
-        $wallet = Wallet::where('company_id', $request->id)->get()->first();
-        if ($wallet != null) {
-            WalletTransaction::create([
-                'company_id' => $request->id,
-                'amount' => $request->amount,
-                'type' => false,
-            ]);
-            $balance = $wallet->balance - $request->amount;
-            $wallet->update([
-                'balance' => $balance,
-            ]);
-        }
+    $wallet = Wallet::where('company_id', $request->id)->get()->first();
+    if ($wallet != null) {
+    WalletTransaction::create([
+    'company_id' => $request->id,
+    'amount' => $request->amount,
+    'type' => false,
+    ]);
+    $balance = $wallet->balance - $request->amount;
+    $wallet->update([
+    'balance' => $balance,
+    ]);
     }
+    }
+     */
 
+    /**
+     *
+     * @SWG\Get(
+     *         path="/masafah_upgrade/public/api/company/getWalletOffers",
+     *         tags={"Company Wallet"},
+     *         operationId="getWalletOffers",
+     *         summary="Get Wallet offers",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
     public function getWalletOffers()
     {
         $walletOffers = WalletOffer::all();
         return collect($walletOffers);
     }
 
+/**
+     *
+     * @SWG\Get(
+     *         path="/masafah_upgrade/public/api/company/getWalletDetails",
+     *         tags={"Company Wallet"},
+     *         operationId="getWalletDetails",
+     *         summary="Get Wallet Details",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
     public function getWalletDetails(Request $request)
     {
-        $validator = [
-            'wallet_id' => 'required',
-        ];
-
-        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
-        if ($checkForError) {
-            return $checkForError;
-        }
-
         $wallet = Wallet::where('company_id', $request->id)->get()->first();
         $walletTransactions = WalletTransaction::where('company_id', $request->id)->get();
         $transactionDetails = [];

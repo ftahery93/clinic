@@ -25,6 +25,80 @@ class CompanyEntryController extends Controller
         $this->access_token = uniqid(base64_encode(str_random(50)));
     }
 
+    /**
+     *
+     * @SWG\Post(
+     *         path="/masafah_upgrade/public/api/company/register",
+     *         tags={"Company Register"},
+     *         operationId="register",
+     *         summary="Register a company to app",
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *         @SWG\Parameter(
+     *             name="Registration Body",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="name",
+     *                  type="string",
+     *                  description="Company Name - *(Required)",
+     *                  example="Aramex"
+     *              ),
+     *              @SWG\Property(
+     *                  property="email",
+     *                  type="string",
+     *                  description="company email - *(Required)",
+     *                  example="info@dhl.com"
+     *              ),
+     *             @SWG\Property(
+     *                  property="mobile",
+     *                  type="string",
+     *                  description="company mobile number - *(Required)",
+     *                  example="88663456"
+     *              ),
+     *              @SWG\Property(
+     *                  property="password",
+     *                  type="string",
+     *                  description="Company password - *(Required)",
+     *                  example="d@h!$L"
+     *              ),
+     *             @SWG\Property(
+     *                  property="confirm_password",
+     *                  type="integer",
+     *                  description="Company confirm password - *(Required)",
+     *                  example="d@h!$L"
+     *              ),
+     *              @SWG\Property(
+     *                  property="image",
+     *                  type="string",
+     *                  description="Company logo encoded in base64 - *(Required)",
+     *                  example="9vjsjsd/sadjhadasdjhadaskjhasd...."
+     *              ),
+     *              @SWG\Property(
+     *                  property="country_id",
+     *                  type="integer",
+     *                  description="Company country ID - *(Required)",
+     *                  example=4
+     *              ),
+     *          ),
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=422,
+     *             description="Unprocessable entity"
+     *        ),
+     *     )
+     *
+     */
     public function register(Request $request)
     {
         $validator = [
@@ -34,6 +108,7 @@ class CompanyEntryController extends Controller
             'password' => 'required',
             'confirm_password' => 'required|same:password',
             'image' => 'required',
+            'country_id' => 'required',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
@@ -79,6 +154,65 @@ class CompanyEntryController extends Controller
         ]);
     }
 
+    /**
+     * register API
+     *
+     * @return \Illuminate\Http\Response
+     */
+    /**
+     *
+     * @SWG\Post(
+     *         path="/masafah_upgrade/public/api/company/login",
+     *         tags={"Company Login"},
+     *         operationId="login",
+     *         summary="Login a company to the app",
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *         @SWG\Parameter(
+     *             name="Login Body",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="email",
+     *                  type="string",
+     *                  description="Company email",
+     *                  example="info@aramex.com"
+     *              ),
+     *              @SWG\Property(
+     *                  property="password",
+     *                  type="string",
+     *                  description="Company's password",
+     *                  example=4
+     *              ),
+     *              @SWG\Property(
+     *                  property="player_id",
+     *                  type="string",
+     *                  description="Company's One Signal player ID",
+     *                  example="965789765456"
+     *              ),
+     *          ),
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=422,
+     *             description="Unprocessable entity"
+     *        ),
+     *        @SWG\Response(
+     *             response=401,
+     *             description="Account deactivated or not approved"
+     *        ),
+     *     )
+     *
+     */
     public function login(Request $request)
     {
         $valdiationMessages = [
@@ -96,8 +230,6 @@ class CompanyEntryController extends Controller
             ->where('status', '=', 1)
             ->exists()) {
             return response()->json(['error' => LanguageManagement::getLabel('text_accountDeactivated', $this->language)], 401);
-        } elseif (!Company::where('email', $request->email)->exists()) {
-            return response()->json(['error' => LanguageManagement::getLabel('text_errorMobile', $this->language)], 417);
         }
 
         $registeredCompany = Company::where('email', $request->email)->get()->first();
@@ -121,57 +253,57 @@ class CompanyEntryController extends Controller
                 ]);
             } else {
                 return response()->json([
-                    'error' => LanguageManagement::getLabel('text_accountNotApproved', $this->Lang),
+                    'error' => LanguageManagement::getLabel('text_accountNotApproved', $this->language),
                 ], 401);
             }
         } else {
             return response()->json([
-                'error' => LanguageManagement::getLabel('invalid_credentials', $this->Lang),
+                'error' => LanguageManagement::getLabel('invalid_credentials', $this->language),
             ], 401);
         }
     }
 
-    public function verifyOTP(Request $request)
-    {
-        $validator = [
-            'otp' => 'required',
-            'mobile' => 'required',
-        ];
-        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
-        if ($checkForError) {
-            return $checkForError;
-        }
+    // public function verifyOTP(Request $request)
+    // {
+    //     $validator = [
+    //         'otp' => 'required',
+    //         'mobile' => 'required',
+    //     ];
+    //     $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+    //     if ($checkForError) {
+    //         return $checkForError;
+    //     }
 
-        if (!Company::where('otp', '=', $request->input('otp'))->where('mobile', '=', $request->input('mobile'))->exists()) {
-            return response()->json(['error' => LanguageManagement::getLabel('text_wrongOTP', $this->language)], 417);
-        } else {
-            $registeredCompany = Company::where('mobile', $request->input('mobile'))->get()->first();
-            $registeredCompany->update(array('status' => 1));
-            $tokenResult = $registeredCompany->createToken($registeredCompany->mobile, ['*']);
+    //     if (!Company::where('otp', '=', $request->input('otp'))->where('mobile', '=', $request->input('mobile'))->exists()) {
+    //         return response()->json(['error' => LanguageManagement::getLabel('text_wrongOTP', $this->language)], 417);
+    //     } else {
+    //         $registeredCompany = Company::where('mobile', $request->input('mobile'))->get()->first();
+    //         $registeredCompany->update(array('status' => 1));
+    //         $tokenResult = $registeredCompany->createToken($registeredCompany->mobile, ['*']);
 
-            return response()->json([
-                'access_token' => $tokenResult->accessToken,
-                'token_type' => 'Bearer',
-                'user' => $registeredCompany,
-            ]);
-        }
-    }
+    //         return response()->json([
+    //             'access_token' => $tokenResult->accessToken,
+    //             'token_type' => 'Bearer',
+    //             'user' => $registeredCompany,
+    //         ]);
+    //     }
+    // }
 
-    public function resendOTP(Request $request)
-    {
-        $input = $request->all();
+    // public function resendOTP(Request $request)
+    // {
+    //     $input = $request->all();
 
-        $validator = [
-            'mobile' => 'required|digits:8',
-        ];
-        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 417);
-        if ($checkForError) {
-            return $checkForError;
-        }
-        $input['otp'] = substr(str_shuffle("0123456789"), 0, 5);
-        Company::where('mobile', '=', $request->input('mobile'))->update(array('otp' => $input['otp']));
-        return response()->json([
-            'otp' => $input['otp'],
-        ]);
-    }
+    //     $validator = [
+    //         'mobile' => 'required|digits:8',
+    //     ];
+    //     $checkForError = $this->utility->checkForErrorMessages($request, $validator, 417);
+    //     if ($checkForError) {
+    //         return $checkForError;
+    //     }
+    //     $input['otp'] = substr(str_shuffle("0123456789"), 0, 5);
+    //     Company::where('mobile', '=', $request->input('mobile'))->update(array('otp' => $input['otp']));
+    //     return response()->json([
+    //         'otp' => $input['otp'],
+    //     ]);
+    // }
 }

@@ -1,0 +1,1538 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Masafah API Documentation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/masafah_upgrade/public/api/company/register": {
+            "post": {
+                "tags": [
+                    "Company Register"
+                ],
+                "summary": "Register a company to app",
+                "operationId": "register",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Registration Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "description": "Company Name - *(Required)",
+                                    "type": "string",
+                                    "example": "Aramex"
+                                },
+                                "email": {
+                                    "description": "company email - *(Required)",
+                                    "type": "string",
+                                    "example": "info@dhl.com"
+                                },
+                                "mobile": {
+                                    "description": "company mobile number - *(Required)",
+                                    "type": "string",
+                                    "example": "88663456"
+                                },
+                                "password": {
+                                    "description": "Company password - *(Required)",
+                                    "type": "string",
+                                    "example": "d@h!$L"
+                                },
+                                "confirm_password": {
+                                    "description": "Company confirm password - *(Required)",
+                                    "type": "integer",
+                                    "example": "d@h!$L"
+                                },
+                                "image": {
+                                    "description": "Company logo encoded in base64 - *(Required)",
+                                    "type": "string",
+                                    "example": "9vjsjsd/sadjhadasdjhadaskjhasd...."
+                                },
+                                "country_id": {
+                                    "description": "Company country ID - *(Required)",
+                                    "type": "integer",
+                                    "example": 4
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/login": {
+            "post": {
+                "tags": [
+                    "Company Login"
+                ],
+                "summary": "Login a company to the app",
+                "operationId": "login",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Login Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "email": {
+                                    "description": "Company email",
+                                    "type": "string",
+                                    "example": "info@aramex.com"
+                                },
+                                "password": {
+                                    "description": "Company's password",
+                                    "type": "string",
+                                    "example": 4
+                                },
+                                "player_id": {
+                                    "description": "Company's One Signal player ID",
+                                    "type": "string",
+                                    "example": "965789765456"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    },
+                    "401": {
+                        "description": "Account deactivated or not approved"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/getCompanies": {
+            "get": {
+                "tags": [
+                    "Company Details"
+                ],
+                "summary": "Get all approved companies",
+                "operationId": "getCompanies",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/getCompanyDetails": {
+            "get": {
+                "tags": [
+                    "Company Details"
+                ],
+                "summary": "Get company details",
+                "operationId": "getCompanyDetails",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/getCompanyDetailsById/{company_id}": {
+            "get": {
+                "tags": [
+                    "Company Details"
+                ],
+                "summary": "Get company details",
+                "operationId": "getCompanyDetailsById",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "description": "company ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "Company not found"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/getProfile": {
+            "get": {
+                "tags": [
+                    "Company Profile"
+                ],
+                "summary": "Get Company Profile",
+                "operationId": "getProfile",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "Shipment not found"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/updateProfile": {
+            "put": {
+                "tags": [
+                    "Company Profile"
+                ],
+                "summary": "Update Company profile",
+                "operationId": "updateProfile",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Update profile body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "description": "Company name - *(Required)",
+                                    "type": "string",
+                                    "example": "Aramex"
+                                },
+                                "email": {
+                                    "description": "Company email - *(Required)",
+                                    "type": "string",
+                                    "example": "info@aramex.com"
+                                },
+                                "country_id": {
+                                    "description": "Company country ID - *(Required)",
+                                    "type": "integer",
+                                    "example": 4
+                                },
+                                "image": {
+                                    "description": "Profile image base64",
+                                    "type": "string",
+                                    "example": "9vjklhtyi9765/87997jhbsdfh/iutvs......"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/changeMobileNumber": {
+            "post": {
+                "tags": [
+                    "Company Profile"
+                ],
+                "summary": "Change Company's Mobile number",
+                "operationId": "changeMobileNumber",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Change number body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "mobile": {
+                                    "description": "Company Mobile number - *(Required)",
+                                    "type": "string",
+                                    "example": "66341897"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    },
+                    "409": {
+                        "description": "Mobile number already registered"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/updateMobileNumber": {
+            "put": {
+                "tags": [
+                    "Company Profile"
+                ],
+                "summary": "Update Company's Mobile number",
+                "operationId": "updateMobileNumber",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Change number body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "mobile": {
+                                    "description": "Company Mobile number - *(Required)",
+                                    "type": "string",
+                                    "example": "66341897"
+                                },
+                                "otp": {
+                                    "description": "Received OTP - *(Required)",
+                                    "type": "string",
+                                    "example": "46137"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    },
+                    "401": {
+                        "description": "Invalid OTP. Unauthorized"
+                    },
+                    "409": {
+                        "description": "Mobile number already registered"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/getFreeDeliveriesCount": {
+            "get": {
+                "tags": [
+                    "Company Free Deliveries"
+                ],
+                "summary": "Get the free deliveries count for a company",
+                "operationId": "getFreeDeliveriesCount",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/getPaymentOptions": {
+            "get": {
+                "tags": [
+                    "Company Payment"
+                ],
+                "summary": "Get payment options",
+                "operationId": "getPaymentOptions",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/getPendingShipments": {
+            "get": {
+                "tags": [
+                    "Company Shipments"
+                ],
+                "summary": "Get Company pending shipments",
+                "operationId": "getPendingShipments",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/getAcceptedShipments": {
+            "get": {
+                "tags": [
+                    "Company Shipments"
+                ],
+                "summary": "Get Company accepted shipments",
+                "operationId": "getAcceptedShipments",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/getShipmentById/{shipment_id}": {
+            "get": {
+                "tags": [
+                    "Company Shipments"
+                ],
+                "summary": "Get Company shipment by ID",
+                "operationId": "getShipmentById",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "shipment_id",
+                        "in": "path",
+                        "description": "Shipment ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/acceptShipments": {
+            "post": {
+                "tags": [
+                    "Company Shipments"
+                ],
+                "summary": "Accept shipments by Company",
+                "operationId": "acceptShipments",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Accept shipment body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "shipment_ids": {
+                                    "description": "Shipment IDs - *(Required)",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/pickedUpShipmentById/{shipment_id}": {
+            "get": {
+                "tags": [
+                    "Company Shipments"
+                ],
+                "summary": "Picked up shipment by ID",
+                "operationId": "pickedUpShipmentById",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "shipment_id",
+                        "in": "path",
+                        "description": "Shipment ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/deliveredShipmentById/{shipment_id}": {
+            "get": {
+                "tags": [
+                    "Company Shipments"
+                ],
+                "summary": "Delivered shipment by ID",
+                "operationId": "deliveredShipmentById",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "shipment_id",
+                        "in": "path",
+                        "description": "Shipment ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/getShipmentHistory": {
+            "get": {
+                "tags": [
+                    "Company Shipments"
+                ],
+                "summary": "Get Company shipment history",
+                "operationId": "getShipmentHistory",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/addToWallet": {
+            "post": {
+                "tags": [
+                    "Company Wallet"
+                ],
+                "summary": "Add to company's wallet",
+                "operationId": "addToWallet",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Update profile body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "wallet_id": {
+                                    "description": "Company Wallet ID - *(Required)",
+                                    "type": "integer",
+                                    "example": 34
+                                },
+                                "amount": {
+                                    "description": "Amount to be added - *(Required)",
+                                    "type": "double",
+                                    "example": 50
+                                },
+                                "isOffer": {
+                                    "description": "Amount added to wallet is under offers - *(Required)",
+                                    "type": "boolean",
+                                    "example": true
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/getWalletOffers": {
+            "get": {
+                "tags": [
+                    "Company Wallet"
+                ],
+                "summary": "Get Wallet offers",
+                "operationId": "getWalletOffers",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/company/getWalletDetails": {
+            "get": {
+                "tags": [
+                    "Company Wallet"
+                ],
+                "summary": "Get Wallet Details",
+                "operationId": "getWalletDetails",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/user/addAddress": {
+            "post": {
+                "tags": [
+                    "User Address"
+                ],
+                "summary": "Add User address",
+                "operationId": "addAddress",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "description": "Address name",
+                                    "type": "string",
+                                    "example": "Home, office"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Block",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "block": {
+                                    "description": "Block",
+                                    "type": "string",
+                                    "example": "12, 13B"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Street",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "street": {
+                                    "description": "Street",
+                                    "type": "string",
+                                    "example": "12, 14A"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Area",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "area": {
+                                    "description": "Area",
+                                    "type": "string",
+                                    "example": "Salmiya, Sharq"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Building",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "building": {
+                                    "description": "Building number",
+                                    "type": "string",
+                                    "example": "14, 13Z"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "name": "Notes",
+                        "in": "body",
+                        "required": false,
+                        "schema": {
+                            "properties": {
+                                "notes": {
+                                    "description": "Extra user notes",
+                                    "type": "string",
+                                    "example": "Do not park vehicle infront of the gate"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/user/getAddressById/{id}": {
+            "get": {
+                "tags": [
+                    "User Address"
+                ],
+                "summary": "Get User address by ID",
+                "operationId": "getAddress",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Address ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "Address not found"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/user/getAddresses": {
+            "get": {
+                "tags": [
+                    "User Address"
+                ],
+                "summary": "Get all addresses of a user",
+                "operationId": "getAddresses",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/user/register": {
+            "post": {
+                "tags": [
+                    "User Register"
+                ],
+                "summary": "Register a user to app",
+                "operationId": "register",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Registration Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "mobile": {
+                                    "description": "users mobile number",
+                                    "type": "integer",
+                                    "example": 88663456
+                                },
+                                "country_id": {
+                                    "description": "Country ID",
+                                    "type": "integer",
+                                    "example": 4
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/user/login": {
+            "post": {
+                "tags": [
+                    "User Login"
+                ],
+                "summary": "Login a user to app",
+                "operationId": "login",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Mobile",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "mobile": {
+                                    "description": "users mobile number",
+                                    "type": "integer",
+                                    "example": 88663456
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    },
+                    "401": {
+                        "description": "Mobile not found"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/user/logout": {
+            "post": {
+                "tags": [
+                    "User Logout"
+                ],
+                "summary": "Logout a user from the app",
+                "operationId": "logout",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/user/verifyOTP": {
+            "post": {
+                "tags": [
+                    "User OTP"
+                ],
+                "summary": "Verify User OTP",
+                "operationId": "verifyOTP",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Verify OTP Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "mobile": {
+                                    "description": "user's mobile number",
+                                    "type": "integer",
+                                    "example": 88663456
+                                },
+                                "otp": {
+                                    "description": "generated OTP",
+                                    "type": "integer",
+                                    "example": 46103
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    },
+                    "417": {
+                        "description": "Wrong OTP"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/user/resendOTP": {
+            "post": {
+                "tags": [
+                    "User OTP"
+                ],
+                "summary": "Resend User OTP",
+                "operationId": "resendOTP",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Mobile",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "mobile": {
+                                    "description": "users mobile number",
+                                    "type": "integer",
+                                    "example": 88663456
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/user/getCountries": {
+            "get": {
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Get all available countries",
+                "operationId": "getCountries",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/user/getTermsAndConditions": {
+            "get": {
+                "tags": [
+                    "User Pages"
+                ],
+                "summary": "Get Masafah's Terms and Conditions",
+                "operationId": "getTermsAndConditions",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/user/addShipment": {
+            "post": {
+                "tags": [
+                    "User Shipment"
+                ],
+                "summary": "Add shipment",
+                "operationId": "addShipment",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Add Shipment Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "category_id": {
+                                    "description": "Category of the shipment",
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "delivery_companies_id": {
+                                    "description": "Delivery companies list of ids",
+                                    "type": "string",
+                                    "example": "1,2,3,4"
+                                },
+                                "address_from_id": {
+                                    "description": "User pick up address id",
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "address_to_id": {
+                                    "description": "User drop address id",
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "pickup_time": {
+                                    "description": "Parcel pickup time",
+                                    "type": "string",
+                                    "example": "1"
+                                },
+                                "quantity": {
+                                    "description": "shipment quantity",
+                                    "type": "integer",
+                                    "example": 3
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/user/getShipments": {
+            "get": {
+                "tags": [
+                    "User Shipment"
+                ],
+                "summary": "Get User shipments",
+                "operationId": "getShipments",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/user/getShipmentDetails/{shipment_id}": {
+            "get": {
+                "tags": [
+                    "User Shipment"
+                ],
+                "summary": "Get User shipment by ID",
+                "operationId": "getShipmentDetails",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "Shipment not found"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/user/getProfile": {
+            "get": {
+                "tags": [
+                    "User Profile"
+                ],
+                "summary": "Get User Profile",
+                "operationId": "getUserProfile",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "Shipment not found"
+                    }
+                }
+            }
+        },
+        "/masafah_upgrade/public/api/user/updateProfile": {
+            "put": {
+                "tags": [
+                    "User Profile"
+                ],
+                "summary": "Update User profile",
+                "operationId": "updateProfile",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Update profile body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "mobile": {
+                                    "description": "User's mobile number *(Required)",
+                                    "type": "string",
+                                    "example": "88563421"
+                                },
+                                "fullname": {
+                                    "description": "Users full name",
+                                    "type": "string",
+                                    "example": "Fakhruddin Tahery"
+                                },
+                                "email": {
+                                    "description": "User email",
+                                    "type": "string",
+                                    "example": "ftahery@vavisa-kw.com"
+                                },
+                                "image": {
+                                    "description": "Profile image base64",
+                                    "type": "string",
+                                    "example": "9vjklhtyi9765/87997jhbsdfh/iutvs......"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "User": {}
+    }
+}

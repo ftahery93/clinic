@@ -27,39 +27,52 @@ Route::get('/user/logout', 'API\User\AuthController@logout');
 Route::post('/user/verifyOTP', 'API\User\AuthController@verifyOTP');
 Route::post('/user/resendOTP', 'API\User\AuthController@resendOTP');
 
+/* User Profile */
+Route::get('/user/getProfile', 'API\User\UserProfileController@getProfile');
+Route::put('/user/updateProfile', 'API\User\UserProfileController@updateProfile');
+
+/* User Address */
 Route::post('/user/addAddress', 'API\User\AddressController@addAddress');
-Route::get('/user/getAddress/{id}', 'API\User\AddressController@getAddress');
+Route::get('/user/getAddress/{address_id}', 'API\User\AddressController@getAddress');
 
 /* User shipments  */
 Route::post('/user/addShipment', 'API\User\ShipmentController@addShipment');
+Route::get('/user/getShipments', 'API\User\ShipmentController@getShipments');
+Route::get('/user/getShipmentDetails/{shipment_id}', 'API\User\ShipmentController@getShipmentDetails');
 
-/* Company */
+/* Company Profile*/
 Route::post('/company/login', 'API\Company\CompanyEntryController@login');
 Route::post('/company/register', 'API\Company\CompanyEntryController@register');
 Route::get('/company/getProfile', 'API\Company\CompanyProfileController@getProfile');
+Route::put('/company/updateProfile', 'API\Company\CompanyProfileController@updateProfile');
+Route::post('/company/changeMobileNumber', 'API\Company\CompanyProfileController@changeMobileNumber');
+Route::put('/company/updateMobileNumber', 'API\Company\CompanyProfileController@updateMobileNumber');
+
+/* Company Details */
 Route::get('/company/getCompanyDetails', 'API\Company\CompanyProfileController@getCompanyDetails');
-Route::get('/company/getCompanyDetailsById/{id}', 'API\Company\CompanyProfileController@getCompanyDetailsById');
+Route::get('/company/getCompanyDetailsById/{company_id}', 'API\Company\CompanyProfileController@getCompanyDetailsById');
+
+/* Company Shipments */
 Route::get('/company/getPendingShipments', 'API\Company\ShipmentController@getPendingShipments');
-Route::get('/company/getMyShipments', 'API\Company\ShipmentController@getMyShipments');
+Route::get('/company/getAcceptedShipments', 'API\Company\ShipmentController@getAcceptedShipments');
 Route::post('/company/acceptShipments', 'API\Company\ShipmentController@acceptShipment');
 Route::get('/company/getShipmentHistory', 'API\Company\ShipmentController@getShipmentHistory');
-Route::get('/company/shipmentPickedUp/{shipment_id}', 'API\Company\ShipmentController@shipmentPickedUp');
-Route::get('/company/shipmentDelivered/{shipment_id}', 'API\Company\ShipmentController@shipmentDelivered');
+Route::get('/company/getShipmentById/{shipment_id}', 'API\Company\ShipmentController@getShipmentById');
+Route::get('/company/pickedUpShipmentById/{shipment_id}', 'API\Company\ShipmentController@pickedUpShipmentById');
+Route::get('/company/deliveredShipmentById/{shipment_id}', 'API\Company\ShipmentController@deliveredShipmentById');
+
+/* Company Free deliveries */
 Route::get('/company/getFreeDeliveriesCount', 'API\Company\CompanyProfileController@getFreeDeliveriesCount');
 
-//Profile
-Route::get('/user/profile', 'API\User\UserProfileController@profile');
-Route::post('/user/profile/update', 'API\User\UserProfileController@update');
+/* Company Wallet APIs */
+Route::post('/company/addToWallet', 'API\Company\WalletController@addToWallet');
+Route::post('/company/deductFromWallet', 'API\Company\WalletController@deductFromWallet');
+Route::get('/company/getWalletOffers', 'API\Company\WalletController@getWalletOffers');
 
 //Pages
 Route::get('/user/getTermsAndConditions', 'API\User\PagesController@getTermsAndConditions');
 
-/* Address */
-Route::get('/user/getAddress', 'API\User\UserController@getAddress');
-
-/* Wallet APIs */
-Route::post('/company/addToWallet', 'API\Company\WalletController@addToWallet');
-Route::post('/company/deductFromWallet', 'API\Company\WalletController@deductFromWallet');
-Route::get('/company/getWalletOffers', 'API\Company\WalletController@getWalletOffers');
+/* Countries */
+Route::get('/user/getCountries', 'API\User\CountryController@getCountries');
 
 Route::post('/sendMail', 'API\User\AuthController@sendMail');

@@ -8,6 +8,9 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Passport\HasApiTokens;
 
+/**
+ * @SWG\Definition()
+ */
 class User extends Authenticatable
 {
 

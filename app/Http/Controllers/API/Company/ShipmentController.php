@@ -26,18 +26,109 @@ class ShipmentController extends Controller
         $this->language = $request->header('Accept-Language');
     }
 
+    /**
+     *
+     * @SWG\Get(
+     *         path="/masafah_upgrade/public/api/company/getPendingShipments",
+     *         tags={"Company Shipments"},
+     *         operationId="getPendingShipments",
+     *         summary="Get Company pending shipments",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
     public function getPendingShipments(Request $request)
     {
         $shipments = Shipment::where('company_id', $request->id)->where('status', 1)->get();
         return collect($shipments);
     }
 
+    /**
+     *
+     * @SWG\Get(
+     *         path="/masafah_upgrade/public/api/company/getAcceptedShipments",
+     *         tags={"Company Shipments"},
+     *         operationId="getAcceptedShipments",
+     *         summary="Get Company accepted shipments",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
     public function getAcceptedShipments(Request $request)
     {
         $shipments = Shipment::where('company_id', $request->id)->where('status', 2)->get();
         return collect($shipments);
     }
 
+    /**
+     *
+     * @SWG\Get(
+     *         path="/masafah_upgrade/public/api/company/getShipmentById/{shipment_id}",
+     *         tags={"Company Shipments"},
+     *         operationId="getShipmentById",
+     *         summary="Get Company shipment by ID",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="shipment_id",
+     *             in="path",
+     *             description="Shipment ID",
+     *             type="integer",
+     *             required=true
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
     public function getShipmentById(Request $request, $shipment_id)
     {
         $shipment = Shipment::find($shipment_id);
@@ -64,6 +155,54 @@ class ShipmentController extends Controller
         }
     }
 
+    /**
+     *
+     * @SWG\Post(
+     *         path="/masafah_upgrade/public/api/company/acceptShipments",
+     *         tags={"Company Shipments"},
+     *         operationId="acceptShipments",
+     *         summary="Accept shipments by Company",
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Accept shipment body",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="shipment_ids",
+     *                  type="array",
+     *                  description="Shipment IDs - *(Required)",
+     *                  @SWG\items(
+     *                      type="integer",
+     *                      example=1
+     *                  ),
+     *              ),
+     *          ),
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=422,
+     *             description="Unprocessable entity"
+     *        ),
+     *     )
+     *
+     */
     public function acceptShipments(Request $request)
     {
         $validator = [
@@ -83,7 +222,6 @@ class ShipmentController extends Controller
 
         $freeDeliveries = FreeDelivery::where('company_id', $request->id)->get()->first();
         $wallet = Wallet::where('company_id', $request->id)->get()->first();
-
         if ($freeDeliveries != null) {
             if ($totalShipments > $freeDeliveries->quantity) {
                 $freeShipments = $freeDeliveries->quantity;
@@ -148,9 +286,9 @@ class ShipmentController extends Controller
             $knetAmount = $remainingAmount;
         }
 
-        $totalAmount = 0;
+        //$totalAmount = 0;
         foreach ($shipments as $shipment) {
-            $totalAmount += $shipment->price;
+            //$totalAmount += $shipment->price;
             if ($shipment->status > 1) {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('shipment_booked_already', $this->language),
@@ -173,10 +311,48 @@ class ShipmentController extends Controller
 
         return response()->json([
             'message' => LanguageManagement::getLabel('accept_shipment_success', $this->language),
+            'free_deliveries_used' => $freeDeliveries,
+            'wallet_amount_used' => $walletAmount,
+            'knet_amount' => $knetAmount,
         ]);
     }
 
-    public function shipmentPickedUp(Request $request, $shipment_id)
+    /**
+     *
+     * @SWG\Get(
+     *         path="/masafah_upgrade/public/api/company/pickedUpShipmentById/{shipment_id}",
+     *         tags={"Company Shipments"},
+     *         operationId="pickedUpShipmentById",
+     *         summary="Picked up shipment by ID",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="shipment_id",
+     *             in="path",
+     *             description="Shipment ID",
+     *             type="integer",
+     *             required=true
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
+    public function pickedUpShipmentById(Request $request, $shipment_id)
     {
         $shipment = Shipment::find($shipment_id);
         if ($shipment->company_id == $request->id) {
@@ -189,7 +365,42 @@ class ShipmentController extends Controller
         MailSender::sendMail($user->email, "Shipment Picked Up", "Hello User, Your shipment is picked");
     }
 
-    public function shipmentDelivered(Request $request, $shipment_id)
+    /**
+     *
+     * @SWG\Get(
+     *         path="/masafah_upgrade/public/api/company/deliveredShipmentById/{shipment_id}",
+     *         tags={"Company Shipments"},
+     *         operationId="deliveredShipmentById",
+     *         summary="Delivered shipment by ID",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="shipment_id",
+     *             in="path",
+     *             description="Shipment ID",
+     *             type="integer",
+     *             required=true
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
+    public function deliveredShipmentById(Request $request, $shipment_id)
     {
         $shipment = Shipment::find($shipment_id);
         if ($shipment->company_id == $request->id) {
@@ -202,15 +413,37 @@ class ShipmentController extends Controller
         MailSender::sendMail($user->email, "Shipment Delivered Up", "Hello User, Your shipment is delivered");
     }
 
-    public function getShipments(Request $request)
-    {
-        $shipments = Shipment::where('company_id', $request->id)->get();
-        return collect($shipments);
-    }
-
+    /**
+     *
+     * @SWG\Get(
+     *         path="/masafah_upgrade/public/api/company/getShipmentHistory",
+     *         tags={"Company Shipments"},
+     *         operationId="getShipmentHistory",
+     *         summary="Get Company shipment history",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
     public function getShipmentHistory(Request $request)
     {
-        $shipments = Shipment::where('status', 4)->where('company_id', $request->user('api')->id)->get();
+        $shipments = Shipment::where('company_id', $request->id)->get();
         return collect($shipments);
     }
 }

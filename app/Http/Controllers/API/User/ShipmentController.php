@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\API\User;
 
+use App\Helpers\Notification;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
+use App\Models\API\Company;
 use App\Models\API\Price;
 use App\Models\API\Shipment;
 use App\Utility;
 use Illuminate\Http\Request;
-use App\Helpers\Notification;
-use App\Models\API\Company;
 
 class ShipmentController extends Controller
 {
@@ -23,6 +23,81 @@ class ShipmentController extends Controller
         $this->language = $request->header('Accept-Language');
     }
 
+    /**
+     *
+     * @SWG\Post(
+     *         path="/masafah_upgrade/public/api/user/addShipment",
+     *         tags={"User Shipment"},
+     *         operationId="addShipment",
+     *         summary="Add shipment",
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Add Shipment Body",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="category_id",
+     *                  type="integer",
+     *                  description="Category of the shipment",
+     *                  example=1
+     *              ),
+     *              @SWG\Property(
+     *                  property="delivery_companies_id",
+     *                  type="string",
+     *                  description="Delivery companies list of ids",
+     *                  example="1,2,3,4"
+     *              ),
+     *              @SWG\Property(
+     *                  property="address_from_id",
+     *                  type="integer",
+     *                  description="User pick up address id",
+     *                  example=1
+     *              ),
+     *              @SWG\Property(
+     *                  property="address_to_id",
+     *                  type="integer",
+     *                  description="User drop address id",
+     *                  example=1
+     *              ),
+     *              @SWG\Property(
+     *                  property="pickup_time",
+     *                  type="string",
+     *                  description="Parcel pickup time",
+     *                  example="1"
+     *              ),
+     *              @SWG\Property(
+     *                  property="quantity",
+     *                  type="integer",
+     *                  description="shipment quantity",
+     *                  example=3
+     *              ),
+     *          ),
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=422,
+     *             description="Unprocessable entity"
+     *        ),
+     *     )
+     *
+     */
     public function addShipment(Request $request)
     {
         $validationMessages = [
@@ -52,7 +127,7 @@ class ShipmentController extends Controller
         $shipment->status = 1;
         $shipment->payment_type = 1;
 
-        $deliveryCompanies =  array_map('intval',explode(",", $request->delivery_companies_id));
+        $deliveryCompanies = array_map('intval', explode(",", $request->delivery_companies_id));
         $companies = Company::findMany($deliveryCompanies);
         $playerIds = [];
         foreach ($companies as $company) {
@@ -68,6 +143,34 @@ class ShipmentController extends Controller
         ]);
     }
 
+    /**
+     *
+     * @SWG\Get(
+     *         path="/masafah_upgrade/public/api/user/getShipments",
+     *         tags={"User Shipment"},
+     *         operationId="getShipments",
+     *         summary="Get User shipments",
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
     public function getShipments(Request $request)
     {
         $pending = [];
@@ -104,20 +207,47 @@ class ShipmentController extends Controller
         }
     }
 
-    public function getShipmentDetails(Request $request)
+    /**
+     *
+     * @SWG\Get(
+     *         path="/masafah_upgrade/public/api/user/getShipmentDetails/{shipment_id}",
+     *         tags={"User Shipment"},
+     *         operationId="getShipmentDetails",
+     *         summary="Get User shipment by ID",
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=404,
+     *             description="Shipment not found"
+     *        ),
+     *     )
+     *
+     */
+    public function getShipmentDetails($shipment_id)
     {
-        $validationMessages = [
-            'id' => 'required',
-        ];
-
-        $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
-        if ($checkForError) {
-            return $checkForError;
-        }
-
-        $shipment = Shipment::find($request->id);
-        if ($shipment) {
+        $shipment = Shipment::find($shipment_id);
+        if ($shipment != null) {
             return $shipment;
+        } else {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_shipment_found', $this->language),
+            ], 404);
         }
     }
 }

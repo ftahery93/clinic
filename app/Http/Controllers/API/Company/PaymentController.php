@@ -19,6 +19,34 @@ class PaymentController extends Controller
         $this->language = $request->header('Accept-Language');
     }
 
+    /**
+     *
+     * @SWG\Get(
+     *         path="/masafah_upgrade/public/api/company/getPaymentOptions",
+     *         tags={"Company Payment"},
+     *         operationId="getPaymentOptions",
+     *         summary="Get payment options",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
     public function getPaymentOptions(Request $request)
     {
         $wallet = Wallet::where('company_id', $request->id)->get()->first();

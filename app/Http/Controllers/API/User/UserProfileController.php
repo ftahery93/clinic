@@ -4,8 +4,8 @@ namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
-use App\Models\Admin\RegisteredUser;
 use App\Models\Admin\User;
+use App\Models\API\RegisteredUser;
 use App\Utility;
 use Illuminate\Http\Request;
 use Image;
@@ -22,45 +22,111 @@ class UserProfileController extends Controller
         $this->language = $request->header('Accept-Language');
     }
 
-    public function getUserProfile(Request $request)
+    /**
+     *
+     * @SWG\Get(
+     *         path="/masafah_upgrade/public/api/user/getProfile",
+     *         tags={"User Profile"},
+     *         operationId="getUserProfile",
+     *         summary="Get User Profile",
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=404,
+     *             description="Shipment not found"
+     *        ),
+     *     )
+     *
+     */
+    public function getProfile(Request $request)
     {
-        $user = RegisteredUser::find($request->user('api')->id);
+        $user = RegisteredUser::find($request->id);
         return collect($user);
     }
 
     /**
-     * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
-     */
-    public function profile(Request $request)
-    {
-
-        $user = User::find($request->user('api')->id);
-        //$User = collect($User)->only(['fullname', 'email', 'mobile', 'country_id', 'profile_image']);
-
-        //$User['profile_image'] = url('public/images/' . $User['profile_image']);
-        // show the edit form and pass the nerd
-        //return response()->json($User);
-        return collect($user);
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * @SWG\Put(
+     *         path="/masafah_upgrade/public/api/user/updateProfile",
+     *         tags={"User Profile"},
+     *         operationId="updateProfile",
+     *         summary="Update User profile",
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Update profile body",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="mobile",
+     *                  type="string",
+     *                  description="User's mobile number *(Required)",
+     *                  example="88563421"
+     *              ),
+     *              @SWG\Property(
+     *                  property="fullname",
+     *                  type="string",
+     *                  description="Users full name",
+     *                  example="Fakhruddin Tahery"
+     *              ),
+     *              @SWG\Property(
+     *                  property="email",
+     *                  type="string",
+     *                  description="User email",
+     *                  example="ftahery@vavisa-kw.com"
+     *              ),
+     *              @SWG\Property(
+     *                  property="image",
+     *                  type="string",
+     *                  description="Profile image base64",
+     *                  example="9vjklhtyi9765/87997jhbsdfh/iutvs......"
+     *              ),
+     *          ),
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=422,
+     *             description="Unprocessable entity"
+     *        ),
+     *     )
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function updateProfile(Request $request)
     {
-        $registeredUser = RegisteredUser::find($request->user('api')->id);
-
-        // validate
         $validator = [
-            'fullname' => 'required',
-            'country_id' => 'required|numeric',
-            'email' => 'required|email|unique:registered_users,email,' . $registeredUser->id,
+            'mobile' => 'required|digits:8',
         ];
 
         $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
@@ -68,38 +134,39 @@ class UserProfileController extends Controller
             return $checkForMessages;
         }
 
-        $input = $request->only(['fullname', 'email', 'country_id']);
-        //If Uploaded Image removed
-        if ($request->uploaded_image_removed != 0 && !$request->hasFile('profile_image')) {
-            //Remove previous images
-            $destinationPath = public_path('images/');
-            if (file_exists($destinationPath . $registeredUser->profile_image) && $registeredUser->profile_image != '') {
-                unlink($destinationPath . $registeredUser->profile_image);
-            }
-            $input['profile_image'] = '';
-        } else {
-            //Icon Image
-            if ($request->hasFile('profile_image')) {
-                $profile_image = $request->file('profile_image');
-                $thumbnailImage = Image::make($profile_image);
-                $filename = time() . '.' . $profile_image->getClientOriginalExtension();
-                $destinationPath = public_path('images/');
-                $profile_image->move($destinationPath, $filename);
-                //For resize image
-                $thumbnailImage->resize(config('global.PrimaryImageW'), config('global.PrimaryImageH'));
-                $thumbnailImage->save($destinationPath . $filename);
+        $user = RegisteredUser::find($request->id);
 
-                //Remove previous images
-                if (file_exists($destinationPath . $registeredUser->profile_image) && $registeredUser->profile_image != '') {
-                    unlink($destinationPath . $registeredUser->profile_image);
-                }
-                $input['profile_image'] = $filename;
+        if ($user->mobile != $request->mobile) {
+            $existingUser = RegisteredUser::where('mobile', $user->mobile)->get();
+            if ($existingUser != null) {
+                return response()->json([
+                    'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
+                ], 409);
+            } else {
+                $user->update([
+                    'fullname' => $request->fullname,
+                    'email' => $request->email,
+                    'mobile' => $request->mobile,
+                ]);
             }
         }
-        $registeredUser->fill($input)->save();
+
+        if ($request->image != null) {
+            $file_data = $request->image;
+            $file_name = 'user_image_' . time() . '.png';
+
+            if ($file_data != null) {
+                Storage::disk('public')->put('user_images/' . $file_name, base64_decode($file_data));
+                Storage::disk('public')->delete('user_images/' . $user->profile_image);
+            }
+            $user->update([
+                'profile_image' => $file_name,
+            ]);
+        }
 
         return response()->json([
-            'message' => LanguageManagement::getLabel('text_successUpdated', $this->Lang),
+            'message' => LanguageManagement::getLabel('text_successUpdated', $this->language),
+            'user' => collect($user),
 
         ]);
     }

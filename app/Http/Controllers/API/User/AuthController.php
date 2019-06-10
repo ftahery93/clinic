@@ -6,10 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
 use App\Models\Admin\User;
 use App\Models\API\Authentication;
+use App\Models\API\Country;
 use App\Models\API\RegisteredUser;
 use App\Utility;
 use Illuminate\Http\Request;
 
+/**
+ * @SWG\Info(
+ *   version="1.0.0",
+ *    title="Masafah API Documentation",
+ * )
+ */
 class AuthController extends Controller
 {
 
@@ -23,7 +30,6 @@ class AuthController extends Controller
     private $accessToken;
     public function __construct(Request $request)
     {
-        //$this->middleware('api');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
         $this->accessToken = uniqid(base64_encode(str_random(50)));
@@ -37,27 +43,44 @@ class AuthController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/register",
-     *         tags={"register"},
+     *         path="/masafah_upgrade/public/api/user/register",
+     *         tags={"User Register"},
      *         operationId="register",
      *         summary="Register a user to app",
-     *         @SWG\Parameter(
-     *             name="Mobile",
-     *             in="body",
-     *             required=true,
-     *             @SWG\Schema(ref="#/definitions/User"),
-     *        ),
      *          @SWG\Parameter(
-     *             name="Password",
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *         @SWG\Parameter(
+     *             name="Registration Body",
      *             in="body",
      *             required=true,
-     *             @SWG\Schema(ref="#/definitions/User"),
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="mobile",
+     *                  type="integer",
+     *                  description="users mobile number",
+     *                  example=88663456
+     *              ),
+     *          @SWG\Property(
+     *                  property="country_id",
+     *                  type="integer",
+     *                  description="Country ID",
+     *                  example=4
+     *              ),
+     *          ),
      *        ),
      *        @SWG\Response(
      *             response=200,
-     *             description="success",
-     *             @SWG\Schema(ref="#/definitions/User"),
-     *         ),
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=422,
+     *             description="Unprocessable entity"
+     *        ),
      *     )
      *
      */
@@ -65,17 +88,21 @@ class AuthController extends Controller
     {
         $validator = [
             'mobile' => 'required|digits:8|unique:registered_users',
+            'country_id' => 'required',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError) {
             return $checkForError;
         }
+
+        $country = Country::find($request->country_id);
         $otp = substr(str_shuffle("0123456789"), 0, 5);
         $registeredUser = RegisteredUser::create([
             'mobile' => $request->mobile,
             'status' => 0,
             'otp' => $otp,
+            'country_id' => $request->country_id,
         ]);
 
         return response()->json([
@@ -87,21 +114,42 @@ class AuthController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/login",
-     *         tags={"login"},
+     *         path="/masafah_upgrade/public/api/user/login",
+     *         tags={"User Login"},
      *         operationId="login",
-     *         summary="Login user to the app",
+     *         summary="Login a user to app",
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
      *         @SWG\Parameter(
-     *             name="User",
+     *             name="Mobile",
      *             in="body",
      *             required=true,
-     *             @SWG\Schema(ref="#/definitions/User"),
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="mobile",
+     *                  type="integer",
+     *                  description="users mobile number",
+     *                  example=88663456
+     *              ),
+     *          ),
      *        ),
      *        @SWG\Response(
      *             response=200,
-     *             description="success",
-     *             @SWG\Schema(ref="#/definitions/User"),
-     *         ),
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=422,
+     *             description="Unprocessable entity"
+     *        ),
+     *        @SWG\Response(
+     *             response=401,
+     *             description="Mobile not found"
+     *        ),
      *     )
      *
      */
@@ -127,7 +175,7 @@ class AuthController extends Controller
                 'otp' => $otp,
             ]);
         } else {
-            return response()->json(['error' => LanguageManagement::getLabel('mobile_not_found', $this->Lang)], 401);
+            return response()->json(['error' => LanguageManagement::getLabel('mobile_not_found', $this->language)], 401);
         }
         //$token = '' . $registeredUser->id . '' . $registeredUser->mobile . '' . $this->accessToken;
 
@@ -136,51 +184,96 @@ class AuthController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/register",
-     *         tags={"register"},
-     *         operationId="register",
-     *         summary="Register a user to app",
+     *         path="/masafah_upgrade/public/api/user/logout",
+     *         tags={"User Logout"},
+     *         operationId="logout",
+     *         summary="Logout a user from the app",
      *         @SWG\Parameter(
-     *             name="User",
-     *             in="body",
+     *             name="Accept-Language",
+     *             in="header",
      *             required=true,
-     *             @SWG\Schema(ref="#/definitions/User"),
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *         @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
      *        ),
      *        @SWG\Response(
      *             response=200,
-     *             description="success",
-     *             @SWG\Schema(ref="#/definitions/User"),
-     *         ),
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=404,
+     *             description="User not found"
+     *        ),
      *     )
      *
      */
     public function logout(Request $request)
     {
         $authenticateEntry = Authentication::where('access_token', $request->header('Authorization'))->get()->first();
-        $authenticateEntry->delete();
-        return response()->json([
-            'message' => LanguageManagement::getLabel('text_successLoggout', $this->Lang),
-        ]);
+        if (authenticateEntry != null) {
+            $authenticateEntry->delete();
+            return response()->json([
+                'message' => LanguageManagement::getLabel('text_successLoggout', $this->language),
+            ]);
+        } else {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_user_found', $this->language),
+            ], 404);
+        }
+
     }
 
     /**
      *
      * @SWG\Post(
-     *         path="/register",
-     *         tags={"register"},
-     *         operationId="register",
-     *         summary="Register a user to app",
-     *         @SWG\Parameter(
-     *             name="User",
+     *         path="/masafah_upgrade/public/api/user/verifyOTP",
+     *         tags={"User OTP"},
+     *         operationId="verifyOTP",
+     *         summary="Verify User OTP",
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Verify OTP Body",
      *             in="body",
      *             required=true,
-     *             @SWG\Schema(ref="#/definitions/User"),
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="mobile",
+     *                  type="integer",
+     *                  description="user's mobile number",
+     *                  example=88663456
+     *              ),
+     *          @SWG\Property(
+     *                  property="otp",
+     *                  type="integer",
+     *                  description="generated OTP",
+     *                  example=46103
+     *              ),
+     *          ),
      *        ),
      *        @SWG\Response(
      *             response=200,
-     *             description="success",
-     *             @SWG\Schema(ref="#/definitions/User"),
-     *         ),
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=422,
+     *             description="Unprocessable entity"
+     *        ),
+     *        @SWG\Response(
+     *             response=417,
+     *             description="Wrong OTP"
+     *        ),
      *     )
      *
      */
@@ -210,21 +303,38 @@ class AuthController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/register",
-     *         tags={"register"},
-     *         operationId="register",
-     *         summary="Register a user to app",
-     *         @SWG\Parameter(
-     *             name="User",
+     *         path="/masafah_upgrade/public/api/user/resendOTP",
+     *         tags={"User OTP"},
+     *         operationId="resendOTP",
+     *         summary="Resend User OTP",
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Mobile",
      *             in="body",
      *             required=true,
-     *             @SWG\Schema(ref="#/definitions/User"),
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="mobile",
+     *                  type="integer",
+     *                  description="users mobile number",
+     *                  example=88663456
+     *              ),
+     *          ),
      *        ),
      *        @SWG\Response(
      *             response=200,
-     *             description="success",
-     *             @SWG\Schema(ref="#/definitions/User"),
-     *         ),
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=422,
+     *             description="Unprocessable entity"
+     *        ),
      *     )
      *
      */
@@ -235,7 +345,7 @@ class AuthController extends Controller
         $validator = [
             'mobile' => 'required|digits:8',
         ];
-        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 417);
+        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError) {
             return $checkForError;
         }

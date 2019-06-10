@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API\User;
 
-use Illuminate\Http\Request;
-use App\Models\API\Page;
 use App\Http\Controllers\Controller;
+use App\Models\API\Page;
 use App\Utility;
+use Illuminate\Http\Request;
 
 class PagesController extends Controller
 {
@@ -19,6 +19,27 @@ class PagesController extends Controller
         $this->language = $request->header('Accept-Language');
     }
 
+    /**
+     *
+     * @SWG\Get(
+     *         path="/masafah_upgrade/public/api/user/getTermsAndConditions",
+     *         tags={"User Pages"},
+     *         operationId="getTermsAndConditions",
+     *         summary="Get Masafah's Terms and Conditions",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
     public function getTermsAndConditions()
     {
         $page = Page::find(1);
