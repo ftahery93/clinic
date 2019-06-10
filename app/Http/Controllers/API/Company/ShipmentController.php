@@ -29,7 +29,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah_upgrade/public/api/company/getPendingShipments",
+     *         path="/masafah/public/api/company/getPendingShipments",
      *         tags={"Company Shipments"},
      *         operationId="getPendingShipments",
      *         summary="Get Company pending shipments",
@@ -63,7 +63,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah_upgrade/public/api/company/getAcceptedShipments",
+     *         path="/masafah/public/api/company/getAcceptedShipments",
      *         tags={"Company Shipments"},
      *         operationId="getAcceptedShipments",
      *         summary="Get Company accepted shipments",
@@ -97,7 +97,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah_upgrade/public/api/company/getShipmentById/{shipment_id}",
+     *         path="/masafah/public/api/company/getShipmentById/{shipment_id}",
      *         tags={"Company Shipments"},
      *         operationId="getShipmentById",
      *         summary="Get Company shipment by ID",
@@ -158,7 +158,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/masafah_upgrade/public/api/company/acceptShipments",
+     *         path="/masafah/public/api/company/acceptShipments",
      *         tags={"Company Shipments"},
      *         operationId="acceptShipments",
      *         summary="Accept shipments by Company",
@@ -320,7 +320,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah_upgrade/public/api/company/pickedUpShipmentById/{shipment_id}",
+     *         path="/masafah/public/api/company/pickedUpShipmentById/{shipment_id}",
      *         tags={"Company Shipments"},
      *         operationId="pickedUpShipmentById",
      *         summary="Picked up shipment by ID",
@@ -368,7 +368,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah_upgrade/public/api/company/deliveredShipmentById/{shipment_id}",
+     *         path="/masafah/public/api/company/deliveredShipmentById/{shipment_id}",
      *         tags={"Company Shipments"},
      *         operationId="deliveredShipmentById",
      *         summary="Delivered shipment by ID",
@@ -416,7 +416,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah_upgrade/public/api/company/getShipmentHistory",
+     *         path="/masafah/public/api/company/getShipmentHistory",
      *         tags={"Company Shipments"},
      *         operationId="getShipmentHistory",
      *         summary="Get Company shipment history",

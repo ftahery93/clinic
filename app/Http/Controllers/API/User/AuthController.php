@@ -43,7 +43,7 @@ class AuthController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/masafah_upgrade/public/api/user/register",
+     *         path="/masafah/public/api/user/register",
      *         tags={"User Register"},
      *         operationId="register",
      *         summary="Register a user to app",
@@ -114,7 +114,7 @@ class AuthController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/masafah_upgrade/public/api/user/login",
+     *         path="/masafah/public/api/user/login",
      *         tags={"User Login"},
      *         operationId="login",
      *         summary="Login a user to app",
@@ -184,7 +184,7 @@ class AuthController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/masafah_upgrade/public/api/user/logout",
+     *         path="/masafah/public/api/user/logout",
      *         tags={"User Logout"},
      *         operationId="logout",
      *         summary="Logout a user from the app",
@@ -232,7 +232,7 @@ class AuthController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/masafah_upgrade/public/api/user/verifyOTP",
+     *         path="/masafah/public/api/user/verifyOTP",
      *         tags={"User OTP"},
      *         operationId="verifyOTP",
      *         summary="Verify User OTP",
@@ -303,7 +303,7 @@ class AuthController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/masafah_upgrade/public/api/user/resendOTP",
+     *         path="/masafah/public/api/user/resendOTP",
      *         tags={"User OTP"},
      *         operationId="resendOTP",
      *         summary="Resend User OTP",

@@ -23,7 +23,7 @@ class CompanyProfileController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah_upgrade/public/api/company/getCompanies",
+     *         path="/masafah/public/api/company/getCompanies",
      *         tags={"Company Details"},
      *         operationId="getCompanies",
      *         summary="Get all approved companies",
@@ -64,7 +64,7 @@ class CompanyProfileController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah_upgrade/public/api/company/getCompanyDetails",
+     *         path="/masafah/public/api/company/getCompanyDetails",
      *         tags={"Company Details"},
      *         operationId="getCompanyDetails",
      *         summary="Get company details",
@@ -101,7 +101,7 @@ class CompanyProfileController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah_upgrade/public/api/company/getCompanyDetailsById/{company_id}",
+     *         path="/masafah/public/api/company/getCompanyDetailsById/{company_id}",
      *         tags={"Company Details"},
      *         operationId="getCompanyDetailsById",
      *         summary="Get company details",
@@ -153,7 +153,7 @@ class CompanyProfileController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah_upgrade/public/api/company/getProfile",
+     *         path="/masafah/public/api/company/getProfile",
      *         tags={"Company Profile"},
      *         operationId="getProfile",
      *         summary="Get Company Profile",
@@ -193,7 +193,7 @@ class CompanyProfileController extends Controller
     /**
      *
      * @SWG\Put(
-     *         path="/masafah_upgrade/public/api/company/updateProfile",
+     *         path="/masafah/public/api/company/updateProfile",
      *         tags={"Company Profile"},
      *         operationId="updateProfile",
      *         summary="Update Company profile",
@@ -306,7 +306,7 @@ class CompanyProfileController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/masafah_upgrade/public/api/company/changeMobileNumber",
+     *         path="/masafah/public/api/company/changeMobileNumber",
      *         tags={"Company Profile"},
      *         operationId="changeMobileNumber",
      *         summary="Change Company's Mobile number",
@@ -381,7 +381,7 @@ class CompanyProfileController extends Controller
     /**
      *
      * @SWG\Put(
-     *         path="/masafah_upgrade/public/api/company/updateMobileNumber",
+     *         path="/masafah/public/api/company/updateMobileNumber",
      *         tags={"Company Profile"},
      *         operationId="updateMobileNumber",
      *         summary="Update Company's Mobile number",
@@ -479,7 +479,7 @@ class CompanyProfileController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah_upgrade/public/api/company/getFreeDeliveriesCount",
+     *         path="/masafah/public/api/company/getFreeDeliveriesCount",
      *         tags={"Company Free Deliveries"},
      *         operationId="getFreeDeliveriesCount",
      *         summary="Get the free deliveries count for a company",

@@ -26,7 +26,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/masafah_upgrade/public/api/user/addShipment",
+     *         path="/masafah/public/api/user/addShipment",
      *         tags={"User Shipment"},
      *         operationId="addShipment",
      *         summary="Add shipment",
@@ -146,7 +146,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah_upgrade/public/api/user/getShipments",
+     *         path="/masafah/public/api/user/getShipments",
      *         tags={"User Shipment"},
      *         operationId="getShipments",
      *         summary="Get User shipments",
@@ -210,7 +210,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah_upgrade/public/api/user/getShipmentDetails/{shipment_id}",
+     *         path="/masafah/public/api/user/getShipmentDetails/{shipment_id}",
      *         tags={"User Shipment"},
      *         operationId="getShipmentDetails",
      *         summary="Get User shipment by ID",

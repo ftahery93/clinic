@@ -22,7 +22,7 @@ class AddressController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/masafah_upgrade/public/api/user/addAddress",
+     *         path="/masafah/public/api/user/addAddress",
      *         tags={"User Address"},
      *         operationId="addAddress",
      *         summary="Add User address",
@@ -162,7 +162,7 @@ class AddressController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah_upgrade/public/api/user/getAddressById/{id}",
+     *         path="/masafah/public/api/user/getAddressById/{id}",
      *         tags={"User Address"},
      *         operationId="getAddress",
      *         summary="Get User address by ID",
@@ -214,7 +214,7 @@ class AddressController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah_upgrade/public/api/user/getAddresses",
+     *         path="/masafah/public/api/user/getAddresses",
      *         tags={"User Address"},
      *         operationId="getAddresses",
      *         summary="Get all addresses of a user",

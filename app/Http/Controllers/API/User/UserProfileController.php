@@ -25,7 +25,7 @@ class UserProfileController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah_upgrade/public/api/user/getProfile",
+     *         path="/masafah/public/api/user/getProfile",
      *         tags={"User Profile"},
      *         operationId="getUserProfile",
      *         summary="Get User Profile",
@@ -63,7 +63,7 @@ class UserProfileController extends Controller
     /**
      *
      * @SWG\Put(
-     *         path="/masafah_upgrade/public/api/user/updateProfile",
+     *         path="/masafah/public/api/user/updateProfile",
      *         tags={"User Profile"},
      *         operationId="updateProfile",
      *         summary="Update User profile",

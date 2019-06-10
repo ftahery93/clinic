@@ -5,7 +5,7 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/masafah_upgrade/public/api/company/register": {
+        "/masafah/public/api/company/register": {
             "post": {
                 "tags": [
                     "Company Register"
@@ -75,7 +75,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/login": {
+        "/masafah/public/api/company/login": {
             "post": {
                 "tags": [
                     "Company Login"
@@ -128,7 +128,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/getCompanies": {
+        "/masafah/public/api/company/getCompanies": {
             "get": {
                 "tags": [
                     "Company Details"
@@ -158,7 +158,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/getCompanyDetails": {
+        "/masafah/public/api/company/getCompanyDetails": {
             "get": {
                 "tags": [
                     "Company Details"
@@ -188,7 +188,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/getCompanyDetailsById/{company_id}": {
+        "/masafah/public/api/company/getCompanyDetailsById/{company_id}": {
             "get": {
                 "tags": [
                     "Company Details"
@@ -228,7 +228,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/getProfile": {
+        "/masafah/public/api/company/getProfile": {
             "get": {
                 "tags": [
                     "Company Profile"
@@ -261,7 +261,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/updateProfile": {
+        "/masafah/public/api/company/updateProfile": {
             "put": {
                 "tags": [
                     "Company Profile"
@@ -323,7 +323,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/changeMobileNumber": {
+        "/masafah/public/api/company/changeMobileNumber": {
             "post": {
                 "tags": [
                     "Company Profile"
@@ -373,7 +373,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/updateMobileNumber": {
+        "/masafah/public/api/company/updateMobileNumber": {
             "put": {
                 "tags": [
                     "Company Profile"
@@ -431,7 +431,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/getFreeDeliveriesCount": {
+        "/masafah/public/api/company/getFreeDeliveriesCount": {
             "get": {
                 "tags": [
                     "Company Free Deliveries"
@@ -461,7 +461,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/getPaymentOptions": {
+        "/masafah/public/api/company/getPaymentOptions": {
             "get": {
                 "tags": [
                     "Company Payment"
@@ -491,7 +491,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/getPendingShipments": {
+        "/masafah/public/api/company/getPendingShipments": {
             "get": {
                 "tags": [
                     "Company Shipments"
@@ -521,7 +521,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/getAcceptedShipments": {
+        "/masafah/public/api/company/getAcceptedShipments": {
             "get": {
                 "tags": [
                     "Company Shipments"
@@ -551,7 +551,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/getShipmentById/{shipment_id}": {
+        "/masafah/public/api/company/getShipmentById/{shipment_id}": {
             "get": {
                 "tags": [
                     "Company Shipments"
@@ -588,7 +588,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/acceptShipments": {
+        "/masafah/public/api/company/acceptShipments": {
             "post": {
                 "tags": [
                     "Company Shipments"
@@ -638,7 +638,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/pickedUpShipmentById/{shipment_id}": {
+        "/masafah/public/api/company/pickedUpShipmentById/{shipment_id}": {
             "get": {
                 "tags": [
                     "Company Shipments"
@@ -675,7 +675,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/deliveredShipmentById/{shipment_id}": {
+        "/masafah/public/api/company/deliveredShipmentById/{shipment_id}": {
             "get": {
                 "tags": [
                     "Company Shipments"
@@ -712,7 +712,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/getShipmentHistory": {
+        "/masafah/public/api/company/getShipmentHistory": {
             "get": {
                 "tags": [
                     "Company Shipments"
@@ -742,7 +742,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/addToWallet": {
+        "/masafah/public/api/company/addToWallet": {
             "post": {
                 "tags": [
                     "Company Wallet"
@@ -799,7 +799,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/getWalletOffers": {
+        "/masafah/public/api/company/getWalletOffers": {
             "get": {
                 "tags": [
                     "Company Wallet"
@@ -829,7 +829,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/company/getWalletDetails": {
+        "/masafah/public/api/company/getWalletDetails": {
             "get": {
                 "tags": [
                     "Company Wallet"
@@ -859,7 +859,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/user/addAddress": {
+        "/masafah/public/api/user/addAddress": {
             "post": {
                 "tags": [
                     "User Address"
@@ -976,7 +976,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/user/getAddressById/{id}": {
+        "/masafah/public/api/user/getAddressById/{id}": {
             "get": {
                 "tags": [
                     "User Address"
@@ -1016,7 +1016,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/user/getAddresses": {
+        "/masafah/public/api/user/getAddresses": {
             "get": {
                 "tags": [
                     "User Address"
@@ -1046,7 +1046,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/user/register": {
+        "/masafah/public/api/user/register": {
             "post": {
                 "tags": [
                     "User Register"
@@ -1091,7 +1091,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/user/login": {
+        "/masafah/public/api/user/login": {
             "post": {
                 "tags": [
                     "User Login"
@@ -1134,7 +1134,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/user/logout": {
+        "/masafah/public/api/user/logout": {
             "post": {
                 "tags": [
                     "User Logout"
@@ -1167,7 +1167,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/user/verifyOTP": {
+        "/masafah/public/api/user/verifyOTP": {
             "post": {
                 "tags": [
                     "User OTP"
@@ -1215,7 +1215,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/user/resendOTP": {
+        "/masafah/public/api/user/resendOTP": {
             "post": {
                 "tags": [
                     "User OTP"
@@ -1255,7 +1255,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/user/getCountries": {
+        "/masafah/public/api/user/getCountries": {
             "get": {
                 "tags": [
                     "Countries"
@@ -1278,7 +1278,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/user/getTermsAndConditions": {
+        "/masafah/public/api/user/getTermsAndConditions": {
             "get": {
                 "tags": [
                     "User Pages"
@@ -1301,7 +1301,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/user/addShipment": {
+        "/masafah/public/api/user/addShipment": {
             "post": {
                 "tags": [
                     "User Shipment"
@@ -1373,7 +1373,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/user/getShipments": {
+        "/masafah/public/api/user/getShipments": {
             "get": {
                 "tags": [
                     "User Shipment"
@@ -1403,7 +1403,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/user/getShipmentDetails/{shipment_id}": {
+        "/masafah/public/api/user/getShipmentDetails/{shipment_id}": {
             "get": {
                 "tags": [
                     "User Shipment"
@@ -1436,7 +1436,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/user/getProfile": {
+        "/masafah/public/api/user/getProfile": {
             "get": {
                 "tags": [
                     "User Profile"
@@ -1469,7 +1469,7 @@
                 }
             }
         },
-        "/masafah_upgrade/public/api/user/updateProfile": {
+        "/masafah/public/api/user/updateProfile": {
             "put": {
                 "tags": [
                     "User Profile"

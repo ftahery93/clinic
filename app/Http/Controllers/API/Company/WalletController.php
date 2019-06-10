@@ -24,7 +24,7 @@ class WalletController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/masafah_upgrade/public/api/company/addToWallet",
+     *         path="/masafah/public/api/company/addToWallet",
      *         tags={"Company Wallet"},
      *         operationId="addToWallet",
      *         summary="Add to company's wallet",
@@ -153,7 +153,7 @@ class WalletController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah_upgrade/public/api/company/getWalletOffers",
+     *         path="/masafah/public/api/company/getWalletOffers",
      *         tags={"Company Wallet"},
      *         operationId="getWalletOffers",
      *         summary="Get Wallet offers",
@@ -187,7 +187,7 @@ class WalletController extends Controller
 /**
      *
      * @SWG\Get(
-     *         path="/masafah_upgrade/public/api/company/getWalletDetails",
+     *         path="/masafah/public/api/company/getWalletDetails",
      *         tags={"Company Wallet"},
      *         operationId="getWalletDetails",
      *         summary="Get Wallet Details",
