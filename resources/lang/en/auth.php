@@ -27,6 +27,8 @@ return [
     'success' => 'User successfully registered!',
     'invalidCredentials' => 'Invalid email address or password',
     'emailNotExists' => 'You have entered wrong email address!',
-    'emailInactive' => 'The account is currently Inactive for entered email address!. Contact support team for more details.',
+    'emailInactive' => 'Your account is currently Inactive for entered email address!. Contact support team for more details.',
+    'emailDisabled' => 'Your account is deleted. Contact support team for more details.',
+    'successLogout' => 'User successfully logged out!',
 
 ];

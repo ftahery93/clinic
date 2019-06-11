@@ -7,14 +7,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    use Notifiable;
+
     // relation with Permissions
     public function permissionsGroup()
     {
 
         return $this->belongsTo('App\Permissions', 'permissions_id');
     }
-
-    use Notifiable;
 
     /**
      * The attributes that are mass assignable.

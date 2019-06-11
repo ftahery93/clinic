@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers\API;
 
+use Auth;
+use File;
+use App\ApplicationUsers;
+use App\Http\Controllers\Controller;
 use Illuminate\Config;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\Controller;
-use App\Permissions;
-use App\ApplicationUsers;
-use App\WebmasterSection;
-use Auth;
-use File;
-use Redirect;
+
 
 class ApplicationUsersController extends Controller
 {
 
+    public $successStatus = 200;
     private $uploadPath = "uploads/users/";
 
     // Define Default Variables
@@ -24,7 +23,7 @@ class ApplicationUsersController extends Controller
     public function __construct()
     {
         //middleware to check the authorization header before proceeding with incoming request
-        $this->middleware('checkAuthApi');
+       $this->middleware('switch.lang');
     }
 
     /**
@@ -45,23 +44,41 @@ class ApplicationUsersController extends Controller
             ], 422);
         }
 
+        //check for email exists
         if (!ApplicationUsers::where('email', '=', $request->input('email'))->exists()) {
             return response()->json([
                 'error' => trans('auth.emailNotExists'),
             ], 417);
-        } elseif (!ApplicationUsers::where('email', '=', $request->input('email'))
+        } 
+
+        //check for active account
+        if (!ApplicationUsers::where('email', '=', $request->input('email'))
                 ->where('status', '=', 1)
                 ->exists()) {
             return response()->json([
                 'error' => trans('auth.emailInactive'),
+            ], 401);
+        } 
+
+        //check for deleted account
+        if (!ApplicationUsers::where('email', '=', $request->input('email'))
+                ->where('deleted', '=', 0)
+                ->exists()) {
+            return response()->json([
+                'error' => trans('auth.emailDisabled'),
             ], 401);
         }
 
         $ApplicationUser = ApplicationUsers::where('email', $request->input('email'))->get()->first();
 
         if (Hash::check($request->password, $ApplicationUser->password)) {
+             // Get Token Laravel Passport
+            $token = $ApplicationUser->createToken(env('APP_NAME'))->accessToken;
             return response()->json([
-                'user' => collect($ApplicationUser)->only('id', 'name', 'email'),
+                'success' => [
+                    'token' => $token,
+                    'status' => $this->successStatus
+                ],
             ]);
         } else {
             return response()->json([
@@ -113,9 +130,16 @@ class ApplicationUsersController extends Controller
             'terms_conditions' => $request->terms_conditions,
             'status' => 1,
         ]);
-        
+
+        // Get Token Laravel Passport
+        $token = $ApplicationUser->createToken(env('APP_NAME'))->accessToken;
+
         return response()->json([
-            'message' => trans('auth.success'),
+            'success' => [
+                'message' => trans('auth.success'),
+                'token' => $token,
+                'status' => $this->successStatus
+            ],
         ]);
     }
 
@@ -130,56 +154,52 @@ class ApplicationUsersController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the profile for the specified resource.
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function profile()
     {
-        //
-        // General for all pages
-        $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
-        // General END
-        $Permissions = Permissions::orderby('id', 'asc')->get();
-
-        if (@Auth::user()->permissionsGroup->view_status) {
-            $Users = User::where('created_by', '=', Auth::user()->id)->orwhere('id', '=', Auth::user()->id)->find($id);
-        } else {
-            $Users = User::find($id);
-        }
-        if (count($Users) > 0) {
-            return view("backEnd.users.edit", compact("Users", "Permissions", "GeneralWebmasterSections"));
-        } else {
-            return redirect()->action('UsersController@index');
-        }
+        $ApplicationUser = Auth::user();
+        return response()->json(['success' => $ApplicationUser], $this->successStatus);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Show the profile for the specified resource.
      *
-     * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function logout()
     {
-        //
-        $User = User::find($id);
-        if (count($User) > 0) {
+        $ApplicationUser = Auth::user()->token();
+        $ApplicationUser->revoke();
+        return response()->json(['success' => trans('auth.successLogout')], $this->successStatus);
+    }
 
+    /**
+     * Update the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Request $request, $id)
+    {
+        $ApplicationUser = ApplicationUsers::find($id);
+        if (count($ApplicationUser) > 0) {
 
-            $this->validate($request, [
+            $validator = Validator::make($request->all(), [
                 'photo' => 'mimes:png,jpeg,jpg,gif|max:3000',
                 'name' => 'required',
-                'permissions_id' => 'required'
             ]);
 
-            if ($request->email != $User->email) {
-                $this->validate($request, [
-                    'email' => 'required|email|unique:users',
-                ]);
+            if ($validator->fails()) {
+                return response()->json([
+                    'error' => $validator->messages()->first(),
+                ], 422);
             }
+
             // Start of Upload Files
             $formFileName = "photo";
             $fileFinalName_ar = "";
@@ -191,42 +211,61 @@ class ApplicationUsersController extends Controller
             }
             // End of Upload Files
 
-            //if ($id != 1) {
-            $User->name = $request->name;
-            $User->email = $request->email;
-            if ($request->password != "") {
-                $User->password = bcrypt($request->password);
+            $ApplicationUser->name = $request->name;
+            
+            if ($request->email != "") {
+                $ApplicationUser->email = $request->email;
             }
-            $User->permissions_id = $request->permissions_id;
-            //}
+
+            if ($request->password != "") {
+                $ApplicationUser->password = bcrypt($request->password);
+            }
+
+            if ($request->notification != "") {
+                $ApplicationUser->notification = $request->notification;
+            }
+
             if ($request->photo_delete == 1) {
                 // Delete a User file
-                if ($User->photo != "") {
-                    File::delete($this->getUploadPath() . $User->photo);
+                if ($ApplicationUser->photo != "") {
+                    File::delete($this->getUploadPath() . $ApplicationUser->photo);
                 }
-
-                $User->photo = "";
+                $ApplicationUser->photo = "";
             }
+
             if ($fileFinalName_ar != "") {
                 // Delete a User file
-                if ($User->photo != "") {
-                    File::delete($this->getUploadPath() . $User->photo);
+                if ($ApplicationUser->photo != "") {
+                    File::delete($this->getUploadPath() . $ApplicationUser->photo);
                 }
 
-                $User->photo = $fileFinalName_ar;
+                $ApplicationUser->photo = $fileFinalName_ar;
             }
-
-            $User->connect_email = $request->connect_email;
-            if ($request->connect_password != "") {
-                $User->connect_password = $request->connect_password;
-            }
-
-            $User->status = $request->status;
-            $User->updated_by = Auth::user()->id;
-            $User->save();
-            return redirect()->action('UsersController@edit', $id)->with('doneMessage', trans('backLang.saveDone'));
+            $ApplicationUser->updated_by = Auth::user()->id;
+            $ApplicationUser->save();
+            return response()->json(['success' => trans('mobileLang.profileEditSuccess')], $this->successStatus);
         } else {
-            return redirect()->action('UsersController@index');
+            return response()->json(['success' => trans('mobileLang.userNotFound')], $this->successStatus);
+        }
+    }
+
+    /**
+     * Delete the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete($id)
+    {
+        $ApplicationUser = ApplicationUsers::find($id);
+        if (count($ApplicationUser) > 0) {
+            $ApplicationUser->deleted = 1;
+            $ApplicationUser->updated_by = Auth::user()->id;
+            $ApplicationUser->save();
+            return response()->json(['success' => trans('mobileLang.userDeleteSuccess')], $this->successStatus);
+        } else {
+            return response()->json(['success' => trans('mobileLang.userNotFound')], $this->successStatus);
         }
     }
 

@@ -13,17 +13,13 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 // Login from Mobile devie
 
 Route::post('/users/login', 'API\ApplicationUsersController@login')->name('apiusersLogin'); 
-
-// Logout from Mobile device
-
-Route::post('/users/logout', 'API\ApplicationUsersController@logout')->name('apiusersLogout'); 
 
 // Register from Mobile devie
 
@@ -33,11 +29,25 @@ Route::post('/users/register', 'API\ApplicationUsersController@register')->name(
 
 Route::post('/users/forgot', 'API\ApplicationUsersController@forgot')->name('apiusersForgotPassword'); 
 
-// Profile from Mobile devie
+// Middleware auth:api 
 
-Route::post('/users/profile', 'API\ApplicationUsersController@profile')->name('apiusersProfile'); 
+Route::group(['middleware' => 'auth:api'], function(){
 
-// Profile Edit from Mobile devie
+    // Logout from Mobile device
 
-Route::post('/users/profile/edit', 'API\ApplicationUsersController@edit')->name('apiusersProfileEdit'); 
+    Route::post('/users/logout', 'API\ApplicationUsersController@logout')->name('apiusersLogout');  
+
+   // Profile from Mobile devie
+
+    Route::post('/users/profile', 'API\ApplicationUsersController@profile')->name('apiusersProfile'); 
+
+    // Profile Edit from Mobile devie
+
+    Route::post('/users/profile/edit/{id}', 'API\ApplicationUsersController@edit')->name('apiusersProfileEdit'); 
+
+    // Delete/Disable Account from Mobile devie
+
+    Route::post('/users/delete/{id}', 'API\ApplicationUsersController@delete')->name('apiusersDelete'); 
+
+});
 

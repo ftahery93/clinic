@@ -2,10 +2,15 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use Laravel\Passport\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class ApplicationUsers extends Model
+
+class ApplicationUsers extends Authenticatable
 {
+    use HasApiTokens, Notifiable;
+    
     //
     protected $fillable = [
         'photo',
@@ -15,6 +20,8 @@ class ApplicationUsers extends Model
         'age',
         'terms_conditions',
         'notification',
-        'status'
+        'status',
+        'updated_by',
+        'deleted'
     ];
 }
