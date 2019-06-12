@@ -324,7 +324,7 @@
             }
         },
         "/masafah/public/api/company/changeMobileNumber": {
-            "post": {
+            "patch": {
                 "tags": [
                     "Company Profile"
                 ],
@@ -374,7 +374,7 @@
             }
         },
         "/masafah/public/api/company/updateMobileNumber": {
-            "put": {
+            "patch": {
                 "tags": [
                     "Company Profile"
                 ],
@@ -438,6 +438,36 @@
                 ],
                 "summary": "Get the free deliveries count for a company",
                 "operationId": "getFreeDeliveriesCount",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/masafah/public/api/company/getNotifications": {
+            "get": {
+                "tags": [
+                    "Company Notification"
+                ],
+                "summary": "Get Company Notifications",
+                "operationId": "getNotifications",
                 "parameters": [
                     {
                         "name": "Accept-Language",
@@ -1278,6 +1308,36 @@
                 }
             }
         },
+        "/masafah/public/api/user/getNotifications": {
+            "get": {
+                "tags": [
+                    "User Notification"
+                ],
+                "summary": "Get User Notifications",
+                "operationId": "getNotifications",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
         "/masafah/public/api/user/getTermsAndConditions": {
             "get": {
                 "tags": [
@@ -1436,6 +1496,39 @@
                 }
             }
         },
+        "/masafah/public/api/user/deleteShipmentById/{shipment_id}": {
+            "delete": {
+                "tags": [
+                    "User Shipment"
+                ],
+                "summary": "Get User shipment by ID",
+                "operationId": "deleteShipmentById",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "Shipment not found"
+                    }
+                }
+            }
+        },
         "/masafah/public/api/user/getProfile": {
             "get": {
                 "tags": [
@@ -1462,9 +1555,6 @@
                 "responses": {
                     "200": {
                         "description": "Successful"
-                    },
-                    "404": {
-                        "description": "Shipment not found"
                     }
                 }
             }
@@ -1527,6 +1617,114 @@
                     },
                     "422": {
                         "description": "Unprocessable entity"
+                    }
+                }
+            }
+        },
+        "/masafah/public/api/user/changeMobileNumber": {
+            "patch": {
+                "tags": [
+                    "User Profile"
+                ],
+                "summary": "Change User's Mobile number",
+                "operationId": "changeMobileNumber",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Change number body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "mobile": {
+                                    "description": "User Mobile number - *(Required)",
+                                    "type": "string",
+                                    "example": "66341897"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    },
+                    "409": {
+                        "description": "Mobile number already registered"
+                    }
+                }
+            }
+        },
+        "/masafah/public/api/user/updateMobileNumber": {
+            "patch": {
+                "tags": [
+                    "User Profile"
+                ],
+                "summary": "Update User's Mobile number",
+                "operationId": "updateMobileNumber",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Change number body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "mobile": {
+                                    "description": "User's Mobile number - *(Required)",
+                                    "type": "string",
+                                    "example": "66341897"
+                                },
+                                "otp": {
+                                    "description": "Received OTP - *(Required)",
+                                    "type": "string",
+                                    "example": "46137"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    },
+                    "401": {
+                        "description": "Invalid OTP. Unauthorized"
+                    },
+                    "409": {
+                        "description": "Mobile number already registered"
                     }
                 }
             }

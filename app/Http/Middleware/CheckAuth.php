@@ -22,7 +22,12 @@ class CheckAuth
             $token = $request->header('Authorization');
             $authenticatedUser = Authentication::where('access_token', $token)->get()->first();
             if ($authenticatedUser != null) {
-                $request->request->add(['id' => $authenticatedUser["user_id"]]);
+                if ($authenticatedUser->type == 1) {
+                    $request->request->add(['user_id' => $authenticatedUser["user_id"]]);
+                } else {
+                    $request->request->add(['company_id' => $authenticatedUser["user_id"]]);
+                }
+
                 return $next($request);
             } else {
                 return response()->json([

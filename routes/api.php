@@ -20,6 +20,18 @@
 
 //Authentication
 
+Route::group(['middleware' => 'auth:api'], function () {
+
+
+
+});
+
+Route::group(['middleware' => 'auth:company'], function () {
+
+
+    
+});
+
 /* User */
 Route::post('/user/login', 'API\User\AuthController@login');
 Route::post('/user/register', 'API\User\AuthController@register');
@@ -30,6 +42,8 @@ Route::post('/user/resendOTP', 'API\User\AuthController@resendOTP');
 /* User Profile */
 Route::get('/user/getProfile', 'API\User\UserProfileController@getProfile');
 Route::put('/user/updateProfile', 'API\User\UserProfileController@updateProfile');
+Route::patch('/user/changeMobileNumber', 'API\User\UserProfileController@changeMobileNumber');
+Route::patch('/user/updateMobileNumber', 'API\User\UserProfileController@updateMobileNumber');
 
 /* User Address */
 Route::post('/user/addAddress', 'API\User\AddressController@addAddress');
@@ -45,8 +59,8 @@ Route::post('/company/login', 'API\Company\CompanyEntryController@login');
 Route::post('/company/register', 'API\Company\CompanyEntryController@register');
 Route::get('/company/getProfile', 'API\Company\CompanyProfileController@getProfile');
 Route::put('/company/updateProfile', 'API\Company\CompanyProfileController@updateProfile');
-Route::post('/company/changeMobileNumber', 'API\Company\CompanyProfileController@changeMobileNumber');
-Route::put('/company/updateMobileNumber', 'API\Company\CompanyProfileController@updateMobileNumber');
+Route::patch('/company/changeMobileNumber', 'API\Company\CompanyProfileController@changeMobileNumber');
+Route::patch('/company/updateMobileNumber', 'API\Company\CompanyProfileController@updateMobileNumber');
 
 /* Company Details */
 Route::get('/company/getCompanyDetails', 'API\Company\CompanyProfileController@getCompanyDetails');

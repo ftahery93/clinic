@@ -151,7 +151,7 @@ class AddressController extends Controller
             'area' => $request->area,
             'building' => $request->building,
             'notes' => $request->notes,
-            'user_id' => $request->id,
+            'user_id' => $request->user_id,
         ]);
 
         return response()->json([
@@ -241,7 +241,7 @@ class AddressController extends Controller
      */
     public function getAddresses(Request $request)
     {
-        $addresses = Address::where('user_id', $request->id)->get();
+        $addresses = Address::where('user_id', $request->user_id)->get();
         return collect($addresses);
     }
 

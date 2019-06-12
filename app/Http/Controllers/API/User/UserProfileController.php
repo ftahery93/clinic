@@ -47,16 +47,12 @@ class UserProfileController extends Controller
      *             response=200,
      *             description="Successful"
      *        ),
-     *        @SWG\Response(
-     *             response=404,
-     *             description="Shipment not found"
-     *        ),
      *     )
      *
      */
     public function getProfile(Request $request)
     {
-        $user = RegisteredUser::find($request->id);
+        $user = RegisteredUser::find($request->user_id);
         return collect($user);
     }
 
@@ -134,22 +130,11 @@ class UserProfileController extends Controller
             return $checkForMessages;
         }
 
-        $user = RegisteredUser::find($request->id);
-
-        if ($user->mobile != $request->mobile) {
-            $existingUser = RegisteredUser::where('mobile', $user->mobile)->get();
-            if ($existingUser != null) {
-                return response()->json([
-                    'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
-                ], 409);
-            } else {
-                $user->update([
-                    'fullname' => $request->fullname,
-                    'email' => $request->email,
-                    'mobile' => $request->mobile,
-                ]);
-            }
-        }
+        $user = RegisteredUser::find($request->user_id);
+        $user->update([
+            'fullname' => $request->fullname,
+            'email' => $request->email,
+        ]);
 
         if ($request->image != null) {
             $file_data = $request->image;
@@ -168,6 +153,179 @@ class UserProfileController extends Controller
             'message' => LanguageManagement::getLabel('text_successUpdated', $this->language),
             'user' => collect($user),
 
+        ]);
+    }
+
+    /**
+     *
+     * @SWG\Patch(
+     *         path="/masafah/public/api/user/changeMobileNumber",
+     *         tags={"User Profile"},
+     *         operationId="changeMobileNumber",
+     *         summary="Change User's Mobile number",
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Change number body",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="mobile",
+     *                  type="string",
+     *                  description="User Mobile number - *(Required)",
+     *                  example="66341897"
+     *              ),
+     *          ),
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=422,
+     *             description="Unprocessable entity"
+     *        ),
+     *        @SWG\Response(
+     *             response=409,
+     *             description="Mobile number already registered"
+     *        ),
+     *     )
+     *
+     */
+    public function changeMobileNumber(Request $request)
+    {
+        $validator = [
+            'mobile' => 'required',
+        ];
+        $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForMessages) {
+            return $checkForMessages;
+        }
+
+        $user = RegisteredUser::find($request->user_id);
+
+        if ($user->mobile != $request->mobile) {
+            $existingUser = RegisteredUser::where('mobile', $user->mobile)->get();
+            if ($existingUser != null) {
+                return response()->json([
+                    'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
+                ], 409);
+            } else {
+                $user->update([
+                    'otp' => substr(str_shuffle("0123456789"), 0, 5),
+                ]);
+            }
+        }
+    }
+
+    /**
+     *
+     * @SWG\Patch(
+     *         path="/masafah/public/api/user/updateMobileNumber",
+     *         tags={"User Profile"},
+     *         operationId="updateMobileNumber",
+     *         summary="Update User's Mobile number",
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Change number body",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="mobile",
+     *                  type="string",
+     *                  description="User's Mobile number - *(Required)",
+     *                  example="66341897"
+     *              ),
+     *              @SWG\Property(
+     *                  property="otp",
+     *                  type="string",
+     *                  description="Received OTP - *(Required)",
+     *                  example="46137"
+     *              ),
+     *          ),
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=422,
+     *             description="Unprocessable entity"
+     *        ),
+     *        @SWG\Response(
+     *             response=401,
+     *             description="Invalid OTP. Unauthorized"
+     *        ),
+     *        @SWG\Response(
+     *             response=409,
+     *             description="Mobile number already registered"
+     *        ),
+     *     )
+     *
+     */
+    public function updateMobileNumber(Request $request)
+    {
+        $validator = [
+            'mobile' => 'required',
+            'otp' => 'required',
+        ];
+
+        $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForMessages) {
+            return $checkForMessages;
+        }
+
+        $user = RegisteredUser::find($request->user_id);
+
+        if ($user->mobile != $request->mobile) {
+            $existingUser = RegisteredUser::where('mobile', $user->mobile)->get();
+            if ($existingUser != null) {
+                return response()->json([
+                    'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
+                ], 409);
+            }
+        }
+
+        if ($request->otp == $user->otp) {
+            $user->update([
+                'mobile' => $request->mobile,
+            ]);
+        } else {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('text_wrongOTP', $this->language),
+            ], 401);
+        }
+
+        return response()->json([
+            'message' => LanguageManagement::getLabel('text_successUpdated', $this->language),
+            'user' => collect($user),
         ]);
     }
 }

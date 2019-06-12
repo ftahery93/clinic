@@ -91,7 +91,7 @@ class CompanyProfileController extends Controller
      */
     public function getCompanyDetails(Request $request)
     {
-        $company = Company::find($request->id);
+        $company = Company::find($request->company_id);
 
         if ($company) {
             return $company;
@@ -185,7 +185,7 @@ class CompanyProfileController extends Controller
     public function getProfile(Request $request)
     {
 
-        $company = Company::find($request->id);
+        $company = Company::find($request->company_id);
         $company = collect($company)->only(['name', 'email', 'mobile', 'description', 'image']);
         return response()->json($company);
     }
@@ -266,7 +266,7 @@ class CompanyProfileController extends Controller
             return $checkForMessages;
         }
 
-        $registeredCompany = Company::find($request->id);
+        $registeredCompany = Company::find($request->company_id);
 
         if ($request->email != $registeredCompany->email) {
             $existingNumber = Company::where('email', $request->email)->get();
@@ -274,7 +274,7 @@ class CompanyProfileController extends Controller
                 $registeredCompany->update([
                     'email' => $request->email,
                     'name' => $request->name,
-                    'country_id' => $request->id,
+                    'country_id' => $request->country_id,
                 ]);
             } else {
                 return response()->json([
@@ -305,7 +305,7 @@ class CompanyProfileController extends Controller
 
     /**
      *
-     * @SWG\Post(
+     * @SWG\Patch(
      *         path="/masafah/public/api/company/changeMobileNumber",
      *         tags={"Company Profile"},
      *         operationId="changeMobileNumber",
@@ -362,7 +362,7 @@ class CompanyProfileController extends Controller
             return $checkForMessages;
         }
 
-        $registeredCompany = Company::find($request->id);
+        $registeredCompany = Company::find($request->company_id);
 
         if ($registeredCompany->mobile != $request->mobile) {
             $existingUser = RegisteredUser::where('mobile', $registeredCompany->mobile)->get();
@@ -380,7 +380,7 @@ class CompanyProfileController extends Controller
 
     /**
      *
-     * @SWG\Put(
+     * @SWG\Patch(
      *         path="/masafah/public/api/company/updateMobileNumber",
      *         tags={"Company Profile"},
      *         operationId="updateMobileNumber",
@@ -449,7 +449,7 @@ class CompanyProfileController extends Controller
             return $checkForMessages;
         }
 
-        $registeredCompany = Company::find($request->id);
+        $registeredCompany = Company::find($request->company_id);
 
         if ($registeredCompany->mobile != $request->mobile) {
             $existingUser = RegisteredUser::where('mobile', $registeredCompany->mobile)->get();
@@ -506,7 +506,7 @@ class CompanyProfileController extends Controller
      */
     public function getFreeDeliveriesCount(Request $request)
     {
-        $freeDeliveries = FreeDelivery::where('company_id', $request->id)->get()->first();
+        $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->get()->first();
 
         if ($freeDeliveries != null) {
             return response()->json([

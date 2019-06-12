@@ -91,10 +91,10 @@ class WalletController extends Controller
             return $checkForError;
         }
 
-        $wallet = Wallet::where('company_id', $request->id)->get()->first();
+        $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
         if ($wallet != null) {
             WalletTransaction::create([
-                'company_id' => $request->id,
+                'company_id' => $request->company_id,
                 'amount' => $request->amount,
                 'type' => true,
             ]);
@@ -107,7 +107,7 @@ class WalletController extends Controller
             if ($request->isOffer) {
                 $walletOffers = WalletOffer::where('amount', $request->amount)->get()->first();
                 if ($walletOffers != null) {
-                    $freeDeliveries = FreeDelivery::where('company_id', $request->id)->get()->first();
+                    $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->get()->first();
                     if ($freeDeliveries != null) {
                         $quantity = $freeDeliveries->quantity;
                         $quantity += $walletOffers->free_deliveries;
@@ -116,7 +116,7 @@ class WalletController extends Controller
                         ]);
                     } else {
                         FreeDelivery::create([
-                            'company_id' => $request->id,
+                            'company_id' => $request->company_id,
                             'quantity' => $walletOffers->free_deliveries,
                         ]);
                     }
@@ -135,10 +135,10 @@ class WalletController extends Controller
     /*
     public function deductFromWallet(Request $request)
     {
-    $wallet = Wallet::where('company_id', $request->id)->get()->first();
+    $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
     if ($wallet != null) {
     WalletTransaction::create([
-    'company_id' => $request->id,
+    'company_id' => $request->company_id,
     'amount' => $request->amount,
     'type' => false,
     ]);
@@ -214,8 +214,8 @@ class WalletController extends Controller
      */
     public function getWalletDetails(Request $request)
     {
-        $wallet = Wallet::where('company_id', $request->id)->get()->first();
-        $walletTransactions = WalletTransaction::where('company_id', $request->id)->get();
+        $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
+        $walletTransactions = WalletTransaction::where('company_id', $request->company_id)->get();
         $transactionDetails = [];
         if ($walletTransactions != null) {
             foreach ($walletTransactions as $walletTransaction) {
@@ -226,7 +226,7 @@ class WalletController extends Controller
             }
         }
 
-        $freeDeliveries = FreeDelivery::where('company_id', $request->id)->get()->first();
+        $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->get()->first();
 
         return response()->json([
             'wallet_balance' => $wallet->balance,

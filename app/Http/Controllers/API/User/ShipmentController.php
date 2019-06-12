@@ -9,6 +9,7 @@ use App\Models\API\Company;
 use App\Models\API\Price;
 use App\Models\API\Shipment;
 use App\Utility;
+use function GuzzleHttp\json_decode;
 use Illuminate\Http\Request;
 
 class ShipmentController extends Controller
@@ -100,14 +101,22 @@ class ShipmentController extends Controller
      */
     public function addShipment(Request $request)
     {
+        json_decode($request->getContent(), true);
+        //return $request;
+        //return $request;
         $validationMessages = [
-            'category_id' => 'required',
-            'delivery_companies_id' => 'required',
+            //'shipments' => 'required|array',
+            //'shipments.*.category_id' => 'required',
+            //'shipments.*.quantity' => 'required|numeric',
+            'delivery_companies_id' => 'required|array',
             'address_from_id' => 'required',
             'address_to_id' => 'required',
             'pickup_time' => 'required',
-            'quantity' => 'required',
         ];
+
+        //return $request;
+
+        //json_decode($request->input(), true);
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
         if ($checkForError) {
@@ -116,26 +125,26 @@ class ShipmentController extends Controller
 
         $price = Price::find(1);
 
-        $shipment = new Shipment();
-        $shipment->category_id = $request->category_id;
-        $shipment->price = $price->price;
-        $shipment->address_from_id = $request->address_from_id;
-        $shipment->address_to_id = $request->address_to_id;
-        $shipment->pickup_time = $request->pickup_time;
-        $shipment->quantity = $request->quantity;
-        $shipment->user_id = $request->id;
-        $shipment->status = 1;
-        $shipment->payment_type = 1;
+        $shipment = Shipment::create([
+            'price' => $price->price,
+            'address_from_id' => $request->address_from_id,
+            'address_to_id' => $request->address_to_id,
+            'pickup_time' => $request->pickup_time,
+            'user_id' => $request->user_id,
+            'status' => 1,
+            'payment_type' => 1,
+        ]);
 
-        $deliveryCompanies = array_map('intval', explode(",", $request->delivery_companies_id));
-        $companies = Company::findMany($deliveryCompanies);
+        //$deliveryCompanies = array_map('intval', explode(",", $request->delivery_companies_id));
+        json_decode($request->delivery_companies_id, true);
+
+        return $request->delivery_companies_id;
+        $companies = Company::findMany($request->delivery_companies_id);
         $playerIds = [];
         foreach ($companies as $company) {
             $playerIds[] = $company->player_id;
         }
         Notification::sendNotificationToMultipleUser($playerIds);
-
-        $shipment->save();
 
         return response()->json([
             'message' => LanguageManagement::getLabel('add_shipment_success', $this->language),
@@ -178,7 +187,7 @@ class ShipmentController extends Controller
         $pickedUp = [];
         $delivered = [];
 
-        $shipments = Shipment::where('user_id', $request->ustger('api')->id);
+        $shipments = Shipment::where('user_id', $request->user_id);
 
         if ($shipments) {
             foreach ($shipments as $shipment) {
@@ -239,15 +248,98 @@ class ShipmentController extends Controller
      *     )
      *
      */
-    public function getShipmentDetails($shipment_id)
+    public function getShipmentDetails($shipment_id, Request $request)
     {
         $shipment = Shipment::find($shipment_id);
-        if ($shipment != null) {
+        if ($shipment != null && $shipment->user_id == $request->user_id) {
             return $shipment;
         } else {
             return response()->json([
                 'error' => LanguageManagement::getLabel('no_shipment_found', $this->language),
             ], 404);
         }
+    }
+
+    /**
+     *
+     * @SWG\Delete(
+     *         path="/masafah/public/api/user/deleteShipmentById/{shipment_id}",
+     *         tags={"User Shipment"},
+     *         operationId="deleteShipmentById",
+     *         summary="Get User shipment by ID",
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=404,
+     *             description="Shipment not found"
+     *        ),
+     *     )
+     *
+     */
+    public function deleteShipmentById($shipment_id, Request $request)
+    {
+        $shipment = Shipment::find($shipment_id);
+
+        if ($shipment != null && $shipment->user_id == $request->user_id) {
+            if ($shipment->status > 1) {
+                return response()->json([
+                    'error' => LanguageManagement::getLabel('shipment_booked_already', $this->language),
+                ], 422);
+            } else {
+                $shipment->delete();
+                return response()->json([
+                    'message' => LanguageManagement::getLabel('shipment_delete_success', $this->language),
+                ]);
+            }
+        } else {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_shipment_found', $this->language),
+            ], 404);
+        }
+    }
+
+    public function editShipment(Request $request)
+    {
+        $validationMessages = [
+            'category_id' => 'required',
+            'delivery_companies_id' => 'required',
+            'address_from_id' => 'required',
+            'address_to_id' => 'required',
+            'pickup_time' => 'required',
+            'quantity' => 'required',
+        ];
+
+        $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
+        if ($checkForError) {
+            return $checkForError;
+        }
+
+        $shipment = Shipment::create([
+            'category_id' => $request->category_id,
+            'price' => $request->price,
+            'address_from_id' => $request->address_from_id,
+            'address_to_id' => $request->address_to_id,
+            'pickup_time' => $request->pickup_time,
+            'quantity' => $request->quantity,
+            'user_id' => $request->user_id,
+            'status' => 1,
+            'payment_type' => 1,
+        ]);
     }
 }

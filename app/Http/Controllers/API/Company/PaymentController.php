@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\API\Company;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\LanguageManagement;
 use App\Models\API\FreeDelivery;
+use App\Models\API\Order;
 use App\Models\API\Wallet;
+use App\Models\API\WalletTransaction;
 use App\Utility;
 use Illuminate\Http\Request;
 
@@ -49,8 +52,8 @@ class PaymentController extends Controller
      */
     public function getPaymentOptions(Request $request)
     {
-        $wallet = Wallet::where('company_id', $request->id)->get()->first();
-        $freeDeliveries = FreeDelivery::where('company_id', $request->id)->get()->first();
+        $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
+        $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->get()->first();
         if ($freeDeliveries != null) {
             return response()->json([
                 'wallet' => $wallet->balance,
@@ -62,5 +65,77 @@ class PaymentController extends Controller
                 'free_deliveries' => 0,
             ]);
         }
+    }
+
+    public function paymentFailed(Request $request)
+    {
+        $validator = [
+            'order_id' => 'required',
+        ];
+
+        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForError) {
+            return $checkForError;
+        }
+
+        $order = Order::find($request->order_id);
+        if ($order != null) {
+            $order->update([
+                'status' => 2,
+            ]);
+
+            $freeDeliveries = FreeDelivery::where('company_id', $order->company_id)->get()->first();
+            $wallet = Wallet::where('company_id', $order->company_id)->get()->first();
+            $freeDeliveries->update([
+                'quantity' => $freeDeliveries->quantity + $order->freeDeliveries,
+            ]);
+
+            if ($order->wallet_amount > 0) {
+                WalletTransaction::create([
+                    'company_id' => $order->company_id,
+                    'amount' => $order->wallet,
+                    'type' => true,
+                ]);
+
+                $wallet->update([
+                    'balance' => $wallet->balance + $order->wallet_amount,
+                ]);
+            }
+
+            return response()->json([
+                'message' => LanguageManagement::getLabel('shipment_accept_failed', $this->language),
+            ]);
+        } else {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_order_found', $this->language),
+            ], 404);
+        }
+    }
+
+    public function paymentSuccess(Request $request)
+    {
+        $validator = [
+            'order_id' => 'required',
+        ];
+
+        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForError) {
+            return $checkForError;
+        }
+
+        $order = Order::find($request->order_id);
+        if ($order != null) {
+            $order->update([
+                'status' => 1,
+            ]);
+            return response()->json([
+                'message' => LanguageManagement::getLabel('shipment_accept_success', $this->language),
+            ]);
+        } else {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_order_found', $this->language),
+            ], 404);
+        }
+
     }
 }

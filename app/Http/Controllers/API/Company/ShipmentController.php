@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
 use App\Models\API\Company;
 use App\Models\API\FreeDelivery;
+use App\Models\API\Order;
 use App\Models\API\RegisteredUser;
 use App\Models\API\Shipment;
 use App\Models\API\Wallet;
@@ -56,7 +57,7 @@ class ShipmentController extends Controller
      */
     public function getPendingShipments(Request $request)
     {
-        $shipments = Shipment::where('company_id', $request->id)->where('status', 1)->get();
+        $shipments = Shipment::where('company_id', $request->company_id)->where('status', 1)->get();
         return collect($shipments);
     }
 
@@ -90,7 +91,7 @@ class ShipmentController extends Controller
      */
     public function getAcceptedShipments(Request $request)
     {
-        $shipments = Shipment::where('company_id', $request->id)->where('status', 2)->get();
+        $shipments = Shipment::where('company_id', $request->company_id)->where('status', 2)->get();
         return collect($shipments);
     }
 
@@ -135,22 +136,23 @@ class ShipmentController extends Controller
 
         switch ($shipment->status) {
             case 1:
-                $wallet = Wallet::where('company_id', $request->id)->get()->first();
+                $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
                 if ($wallet) {
                     $shipment["wallet_amount"] = $wallet->balance;
                 } else {
                     $shipment["wallet_amount"] = 0;
                 }
+                //$shipment["status"] = LanguageManagement::getLabel('pending', $this->language);
                 return collect($shipment);
 
             case 2:
-                $shipment["status"] = LanguageManagement::getLabel('booked', $this->language);
+
                 return collect($shipment);
             case 3:
-                $shipment["status"] = LanguageManagement::getLabel('picked_up', $this->language);
+
                 return collect($shipment);
             case 4:
-                $shipment["status"] = LanguageManagement::getLabel('delivered', $this->language);
+
                 return collect($shipment);
         }
     }
@@ -217,11 +219,11 @@ class ShipmentController extends Controller
         $totalShipments = count($request->shipment_ids);
         $freeShipments = 0;
         $walletAmount = 0;
-        $knetAmount = 0;
+        $cardAmount = 0;
         $remainingAmount = 0;
 
-        $freeDeliveries = FreeDelivery::where('company_id', $request->id)->get()->first();
-        $wallet = Wallet::where('company_id', $request->id)->get()->first();
+        $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->get()->first();
+        $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
         if ($freeDeliveries != null) {
             if ($totalShipments > $freeDeliveries->quantity) {
                 $freeShipments = $freeDeliveries->quantity;
@@ -252,7 +254,7 @@ class ShipmentController extends Controller
                 $walletAmount = $remainingAmount;
                 $remainingAmount = 0;
                 WalletOut::create([
-                    'company_id' => $request->id,
+                    'company_id' => $request->company_id,
                     'amount' => $walletAmount,
                 ]);
                 $remainingBalance = $wallet->balance - $walletAmount;
@@ -263,7 +265,7 @@ class ShipmentController extends Controller
                 $walletAmount = $wallet->balance;
                 $remainingAmount -= $walletAmount;
                 WalletOut::create([
-                    'company_id' => $request->id,
+                    'company_id' => $request->company_id,
                     'amount' => $walletAmount,
                 ]);
                 $wallet->update([
@@ -273,7 +275,7 @@ class ShipmentController extends Controller
                 $walletAmount = $wallet->balance;
                 $remainingAmount = 0;
                 WalletOut::create([
-                    'company_id' => $request->id,
+                    'company_id' => $request->company_id,
                     'amount' => $walletAmount,
                 ]);
                 $wallet->update([
@@ -283,7 +285,7 @@ class ShipmentController extends Controller
         }
 
         if ($remainingAmount > 0) {
-            $knetAmount = $remainingAmount;
+            $cardAmount = $remainingAmount;
         }
 
         //$totalAmount = 0;
@@ -295,25 +297,35 @@ class ShipmentController extends Controller
                 ], 404);
             }
         }
-
+        $order = Order::create([
+            'company_id' => $request->company_id,
+            'free_deliveries' => $freeDeliveries,
+            'wallet_amount' => $walletAmount,
+            'card_amount' => $cardAmount,
+        ]);
         foreach ($shipments as $shipment) {
+
+            $order->shipment()->attach($shipment);
             $shipment->update([
                 'status' => 2,
-                'company_id' => $request->id,
+                'company_id' => $request->company_id,
             ]);
         }
 
         $user = RegisteredUser::find($shipment->user_id);
+        $company = Company::find($request->company_id);
 
-        $playerIds[] = $user->player_id;
-        Notification::sendNotificationToMultipleUser($playerIds);
-        MailSender::sendMail($user->email, "Shipment Accepted", "Hello User, Your shipment is accepted by DHL");
+        if ($user != null && $company != null) {
+            $playerIds[] = $user->player_id;
+            Notification::sendNotificationToMultipleUser($playerIds);
+            MailSender::sendMail($user->email, "Shipment Accepted", "Hello User, Your shipment is accepted by " . $company->name);
+        }
 
         return response()->json([
             'message' => LanguageManagement::getLabel('accept_shipment_success', $this->language),
             'free_deliveries_used' => $freeDeliveries,
             'wallet_amount_used' => $walletAmount,
-            'knet_amount' => $knetAmount,
+            'card_amount' => $cardAmount,
         ]);
     }
 
@@ -355,14 +367,28 @@ class ShipmentController extends Controller
     public function pickedUpShipmentById(Request $request, $shipment_id)
     {
         $shipment = Shipment::find($shipment_id);
-        if ($shipment->company_id == $request->id) {
+        if ($shipment != null && $shipment->company_id == $request->company_id) {
             $shipment->update([
                 'status' => 3,
             ]);
-        }
-        $user = RegisteredUser::find($shipment->user_id);
+            $user = RegisteredUser::find($shipment->user_id);
 
-        MailSender::sendMail($user->email, "Shipment Picked Up", "Hello User, Your shipment is picked");
+            if ($user != null) {
+                MailSender::sendMail($user->email, "Shipment Picked Up", "Hello User, Your shipment is picked");
+                return response()->json([
+                    'message' => LanguageManagement::getLabel('picked_success', $this->language),
+                ]);
+            } else {
+                return response()->json([
+                    'error' => LanguageManagement::getLabel('no_user_found', $this->language),
+                ], 404);
+            }
+        } else {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_shipment_found', $this->language),
+            ], 404);
+        }
+
     }
 
     /**
@@ -403,14 +429,28 @@ class ShipmentController extends Controller
     public function deliveredShipmentById(Request $request, $shipment_id)
     {
         $shipment = Shipment::find($shipment_id);
-        if ($shipment->company_id == $request->id) {
+        if ($shipment != null && $shipment->company_id == $request->company_id) {
             $shipment->update([
                 'status' => 4,
             ]);
-        }
-        $user = RegisteredUser::find($shipment->user_id);
+            $user = RegisteredUser::find($shipment->user_id);
 
-        MailSender::sendMail($user->email, "Shipment Delivered Up", "Hello User, Your shipment is delivered");
+            if ($user != null) {
+                MailSender::sendMail($user->email, "Shipment Delivered Up", "Hello User, Your shipment is delivered");
+                return response()->json([
+                    'message' => LanguageManagement::getLabel('delivered_success', $this->language),
+                ]);
+            } else {
+                return response()->json([
+                    'error' => LanguageManagement::getLabel('no_user_found', $this->language),
+                ], 404);
+            }
+        } else {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_shipment_found', $this->language),
+            ], 404);
+        }
+
     }
 
     /**
@@ -443,7 +483,11 @@ class ShipmentController extends Controller
      */
     public function getShipmentHistory(Request $request)
     {
-        $shipments = Shipment::where('company_id', $request->id)->get();
-        return collect($shipments);
+        $shipments = Shipment::where('company_id', $request->company_id)->get();
+        $allShipments = [];
+        foreach ($shipments as $shipment) {
+            $allShipments[] = $shipment;
+        }
+        return response()->json($allShipments);
     }
 }

@@ -87,7 +87,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = [
-            'mobile' => 'required|digits:8|unique:registered_users',
+            'mobile' => 'bail|required|digits:8|unique:registered_users',
             'country_id' => 'required',
         ];
 
@@ -293,6 +293,11 @@ class AuthController extends Controller
         } else {
             $registeredUser = RegisteredUser::where('mobile', $request->mobile)->get()->first();
             $token = '' . $registeredUser->id . '' . $registeredUser->mobile . '' . $this->accessToken;
+            Authentication::create([
+                'user_id' => $registeredUser->id,
+                'access_token' => $token,
+                'type' => 1,
+            ]);
             return response()->json([
                 'access_token' => $token,
                 'user' => $registeredUser,
