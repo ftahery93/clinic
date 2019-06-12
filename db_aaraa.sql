@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 11, 2019 at 09:33 AM
--- Server version: 10.0.38-MariaDB-0ubuntu0.16.04.1
--- PHP Version: 7.1.29-1+ubuntu16.04.1+deb.sury.org+1
+-- Generation Time: Jun 12, 2019 at 10:07 AM
+-- Server version: 5.7.26-0ubuntu0.16.04.1
+-- PHP Version: 7.1.26-1+ubuntu16.04.1+deb.sury.org+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_aaraa`
+-- Database: `vavisa_aaraa`
 --
 
 -- --------------------------------------------------------
@@ -130,7 +130,13 @@ INSERT INTO `aaraa_analytics_pages` (`id`, `visitor_id`, `ip`, `title`, `name`, 
 (81, 2, '::1', 'http://localhost/internal/aaraa/public/admin/5/sections/create?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/5/sections/create?_pjax=%23view', '0.0283289', '2019-06-10', '11:33:30', '2019-06-10 08:33:30', '2019-06-10 08:33:30'),
 (82, 2, '::1', 'http://localhost/internal/aaraa/public/admin/5/sections', 'unknown', 'http://localhost/internal/aaraa/public/admin/5/sections', '0.07615995', '2019-06-10', '11:33:31', '2019-06-10 08:33:31', '2019-06-10 08:33:31'),
 (83, 2, '::1', 'http://localhost/internal/aaraa/public/admin/8/sections/create?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/8/sections/create?_pjax=%23view', '0.04889584', '2019-06-10', '11:33:32', '2019-06-10 08:33:32', '2019-06-10 08:33:32'),
-(84, 2, '::1', 'http://localhost/internal/aaraa/public/post/create', 'unknown', 'http://localhost/internal/aaraa/public/post/create', '0.02535796', '2019-06-10', '13:53:11', '2019-06-10 10:53:11', '2019-06-10 10:53:11');
+(84, 2, '::1', 'http://localhost/internal/aaraa/public/post/create', 'unknown', 'http://localhost/internal/aaraa/public/post/create', '0.02535796', '2019-06-10', '13:53:11', '2019-06-10 10:53:11', '2019-06-10 10:53:11'),
+(85, 3, '::1', 'http://localhost/portals/vavisa/aaraa/public/login', 'unknown', 'http://localhost/portals/vavisa/aaraa/public/login', '0.41822314', '2019-06-11', '07:32:39', '2019-06-11 02:02:39', '2019-06-11 02:02:39'),
+(86, 3, '::1', 'http://localhost/portals/vavisa/aaraa/public/admin/dashboard', 'unknown', 'http://localhost/portals/vavisa/aaraa/public/admin/dashboard', '0.56686687', '2019-06-11', '07:33:20', '2019-06-11 02:03:20', '2019-06-11 02:03:20'),
+(87, 3, '::1', 'http://localhost/portals/vavisa/aaraa/public/api/user/login', 'unknown', 'http://localhost/portals/vavisa/aaraa/public/api/user/login', '0.12590098', '2019-06-11', '09:55:04', '2019-06-11 04:25:04', '2019-06-11 04:25:04'),
+(88, 3, '::1', 'http://localhost/portals/vavisa/aaraa/public/admin', 'unknown', 'http://localhost/portals/vavisa/aaraa/public/admin', '0.22863722', '2019-06-11', '20:46:15', '2019-06-11 15:16:15', '2019-06-11 15:16:15'),
+(89, 3, '::1', 'http://localhost/portals/vavisa/aaraa/public/api/users/profile/edit/27', 'unknown', 'http://localhost/portals/vavisa/aaraa/public/api/users/profile/edit/27', '0.06529903', '2019-06-11', '20:55:01', '2019-06-11 15:25:01', '2019-06-11 15:25:01'),
+(90, 3, '::1', 'http://localhost/portals/vavisa/aaraa/public/api/users/delete/26', 'unknown', 'http://localhost/portals/vavisa/aaraa/public/api/users/delete/26', '0.05502915', '2019-06-11', '21:18:35', '2019-06-11 15:48:35', '2019-06-11 15:48:35');
 
 -- --------------------------------------------------------
 
@@ -166,7 +172,8 @@ CREATE TABLE `aaraa_analytics_visitors` (
 
 INSERT INTO `aaraa_analytics_visitors` (`id`, `ip`, `city`, `country_code`, `country`, `region`, `full_address`, `location_cor1`, `location_cor2`, `os`, `browser`, `resolution`, `referrer`, `hostname`, `org`, `date`, `time`, `created_at`, `updated_at`) VALUES
 (1, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'Linux', 'Opera', 'unknown', 'http://localhost/internal/aaraa/', 'No Hostname', 'unknown', '2019-06-09', '11:54:15', '2019-06-09 08:54:15', '2019-06-09 08:54:15'),
-(2, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'Linux', 'Opera', 'unknown', 'http://localhost/internal/aaraa/public/admin/dashboard', 'No Hostname', 'unknown', '2019-06-10', '06:37:33', '2019-06-10 03:37:33', '2019-06-10 03:37:33');
+(2, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'Linux', 'Opera', 'unknown', 'http://localhost/internal/aaraa/public/admin/dashboard', 'No Hostname', 'unknown', '2019-06-10', '06:37:33', '2019-06-10 03:37:33', '2019-06-10 03:37:33'),
+(3, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'Linux', 'Opera', 'unknown', 'http://localhost/portals/vavisa/aaraa/', 'No Hostname', 'unknown', '2019-06-11', '07:32:39', '2019-06-11 02:02:39', '2019-06-11 02:02:39');
 
 -- --------------------------------------------------------
 
@@ -188,15 +195,18 @@ CREATE TABLE `aaraa_application_users` (
   `created_by` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `aaraa_application_users`
 --
 
-INSERT INTO `aaraa_application_users` (`id`, `name`, `email`, `password`, `photo`, `age`, `terms_conditions`, `notification`, `status`, `remember_token`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(15, 'Mohammed Jhosawa', 'mjhosawa@vavisa-kw.com', '$2y$10$UqDH82MNlFrrvo.QimWRzOPzOZkgsT/mziXN0vy.Ug9avOfl0So0e', '', 27, 1, 0, 1, NULL, NULL, NULL, '2019-06-10 12:02:10', '2019-06-10 12:02:10');
+INSERT INTO `aaraa_application_users` (`id`, `name`, `email`, `password`, `photo`, `age`, `terms_conditions`, `notification`, `status`, `remember_token`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted`) VALUES
+(25, 'Mohammed Jhosawa', 'mjhosawa@vavisa-kw.com', '$2y$10$VVr/6PkRb8qCXWi32CZgnufqzrAHG.E8y24.z9V9jg3AkLL2maz7G', '', 25, 1, 0, 1, NULL, NULL, NULL, '2019-06-11 05:13:15', '2019-06-11 05:13:15', 0),
+(26, 'Hashim S', 'ftahery@vavisa-kw.com', '$2y$10$ZvIdkSpfEWQ83pfCW5iuGuTZRpR9IC8uu8StgsVcySzCst.s6/tFi', '', 25, 1, 0, 1, NULL, NULL, 27, '2019-06-11 05:32:13', '2019-06-11 15:48:47', 1),
+(27, 'Hashim Sagir', 'hashim@vavisa-kw.com', '$2y$10$vpfLulxQJTdXrqlt6qGCOe4JBLge6uLZB1HtftVBFgOY5p4RYZYGu', '', 33, 1, 0, 1, NULL, NULL, NULL, '2019-06-11 05:39:49', '2019-06-11 05:39:49', 0);
 
 -- --------------------------------------------------------
 
@@ -779,7 +789,132 @@ INSERT INTO `aaraa_migrations` (`id`, `migration`, `batch`) VALUES
 (307, '2017_10_06_113629_create_related_topics_table', 1),
 (308, '2017_10_07_184011_create_topic_categories_table', 1),
 (309, '2017_10_24_194251_create_webmaster_section_fields_table', 1),
-(310, '2017_10_24_194304_create_topic_fields_table', 1);
+(310, '2017_10_24_194304_create_topic_fields_table', 1),
+(311, '2016_06_01_000001_create_oauth_auth_codes_table', 2),
+(312, '2016_06_01_000002_create_oauth_access_tokens_table', 2),
+(313, '2016_06_01_000003_create_oauth_refresh_tokens_table', 2),
+(314, '2016_06_01_000004_create_oauth_clients_table', 2),
+(315, '2016_06_01_000005_create_oauth_personal_access_clients_table', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aaraa_oauth_access_tokens`
+--
+
+CREATE TABLE `aaraa_oauth_access_tokens` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `aaraa_oauth_access_tokens`
+--
+
+INSERT INTO `aaraa_oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
+('00d3e2c6ad282517e70c8b6d4a30309d89a270974fb3578f4ca5fae877e21a71795ba4d5c45dc3f7', 27, 9, 'Laravel', '[]', 1, '2019-06-11 05:46:36', '2019-06-11 05:46:36', '2020-06-11 11:16:36'),
+('0cfe67a418b1576f5aaf9caf9bf9686008e177909740705c05ca123089f1975f97bafc3241a8cf77', 27, 9, NULL, '[]', 1, '2019-06-11 14:31:34', '2019-06-11 14:31:34', '2019-12-11 20:01:34'),
+('11da763b0081fc1433d6f2c84f6a6bde65c63df1d5be75031947019828f989824920d1aeab7c911c', 27, 9, 'Laravel', '[]', 1, '2019-06-11 13:48:46', '2019-06-11 13:48:46', '2020-06-11 19:18:46'),
+('13a06f2244de77ec9e03603787413d4039701fd55bd6cfb1869eb1994cd6c2eb5ecf0ed3a90cad12', 27, 9, 'Laravel', '[]', 1, '2019-06-11 13:24:23', '2019-06-11 13:24:23', '2020-06-11 18:54:23'),
+('237ad0a37e08e0868b883884891c67499992c8a67dc1fbe7f25f09a0c081de8eb7f1c4c22097b69f', 27, 9, 'Laravel', '[]', 1, '2019-06-11 13:57:11', '2019-06-11 13:57:11', '2020-06-11 19:27:11'),
+('2759619202afa1092913abcbd5b0a62b3355f1852119fb10241d762fb0c72118538160aaeee130d0', 27, 9, 'Laravel', '[]', 1, '2019-06-11 13:57:14', '2019-06-11 13:57:14', '2020-06-11 19:27:14'),
+('3dcb3f9d0b89782a65c470a32bae891dc1d3b6b55f3c8768c8b90b8becd3baba070b24f46988dd4c', 27, 9, 'Laravel', '[]', 1, '2019-06-11 14:57:20', '2019-06-11 14:57:20', '2019-12-11 20:27:19'),
+('3eece35b677373c7fe89522335f93bb4eed295fed093ea6d39565ccb8cbb79aa9fa74810f086f23b', 27, 9, 'Laravel', '[]', 1, '2019-06-11 15:02:07', '2019-06-11 15:02:07', '2019-12-11 20:32:07'),
+('5bccd1f89f572bacb1f08321a1e33df97542cf54c8c17c3a2cbcbd945b89c4a7444ed2b1baa322d2', 27, 9, 'Laravel', '[]', 1, '2019-06-11 15:01:44', '2019-06-11 15:01:44', '2019-12-11 20:31:44'),
+('734088b5fec40644ee8db29de3aa9c3177c8b1e197d96bffa485982566f15f7e24e6256fb831e48d', 26, 9, 'Laravel', '[]', 1, '2019-06-11 05:32:14', '2019-06-11 05:32:14', '2020-06-11 11:02:14'),
+('7d1c3f3bd583806b25bd9b6581c756f9f732f0e78975c28a7ed2f1f1b04d7222cbdcbadc17c90027', 27, 9, NULL, '[]', 1, '2019-06-11 14:30:57', '2019-06-11 14:30:57', '2019-12-11 20:00:57'),
+('99ec32adc308564c1c10c3ed1f7a62acd6375dc3f92e7c8a07fbeb005835c27a54d226e44d0ac144', 26, 9, 'Laravel', '[]', 0, '2019-06-11 15:59:21', '2019-06-11 15:59:21', '2019-12-11 21:29:21'),
+('9b868afaa77bf13b7d3b1699ff6f96bc58ca8fda1a12e75b08015c1c157a6a18403fecdc8c4dd5a1', 25, 9, 'MyAaraa', '[]', 0, '2019-06-11 05:13:15', '2019-06-11 05:13:15', '2020-06-11 10:43:15'),
+('aff22f8b8bca9a23291df3351572a4cff122695d03da11dd00b4f74d359a0769c618d05b7d01b5be', 27, 9, 'Laravel', '[]', 1, '2019-06-11 14:58:12', '2019-06-11 14:58:12', '2019-12-11 20:28:12'),
+('bae0ea63f7721ea7fa6784383839aca58b5991189efd0017b9e2c0b9faa83fb505eb4fc0ba2e7dce', 27, 9, 'Laravel', '[]', 1, '2019-06-11 15:01:54', '2019-06-11 15:01:54', '2019-12-11 20:31:54'),
+('bc036ef309ce7ae0623c6181996522ba3aa2d1b21fd6da9298def0513fdbb883d4587876c61cc3fc', 27, 9, 'Laravel', '[]', 1, '2019-06-11 05:39:49', '2019-06-11 05:39:49', '2020-06-11 11:09:49'),
+('cbeed8819d66298ea120462ea77eb3842b30069c5dc3036a40ac6565eff91cbb38efbd59ee4e9019', 27, 9, 'Laravel', '[]', 0, '2019-06-11 15:35:33', '2019-06-11 15:35:33', '2019-12-11 21:05:33'),
+('de7119ac4628b5f040aafebf7a541668e78657507e8e9b7eb652bd1b90294749dc9a36ea6c32aa17', 26, 9, 'Laravel', '[]', 1, '2019-06-11 15:58:14', '2019-06-11 15:58:14', '2019-12-11 21:28:14'),
+('e048fa6a10ef176948f74035c7df9d11664fc464f5def8e0954f9e7d51ac9d90ffce60d3e867e039', 27, 9, 'Laravel', '[]', 1, '2019-06-11 14:57:55', '2019-06-11 14:57:55', '2019-12-11 20:27:55'),
+('e1fe8d6d4d0a6ea051454a91728c83d9a926e745064f3115475f82374cd53b82de20d356f7d40d6f', 26, 9, 'Laravel', '[]', 1, '2019-06-11 15:55:46', '2019-06-11 15:55:46', '2019-12-11 21:25:46'),
+('fd59d8296faa61cf0745ec73d17f167cb09abf64216fda7f56787824237b907d5e81c38cee8c087c', 26, 9, 'Laravel', '[]', 1, '2019-06-11 15:57:55', '2019-06-11 15:57:55', '2019-12-11 21:27:55');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aaraa_oauth_auth_codes`
+--
+
+CREATE TABLE `aaraa_oauth_auth_codes` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aaraa_oauth_clients`
+--
+
+CREATE TABLE `aaraa_oauth_clients` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `secret` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `redirect` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `personal_access_client` tinyint(1) NOT NULL,
+  `password_client` tinyint(1) NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `aaraa_oauth_clients`
+--
+
+INSERT INTO `aaraa_oauth_clients` (`id`, `user_id`, `name`, `secret`, `redirect`, `personal_access_client`, `password_client`, `revoked`, `created_at`, `updated_at`) VALUES
+(9, NULL, 'Laravel Personal Access Client', 'TCN1sFau07EcYhTanmBOK0bTID0H43fQJwQMT1ZP', 'http://localhost', 1, 0, 0, '2019-06-11 05:13:06', '2019-06-11 05:13:06'),
+(10, NULL, 'Laravel Password Grant Client', 'AggisW2G8udSvovddqUZfYye6gOQn07AqTRPoAjA', 'http://localhost', 0, 1, 0, '2019-06-11 05:13:06', '2019-06-11 05:13:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aaraa_oauth_personal_access_clients`
+--
+
+CREATE TABLE `aaraa_oauth_personal_access_clients` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `aaraa_oauth_personal_access_clients`
+--
+
+INSERT INTO `aaraa_oauth_personal_access_clients` (`id`, `client_id`, `created_at`, `updated_at`) VALUES
+(5, 9, '2019-06-11 05:13:06', '2019-06-11 05:13:06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aaraa_oauth_refresh_tokens`
+--
+
+CREATE TABLE `aaraa_oauth_refresh_tokens` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `access_token_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -912,8 +1047,39 @@ CREATE TABLE `aaraa_polls` (
   `created_by` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `aaraa_polls`
+--
+
+INSERT INTO `aaraa_polls` (`id`, `poll_title_ar`, `poll_title_en`, `photo`, `status`, `start_datetime`, `end_datetime`, `enable_comments`, `favourite`, `seo_title_ar`, `seo_title_en`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted`) VALUES
+(1, NULL, 'Who is the best football player in the world?', NULL, 1, '2019-06-11 20:36:00', '2019-06-11 20:36:00', 1, 1, NULL, 'football-player', 27, 27, '2019-06-11 20:36:00', '2019-06-11 20:36:00', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aaraa_poll_countries`
+--
+
+CREATE TABLE `aaraa_poll_countries` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `poll_id` int(11) NOT NULL,
+  `country_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `aaraa_poll_countries`
+--
+
+INSERT INTO `aaraa_poll_countries` (`id`, `poll_id`, `country_id`, `created_at`, `updated_at`, `deleted`) VALUES
+(1, 1, 25, '2019-06-11 22:43:00', '2019-06-11 22:43:00', 0),
+(2, 1, 103, '2019-06-11 20:36:00', '2019-06-11 20:36:00', 0);
 
 -- --------------------------------------------------------
 
@@ -1257,17 +1423,18 @@ CREATE TABLE `aaraa_users` (
   `created_by` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted` tinyint(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `aaraa_users`
 --
 
-INSERT INTO `aaraa_users` (`id`, `name`, `email`, `password`, `photo`, `permissions_id`, `status`, `connect_email`, `connect_password`, `remember_token`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'admin@site.com', '$2y$10$vCYpyjX68hKYbzsAUZS4vuLCodSrXukCOHorulIwREO70hNgv6J5q', NULL, 1, 1, NULL, NULL, 'ezmYfwwTII9QIs4UVZ5eQA2PyFXQ3Nw0hIYEmvl9g8avmGifwTjlhAmWFyqu', 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
-(2, 'manager', 'manager@site.com', '$2y$10$uwYocVmPgnGGxhW/ITU46ePqFEdsIyj87OXkYrRidYtuvvQR2Y6Yq', NULL, 2, 1, NULL, NULL, NULL, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
-(3, 'user', 'user@site.com', '$2y$10$JFfZ4nfOHNJlzEefZk9Oq.QcHzqaIOCM7kU0/0fltjptMrU4hj7UO', NULL, 3, 1, NULL, NULL, NULL, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
+INSERT INTO `aaraa_users` (`id`, `name`, `email`, `password`, `photo`, `permissions_id`, `status`, `connect_email`, `connect_password`, `remember_token`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted`) VALUES
+(1, 'admin', 'admin@site.com', '$2y$10$vCYpyjX68hKYbzsAUZS4vuLCodSrXukCOHorulIwREO70hNgv6J5q', NULL, 1, 1, NULL, NULL, 'ezmYfwwTII9QIs4UVZ5eQA2PyFXQ3Nw0hIYEmvl9g8avmGifwTjlhAmWFyqu', 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54', 0),
+(2, 'manager', 'manager@site.com', '$2y$10$uwYocVmPgnGGxhW/ITU46ePqFEdsIyj87OXkYrRidYtuvvQR2Y6Yq', NULL, 2, 1, NULL, NULL, NULL, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54', 0),
+(3, 'user', 'user@site.com', '$2y$10$JFfZ4nfOHNJlzEefZk9Oq.QcHzqaIOCM7kU0/0fltjptMrU4hj7UO', NULL, 3, 1, NULL, NULL, NULL, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54', 0);
 
 -- --------------------------------------------------------
 
@@ -1546,7 +1713,7 @@ ALTER TABLE `aaraa_analytics_visitors`
 -- Indexes for table `aaraa_application_users`
 --
 ALTER TABLE `aaraa_application_users`
-  ADD PRIMARY KEY (`id`),
+  ADD PRIMARY KEY (`id`) USING BTREE,
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
@@ -1616,6 +1783,40 @@ ALTER TABLE `aaraa_migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `aaraa_oauth_access_tokens`
+--
+ALTER TABLE `aaraa_oauth_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_access_tokens_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `aaraa_oauth_auth_codes`
+--
+ALTER TABLE `aaraa_oauth_auth_codes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `aaraa_oauth_clients`
+--
+ALTER TABLE `aaraa_oauth_clients`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_clients_user_id_index` (`user_id`);
+
+--
+-- Indexes for table `aaraa_oauth_personal_access_clients`
+--
+ALTER TABLE `aaraa_oauth_personal_access_clients`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_personal_access_clients_client_id_index` (`client_id`);
+
+--
+-- Indexes for table `aaraa_oauth_refresh_tokens`
+--
+ALTER TABLE `aaraa_oauth_refresh_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `oauth_refresh_tokens_access_token_id_index` (`access_token_id`);
+
+--
 -- Indexes for table `aaraa_password_resets`
 --
 ALTER TABLE `aaraa_password_resets`
@@ -1637,6 +1838,12 @@ ALTER TABLE `aaraa_photos`
 -- Indexes for table `aaraa_polls`
 --
 ALTER TABLE `aaraa_polls`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `aaraa_poll_countries`
+--
+ALTER TABLE `aaraa_poll_countries`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1732,19 +1939,19 @@ ALTER TABLE `aaraa_webmaster_settings`
 -- AUTO_INCREMENT for table `aaraa_analytics_pages`
 --
 ALTER TABLE `aaraa_analytics_pages`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT for table `aaraa_analytics_visitors`
 --
 ALTER TABLE `aaraa_analytics_visitors`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `aaraa_application_users`
 --
 ALTER TABLE `aaraa_application_users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `aaraa_attach_files`
@@ -1810,7 +2017,19 @@ ALTER TABLE `aaraa_menus`
 -- AUTO_INCREMENT for table `aaraa_migrations`
 --
 ALTER TABLE `aaraa_migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=311;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=316;
+
+--
+-- AUTO_INCREMENT for table `aaraa_oauth_clients`
+--
+ALTER TABLE `aaraa_oauth_clients`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `aaraa_oauth_personal_access_clients`
+--
+ALTER TABLE `aaraa_oauth_personal_access_clients`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `aaraa_permissions`
@@ -1828,7 +2047,13 @@ ALTER TABLE `aaraa_photos`
 -- AUTO_INCREMENT for table `aaraa_polls`
 --
 ALTER TABLE `aaraa_polls`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `aaraa_poll_countries`
+--
+ALTER TABLE `aaraa_poll_countries`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `aaraa_related_topics`
