@@ -102,21 +102,16 @@ class ShipmentController extends Controller
     public function addShipment(Request $request)
     {
         json_decode($request->getContent(), true);
-        //return $request;
-        //return $request;
+
         $validationMessages = [
-            //'shipments' => 'required|array',
-            //'shipments.*.category_id' => 'required',
-            //'shipments.*.quantity' => 'required|numeric',
-            'delivery_companies_id' => 'required|array',
+            'shipments' => 'required|array|min:1',
+            'shipments.*.category_id' => 'required',
+            'shipments.*.quantity' => 'required|numeric',
+            'delivery_companies_id' => 'required|array|min:1',
             'address_from_id' => 'required',
             'address_to_id' => 'required',
             'pickup_time' => 'required',
         ];
-
-        //return $request;
-
-        //json_decode($request->input(), true);
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
         if ($checkForError) {
@@ -125,26 +120,50 @@ class ShipmentController extends Controller
 
         $price = Price::find(1);
 
-        $shipment = Shipment::create([
-            'price' => $price->price,
-            'address_from_id' => $request->address_from_id,
-            'address_to_id' => $request->address_to_id,
-            'pickup_time' => $request->pickup_time,
-            'user_id' => $request->user_id,
-            'status' => 1,
-            'payment_type' => 1,
-        ]);
+        $shipment = new Shipment();
+        $shipment->price = $price->price;
+        $shipment->address_from_id = $request->address_from_id;
+        $shipment->address_to_id = $request->address_to_id;
+        $shipment->pickup_time = $request->pickup_time;
+        $shipment->user_id = $request->user_id;
+        $shipment->status = 1;
+        $shipment->payment_type = 1;
 
-        //$deliveryCompanies = array_map('intval', explode(",", $request->delivery_companies_id));
-        json_decode($request->delivery_companies_id, true);
+        $shipment->save();
 
-        return $request->delivery_companies_id;
+        // $shipment = Shipment::create([
+        //     'price' => $price->price,
+        //     'address_from_id' => $request->address_from_id,
+        //     'address_to_id' => $request->address_to_id,
+        //     'pickup_time' => $request->pickup_time,
+        //     'user_id' => $request->user_id,
+        //     'status' => 1,
+        //     'payment_type' => 1,
+        // ]);
+
+        //return print_r($request->shipments);
+
+        foreach ($request->shipments as $eachShipment) {
+            $shipment->categories()->attach($eachShipment["category_id"], ['quantity' => $eachShipment["quantity"]]);
+        }
+
         $companies = Company::findMany($request->delivery_companies_id);
         $playerIds = [];
         foreach ($companies as $company) {
             $playerIds[] = $company->player_id;
         }
-        Notification::sendNotificationToMultipleUser($playerIds);
+        $message = "";
+        if (count($companies) == 1) {
+            $message = "Request JUST FOR YOU";
+        } else {
+            $message = "Request sent to many";
+        }
+
+        Notification::sendNotificationToMultipleUser($playerIds, $message);
+
+        foreach ($companies as $company) {
+            $playerIds[] = $company->player_id;
+        }
 
         return response()->json([
             'message' => LanguageManagement::getLabel('add_shipment_success', $this->language),
@@ -237,6 +256,13 @@ class ShipmentController extends Controller
      *             type="string",
      *             description="user access token",
      *        ),
+     *        @SWG\Parameter(
+     *             name="shipment_id",
+     *             in="path",
+     *             description="Shipment ID",
+     *             type="integer",
+     *             required=true
+     *        ),
      *        @SWG\Response(
      *             response=200,
      *             description="Successful"
@@ -251,8 +277,18 @@ class ShipmentController extends Controller
     public function getShipmentDetails($shipment_id, Request $request)
     {
         $shipment = Shipment::find($shipment_id);
+        //return $shipment->categories()->get();
         if ($shipment != null && $shipment->user_id == $request->user_id) {
-            return $shipment;
+            $items = [];
+            $categories = $shipment->categories()->get();
+            foreach ($categories as $category) {
+                $item["category_id"] = $category->id;
+                $item["category_name"] = $category->name;
+                $item["quantity"] = $category->pivot->quantity;
+                $items[] = $item;
+            }
+            $shipment["items"] = $items;
+            return collect($shipment);
         } else {
             return response()->json([
                 'error' => LanguageManagement::getLabel('no_shipment_found', $this->language),
@@ -280,6 +316,13 @@ class ShipmentController extends Controller
      *             required=true,
      *             type="string",
      *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="shipment_id",
+     *             in="path",
+     *             description="Shipment ID",
+     *             type="integer",
+     *             required=true
      *        ),
      *        @SWG\Response(
      *             response=200,
@@ -317,12 +360,13 @@ class ShipmentController extends Controller
     public function editShipment(Request $request)
     {
         $validationMessages = [
-            'category_id' => 'required',
-            'delivery_companies_id' => 'required',
+            'shipments' => 'required|array|min:1',
+            'shipments.*.category_id' => 'required',
+            'shipments.*.quantity' => 'required|numeric',
+            'delivery_companies_id' => 'required|array|min:1',
             'address_from_id' => 'required',
             'address_to_id' => 'required',
             'pickup_time' => 'required',
-            'quantity' => 'required',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
@@ -330,13 +374,12 @@ class ShipmentController extends Controller
             return $checkForError;
         }
 
+        $price = Price::find(1);
         $shipment = Shipment::create([
-            'category_id' => $request->category_id,
-            'price' => $request->price,
+            'price' => $price->price,
             'address_from_id' => $request->address_from_id,
             'address_to_id' => $request->address_to_id,
             'pickup_time' => $request->pickup_time,
-            'quantity' => $request->quantity,
             'user_id' => $request->user_id,
             'status' => 1,
             'payment_type' => 1,

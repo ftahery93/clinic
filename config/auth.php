@@ -37,14 +37,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        'api' => [
-            'driver' => 'passport',
-            'provider' => 'registeredUsers',
-        ],
-        'company' => [
-            'driver' => 'passport',
-            'provider' => 'companies',
-        ],
+        // 'api' => [
+        //     'driver' => 'passport',
+        //     'provider' => 'registeredUsers',
+        // ],
+        // 'company' => [
+        //     'driver' => 'passport',
+        //     'provider' => 'companies',
+        // ],
         'vendor' => [
             'driver' => 'session',
             'provider' => 'vendors',
@@ -71,14 +71,14 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Admin\User::class,
         ],
-        'registeredUsers' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\API\RegisteredUser::class,
-        ],
-        'company' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\API\Company::class,
-        ],
+        // 'registeredUsers' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Models\API\RegisteredUser::class,
+        // ],
+        // 'company' => [
+        //     'driver' => 'eloquent',
+        //     'model' => App\Models\API\Company::class,
+        // ],
         'vendors' => [
             'driver' => 'eloquent',
             'model' => App\Models\Vendor\User::class,

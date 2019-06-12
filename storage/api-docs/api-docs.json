@@ -1484,6 +1484,13 @@
                         "description": "user access token",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "shipment_id",
+                        "in": "path",
+                        "description": "Shipment ID",
+                        "required": true,
+                        "type": "integer"
                     }
                 ],
                 "responses": {

@@ -131,6 +131,7 @@ class CompanyEntryController extends Controller
             'otp' => substr(str_shuffle("0123456789"), 0, 5),
             'password' => bcrypt($request->password),
             'approved' => false,
+            'country_id' => $request->country_id,
         ]);
 
         $token = '' . $registeredCompany->id . '' . $registeredCompany->name . '' . $this->access_token;
@@ -141,7 +142,7 @@ class CompanyEntryController extends Controller
 
         Wallet::create([
             'company_id' => $registeredCompany->id,
-            'amount' => 0,
+            'balance' => 0,
         ]);
         FreeDelivery::create([
             'company_id' => $registeredCompany->id,

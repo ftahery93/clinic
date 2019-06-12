@@ -24,6 +24,9 @@ class Category extends Model {
 //       return $categories;
 //        
 //    }
+
+    protected $table = "categories";
+    protected $hidden = ['created_at','updated_at',];
     
     public function getCategories(){
 

@@ -21,7 +21,7 @@ class Company extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'image', 'mobile', 'status', 'otp', 'approved'];
+        'name', 'email', 'password', 'image', 'mobile', 'status', 'otp', 'approved', 'country_id'];
 
     /**
      * The attributes that should be hidden for arrays.
