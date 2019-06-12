@@ -39,7 +39,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 
    // Profile from Mobile devie
 
-    Route::post('/users/profile', 'API\ApplicationUsersController@profile')->name('apiusersProfile'); 
+    Route::get('/users/profile', 'API\ApplicationUsersController@profile')->name('apiusersProfile'); 
 
     // Profile Edit from Mobile devie
 
@@ -48,6 +48,26 @@ Route::group(['middleware' => 'auth:api'], function(){
     // Delete/Disable Account from Mobile devie
 
     Route::post('/users/delete/{id}', 'API\ApplicationUsersController@delete')->name('apiusersDelete'); 
+
+    // Polls All List 
+
+    Route::get('/polls', 'API\PollsController@index')->name('apipollsIndex');  
+
+    // Polls List based on Language
+
+    Route::post('/polls/{lang}', 'API\PollsController@getLanguagePolls')->name('apipollsIndexLang');  
+
+    // Polls Create
+
+    Route::post('/poll/create', 'API\PollsController@create')->name('apipollCreate');  
+    
+    // Polls Update
+
+    Route::post('/poll/update/{id}', 'API\PollsController@update')->name('apipollUpdate');  
+
+    // Polls Delete
+
+    Route::post('/poll/delete/{id}', 'API\PollsController@delete')->name('apipollDelete');  
 
 });
 

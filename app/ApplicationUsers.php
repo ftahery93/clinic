@@ -21,7 +21,10 @@ class ApplicationUsers extends Authenticatable
         'terms_conditions',
         'notification',
         'status',
+        'created_by',
+        'created_at',
         'updated_by',
+        'updated_at',
         'deleted'
     ];
 }

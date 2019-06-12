@@ -4,15 +4,15 @@ namespace App\Http\Controllers\API;
 
 use Auth;
 use File;
-use App\ApplicationUsers;
+use App\Polls;
+use App\Country;
 use App\Http\Controllers\Controller;
 use Illuminate\Config;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 
-class ApplicationUsersController extends Controller
+class PollsController extends Controller
 {
 
     public $successStatus = 200;
@@ -27,81 +27,58 @@ class ApplicationUsersController extends Controller
     }
 
     /**
-     * Verify a registered application user from storage.
+     * Fetch the list of polls from storage.
      *
      * @return \Illuminate\Http\Response
      */
-    public function login(Request $request)
+    public function index()
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->messages()->first(),
-            ], 422);
-        }
-
-        //check for email exists
-        if (!ApplicationUsers::where('email', '=', $request->input('email'))->exists()) {
-            return response()->json([
-                'error' => trans('auth.emailNotExists'),
-            ], 417);
-        } 
-
-        //check for active account
-        if (!ApplicationUsers::where('email', '=', $request->input('email'))
-                ->where('status', '=', 1)
-                ->exists()) {
-            return response()->json([
-                'error' => trans('auth.emailInactive'),
-            ], 401);
-        } 
-
-        //check for deleted account
-        if (!ApplicationUsers::where('email', '=', $request->input('email'))
-                ->where('deleted', '=', 0)
-                ->exists()) {
-            return response()->json([
-                'error' => trans('auth.emailDisabled'),
-            ], 401);
-        }
-
-        $ApplicationUser = ApplicationUsers::where('email', $request->input('email'))->get()->first();
-
-        if (Hash::check($request->password, $ApplicationUser->password)) {
-             // Get Token Laravel Passport
-            $token = $ApplicationUser->createToken(env('APP_NAME'))->accessToken;
-            return response()->json([
-                'success' => [
-                    'token' => $token,
-                    'status' => $this->successStatus
-                ],
-            ]);
+        $lang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = '31.203.6.20';
+        $ip_details = json_decode(@file_get_contents("http://ipinfo.io/{$ip}/json"));
+        $visitor_country_code = @$ip_details->country;
+        if ($visitor_country_code != "") {
+            $v_country = Country::where('code', '=', $visitor_country_code)->with('polls')->get();
+            
+            return ($lang == "en") ? $v_country->pluck('polls','title_en') : $v_country->pluck('polls','title_ar');
         } else {
             return response()->json([
-                'error' => trans('auth.invalidCredentials')
-            ], 401);
+                'error' => trans('mobileLang.countryIPInvalid')
+            ], $this->successStatus);
+        }
+        $Polls = Polls::where('status', '=', 1)
+            ->where('deleted', '=', 0)
+            ->with('Countries')
+            ->get();
+        return App\PollCountries::find(1);
+        if(count($Polls) > 0){
+            return response()->json([
+                'polls' => $Polls,
+            ], $this->successStatus);
+        } else {
+            return response()->json([
+                'error' => trans('mobileLang.pollsNotFound')
+            ], $this->successStatus);
         }
     }
 
     /**
-     * Store a newly registered application user in storage.
+     * Store a newly created poll in storage.
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function register(Request $request)
+    public function create(Request $request)
     {
+        
         $validator = Validator::make($request->all(), [
             'photo' => 'mimes:png,jpeg,jpg,gif|max:3000',
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required',
             'age' => 'required',
-            'terms_conditions' => 'required',
+            'status' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -129,10 +106,6 @@ class ApplicationUsersController extends Controller
             'age' => $request->age,
             'terms_conditions' => $request->terms_conditions,
             'status' => 1,
-            'notification' => 1,
-            'created_by' => Auth::user()->id,
-            'created_at' => date("Y-m-d H:i:s"),
-            'deleted' => 0,
         ]);
 
         // Get Token Laravel Passport
@@ -147,48 +120,14 @@ class ApplicationUsersController extends Controller
         ]);
     }
 
-    public function getUploadPath()
-    {
-        return $this->uploadPath;
-    }
-
-    public function setUploadPath($uploadPath)
-    {
-        $this->uploadPath = Config::get('app.APP_URL') . $uploadPath;
-    }
-
-    /**
-     * Show the profile for the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function profile()
-    {
-        $ApplicationUser = Auth::user();
-        return response()->json(['success' => $ApplicationUser], $this->successStatus);
-    }
-
-    /**
-     * Logout from the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function logout()
-    {
-        $ApplicationUser = Auth::user()->token();
-        $ApplicationUser->revoke();
-        return response()->json(['success' => trans('auth.successLogout')], $this->successStatus);
-    }
-
+ 
     /**
      * Update the specified resource.
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $ApplicationUser = ApplicationUsers::find($id);
         if (count($ApplicationUser) > 0) {
@@ -254,7 +193,7 @@ class ApplicationUsersController extends Controller
     }
 
     /**
-     * Delete the specified resource in storage.
+     * Delete the specified poll resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
@@ -262,15 +201,25 @@ class ApplicationUsersController extends Controller
      */
     public function delete($id)
     {
-        $ApplicationUser = ApplicationUsers::find($id);
-        if (count($ApplicationUser) > 0) {
-            $ApplicationUser->deleted = 1;
-            $ApplicationUser->updated_by = Auth::user()->id;
-            $ApplicationUser->save();
-            return response()->json(['success' => trans('mobileLang.userDeleteSuccess')], $this->successStatus);
+        $Poll = Polls::find($id);
+        if (count($Poll) > 0) {
+            $Poll->deleted = 1;
+            $Poll->updated_by = Auth::user()->id;
+            $Poll->save();
+            return response()->json(['success' => trans('mobileLang.pollDeleteSuccess')], $this->successStatus);
         } else {
-            return response()->json(['success' => trans('mobileLang.userNotFound')], $this->successStatus);
+            return response()->json(['success' => trans('mobileLang.pollNotFound')], $this->successStatus);
         }
+    }
+
+    public function getUploadPath()
+    {
+        return $this->uploadPath;
+    }
+
+    public function setUploadPath($uploadPath)
+    {
+        $this->uploadPath = Config::get('app.APP_URL') . $uploadPath;
     }
 
 }
