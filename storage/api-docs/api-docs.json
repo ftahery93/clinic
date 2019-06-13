@@ -2,8 +2,15 @@
     "swagger": "2.0",
     "info": {
         "title": "Masafah API Documentation",
+        "description": "Api description...",
         "version": "1.0.0"
     },
+    "host": "http://173.231.196.229/~tvavisa",
+    "basePath": "/",
+    "schemes": [
+        "http",
+        "https"
+    ],
     "paths": {
         "/masafah/public/api/company/register": {
             "post": {
@@ -671,13 +678,13 @@
                 }
             }
         },
-        "/masafah/public/api/company/pickedUpShipmentById/{shipment_id}": {
+        "/masafah/public/api/company/markShipmentAsPicked/{shipment_id}": {
             "get": {
                 "tags": [
                     "Company Shipments"
                 ],
                 "summary": "Picked up shipment by ID",
-                "operationId": "pickedUpShipmentById",
+                "operationId": "markShipmentAsPicked",
                 "parameters": [
                     {
                         "name": "Accept-Language",
@@ -708,13 +715,13 @@
                 }
             }
         },
-        "/masafah/public/api/company/deliveredShipmentById/{shipment_id}": {
+        "/masafah/public/api/company/markShipmentAsDelivered/{shipment_id}": {
             "get": {
                 "tags": [
                     "Company Shipments"
                 ],
                 "summary": "Delivered shipment by ID",
-                "operationId": "deliveredShipmentById",
+                "operationId": "markShipmentAsDelivered",
                 "parameters": [
                     {
                         "name": "Accept-Language",
