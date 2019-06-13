@@ -5,12 +5,6 @@
         "description": "Api description...",
         "version": "1.0.0"
     },
-    "host": "http://173.231.196.229/~tvavisa",
-    "basePath": "/",
-    "schemes": [
-        "http",
-        "https"
-    ],
     "paths": {
         "/masafah/public/api/company/register": {
             "post": {

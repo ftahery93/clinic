@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
  *         version="1.0.0",
  *         title="Masafah API Documentation",
  *         description="Api description...",
- * )
+ *     )
  */
 class AuthController extends Controller
 {
