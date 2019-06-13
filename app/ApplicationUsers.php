@@ -3,9 +3,9 @@
 namespace App;
 
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Str;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
 
 class ApplicationUsers extends Authenticatable
 {
@@ -27,4 +27,13 @@ class ApplicationUsers extends Authenticatable
         'updated_at',
         'deleted'
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->{$model->getKeyName()} = Str::uuid();
+        });
+    }
+
 }
