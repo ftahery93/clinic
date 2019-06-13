@@ -51,10 +51,14 @@ class ShipmentController extends Controller
      *             required=true,
      *          @SWG\Schema(
      *              @SWG\Property(
-     *                  property="category_id",
-     *                  type="integer",
-     *                  description="Category of the shipment",
-     *                  example=1
+     *                  property="shipments",
+     *                  type="array",
+     *                  description="lost of shipments",
+     *                  @SWG\items(
+     *                      type="object",
+     *                      @SWG\Property(property="category_id", type="integer"),
+     *                      @SWG\Property(property="quantity", type="integer")
+     *                  ),
      *              ),
      *              @SWG\Property(
      *                  property="delivery_companies_id",
@@ -79,12 +83,6 @@ class ShipmentController extends Controller
      *                  type="string",
      *                  description="Parcel pickup time",
      *                  example="1"
-     *              ),
-     *              @SWG\Property(
-     *                  property="quantity",
-     *                  type="integer",
-     *                  description="shipment quantity",
-     *                  example=3
      *              ),
      *          ),
      *        ),
@@ -277,7 +275,6 @@ class ShipmentController extends Controller
     public function getShipmentDetails($shipment_id, Request $request)
     {
         $shipment = Shipment::find($shipment_id);
-        //return $shipment->categories()->get();
         if ($shipment != null && $shipment->user_id == $request->user_id) {
             $items = [];
             $categories = $shipment->categories()->get();
@@ -357,13 +354,91 @@ class ShipmentController extends Controller
         }
     }
 
+    /**
+     *
+     * @SWG\Put(
+     *         path="/masafah/public/api/user/editShipment",
+     *         tags={"User Shipment"},
+     *         operationId="editShipment",
+     *         summary="Edit shipment",
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Edit Shipment Body",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="shipment_id",
+     *                  type="integer",
+     *                  description="Shipment ID",
+     *                  example=1
+     *              ),
+     *              @SWG\Property(
+     *                  property="shipments",
+     *                  type="array",
+     *                  description="lost of shipments",
+     *                  @SWG\items(
+     *                      type="object",
+     *                      @SWG\Property(property="category_id", type="integer"),
+     *                      @SWG\Property(property="quantity", type="integer")
+     *                  ),
+     *              ),
+     *              @SWG\Property(
+     *                  property="address_from_id",
+     *                  type="integer",
+     *                  description="User pick up address id",
+     *                  example=1
+     *              ),
+     *              @SWG\Property(
+     *                  property="address_to_id",
+     *                  type="integer",
+     *                  description="User drop address id",
+     *                  example=1
+     *              ),
+     *              @SWG\Property(
+     *                  property="pickup_time",
+     *                  type="string",
+     *                  description="Parcel pickup time",
+     *                  example="1"
+     *              ),
+     *          ),
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=422,
+     *             description="Unprocessable entity"
+     *        ),
+     *        @SWG\Response(
+     *             response=409,
+     *             description="Shipment already accepted"
+     *        ),
+     *     )
+     *
+     */
     public function editShipment(Request $request)
     {
         $validationMessages = [
+            'shipment_id' => 'required',
             'shipments' => 'required|array|min:1',
             'shipments.*.category_id' => 'required',
             'shipments.*.quantity' => 'required|numeric',
-            'delivery_companies_id' => 'required|array|min:1',
+            //'delivery_companies_id' => 'required|array|min:1',
             'address_from_id' => 'required',
             'address_to_id' => 'required',
             'pickup_time' => 'required',
@@ -374,15 +449,33 @@ class ShipmentController extends Controller
             return $checkForError;
         }
 
-        $price = Price::find(1);
-        $shipment = Shipment::create([
-            'price' => $price->price,
-            'address_from_id' => $request->address_from_id,
-            'address_to_id' => $request->address_to_id,
-            'pickup_time' => $request->pickup_time,
-            'user_id' => $request->user_id,
-            'status' => 1,
-            'payment_type' => 1,
-        ]);
+        $shipment = Shipment::find($request->shipment_id);
+
+        if ($shipment->status == 1) {
+            $price = Price::find(1);
+
+            $shipment->update([
+                'price' => $price->price,
+                'address_from_id' => $request->address_from_id,
+                'address_to_id' => $request->address_to_id,
+                'pickup_time' => $request->pickup_time,
+                'user_id' => $request->user_id,
+                'status' => 1,
+                'payment_type' => 1,
+            ]);
+
+            foreach ($request->shipments as $eachShipment) {
+                $shipment->categories()->sync($eachShipment["category_id"], ['quantity' => $eachShipment["quantity"]]);
+            }
+
+            return response()->json([
+                'message' => LanguageManagement::getLabel('edit_shipment_success', $this->language),
+                'shipment_id' => $shipment->id,
+            ]);
+        } else {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('shipment_booked_already', $this->language),
+            ], 409);
+        }
     }
 }

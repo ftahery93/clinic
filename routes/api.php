@@ -15,23 +15,6 @@
 //    return $request->user();
 //})->middleware('auth:api');
 
-//Route::resource('registeredUsers', 'Admin\RegisteredUserController');
-//Route::get('registeredUsers', 'API\RegisteredUserController@index');
-
-//Authentication
-
-Route::group(['middleware' => 'auth:api'], function () {
-
-
-
-});
-
-Route::group(['middleware' => 'auth:company'], function () {
-
-
-    
-});
-
 /* User */
 Route::post('/user/login', 'API\User\AuthController@login');
 Route::post('/user/register', 'API\User\AuthController@register');
@@ -53,6 +36,7 @@ Route::get('/user/getAddress/{address_id}', 'API\User\AddressController@getAddre
 Route::post('/user/addShipment', 'API\User\ShipmentController@addShipment');
 Route::get('/user/getShipments', 'API\User\ShipmentController@getShipments');
 Route::get('/user/getShipmentDetails/{shipment_id}', 'API\User\ShipmentController@getShipmentDetails');
+Route::put('/user/editShipment', 'API\User\ShipmentController@editShipment');
 
 /* Company Profile*/
 Route::post('/company/login', 'API\Company\CompanyEntryController@login');
@@ -72,8 +56,8 @@ Route::get('/company/getAcceptedShipments', 'API\Company\ShipmentController@getA
 Route::post('/company/acceptShipments', 'API\Company\ShipmentController@acceptShipment');
 Route::get('/company/getShipmentHistory', 'API\Company\ShipmentController@getShipmentHistory');
 Route::get('/company/getShipmentById/{shipment_id}', 'API\Company\ShipmentController@getShipmentById');
-Route::get('/company/pickedUpShipmentById/{shipment_id}', 'API\Company\ShipmentController@pickedUpShipmentById');
-Route::get('/company/deliveredShipmentById/{shipment_id}', 'API\Company\ShipmentController@deliveredShipmentById');
+Route::get('/company/markShipmentAsPicked/{shipment_id}', 'API\Company\ShipmentController@markShipmentAsPicked');
+Route::get('/company/markShipmentAsDelivered/{shipment_id}', 'API\Company\ShipmentController@markShipmentAsDelivered');
 
 /* Company Free deliveries */
 Route::get('/company/getFreeDeliveriesCount', 'API\Company\CompanyProfileController@getFreeDeliveriesCount');

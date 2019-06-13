@@ -614,6 +614,9 @@
                 "responses": {
                     "200": {
                         "description": "Successful"
+                    },
+                    "404": {
+                        "description": "Shipment not found"
                     }
                 }
             }
@@ -1389,10 +1392,20 @@
                         "required": true,
                         "schema": {
                             "properties": {
-                                "category_id": {
-                                    "description": "Category of the shipment",
-                                    "type": "integer",
-                                    "example": 1
+                                "shipments": {
+                                    "description": "lost of shipments",
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "category_id": {
+                                                "type": "integer"
+                                            },
+                                            "quantity": {
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
                                 },
                                 "delivery_companies_id": {
                                     "description": "Delivery companies list of ids",
@@ -1413,11 +1426,6 @@
                                     "description": "Parcel pickup time",
                                     "type": "string",
                                     "example": "1"
-                                },
-                                "quantity": {
-                                    "description": "shipment quantity",
-                                    "type": "integer",
-                                    "example": 3
                                 }
                             }
                         }
@@ -1524,6 +1532,13 @@
                         "description": "user access token",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "shipment_id",
+                        "in": "path",
+                        "description": "Shipment ID",
+                        "required": true,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -1532,6 +1547,86 @@
                     },
                     "404": {
                         "description": "Shipment not found"
+                    }
+                }
+            }
+        },
+        "/masafah/public/api/user/editShipment": {
+            "put": {
+                "tags": [
+                    "User Shipment"
+                ],
+                "summary": "Edit shipment",
+                "operationId": "editShipment",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Edit Shipment Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "shipment_id": {
+                                    "description": "Shipment ID",
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "shipments": {
+                                    "description": "lost of shipments",
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "category_id": {
+                                                "type": "integer"
+                                            },
+                                            "quantity": {
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "address_from_id": {
+                                    "description": "User pick up address id",
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "address_to_id": {
+                                    "description": "User drop address id",
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "pickup_time": {
+                                    "description": "Parcel pickup time",
+                                    "type": "string",
+                                    "example": "1"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    },
+                    "409": {
+                        "description": "Shipment already accepted"
                     }
                 }
             }
