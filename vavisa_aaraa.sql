@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 13, 2019 at 05:11 PM
+-- Generation Time: Jun 13, 2019 at 06:51 PM
 -- Server version: 10.0.38-MariaDB-0ubuntu0.16.04.1
 -- PHP Version: 7.1.29-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -138,7 +138,11 @@ INSERT INTO `aaraa_analytics_pages` (`id`, `visitor_id`, `ip`, `title`, `name`, 
 (89, 3, '::1', 'http://localhost/portals/vavisa/aaraa/public/api/users/profile/edit/27', 'unknown', 'http://localhost/portals/vavisa/aaraa/public/api/users/profile/edit/27', '0.06529903', '2019-06-11', '20:55:01', '2019-06-11 15:25:01', '2019-06-11 15:25:01'),
 (90, 3, '::1', 'http://localhost/portals/vavisa/aaraa/public/api/users/delete/26', 'unknown', 'http://localhost/portals/vavisa/aaraa/public/api/users/delete/26', '0.05502915', '2019-06-11', '21:18:35', '2019-06-11 15:48:35', '2019-06-11 15:48:35'),
 (91, 4, '::1', 'http://localhost/internal/aaraa/public/login', 'unknown', 'http://localhost/internal/aaraa/public/login', '0.00686598', '2019-06-13', '10:26:25', '2019-06-13 07:26:25', '2019-06-13 07:26:25'),
-(92, 4, '::1', 'http://localhost/internal/aaraa/public/api/users/fetch', 'unknown', 'http://localhost/internal/aaraa/public/api/users/fetch', '0.01109195', '2019-06-13', '10:28:45', '2019-06-13 07:28:45', '2019-06-13 07:28:45');
+(92, 4, '::1', 'http://localhost/internal/aaraa/public/api/users/fetch', 'unknown', 'http://localhost/internal/aaraa/public/api/users/fetch', '0.01109195', '2019-06-13', '10:28:45', '2019-06-13 07:28:45', '2019-06-13 07:28:45'),
+(93, 4, '::1', 'http://localhost/internal/aaraa/public/admin/dashboard', 'unknown', 'http://localhost/internal/aaraa/public/admin/dashboard', '0.27263093', '2019-06-13', '14:19:09', '2019-06-13 11:19:09', '2019-06-13 11:19:09'),
+(94, 4, '::1', 'http://localhost/internal/aaraa/public/admin/4/topics?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/4/topics?_pjax=%23view', '0.02829003', '2019-06-13', '14:19:15', '2019-06-13 11:19:15', '2019-06-13 11:19:15'),
+(95, 4, '::1', 'http://localhost/internal/aaraa/public/admin/4/topics', 'unknown', 'http://localhost/internal/aaraa/public/admin/4/topics', '0.01724696', '2019-06-13', '14:19:23', '2019-06-13 11:19:23', '2019-06-13 11:19:23'),
+(96, 4, '::1', 'http://localhost/internal/aaraa/public/admin/4/topics/create', 'unknown', 'http://localhost/internal/aaraa/public/admin/4/topics/create', '0.10150409', '2019-06-13', '14:21:29', '2019-06-13 11:21:29', '2019-06-13 11:21:29');
 
 -- --------------------------------------------------------
 
@@ -301,8 +305,7 @@ CREATE TABLE `aaraa_category_poll` (
   `poll_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `category_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted` tinyint(4) NOT NULL
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -650,17 +653,16 @@ CREATE TABLE `aaraa_country_poll` (
   `poll_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `country_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted` tinyint(4) NOT NULL
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `aaraa_country_poll`
 --
 
-INSERT INTO `aaraa_country_poll` (`id`, `poll_id`, `country_id`, `created_at`, `updated_at`, `deleted`) VALUES
-('1', '1', '25', '2019-06-11 22:43:00', '2019-06-11 22:43:00', 0),
-('2', '1', '103', '2019-06-11 20:36:00', '2019-06-11 20:36:00', 0);
+INSERT INTO `aaraa_country_poll` (`id`, `poll_id`, `country_id`, `created_at`, `updated_at`) VALUES
+('1', '1', '25', '2019-06-11 22:43:00', '2019-06-11 22:43:00'),
+('2', '1', '103', '2019-06-11 20:36:00', '2019-06-11 20:36:00');
 
 -- --------------------------------------------------------
 
@@ -983,8 +985,7 @@ CREATE TABLE `aaraa_option_poll` (
   `poll_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `option_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted` tinyint(4) NOT NULL
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1836,7 +1837,9 @@ ALTER TABLE `aaraa_countries`
 -- Indexes for table `aaraa_country_poll`
 --
 ALTER TABLE `aaraa_country_poll`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `aaraa_country_poll_poll_id_fk` (`poll_id`),
+  ADD KEY `aaraa_country_poll_country_id_fk` (`country_id`);
 
 --
 -- Indexes for table `aaraa_events`
@@ -2037,7 +2040,7 @@ ALTER TABLE `aaraa_webmaster_settings`
 -- AUTO_INCREMENT for table `aaraa_analytics_pages`
 --
 ALTER TABLE `aaraa_analytics_pages`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT for table `aaraa_analytics_visitors`
@@ -2200,6 +2203,17 @@ ALTER TABLE `aaraa_webmaster_section_fields`
 --
 ALTER TABLE `aaraa_webmaster_settings`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `aaraa_country_poll`
+--
+ALTER TABLE `aaraa_country_poll`
+  ADD CONSTRAINT `aaraa_country_poll_country_id_fk` FOREIGN KEY (`country_id`) REFERENCES `aaraa_countries` (`id`),
+  ADD CONSTRAINT `aaraa_country_poll_poll_id_fk` FOREIGN KEY (`poll_id`) REFERENCES `aaraa_polls` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

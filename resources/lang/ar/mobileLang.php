@@ -11,6 +11,9 @@ return [
     'pollDeleteSuccess' => 'تم حذف الاستطلاع بنجاح!',
     'pollsNotFound' => 'لا استطلاعات الرأي المتاحة!',
     'pollNotFound' => 'معرف الاستطلاع غير موجود.',
+    'countryNotFound' => 'البلد على أساس عنوان IP غير موجود!',
+    'countryIPInvalid' => 'عنوان IP غير صالح.',
+    
 ];
 
 ?>

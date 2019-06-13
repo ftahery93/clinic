@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Polls extends Model
+class Poll extends Model
 {
     protected $fillable = [
         'poll_title_ar',
@@ -25,7 +25,7 @@ class Polls extends Model
     ];
 
     public function countries() {
-        return $this->hasMany('App\PollCountries', 'poll_id');
+        return $this->belongsToMany('App\Country');
     }
 
 }

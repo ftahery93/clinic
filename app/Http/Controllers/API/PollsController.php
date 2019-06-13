@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Auth;
 use File;
-use App\Polls;
+use App\Poll;
 use App\Country;
 use App\Http\Controllers\Controller;
 use Illuminate\Config;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
 
 class PollsController extends Controller
 {
-
+    public $language;
     public $successStatus = 200;
     private $uploadPath = "uploads/users/";
 
@@ -24,6 +24,9 @@ class PollsController extends Controller
     {
         //middleware to check the authorization header before proceeding with incoming request
        $this->middleware('switch.lang');
+
+        //get the language from the HTTP header
+        $this->language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];  
     }
 
     /**
@@ -33,20 +36,31 @@ class PollsController extends Controller
      */
     public function index()
     {
-        $lang = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
-        $ip = $_SERVER['REMOTE_ADDR'];
-        $ip = '31.203.6.20';
-        $ip_details = json_decode(@file_get_contents("http://ipinfo.io/{$ip}/json"));
-        $visitor_country_code = @$ip_details->country;
-        if ($visitor_country_code != "") {
-            $v_country = Country::where('code', '=', $visitor_country_code)->with('polls')->get();
-            
-            return ($lang == "en") ? $v_country->pluck('polls','title_en') : $v_country->pluck('polls','title_ar');
+        $ip = '31.203.6.20'; //test 
+        // $ip = $_SERVER['REMOTE_ADDR']; //get the ip address
+        if($ip){
+            // $ip_details = json_decode(@file_get_contents("http://ipinfo.io/{$ip}/json"));
+            // $visitor_country_code = @$ip_details->country;
+            $visitor_country_code = "KW";
+    
+            if ($visitor_country_code != "") {
+                $v_country = Country::where('code', '=', $visitor_country_code)->with('polls')->get();
+                //$v_country->attach(1);
+                //$v_country->attach(1);
+                return $v_country;
+                return $v_country->pluck('polls','title_'.$this->language);
+            } else {
+                return response()->json([
+                    'error' => trans('mobileLang.countryNotFound')
+                ], $this->successStatus);
+            }
         } else {
             return response()->json([
                 'error' => trans('mobileLang.countryIPInvalid')
             ], $this->successStatus);
         }
+
+
         $Polls = Polls::where('status', '=', 1)
             ->where('deleted', '=', 0)
             ->with('Countries')
