@@ -130,9 +130,8 @@ class ApplicationUsersController extends Controller
             'terms_conditions' => $request->terms_conditions,
             'status' => 1,
             'notification' => 1,
-         //   'created_by' => Auth::user()->id,
             'created_at' => date("Y-m-d H:i:s"),
-           // 'deleted' => 0,
+            'deleted' => 0,
         ]);
 
         // Get Token Laravel Passport

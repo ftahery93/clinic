@@ -10,8 +10,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class ApplicationUsers extends Authenticatable
 {
     use HasApiTokens, Notifiable;
-    
-    //
+
+    //otherwise the user_id won't save properly.
+    public $incrementing = false;
+
     protected $fillable = [
         'photo',
         'name',
