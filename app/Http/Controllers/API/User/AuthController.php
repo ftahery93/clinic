@@ -12,15 +12,10 @@ use App\Utility;
 use Illuminate\Http\Request;
 
 /**
- * @SWG\Swagger(
- *     schemes={"http","https"},
- *     host="http://173.231.196.229/~tvavisa",
- *     basePath="/",
  *     @SWG\Info(
  *         version="1.0.0",
  *         title="Masafah API Documentation",
  *         description="Api description...",
- *     ),
  * )
  */
 class AuthController extends Controller
