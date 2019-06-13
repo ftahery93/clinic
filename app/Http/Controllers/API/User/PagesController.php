@@ -22,7 +22,7 @@ class PagesController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah/public/api/user/getTermsAndConditions",
+     *         path="/~tvavisa/masafah/public/api/user/getTermsAndConditions",
      *         tags={"User Pages"},
      *         operationId="getTermsAndConditions",
      *         summary="Get Masafah's Terms and Conditions",

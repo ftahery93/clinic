@@ -27,7 +27,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/masafah/public/api/user/addShipment",
+     *         path="/~tvavisa/masafah/public/api/user/addShipment",
      *         tags={"User Shipment"},
      *         operationId="addShipment",
      *         summary="Add shipment",
@@ -172,7 +172,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah/public/api/user/getShipments",
+     *         path="/~tvavisa/masafah/public/api/user/getShipments",
      *         tags={"User Shipment"},
      *         operationId="getShipments",
      *         summary="Get User shipments",
@@ -236,7 +236,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah/public/api/user/getShipmentDetails/{shipment_id}",
+     *         path="/~tvavisa/masafah/public/api/user/getShipmentDetails/{shipment_id}",
      *         tags={"User Shipment"},
      *         operationId="getShipmentDetails",
      *         summary="Get User shipment by ID",
@@ -296,7 +296,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Delete(
-     *         path="/masafah/public/api/user/deleteShipmentById/{shipment_id}",
+     *         path="/~tvavisa/masafah/public/api/user/deleteShipmentById/{shipment_id}",
      *         tags={"User Shipment"},
      *         operationId="deleteShipmentById",
      *         summary="Get User shipment by ID",
@@ -357,7 +357,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Put(
-     *         path="/masafah/public/api/user/editShipment",
+     *         path="/~tvavisa/masafah/public/api/user/editShipment",
      *         tags={"User Shipment"},
      *         operationId="editShipment",
      *         summary="Edit shipment",

@@ -25,7 +25,7 @@ class UserProfileController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/masafah/public/api/user/getProfile",
+     *         path="/~tvavisa/masafah/public/api/user/getProfile",
      *         tags={"User Profile"},
      *         operationId="getUserProfile",
      *         summary="Get User Profile",
@@ -59,7 +59,7 @@ class UserProfileController extends Controller
     /**
      *
      * @SWG\Put(
-     *         path="/masafah/public/api/user/updateProfile",
+     *         path="/~tvavisa/masafah/public/api/user/updateProfile",
      *         tags={"User Profile"},
      *         operationId="updateProfile",
      *         summary="Update User profile",
@@ -159,7 +159,7 @@ class UserProfileController extends Controller
     /**
      *
      * @SWG\Patch(
-     *         path="/masafah/public/api/user/changeMobileNumber",
+     *         path="/~tvavisa/masafah/public/api/user/changeMobileNumber",
      *         tags={"User Profile"},
      *         operationId="changeMobileNumber",
      *         summary="Change User's Mobile number",
@@ -234,7 +234,7 @@ class UserProfileController extends Controller
     /**
      *
      * @SWG\Patch(
-     *         path="/masafah/public/api/user/updateMobileNumber",
+     *         path="/~tvavisa/masafah/public/api/user/updateMobileNumber",
      *         tags={"User Profile"},
      *         operationId="updateMobileNumber",
      *         summary="Update User's Mobile number",

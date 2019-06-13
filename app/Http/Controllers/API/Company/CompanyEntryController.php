@@ -28,7 +28,7 @@ class CompanyEntryController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/masafah/public/api/company/register",
+     *         path="/~tvavisa/masafah/public/api/company/register",
      *         tags={"Company Register"},
      *         operationId="register",
      *         summary="Register a company to app",
@@ -163,7 +163,7 @@ class CompanyEntryController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/masafah/public/api/company/login",
+     *         path="/~tvavisa/masafah/public/api/company/login",
      *         tags={"Company Login"},
      *         operationId="login",
      *         summary="Login a company to the app",
