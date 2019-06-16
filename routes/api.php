@@ -53,37 +53,41 @@ Route::group(['middleware' => 'auth:api'], function(){
 
     Route::post('/users/delete', 'API\ApplicationUsersController@delete')->name('apiusersDelete'); 
 
-    // Saved Polls All List 
+    // List of Saved Polls 
 
     Route::get('/users/favourites', 'API\PollsController@favourites')->name('apipollsFavourites'); 
 
-    // My Polls All List 
+    // List of My Polls
 
     Route::get('/users/mypolls', 'API\PollsController@mypolls')->name('apipollsMypolls');  
 
-    // Mark Poll as Favourite All List 
+    // Mark Poll as Favourite
 
     Route::post('/users/favourite/{id}', 'API\PollsController@favourite')->name('apipollsFavourite');  
 
-    // Polls All List 
+    // Fetch List of Polls 
 
     Route::get('/polls', 'API\PollsController@index')->name('apipollsIndex');  
 
-    // Polls List based on Category ID
+    // Get Polls List based on Category ID
 
     Route::post('/polls', 'API\PollsController@index')->name('apipollsCategory');  
 
-    // Polls Create
+    // Create Poll
 
-    Route::post('/poll/create', 'API\PollsController@create')->name('apipollCreate');  
+    Route::post('/polls/create', 'API\PollsController@create')->name('apipollCreate');  
     
-    // Polls Update
+    // Delete Poll
 
-    Route::post('/poll/update/{id}', 'API\PollsController@update')->name('apipollUpdate');  
+    Route::post('/polls/delete/{id}', 'API\PollsController@delete')->name('apipollDelete');  
 
-    // Polls Delete
+    // Add a comment
 
-    Route::post('/poll/delete/{id}', 'API\PollsController@delete')->name('apipollDelete');  
+    Route::post('/polls/comment', 'API\PollsController@comment')->name('apipollComment');  
+
+    // Fetch comments List
+
+    Route::post('/polls/comments/{id}', 'API\PollsController@comments')->name('apipollComments');  
 
 });
 

@@ -45,6 +45,7 @@ return [
     'pollUnFavourite' => 'استطلاع الرأي غير لائق',
     'pollFavourite' => 'استطلاع الرأي كمفضل',
     'countryPollsNotFound' => 'لا استطلاعات الرأي المتاحة لبلدك',
+    'pollNotFoundwithId' => 'No polls available with specific poll ID.',
 
     /*
     |
@@ -56,6 +57,17 @@ return [
     */
     'categoryIsMissing' => 'اسم الفئة مفقود.',
     'categoryPollsNotFound' => 'لا استطلاعات الرأي متاحة للفئة المحددة',
+
+    /*
+    |
+    |---------------------------------------------------------------------------
+    | Comments Language Lines
+    |---------------------------------------------------------------------------
+    | The following language lines are used for commets method.
+    |
+    */
+    'pollCommentSuccess' => 'لقد أضفت تعليقًا بنجاح إلى هذا الاستطلاع. '،
+    'pollCommentsNotFound' => 'لا توجد تعليقات متاحة.',
 
 ];
 

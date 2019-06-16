@@ -9,6 +9,9 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    //otherwise the user_id won't save properly.
+    public $incrementing = false;
+
     // relation with Permissions
     public function permissionsGroup()
     {

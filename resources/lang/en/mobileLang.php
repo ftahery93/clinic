@@ -45,6 +45,7 @@ return [
     'pollUnFavourite' => 'Poll mark as unfavourite.',
     'pollFavourite' => 'Poll mark as favourite.',
     'countryPollsNotFound' => 'No polls available for your country.',
+    'pollNotFoundwithId' => 'No polls available with specific poll ID.',
 
     /*
     |
@@ -56,6 +57,17 @@ return [
     */
     'categoryIsMissing' => 'Category name is missing.',
     'categoryPollsNotFound' => 'No polls available for selected category.',
+    
+    /*
+    |
+    |---------------------------------------------------------------------------
+    | Comments Language Lines
+    |---------------------------------------------------------------------------
+    | The following language lines are used for commets method.
+    |
+    */
+    'pollCommentSuccess' => 'You have successfully added comment to this poll.',
+    'pollCommentsNotFound' => 'No comments available.',
 
 ];
 

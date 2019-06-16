@@ -2,13 +2,20 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Country;
 use App\Category;
+use App\Option;
+use App\Comment;
 use App\ApplicationUsers;
+use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
 
 class Poll extends Model
 {
+
+    //otherwise the user_id won't save properly.
+    public $incrementing = false;
+
     protected $fillable = [
         'poll_title_ar',
         'poll_title_en',
@@ -17,14 +24,12 @@ class Poll extends Model
         'start_datetime',
         'end_datetime',
         'enable_comments',
-        'favourite',
         'seo_title_ar',
         'seo_title_en',
         'created_by',
         'created_at',
         'updated_by',
-        'updated_at',
-        'deleted'
+        'updated_at'
     ];
 
     public static function boot()
@@ -45,5 +50,13 @@ class Poll extends Model
 
     public function categories() {
         return $this->belongsToMany(Category::class);
+    }
+
+    public function options() {
+        return $this->belongsToMany(Option::class);
+    }
+
+    public function comments() {
+        return $this->belongsToMany(Comment::class);
     }
 }

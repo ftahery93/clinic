@@ -57,13 +57,6 @@ class ApplicationUsersController extends Controller
             return response()->json(['error' => trans('auth.emailInactive')], 401);
         } 
 
-        //check for deleted account
-        if (!ApplicationUsers::where('email', '=', $request->input('email'))
-                ->where('deleted', '=', 0)
-                ->exists()) {
-            return response()->json(['error' => trans('auth.emailDisabled')], 401);
-        }
-
         $ApplicationUser = ApplicationUsers::where('email', $request->input('email'))->get()->first();
 
         if (Hash::check($request->password, $ApplicationUser->password)) {
@@ -118,7 +111,6 @@ class ApplicationUsersController extends Controller
             'notification' => 1,
             'created_at' => date("Y-m-d H:i:s"),
             'updated_at' => date("Y-m-d H:i:s"),
-            'deleted' => 0,
         ]);
 
         // Get Token Laravel Passport

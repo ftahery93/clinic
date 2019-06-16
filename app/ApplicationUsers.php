@@ -27,8 +27,7 @@ class ApplicationUsers extends Authenticatable
         'created_by',
         'created_at',
         'updated_by',
-        'updated_at',
-        'deleted'
+        'updated_at'
     ];
 
     public static function boot()
