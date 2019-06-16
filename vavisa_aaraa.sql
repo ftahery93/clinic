@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 16, 2019 at 06:16 PM
--- Server version: 10.0.38-MariaDB-0ubuntu0.16.04.1
--- PHP Version: 7.1.29-1+ubuntu16.04.1+deb.sury.org+1
+-- Generation Time: Jun 17, 2019 at 09:36 AM
+-- Server version: 5.7.26-0ubuntu0.16.04.1
+-- PHP Version: 7.1.26-1+ubuntu16.04.1+deb.sury.org+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -144,7 +144,11 @@ INSERT INTO `aaraa_analytics_pages` (`id`, `visitor_id`, `ip`, `title`, `name`, 
 (95, 4, '::1', 'http://localhost/internal/aaraa/public/admin/4/topics', 'unknown', 'http://localhost/internal/aaraa/public/admin/4/topics', '0.01724696', '2019-06-13', '14:19:23', '2019-06-13 11:19:23', '2019-06-13 11:19:23'),
 (96, 4, '::1', 'http://localhost/internal/aaraa/public/admin/4/topics/create', 'unknown', 'http://localhost/internal/aaraa/public/admin/4/topics/create', '0.10150409', '2019-06-13', '14:21:29', '2019-06-13 11:21:29', '2019-06-13 11:21:29'),
 (97, 5, '::1', 'http://localhost/internal/aaraa/public/login', 'unknown', 'http://localhost/internal/aaraa/public/login', '0.401196', '2019-06-16', '06:41:30', '2019-06-16 03:41:30', '2019-06-16 03:41:30'),
-(98, 5, '::1', 'http://localhost/internal/aaraa/public/backEnd/assets/bootstrap/dist/css/bootstrap.min.css.map', 'unknown', 'http://localhost/internal/aaraa/public/backEnd/assets/bootstrap/dist/css/bootstrap.min.css.map', '0.13599896', '2019-06-16', '06:41:31', '2019-06-16 03:41:31', '2019-06-16 03:41:31');
+(98, 5, '::1', 'http://localhost/internal/aaraa/public/backEnd/assets/bootstrap/dist/css/bootstrap.min.css.map', 'unknown', 'http://localhost/internal/aaraa/public/backEnd/assets/bootstrap/dist/css/bootstrap.min.css.map', '0.13599896', '2019-06-16', '06:41:31', '2019-06-16 03:41:31', '2019-06-16 03:41:31'),
+(99, 5, '::1', 'http://localhost/portals/vavisa/aaraa/public/login', 'unknown', 'http://localhost/portals/vavisa/aaraa/public/login', '0.17407489', '2019-06-16', '20:28:54', '2019-06-16 14:58:54', '2019-06-16 14:58:54'),
+(100, 5, '::1', 'http://localhost/portals/vavisa/aaraa/public/api/mypolls', 'unknown', 'http://localhost/portals/vavisa/aaraa/public/api/mypolls', '0.05626297', '2019-06-16', '20:43:48', '2019-06-16 15:13:48', '2019-06-16 15:13:48'),
+(101, 5, '::1', 'http://localhost/portals/vavisa/aaraa/public/api/polls/create', 'unknown', 'http://localhost/portals/vavisa/aaraa/public/api/polls/create', '0.06614208', '2019-06-16', '21:01:10', '2019-06-16 15:31:10', '2019-06-16 15:31:10'),
+(102, 5, '::1', 'http://localhost/portals/vavisa/aaraa/public/api/polls/comments', 'unknown', 'http://localhost/portals/vavisa/aaraa/public/api/polls/comments', '0.06033802', '2019-06-16', '23:13:33', '2019-06-16 17:43:33', '2019-06-16 17:43:33');
 
 -- --------------------------------------------------------
 
@@ -206,16 +210,15 @@ CREATE TABLE `aaraa_application_users` (
   `created_by` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `updated_by` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted` tinyint(4) NOT NULL
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `aaraa_application_users`
 --
 
-INSERT INTO `aaraa_application_users` (`id`, `name`, `email`, `password`, `photo`, `age`, `terms_conditions`, `notification`, `preferred_language`, `status`, `remember_token`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted`) VALUES
-('031d14b4-e222-4bde-a770-b44fcaeba49f', 'Mohammed Jhosawa', 'mjhosawa@vavisa-kw.com', '$2y$10$jQg45nn0SAHlFQsAanw/bOQWak/yIHvUO41ShjS41/AXqiTG35tEG', '', 27, 1, 1, 'en', 1, NULL, NULL, '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-13 09:30:38', '2019-06-16 05:34:53', 0);
+INSERT INTO `aaraa_application_users` (`id`, `name`, `email`, `password`, `photo`, `age`, `terms_conditions`, `notification`, `preferred_language`, `status`, `remember_token`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+('031d14b4-e222-4bde-a770-b44fcaeba49f', 'Mohammed Jhosawa', 'mjhosawa@vavisa-kw.com', '$2y$10$jQg45nn0SAHlFQsAanw/bOQWak/yIHvUO41ShjS41/AXqiTG35tEG', '', 27, 1, 1, 'en', 1, NULL, NULL, '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-13 09:30:38', '2019-06-16 05:34:53');
 
 -- --------------------------------------------------------
 
@@ -301,23 +304,22 @@ INSERT INTO `aaraa_banners` (`id`, `section_id`, `title_ar`, `title_en`, `detail
 
 CREATE TABLE `aaraa_categories` (
   `id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `title_ar` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `title_en` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title_ar` text COLLATE utf8mb4_unicode_ci,
+  `title_en` text COLLATE utf8mb4_unicode_ci,
   `photo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` tinyint(4) NOT NULL,
   `created_by` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_by` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted` tinyint(4) NOT NULL
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `aaraa_categories`
 --
 
-INSERT INTO `aaraa_categories` (`id`, `title_ar`, `title_en`, `photo`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted`) VALUES
-('1', 'فنون', 'Arts', NULL, 1, '27', '27', '2019-06-11 20:36:00', '2019-06-11 20:36:00', 0);
+INSERT INTO `aaraa_categories` (`id`, `title_ar`, `title_en`, `photo`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+('1', 'فنون', 'Arts', NULL, 1, '27', '27', '2019-06-11 20:36:00', '2019-06-11 20:36:00');
 
 -- --------------------------------------------------------
 
@@ -338,7 +340,22 @@ CREATE TABLE `aaraa_category_poll` (
 --
 
 INSERT INTO `aaraa_category_poll` (`id`, `poll_id`, `category_id`, `created_at`, `updated_at`) VALUES
-('1', '1', '1', '2019-06-11 20:36:00', '2019-06-11 20:36:00');
+('09c8a998-3f73-4129-995a-ac04bc732d4a', '92588104-3c5e-4e77-90dc-f1d3a377d1b8', '1', '2019-06-16 16:54:59', '2019-06-16 16:54:59'),
+('17e9c8aa-37be-49a2-a3e3-966a35ebd32a', '244dd386-b7e1-440e-a9a5-4a8589fce177', '1', '2019-06-16 16:57:40', '2019-06-16 16:57:40'),
+('1c992019-ae76-4fd5-8f98-6cf2341647c6', '9356d484-8fd8-4f4d-a517-fd7bb4b46369', '1', '2019-06-16 16:58:50', '2019-06-16 16:58:50'),
+('6ff8d496-d778-4dec-a460-9cb074c16841', '8757daf5-f68e-463b-a39c-2c46d331f8db', '1', '2019-06-16 16:45:43', '2019-06-16 16:45:43'),
+('71bf1c15-e9ac-4f0e-b98f-c1959f85c868', '7017a944-d280-417a-8b36-ea8790003af5', '1', '2019-06-16 16:47:02', '2019-06-16 16:47:02'),
+('78e036f6-a1c2-4358-8f17-2434b71d763e', '9524e140-9e95-4417-b96e-5db73a8d5b90', '1', '2019-06-16 16:45:29', '2019-06-16 16:45:29'),
+('844a2991-3577-44de-93c7-796cdd92c53f', 'c7c5c6aa-294b-4625-b679-68901bdf1992', '1', '2019-06-16 16:44:04', '2019-06-16 16:44:04'),
+('949569f9-8f7e-4891-8347-a01ef93afbb5', 'd8d5c159-d683-412a-89ee-c70ca21e44c4', '1', '2019-06-16 16:32:50', '2019-06-16 16:32:50'),
+('9833ab50-02d4-46bd-8f00-bcfdc5024c82', '84b46d74-c1af-436c-b236-2f3b844bf659', '1', '2019-06-16 16:42:40', '2019-06-16 16:42:40'),
+('9a57beee-2692-4375-9ab6-604e6fcef417', '932c08db-3355-4a7c-87c9-489503b7ac7c', '1', '2019-06-16 17:00:01', '2019-06-16 17:00:01'),
+('a1e54d9f-c501-4939-aa9e-0d1e5585330a', '3d76cd1f-2529-499b-9419-1608bf03689e', '1', '2019-06-16 16:38:29', '2019-06-16 16:38:29'),
+('aa528052-ab2c-4ad3-bb5f-6ba39a6b57bb', 'fe9d2dec-4fe2-44ff-b043-983a5f1552a5', '1', '2019-06-16 16:48:55', '2019-06-16 16:48:55'),
+('b60de1e4-f877-4632-a4b9-9a2c6546a512', 'a573d145-095d-4dd7-8372-e6596f13bccb', '1', '2019-06-16 16:51:32', '2019-06-16 16:51:32'),
+('bb84b3d6-8c0b-4fa6-92ed-f8e490734d0e', '205a627b-3135-47b7-b924-41cadc02d7fb', '1', '2019-06-16 17:30:15', '2019-06-16 17:30:15'),
+('bcd990b8-f695-465f-9d38-5e0c28670f35', '1cdd4bc5-1195-4309-b52e-6afeab837c78', '1', '2019-06-16 16:46:34', '2019-06-16 16:46:34'),
+('ea881fcb-b5cf-49b4-a02b-156366edccc3', 'd2ac42e9-7a25-4e3d-9931-f7def8c04634', '1', '2019-06-16 16:58:29', '2019-06-16 16:58:29');
 
 -- --------------------------------------------------------
 
@@ -347,14 +364,9 @@ INSERT INTO `aaraa_category_poll` (`id`, `poll_id`, `category_id`, `created_at`,
 --
 
 CREATE TABLE `aaraa_comments` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `topic_id` int(11) NOT NULL,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `date` datetime DEFAULT NULL,
   `comment` text COLLATE utf8mb4_unicode_ci,
-  `status` tinyint(4) NOT NULL,
-  `row_no` int(11) NOT NULL,
   `created_by` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -365,9 +377,34 @@ CREATE TABLE `aaraa_comments` (
 -- Dumping data for table `aaraa_comments`
 --
 
-INSERT INTO `aaraa_comments` (`id`, `topic_id`, `name`, `email`, `date`, `comment`, `status`, `row_no`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 9, 'Roza Hesham', 'email@site.com', '2017-03-06 15:55:21', 'Donec semper, sem nec tristique tempus, justo neque commodo nisl, ut gravida sem tellus suscipit nunc. Aliquam erat volutpat. Ut tincidunt pretium elit. Aliquam pulvinar. Nulla cursus. Suspendisse potenti.', 1, 1, NULL, NULL, '2017-03-06 13:55:21', '2017-03-06 13:55:21'),
-(2, 9, 'Adam Ali', 'emm@site.com', '2017-03-06 15:55:59', 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Ut sit amet orci vel mauris blandit vehicula. Nullam quis enim. Integer dignissim viverra velit. Curabitur in odio. In hac habitasse platea dictumst. Ut consequat, tellus eu volutpat varius, justo orci elementum dolor, sed imperdiet nulla tellus ut diam. Vestibulum ipsum ante, malesuada quis, tempus ac, placerat sit amet, elit.', 1, 2, NULL, NULL, '2017-03-06 13:55:59', '2017-03-06 13:55:59');
+INSERT INTO `aaraa_comments` (`id`, `date`, `comment`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+('1', '2017-03-06 15:55:21', 'Donec semper, sem nec tristique tempus, justo neque commodo nisl, ut gravida sem tellus suscipit nunc. Aliquam erat volutpat. Ut tincidunt pretium elit. Aliquam pulvinar. Nulla cursus. Suspendisse potenti.', NULL, NULL, '2017-03-06 13:55:21', '2017-03-06 13:55:21'),
+('2', '2017-03-06 15:55:59', 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Ut sit amet orci vel mauris blandit vehicula. Nullam quis enim. Integer dignissim viverra velit. Curabitur in odio. In hac habitasse platea dictumst. Ut consequat, tellus eu volutpat varius, justo orci elementum dolor, sed imperdiet nulla tellus ut diam. Vestibulum ipsum ante, malesuada quis, tempus ac, placerat sit amet, elit.', NULL, NULL, '2017-03-06 13:55:59', '2017-03-06 13:55:59'),
+('3e5f0c7f-ac77-4ebe-bd27-0809483c46db', '2019-06-16 23:33:48', 'No more options to these polls', 31, 31, '2019-06-16 18:03:48', '2019-06-16 18:03:48'),
+('dbe04979-ac3c-444d-9542-2dbe0c397c5a', '2019-06-16 23:29:20', 'Hi there! This is just a comment', 31, 31, '2019-06-16 17:59:20', '2019-06-16 17:59:20');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aaraa_comment_poll`
+--
+
+CREATE TABLE `aaraa_comment_poll` (
+  `id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `poll_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `comment_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `aaraa_comment_poll`
+--
+
+INSERT INTO `aaraa_comment_poll` (`id`, `poll_id`, `comment_id`, `created_at`, `updated_at`) VALUES
+('1', '1', '1', '2019-06-16 18:30:00', '2019-06-16 18:30:00'),
+('6968da42-5820-4931-ab23-2eebe75bd07f', '1', 'dbe04979-ac3c-444d-9542-2dbe0c397c5a', '2019-06-16 17:59:20', '2019-06-16 17:59:20'),
+('39edf504-3fc9-462c-acaf-6553ab4b112e', '1', '3e5f0c7f-ac77-4ebe-bd27-0809483c46db', '2019-06-16 18:03:49', '2019-06-16 18:03:49');
 
 -- --------------------------------------------------------
 
@@ -913,7 +950,8 @@ CREATE TABLE `aaraa_oauth_access_tokens` (
 
 INSERT INTO `aaraa_oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
 ('05bc56197abc1d1da2338ff34d92784de1b683c1c3c70960a9b8a801d303f26503a5b4cdc8bda39c', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Laravel', '[]', 0, '2019-06-13 09:30:38', '2019-06-13 09:30:38', '2019-12-13 12:30:38'),
-('e3ea6bd012c1d6490ba93eec25ed68b2cf438003a337d35dfa649bc0d03c2ae94aac9fb50d2e6af0', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Laravel', '[]', 0, '2019-06-13 09:31:22', '2019-06-13 09:31:22', '2019-12-13 12:31:22');
+('e3ea6bd012c1d6490ba93eec25ed68b2cf438003a337d35dfa649bc0d03c2ae94aac9fb50d2e6af0', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Laravel', '[]', 0, '2019-06-13 09:31:22', '2019-06-13 09:31:22', '2019-12-13 12:31:22'),
+('e563ecb03a59fd81d173b19524c4e35b8b8e1e47e0a2a2ff712d09d8b9a24de8fba78800b1be45a5', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Laravel', '[]', 0, '2019-06-16 15:12:57', '2019-06-16 15:12:57', '2019-12-16 20:42:57');
 
 -- --------------------------------------------------------
 
@@ -998,21 +1036,35 @@ CREATE TABLE `aaraa_oauth_refresh_tokens` (
 
 CREATE TABLE `aaraa_options` (
   `id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `title_ar` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `title_en` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title_ar` text COLLATE utf8mb4_unicode_ci,
+  `title_en` text COLLATE utf8mb4_unicode_ci,
   `created_by` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_by` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted` tinyint(4) NOT NULL
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `aaraa_options`
 --
 
-INSERT INTO `aaraa_options` (`id`, `title_ar`, `title_en`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted`) VALUES
-('336c3faf-9045-11e9-bb87-8cec4ba57079', 'حقل النص', 'Textfield', '', '', '2019-06-11 20:36:00', '2019-06-11 20:36:00', 0);
+INSERT INTO `aaraa_options` (`id`, `title_ar`, `title_en`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+('12b4e764-b00c-4394-af04-8049cad7f3db', NULL, 'Test1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:58:29', '2019-06-16 16:58:29'),
+('191151d2-de23-4102-9c30-fa3a6fbd8c26', NULL, 'Test1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:57:40', '2019-06-16 16:57:40'),
+('296501ba-0c1a-47fb-8dc5-fd9feea4553a', NULL, 'Test1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:58:51', '2019-06-16 16:58:51'),
+('2c110825-cd34-47b1-ad58-aa54c6235145', NULL, ' Test2', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:58:29', '2019-06-16 16:58:29'),
+('38a723a2-69b3-4654-8960-cb510150b6ba', NULL, ' Test3', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 17:00:01', '2019-06-16 17:00:01'),
+('531cd406-af9a-449b-83d1-73cea329f716', NULL, ' Test2', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 17:00:01', '2019-06-16 17:00:01'),
+('8749d37c-0c08-4d54-80f5-c4ed2a3bd896', NULL, 'Test1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:55:00', '2019-06-16 16:55:00'),
+('9076c1ba-bdfe-4bdb-b808-b3dfe4115d04', NULL, ' Test3', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:57:40', '2019-06-16 16:57:40'),
+('9b45a52c-93e9-4249-aeb0-32e75d5b9f08', NULL, ' Test3', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:58:51', '2019-06-16 16:58:51'),
+('ac10e38b-4f4e-4de6-bb14-38fbe48f95fc', NULL, ' Test2', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:58:51', '2019-06-16 16:58:51'),
+('c1f10dc7-1c87-4d71-8822-9f94ba4ed376', NULL, 'Test1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 17:00:01', '2019-06-16 17:00:01'),
+('c2e59d2d-2114-4640-8a8f-c9865838f1b7', NULL, 'Test1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:51:32', '2019-06-16 16:51:32'),
+('dcd195b1-b1e6-4b24-a8df-28db9d507bbf', NULL, ' Test3', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:58:29', '2019-06-16 16:58:29'),
+('e65c65c4-08a2-4e3e-bf2a-fb55caf94aff', NULL, ' Test2', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:57:40', '2019-06-16 16:57:40'),
+('eee39539-f776-4393-97d5-e036e9796bb4', NULL, 'Test1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:48:55', '2019-06-16 16:48:55'),
+('f52b24c2-58c6-4e16-be43-6295ca9d0a5e', NULL, 'Test1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 17:30:15', '2019-06-16 17:30:15');
 
 -- --------------------------------------------------------
 
@@ -1146,30 +1198,47 @@ INSERT INTO `aaraa_photos` (`id`, `topic_id`, `file`, `title`, `row_no`, `create
 
 CREATE TABLE `aaraa_polls` (
   `id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `poll_title_ar` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `poll_title_en` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `poll_title_ar` text COLLATE utf8mb4_unicode_ci,
+  `poll_title_en` text COLLATE utf8mb4_unicode_ci,
   `photo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` tinyint(4) NOT NULL,
   `start_datetime` timestamp NULL DEFAULT NULL,
   `end_datetime` timestamp NULL DEFAULT NULL,
   `enable_comments` tinyint(4) NOT NULL,
-  `options` tinyint(4) NOT NULL,
-  `seo_title_ar` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `seo_title_en` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `seo_title_ar` text COLLATE utf8mb4_unicode_ci,
+  `seo_title_en` text COLLATE utf8mb4_unicode_ci,
   `created_by` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `updated_by` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted` tinyint(4) NOT NULL
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `aaraa_polls`
 --
 
-INSERT INTO `aaraa_polls` (`id`, `poll_title_ar`, `poll_title_en`, `photo`, `status`, `start_datetime`, `end_datetime`, `enable_comments`, `options`, `seo_title_ar`, `seo_title_en`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted`) VALUES
-('1', NULL, 'Who is the best football player in the world?', NULL, 1, '2019-06-11 20:36:00', '2019-06-11 20:36:00', 1, 0, NULL, 'football-player', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-11 20:36:00', '2019-06-11 20:36:00', 0),
-('2', NULL, 'Who is the worst football player in the world?', NULL, 1, '2019-06-11 20:36:00', '2019-06-11 20:36:00', 1, 0, NULL, 'worst-football-player', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-11 20:36:00', '2019-06-11 20:36:00', 0);
+INSERT INTO `aaraa_polls` (`id`, `poll_title_ar`, `poll_title_en`, `photo`, `status`, `start_datetime`, `end_datetime`, `enable_comments`, `seo_title_ar`, `seo_title_en`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+('1', NULL, 'Who is the best football player in the world?', NULL, 1, '2019-06-11 20:36:00', '2019-06-11 20:36:00', 1, NULL, 'football-player', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-11 20:36:00', '2019-06-11 20:36:00'),
+('1cdd4bc5-1195-4309-b52e-6afeab837c78', NULL, 'test', '', 1, NULL, NULL, 0, NULL, 'test', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:46:34', '2019-06-16 16:46:34'),
+('2', NULL, 'Who is the worst football player in the world?', NULL, 1, '2019-06-11 20:36:00', '2019-06-11 20:36:00', 1, NULL, 'worst-football-player', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-11 20:36:00', '2019-06-11 20:36:00'),
+('205a627b-3135-47b7-b924-41cadc02d7fb', NULL, 'test', '', 1, NULL, NULL, 0, NULL, 'test', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 17:30:15', '2019-06-16 17:30:15'),
+('244dd386-b7e1-440e-a9a5-4a8589fce177', NULL, 'test', '', 1, NULL, NULL, 0, NULL, 'test', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:57:39', '2019-06-16 16:57:39'),
+('3d76cd1f-2529-499b-9419-1608bf03689e', NULL, 'test', '', 1, NULL, NULL, 0, NULL, 'test', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:38:29', '2019-06-16 16:38:29'),
+('483ef500-abc9-4783-b61f-087610db247b', NULL, 'test', '', 1, NULL, NULL, 0, NULL, 'test', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:30:05', '2019-06-16 16:30:05'),
+('6aa2d723-5c1c-465a-8c5d-7afffd34d847', NULL, 'test', '', 1, NULL, NULL, 0, NULL, 'test', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:20:52', '2019-06-16 16:20:52'),
+('7017a944-d280-417a-8b36-ea8790003af5', NULL, 'test', '', 1, NULL, NULL, 0, NULL, 'test', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:47:02', '2019-06-16 16:47:02'),
+('84b46d74-c1af-436c-b236-2f3b844bf659', NULL, 'test', '', 1, NULL, NULL, 0, NULL, 'test', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:42:40', '2019-06-16 16:42:40'),
+('8757daf5-f68e-463b-a39c-2c46d331f8db', NULL, 'test', '', 1, NULL, NULL, 0, NULL, 'test', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:45:43', '2019-06-16 16:45:43'),
+('92588104-3c5e-4e77-90dc-f1d3a377d1b8', NULL, 'test', '', 1, NULL, NULL, 0, NULL, 'test', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:54:58', '2019-06-16 16:54:58'),
+('932c08db-3355-4a7c-87c9-489503b7ac7c', NULL, 'test', '', 1, NULL, NULL, 0, NULL, 'test', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 17:00:00', '2019-06-16 17:00:00'),
+('9356d484-8fd8-4f4d-a517-fd7bb4b46369', NULL, 'test', '', 1, NULL, NULL, 0, NULL, 'test', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:58:49', '2019-06-16 16:58:49'),
+('9524e140-9e95-4417-b96e-5db73a8d5b90', NULL, 'test', '', 1, NULL, NULL, 0, NULL, 'test', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:45:29', '2019-06-16 16:45:29'),
+('a573d145-095d-4dd7-8372-e6596f13bccb', NULL, 'test', '', 1, NULL, NULL, 0, NULL, 'test', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:51:31', '2019-06-16 16:51:31'),
+('c09f5ff2-5ad3-4b7c-bc79-43cc59e20dc8', NULL, 'test', '', 1, NULL, NULL, 0, NULL, 'test', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:20:29', '2019-06-16 16:20:29'),
+('c7c5c6aa-294b-4625-b679-68901bdf1992', NULL, 'test', '', 1, NULL, NULL, 0, NULL, 'test', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:44:04', '2019-06-16 16:44:04'),
+('d2ac42e9-7a25-4e3d-9931-f7def8c04634', NULL, 'test', '', 1, NULL, NULL, 0, NULL, 'test', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:58:29', '2019-06-16 16:58:29'),
+('d8d5c159-d683-412a-89ee-c70ca21e44c4', NULL, 'test', '', 1, NULL, NULL, 0, NULL, 'test', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:32:50', '2019-06-16 16:32:50'),
+('fe9d2dec-4fe2-44ff-b043-983a5f1552a5', NULL, 'test', '', 1, NULL, NULL, 0, NULL, 'test', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:48:55', '2019-06-16 16:48:55');
 
 -- --------------------------------------------------------
 
@@ -1535,18 +1604,17 @@ CREATE TABLE `aaraa_users` (
   `created_by` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `updated_by` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted` tinyint(4) NOT NULL
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `aaraa_users`
 --
 
-INSERT INTO `aaraa_users` (`id`, `name`, `email`, `password`, `photo`, `permissions_id`, `preferred_language`, `status`, `connect_email`, `connect_password`, `remember_token`, `created_by`, `updated_by`, `created_at`, `updated_at`, `deleted`) VALUES
-('1', 'admin', 'admin@site.com', '$2y$10$vCYpyjX68hKYbzsAUZS4vuLCodSrXukCOHorulIwREO70hNgv6J5q', NULL, 1, '', 1, NULL, NULL, 'ezmYfwwTII9QIs4UVZ5eQA2PyFXQ3Nw0hIYEmvl9g8avmGifwTjlhAmWFyqu', '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54', 0),
-('2', 'manager', 'manager@site.com', '$2y$10$uwYocVmPgnGGxhW/ITU46ePqFEdsIyj87OXkYrRidYtuvvQR2Y6Yq', NULL, 2, '', 1, NULL, NULL, NULL, '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54', 0),
-('3', 'user', 'user@site.com', '$2y$10$JFfZ4nfOHNJlzEefZk9Oq.QcHzqaIOCM7kU0/0fltjptMrU4hj7UO', NULL, 3, '', 1, NULL, NULL, NULL, '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54', 0);
+INSERT INTO `aaraa_users` (`id`, `name`, `email`, `password`, `photo`, `permissions_id`, `preferred_language`, `status`, `connect_email`, `connect_password`, `remember_token`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+('1', 'admin', 'admin@site.com', '$2y$10$vCYpyjX68hKYbzsAUZS4vuLCodSrXukCOHorulIwREO70hNgv6J5q', NULL, 1, '', 1, NULL, NULL, 'ezmYfwwTII9QIs4UVZ5eQA2PyFXQ3Nw0hIYEmvl9g8avmGifwTjlhAmWFyqu', '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
+('2', 'manager', 'manager@site.com', '$2y$10$uwYocVmPgnGGxhW/ITU46ePqFEdsIyj87OXkYrRidYtuvvQR2Y6Yq', NULL, 2, '', 1, NULL, NULL, NULL, '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
+('3', 'user', 'user@site.com', '$2y$10$JFfZ4nfOHNJlzEefZk9Oq.QcHzqaIOCM7kU0/0fltjptMrU4hj7UO', NULL, 3, '', 1, NULL, NULL, NULL, '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
 
 -- --------------------------------------------------------
 
@@ -1867,6 +1935,13 @@ ALTER TABLE `aaraa_comments`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `aaraa_comment_poll`
+--
+ALTER TABLE `aaraa_comment_poll`
+  ADD KEY `aaraa_comment_poll_comment_id_fk` (`comment_id`),
+  ADD KEY `aaraa_comment_poll_poll_id_fk` (`poll_id`);
+
+--
 -- Indexes for table `aaraa_contacts`
 --
 ALTER TABLE `aaraa_contacts`
@@ -1966,7 +2041,9 @@ ALTER TABLE `aaraa_options`
 -- Indexes for table `aaraa_option_poll`
 --
 ALTER TABLE `aaraa_option_poll`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `aaraa_option_poll_option_id_fk` (`option_id`),
+  ADD KEY `aaraa_option_poll_poll_id_fk` (`poll_id`);
 
 --
 -- Indexes for table `aaraa_password_resets`
@@ -2091,7 +2168,7 @@ ALTER TABLE `aaraa_webmaster_settings`
 -- AUTO_INCREMENT for table `aaraa_analytics_pages`
 --
 ALTER TABLE `aaraa_analytics_pages`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT for table `aaraa_analytics_visitors`
@@ -2110,12 +2187,6 @@ ALTER TABLE `aaraa_attach_files`
 --
 ALTER TABLE `aaraa_banners`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `aaraa_comments`
---
-ALTER TABLE `aaraa_comments`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `aaraa_contacts`
@@ -2267,11 +2338,25 @@ ALTER TABLE `aaraa_application_users_poll`
   ADD CONSTRAINT `aaraa_poll_application_users_user_id_fk` FOREIGN KEY (`application_users_id`) REFERENCES `aaraa_application_users` (`id`);
 
 --
+-- Constraints for table `aaraa_comment_poll`
+--
+ALTER TABLE `aaraa_comment_poll`
+  ADD CONSTRAINT `aaraa_comment_poll_comment_id_fk` FOREIGN KEY (`comment_id`) REFERENCES `aaraa_comments` (`id`),
+  ADD CONSTRAINT `aaraa_comment_poll_poll_id_fk` FOREIGN KEY (`poll_id`) REFERENCES `aaraa_polls` (`id`);
+
+--
 -- Constraints for table `aaraa_country_poll`
 --
 ALTER TABLE `aaraa_country_poll`
   ADD CONSTRAINT `aaraa_country_poll_country_id_fk` FOREIGN KEY (`country_id`) REFERENCES `aaraa_countries` (`id`),
   ADD CONSTRAINT `aaraa_country_poll_poll_id_fk` FOREIGN KEY (`poll_id`) REFERENCES `aaraa_polls` (`id`);
+
+--
+-- Constraints for table `aaraa_option_poll`
+--
+ALTER TABLE `aaraa_option_poll`
+  ADD CONSTRAINT `aaraa_option_poll_option_id_fk` FOREIGN KEY (`option_id`) REFERENCES `aaraa_options` (`id`),
+  ADD CONSTRAINT `aaraa_option_poll_poll_id_fk` FOREIGN KEY (`poll_id`) REFERENCES `aaraa_polls` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
