@@ -5,6 +5,16 @@ return [
     /*
     |
     |---------------------------------------------------------------------------
+    | General Language Lines
+    |---------------------------------------------------------------------------
+    | The following language lines are used for general purpose.
+    |
+    */
+    'methodNotFound' => 'الطريقة غير موجودة!',
+
+    /*
+    |
+    |---------------------------------------------------------------------------
     | Application Users Language Lines
     |---------------------------------------------------------------------------
     | The following language lines are used for application users method.
@@ -34,6 +44,7 @@ return [
     'pollFavouriteNotFound' => 'لا استطلاعات الرأي المتاحة!',
     'pollUnFavourite' => 'استطلاع الرأي غير لائق',
     'pollFavourite' => 'استطلاع الرأي كمفضل',
+    'countryPollsNotFound' => 'لا استطلاعات الرأي المتاحة لبلدك',
 
     /*
     |
@@ -44,6 +55,7 @@ return [
     |
     */
     'categoryIsMissing' => 'اسم الفئة مفقود.',
+    'categoryPollsNotFound' => 'لا استطلاعات الرأي متاحة للفئة المحددة',
 
 ];
 

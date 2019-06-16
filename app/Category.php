@@ -25,4 +25,9 @@ class Category extends Model
             $model->{$model->getKeyName()} = Str::uuid();
         });
     }
+
+    public function polls()
+    {
+        return $this->belongsToMany(Poll::class);
+    }
 }

@@ -117,6 +117,7 @@ class ApplicationUsersController extends Controller
             'status' => 1,
             'notification' => 1,
             'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s"),
             'deleted' => 0,
         ]);
 
@@ -254,6 +255,7 @@ class ApplicationUsersController extends Controller
                 if($request->new_password == $request->confirm_password){
                     $ApplicationUser->password = bcrypt($request->new_password);
                     $ApplicationUser->updated_by = Auth::user()->id;
+                    $ApplicationUser->updated_at = date("Y-m-d H:i:s");
                     $ApplicationUser->save();
                     return response()->json(['success' => trans('mobileLang.userPasswordChangeSuccess')], $this->successStatus);
                 } else {
@@ -280,6 +282,7 @@ class ApplicationUsersController extends Controller
         if (count($ApplicationUser) > 0) {
             $ApplicationUser->deleted = 1;
             $ApplicationUser->updated_by = Auth::user()->id;
+            $ApplicationUser->updated_at = date("Y-m-d H:i:s");
             $ApplicationUser->save();
             return response()->json(['success' => trans('mobileLang.userDeleteSuccess')], $this->successStatus);
         } else {

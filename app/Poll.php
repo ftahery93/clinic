@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Country;
+use App\Category;
 use App\ApplicationUsers;
 
 class Poll extends Model
@@ -40,5 +41,9 @@ class Poll extends Model
 
     public function favourites() {
         return $this->belongsToMany(ApplicationUsers::class);
+    }
+
+    public function categories() {
+        return $this->belongsToMany(Category::class);
     }
 }

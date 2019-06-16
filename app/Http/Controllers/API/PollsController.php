@@ -6,12 +6,13 @@ use Auth;
 use File;
 use App\Poll;
 use App\Country;
-use App\Http\Controllers\Controller;
+use App\Category;
+use App\ApplicationUsers;
 use Illuminate\Config;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\ApplicationUsers;
+use App\Http\Controllers\Controller;
 
 class PollsController extends Controller
 {
@@ -51,7 +52,11 @@ class PollsController extends Controller
                 $visitor_country_code = "KW";
                 if ($visitor_country_code != "") {
                     $Country = Country::where('code', '=', $visitor_country_code)->first();
-                    return response()->json(['polls' => $Country->polls], $this->successStatus);
+                    if (count($Country->polls) > 0) {
+                        return response()->json(['polls' => $Country->polls], $this->successStatus);
+                    } else {
+                        return response()->json(['error' => trans('mobileLang.countryPollsNotFound')], $this->successStatus);
+                    }
                 } else {
                     return response()->json(['error' => trans('mobileLang.countryNotFound')], $this->successStatus);
                 }
@@ -61,10 +66,17 @@ class PollsController extends Controller
         } else if($method == "POST"){
             $category_id = $request->category_id;
             if($category_id){
-                return array();
+                $Category = Category::find($category_id);
+                if (count($Category->polls) > 0) {
+                    return response()->json(['polls' => $Category->polls], $this->successStatus);
+                } else {
+                    return response()->json(['error' => trans('mobileLang.categoryPollsNotFound')], $this->successStatus);
+                }
             } else {
                 return response()->json(['error' => trans('mobileLang.categoryIsMissing')], $this->successStatus);
             }
+        } else {
+            return response()->json(['error' => trans('mobileLang.methodNotFound')], 404);
         }
     }
 

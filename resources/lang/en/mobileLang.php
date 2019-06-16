@@ -5,6 +5,16 @@ return [
     /*
     |
     |---------------------------------------------------------------------------
+    | General Language Lines
+    |---------------------------------------------------------------------------
+    | The following language lines are used for general purpose.
+    |
+    */
+    'methodNotFound' => 'Method not found!',
+
+    /*
+    |
+    |---------------------------------------------------------------------------
     | Application Users Language Lines
     |---------------------------------------------------------------------------
     | The following language lines are used for application users method.
@@ -34,6 +44,7 @@ return [
     'pollFavouriteNotFound' => 'No saved polls available.',
     'pollUnFavourite' => 'Poll mark as unfavourite.',
     'pollFavourite' => 'Poll mark as favourite.',
+    'countryPollsNotFound' => 'No polls available for your country.',
 
     /*
     |
@@ -44,6 +55,7 @@ return [
     |
     */
     'categoryIsMissing' => 'Category name is missing.',
+    'categoryPollsNotFound' => 'No polls available for selected category.',
 
 ];
 
