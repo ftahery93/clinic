@@ -31,4 +31,20 @@ return [
     'emailDisabled' => 'Your account is deleted. Contact support team for more details.',
     'successLogout' => 'User successfully logged out!',
 
+    /*
+    |
+    |---------------------------------------------------------------------------
+    | Mobile Application Version Language Lines
+    |---------------------------------------------------------------------------
+    | The following language lines are used for mobile application version messages.
+    |
+    */
+    'iosAppUpdateMsg' => 'An update for the application is available, please keep your application up-to-date to get latest features.',
+    'androidAppUpdateMsg' => 'An update for the application is available, please keep your application up-to-date to get latest features.',
+    'commonAppUpdateMsg' => 'An update for the application is available, please keep your application up-to-date to get latest features.',
+    'appversionMissing' => 'App version parameter is missing in the request.',
+    'acceptLanguageMissing' => 'Accept language parameter is missing in the request.',
+
+
+
 ];

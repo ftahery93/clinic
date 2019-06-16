@@ -22,8 +22,11 @@ class ApplicationUsersController extends Controller
 
     public function __construct()
     {
-        //middleware to check the authorization header before proceeding with incoming request
+        //middleware to check the authorization header for language before proceeding with incoming request
        $this->middleware('switch.lang');
+
+        //middleware to check the mobile application version before proceeding with incoming request
+        $this->middleware('app.version');
     }
 
     /**
@@ -39,34 +42,26 @@ class ApplicationUsersController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->messages()->first(),
-            ], 422);
+            return response()->json(['error' => $validator->messages()->first()], 422);
         }
 
         //check for email exists
         if (!ApplicationUsers::where('email', '=', $request->input('email'))->exists()) {
-            return response()->json([
-                'error' => trans('auth.emailNotExists'),
-            ], 417);
+            return response()->json(['error' => trans('auth.emailNotExists')], 417);
         } 
 
         //check for active account
         if (!ApplicationUsers::where('email', '=', $request->input('email'))
                 ->where('status', '=', 1)
                 ->exists()) {
-            return response()->json([
-                'error' => trans('auth.emailInactive'),
-            ], 401);
+            return response()->json(['error' => trans('auth.emailInactive')], 401);
         } 
 
         //check for deleted account
         if (!ApplicationUsers::where('email', '=', $request->input('email'))
                 ->where('deleted', '=', 0)
                 ->exists()) {
-            return response()->json([
-                'error' => trans('auth.emailDisabled'),
-            ], 401);
+            return response()->json(['error' => trans('auth.emailDisabled')], 401);
         }
 
         $ApplicationUser = ApplicationUsers::where('email', $request->input('email'))->get()->first();
@@ -74,16 +69,9 @@ class ApplicationUsersController extends Controller
         if (Hash::check($request->password, $ApplicationUser->password)) {
              // Get Token Laravel Passport
             $token = $ApplicationUser->createToken(env('APP_NAME'))->accessToken;
-            return response()->json([
-                'success' => [
-                    'token' => $token,
-                    'status' => $this->successStatus
-                ],
-            ]);
+            return response()->json(['success' => ['token' => $token,'status' => $this->successStatus]]);
         } else {
-            return response()->json([
-                'error' => trans('auth.invalidCredentials')
-            ], 401);
+            return response()->json(['error' => trans('auth.invalidCredentials')], 401);
         }
     }
 
@@ -105,9 +93,7 @@ class ApplicationUsersController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->messages()->first(),
-            ], 422);
+            return response()->json(['error' => $validator->messages()->first()], 422);
         }
 
         // Start of Upload Files
@@ -137,13 +123,7 @@ class ApplicationUsersController extends Controller
         // Get Token Laravel Passport
         $token = $ApplicationUser->createToken(env('APP_NAME'))->accessToken;
 
-        return response()->json([
-            'success' => [
-                'message' => trans('auth.success'),
-                'token' => $token,
-                'status' => $this->successStatus
-            ],
-        ]);
+        return response()->json(['success' => ['message' => trans('auth.success'),'token' => $token,'status' => $this->successStatus]]);
     }
 
     public function getUploadPath()
@@ -187,9 +167,9 @@ class ApplicationUsersController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit(Request $request)
     {
-        $ApplicationUser = ApplicationUsers::find($id);
+        $ApplicationUser = ApplicationUsers::find(Auth::user()->id);
         if (count($ApplicationUser) > 0) {
 
             $validator = Validator::make($request->all(), [
@@ -198,17 +178,14 @@ class ApplicationUsersController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return response()->json([
-                    'error' => $validator->messages()->first(),
-                ], 422);
+                return response()->json(['error' => $validator->messages()->first()], 422);
             }
 
             // Start of Upload Files
             $formFileName = "photo";
             $fileFinalName_ar = "";
             if ($request->$formFileName != "") {
-                $fileFinalName_ar = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                $fileFinalName_ar = time() . rand(1111,9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
                 $path = base_path() . "/public/" . $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName_ar);
             }
@@ -253,15 +230,53 @@ class ApplicationUsersController extends Controller
     }
 
     /**
-     * Delete the specified resource in storage.
+     * Change Password for the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function delete($id)
+    public function changePassword(Request $request)
     {
-        $ApplicationUser = ApplicationUsers::find($id);
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required',
+            'new_password' => 'required',
+            'confirm_password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->messages()->first()], 422);
+        }
+
+        $ApplicationUser = ApplicationUsers::find(Auth::user()->id);
+        if (count($ApplicationUser) > 0) {
+            if (password_verify($request->old_password, $ApplicationUser->password)) {
+                if($request->new_password == $request->confirm_password){
+                    $ApplicationUser->password = bcrypt($request->new_password);
+                    $ApplicationUser->updated_by = Auth::user()->id;
+                    $ApplicationUser->save();
+                    return response()->json(['success' => trans('mobileLang.userPasswordChangeSuccess')], $this->successStatus);
+                } else {
+                    return response()->json(['success' => trans('mobileLang.userconfirmPasswordDoesNotMatch')], $this->successStatus); 
+                }
+            } else {    
+                return response()->json(['success' => trans('mobileLang.userwrongOldPassword')], $this->successStatus);
+            }
+        } else {
+            return response()->json(['success' => trans('mobileLang.userNotFound')], $this->successStatus);
+        }
+    }
+
+    /**
+     * Delete account for the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete()
+    {
+        $ApplicationUser = ApplicationUsers::find(Auth::user()->id);
         if (count($ApplicationUser) > 0) {
             $ApplicationUser->deleted = 1;
             $ApplicationUser->updated_by = Auth::user()->id;

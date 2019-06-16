@@ -8,9 +8,10 @@ use App\Poll;
 use App\Country;
 use App\Http\Controllers\Controller;
 use Illuminate\Config;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use App\ApplicationUsers;
 
 class PollsController extends Controller
 {
@@ -25,6 +26,9 @@ class PollsController extends Controller
         //middleware to check the authorization header before proceeding with incoming request
        $this->middleware('switch.lang');
 
+       //middleware to check the mobile application version before proceeding with incoming request
+       $this->middleware('app.version');
+
         //get the language from the HTTP header
         $this->language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];  
     }
@@ -34,46 +38,33 @@ class PollsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $ip = '31.203.6.20'; //test 
-        // $ip = $_SERVER['REMOTE_ADDR']; //get the ip address
-        if($ip){
-            // $ip_details = json_decode(@file_get_contents("http://ipinfo.io/{$ip}/json"));
-            // $visitor_country_code = @$ip_details->country;
-            $visitor_country_code = "KW";
-    
-            if ($visitor_country_code != "") {
-                $v_country = Country::where('code', '=', $visitor_country_code)->with('polls')->get();
-                //$v_country->attach(1);
-                //$v_country->attach(1);
-                return $v_country;
-                return $v_country->pluck('polls','title_'.$this->language);
+        $method = $_SERVER['REQUEST_METHOD'];
+        if($method == "GET"){
+            $ip = '31.203.6.12'; //test ip address
+            // $ip = $_SERVER['REMOTE_ADDR']; // Get the server IP Address from where request is coming
+            //  Validate IP Address format
+            if(filter_var($ip, FILTER_VALIDATE_IP)){
+                // $ip_details = json_decode(@file_get_contents("http://ipinfo.io/{$ip}/json"));
+                // $visitor_country_code = @$ip_details->country;
+                $visitor_country_code = "KW";
+                if ($visitor_country_code != "") {
+                    $Country = Country::where('code', '=', $visitor_country_code)->first();
+                    return response()->json(['polls' => $Country->polls], $this->successStatus);
+                } else {
+                    return response()->json(['error' => trans('mobileLang.countryNotFound')], $this->successStatus);
+                }
             } else {
-                return response()->json([
-                    'error' => trans('mobileLang.countryNotFound')
-                ], $this->successStatus);
+                return response()->json(['error' => trans('mobileLang.countryIPInvalid')], $this->successStatus);
             }
-        } else {
-            return response()->json([
-                'error' => trans('mobileLang.countryIPInvalid')
-            ], $this->successStatus);
-        }
-
-
-        $Polls = Polls::where('status', '=', 1)
-            ->where('deleted', '=', 0)
-            ->with('Countries')
-            ->get();
-        return App\PollCountries::find(1);
-        if(count($Polls) > 0){
-            return response()->json([
-                'polls' => $Polls,
-            ], $this->successStatus);
-        } else {
-            return response()->json([
-                'error' => trans('mobileLang.pollsNotFound')
-            ], $this->successStatus);
+        } else if($method == "POST"){
+            $category_id = $request->category_id;
+            if($category_id){
+                return array();
+            } else {
+                return response()->json(['error' => trans('mobileLang.categoryIsMissing')], $this->successStatus);
+            }
         }
     }
 
@@ -96,9 +87,7 @@ class PollsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'error' => $validator->messages()->first(),
-            ], 422);
+            return response()->json(['error' => $validator->messages()->first()], 422);
         }
 
         // Start of Upload Files
@@ -122,19 +111,14 @@ class PollsController extends Controller
             'status' => 1,
         ]);
 
-        // Get Token Laravel Passport
+        // Get token laravel passport
         $token = $ApplicationUser->createToken(env('APP_NAME'))->accessToken;
 
+        // Return token as response
         return response()->json([
-            'success' => [
-                'message' => trans('auth.success'),
-                'token' => $token,
-                'status' => $this->successStatus
-            ],
-        ]);
+            'success' => ['message' => trans('auth.success'),'token' => $token,'status' => $this->successStatus]]);
     }
 
- 
     /**
      * Update the specified resource.
      *
@@ -152,9 +136,7 @@ class PollsController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return response()->json([
-                    'error' => $validator->messages()->first(),
-                ], 422);
+                return response()->json(['error' => $validator->messages()->first()], 422);
             }
 
             // Start of Upload Files
@@ -226,11 +208,72 @@ class PollsController extends Controller
         }
     }
 
+    /**
+     * Mark the poll favourite from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function favourite($id)
+    {
+        $Poll = Poll::find($id);
+        if(count($Poll->favourites) > 0){ 
+            $Poll->favourites()->detach(Auth::user()->id);
+            return response()->json(['success' => trans('mobileLang.pollUnFavourite')], $this->successStatus);
+        } else {
+            $Poll->favourites()->attach(Auth::user()->id,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
+            return response()->json(['success' => trans('mobileLang.pollFavourite')], $this->successStatus);
+        }
+    }
+
+    /**
+     * Fetch the list of saved polls from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function favourites()
+    {
+        $ApplicationUser = ApplicationUsers::find(Auth::user()->id);
+        if (count($ApplicationUser->favourites) > 0) {
+            return response()->json(['saved_polls' => $ApplicationUser->favourites], $this->successStatus);
+        } else {
+            return response()->json(['success' => trans('mobileLang.pollFavouriteNotFound')], $this->successStatus);
+        }
+    }
+
+    /**
+     * Fetch the list of my polls from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function mypolls()
+    {
+        $Poll = Poll::where('created_by','=',Auth::user()->id)->get();
+        if (count($Poll) > 0) {
+            return response()->json(['my_polls' => $Poll], $this->successStatus);
+        } else {
+            return response()->json(['success' => trans('mobileLang.pollMyPollsNotFound')], $this->successStatus);
+        }
+    }
+
+    /**
+     * Get Upload Path resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
     public function getUploadPath()
     {
         return $this->uploadPath;
     }
 
+    /**
+     * Set Upload Path resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
     public function setUploadPath($uploadPath)
     {
         $this->uploadPath = Config::get('app.APP_URL') . $uploadPath;

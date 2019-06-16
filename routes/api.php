@@ -43,19 +43,35 @@ Route::group(['middleware' => 'auth:api'], function(){
 
     // Profile Edit from Mobile devie
 
-    Route::post('/users/profile/edit/{id}', 'API\ApplicationUsersController@edit')->name('apiusersProfileEdit'); 
+    Route::post('/users/profile/edit', 'API\ApplicationUsersController@edit')->name('apiusersProfileEdit'); 
+
+    // Change Password for Account from Mobile devie
+
+    Route::post('/users/password', 'API\ApplicationUsersController@changePassword')->name('apiuserschangePassword'); 
 
     // Delete/Disable Account from Mobile devie
 
-    Route::post('/users/delete/{id}', 'API\ApplicationUsersController@delete')->name('apiusersDelete'); 
+    Route::post('/users/delete', 'API\ApplicationUsersController@delete')->name('apiusersDelete'); 
+
+    // Saved Polls All List 
+
+    Route::get('/users/favourites', 'API\PollsController@favourites')->name('apipollsFavourites'); 
+
+    // My Polls All List 
+
+    Route::get('/users/mypolls', 'API\PollsController@mypolls')->name('apipollsMypolls');  
+
+    // Mark Poll as Favourite All List 
+
+    Route::post('/users/favourite/{id}', 'API\PollsController@favourite')->name('apipollsFavourite');  
 
     // Polls All List 
 
     Route::get('/polls', 'API\PollsController@index')->name('apipollsIndex');  
 
-    // Polls List based on Language
+    // Polls List based on Category ID
 
-    Route::post('/polls/{lang}', 'API\PollsController@getLanguagePolls')->name('apipollsIndexLang');  
+    Route::post('/polls', 'API\PollsController@index')->name('apipollsCategory');  
 
     // Polls Create
 

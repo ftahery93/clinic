@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Poll;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Str;
 use Illuminate\Notifications\Notifiable;
@@ -36,6 +37,10 @@ class ApplicationUsers extends Authenticatable
         self::creating(function ($model) {
             $model->{$model->getKeyName()} = Str::uuid();
         });
+    }
+
+    public function favourites() {
+        return $this->belongsToMany(Poll::class);
     }
 
 }

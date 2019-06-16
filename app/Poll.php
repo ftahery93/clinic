@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Country;
+use App\ApplicationUsers;
 
 class Poll extends Model
 {
@@ -24,8 +26,19 @@ class Poll extends Model
         'deleted'
     ];
 
-    public function countries() {
-        return $this->belongsToMany('App\Country');
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->{$model->getKeyName()} = Str::uuid();
+        });
     }
 
+    public function countries() {
+        return $this->belongsToMany(Country::class);
+    }
+
+    public function favourites() {
+        return $this->belongsToMany(ApplicationUsers::class);
+    }
 }
