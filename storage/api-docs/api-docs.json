@@ -1150,6 +1150,11 @@
                                     "description": "users mobile number",
                                     "type": "integer",
                                     "example": 88663456
+                                },
+                                "country_id": {
+                                    "description": "Country ID",
+                                    "type": "integer",
+                                    "example": 4
                                 }
                             }
                         }

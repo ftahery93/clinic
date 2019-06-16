@@ -137,6 +137,12 @@ class AuthController extends Controller
      *                  description="users mobile number",
      *                  example=88663456
      *              ),
+     *             @SWG\Property(
+     *                  property="country_id",
+     *                  type="integer",
+     *                  description="Country ID",
+     *                  example=4
+     *              ),
      *          ),
      *        ),
      *        @SWG\Response(
@@ -157,7 +163,8 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $validator = [
-            'mobile' => 'required|digits:8',
+            'mobile' => 'bail|required|digits:8',
+            'country_id' => 'required',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
@@ -176,7 +183,20 @@ class AuthController extends Controller
                 'otp' => $otp,
             ]);
         } else {
-            return response()->json(['error' => LanguageManagement::getLabel('mobile_not_found', $this->language)], 401);
+            //return response()->json(['error' => LanguageManagement::getLabel('mobile_not_found', $this->language)], 401);
+            $country = Country::find($request->country_id);
+            $otp = substr(str_shuffle("0123456789"), 0, 5);
+            $registeredUser = RegisteredUser::create([
+                'mobile' => $request->mobile,
+                'status' => 1,
+                'otp' => $otp,
+                'country_id' => $request->country_id,
+            ]);
+
+            return response()->json([
+                'message' => LanguageManagement::getLabel('text_successRegistered', $this->language),
+                'otp' => $otp,
+            ]);
         }
         //$token = '' . $registeredUser->id . '' . $registeredUser->mobile . '' . $this->accessToken;
 
