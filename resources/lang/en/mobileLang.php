@@ -46,6 +46,9 @@ return [
     'pollFavourite' => 'Poll mark as favourite.',
     'countryPollsNotFound' => 'No polls available for your country.',
     'pollNotFoundwithId' => 'No polls available with specific poll ID.',
+    'optionNotFoundwithId' => 'No option available with specific option ID.',
+    'pollResultsNotFound' => 'Poll results not found.',
+    'pollCreateSuccess' => 'Poll submitted successfully.',
 
     /*
     |
@@ -55,8 +58,9 @@ return [
     | The following language lines are used for categories method.
     |
     */
-    'categoryIsMissing' => 'Category name is missing.',
+    'categoryIsMissing' => 'Category Id is missing.',
     'categoryPollsNotFound' => 'No polls available for selected category.',
+    'categoryNotFound' => 'No category available.',
     
     /*
     |
@@ -68,6 +72,30 @@ return [
     */
     'pollCommentSuccess' => 'You have successfully added comment to this poll.',
     'pollCommentsNotFound' => 'No comments available.',
+   
+    /*
+    |
+    |---------------------------------------------------------------------------
+    | Settings Language Lines
+    |---------------------------------------------------------------------------
+    | The following language lines are used for commets method.
+    |
+    */
+    'configNotFound' => 'No configuration available.',
+
+    /*
+    |
+    |---------------------------------------------------------------------------
+    | Durations Language Lines
+    |---------------------------------------------------------------------------
+    | The following language lines are used for durations.
+    |
+    */
+    'durationNotFound' => 'Durations not configured in the database.',
+    'durationHourSingular' => 'Hour',
+    'durationHourPlural' => 'Hours',
+    'durationDaySingular' => 'Day',
+    'durationDayPlural' => 'Days'
 
 ];
 

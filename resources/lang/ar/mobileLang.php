@@ -45,7 +45,10 @@ return [
     'pollUnFavourite' => 'استطلاع الرأي غير لائق',
     'pollFavourite' => 'استطلاع الرأي كمفضل',
     'countryPollsNotFound' => 'لا استطلاعات الرأي المتاحة لبلدك',
-    'pollNotFoundwithId' => 'No polls available with specific poll ID.',
+    'pollNotFoundwithId' => 'لا استطلاعات الرأي متوفرة مع معرف استطلاع محدد.',
+    'optionNotFoundwithId' => 'لا يوجد خيار متاح بمعرف خيار محدد.',
+    'pollResultsNotFound' => 'نتائج الاستطلاع غير موجودة.',
+    'pollCreateSuccess' => 'تم تقديم الاستطلاع بنجاح.',
 
     /*
     |
@@ -57,6 +60,7 @@ return [
     */
     'categoryIsMissing' => 'اسم الفئة مفقود.',
     'categoryPollsNotFound' => 'لا استطلاعات الرأي متاحة للفئة المحددة',
+    'categoryNotFound' => 'لا يوجد فئة متاحة.',
 
     /*
     |
@@ -66,8 +70,32 @@ return [
     | The following language lines are used for commets method.
     |
     */
-    'pollCommentSuccess' => 'لقد أضفت تعليقًا بنجاح إلى هذا الاستطلاع. '،
+    'pollCommentSuccess' => 'لقد أضفت تعليقًا بنجاح إلى هذا الاستطلاع.',
     'pollCommentsNotFound' => 'لا توجد تعليقات متاحة.',
+
+    /*
+    |
+    |---------------------------------------------------------------------------
+    | Settings Language Lines
+    |---------------------------------------------------------------------------
+    | The following language lines are used for comments method.
+    |
+    */
+    'configNotFound' => 'لا التكوين المتاحة.',
+
+    /*
+    |
+    |---------------------------------------------------------------------------
+    | Durations Language Lines
+    |---------------------------------------------------------------------------
+    | The following language lines are used for durations.
+    |
+    */
+    'durationNotFound' => 'المدة غير مكونة في قاعدة البيانات.',
+    'durationHourSingular' => 'ساعة',
+    'durationHourPlural' => 'ساعات',
+    'durationDaySingular' => 'يوم',
+    'durationDayPlural' => 'أيام'
 
 ];
 

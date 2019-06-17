@@ -31,4 +31,5 @@ class Option extends Model
     public function polls() {
         return $this->belongsToMany(Poll::class);
     }
+
 }

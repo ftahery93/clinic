@@ -218,7 +218,7 @@ class ApplicationUsersController extends Controller
             $ApplicationUser->save();
             return response()->json(['success' => trans('mobileLang.profileEditSuccess')], $this->successStatus);
         } else {
-            return response()->json(['success' => trans('mobileLang.userNotFound')], $this->successStatus);
+            return response()->json(['error' => trans('mobileLang.userNotFound')], $this->successStatus);
         }
     }
 
@@ -251,13 +251,13 @@ class ApplicationUsersController extends Controller
                     $ApplicationUser->save();
                     return response()->json(['success' => trans('mobileLang.userPasswordChangeSuccess')], $this->successStatus);
                 } else {
-                    return response()->json(['success' => trans('mobileLang.userconfirmPasswordDoesNotMatch')], $this->successStatus); 
+                    return response()->json(['error' => trans('mobileLang.userconfirmPasswordDoesNotMatch')], $this->successStatus); 
                 }
             } else {    
-                return response()->json(['success' => trans('mobileLang.userwrongOldPassword')], $this->successStatus);
+                return response()->json(['error' => trans('mobileLang.userwrongOldPassword')], $this->successStatus);
             }
         } else {
-            return response()->json(['success' => trans('mobileLang.userNotFound')], $this->successStatus);
+            return response()->json(['error' => trans('mobileLang.userNotFound')], $this->successStatus);
         }
     }
 
@@ -278,7 +278,7 @@ class ApplicationUsersController extends Controller
             $ApplicationUser->save();
             return response()->json(['success' => trans('mobileLang.userDeleteSuccess')], $this->successStatus);
         } else {
-            return response()->json(['success' => trans('mobileLang.userNotFound')], $this->successStatus);
+            return response()->json(['error' => trans('mobileLang.userNotFound')], $this->successStatus);
         }
     }
 

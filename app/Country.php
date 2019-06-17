@@ -24,4 +24,13 @@ class Country extends Model
             $model->{$model->getKeyName()} = Str::uuid();
         });
     }
+    
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'tel', 'created_at','updated_at','code'
+    ];
 }

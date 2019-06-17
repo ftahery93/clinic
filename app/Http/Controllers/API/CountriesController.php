@@ -4,14 +4,14 @@ namespace App\Http\Controllers\API;
 
 use Auth;
 use File;
-use App\Category;
+use App\Country;
 use App\Http\Controllers\Controller;
 use Illuminate\Config;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class CategoryController extends Controller
+class CountriesController extends Controller
 {
     public $language;
     public $successStatus = 200;
@@ -35,14 +35,14 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getCategories()
+    public function getCountries()
     {
        // Get List of Categories
-       $Category = Category::all();
-       if(count($Category) > 0){ 
-            return response()->json($Category, $this->successStatus);
+       $Country = Country::all();
+       if(count($Country) > 0){
+            return response()->json($Country, $this->successStatus);
        } else {
-            return response()->json(['success' => trans('mobileLang.categoryNotFound')], 404);
+            return response()->json(['success' => trans('mobileLang.countryNotFound')], $this->successStatus);
        }
     }
 

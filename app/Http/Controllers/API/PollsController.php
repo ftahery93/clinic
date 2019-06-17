@@ -43,7 +43,7 @@ class PollsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function getPolls(Request $request)
     {
         $method = $_SERVER['REQUEST_METHOD'];
         if($method == "GET"){
@@ -57,12 +57,12 @@ class PollsController extends Controller
                 if ($visitor_country_code != "") {
                     $Country = Country::where('code', '=', $visitor_country_code)->first();
                     if (count($Country->polls) > 0) {
-                        return response()->json(['polls' => $Country->polls], $this->successStatus);
+                        return response()->json($Country->polls, $this->successStatus);
                     } else {
-                        return response()->json(['error' => trans('mobileLang.countryPollsNotFound')], $this->successStatus);
+                        return response()->json(['error' => trans('mobileLang.countryPollsNotFound')],404);
                     }
                 } else {
-                    return response()->json(['error' => trans('mobileLang.countryNotFound')], $this->successStatus);
+                    return response()->json(['error' => trans('mobileLang.countryNotFound')], 404);
                 }
             } else {
                 return response()->json(['error' => trans('mobileLang.countryIPInvalid')], $this->successStatus);
@@ -72,12 +72,12 @@ class PollsController extends Controller
             if($category_id){
                 $Category = Category::find($category_id);
                 if (count($Category->polls) > 0) {
-                    return response()->json(['polls' => $Category->polls], $this->successStatus);
+                    return response()->json($Category->polls, $this->successStatus);
                 } else {
-                    return response()->json(['error' => trans('mobileLang.categoryPollsNotFound')], $this->successStatus);
+                    return response()->json(['error' => trans('mobileLang.categoryPollsNotFound')], 404);
                 }
             } else {
-                return response()->json(['error' => trans('mobileLang.categoryIsMissing')], $this->successStatus);
+                return response()->json(['error' => trans('mobileLang.categoryIsMissing')], 404);
             }
         } else {
             return response()->json(['error' => trans('mobileLang.methodNotFound')], 404);
@@ -90,7 +90,7 @@ class PollsController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function createPoll(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'photo' => 'mimes:png,jpeg,jpg,gif|max:3000',
@@ -118,13 +118,11 @@ class PollsController extends Controller
         
         $Poll->photo = $fileFinalName_ar;
 
-        if($this->language == "ar"){
-            $Poll->poll_title_ar = $request->poll_name;
-            $Poll->seo_title_ar = $request->poll_name;
-        } else {
-            $Poll->poll_title_en = $request->poll_name;
-            $Poll->seo_title_en = $request->poll_name;
-        }
+        $Poll->poll_title_en = $request->poll_name;
+        $Poll->poll_title_ar = $request->poll_name;
+
+        $Poll->seo_title_en = $request->poll_name;
+        $Poll->seo_title_ar = $request->poll_name;
 
         if($request->enable_comments != ""){
             $Poll->enable_comments = $request->enable_comments;
@@ -147,18 +145,15 @@ class PollsController extends Controller
             $options_list = explode(",",$request->options);
             foreach($options_list as $option){
                 $Option = new Option();
-                if($this->language == "ar"){
-                    $Option->title_ar = $option;
-                } else {
-                    $Option->title_en = $option;
-                }
+                $Option->title_ar = $option;
+                $Option->title_en = $option;
                 $Option->created_by = Auth::user()->id;
                 $Option->created_at = date('Y-m-d H:i:s');
                 $Option->updated_by = Auth::user()->id;
                 $Option->updated_at = date('Y-m-d H:i:s');
                 $Option->save();
                 
-                // $Option->polls()->attach($Poll->id,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
+                // $Option->polls()->attach($Poll,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
             }
         }
 
@@ -171,14 +166,14 @@ class PollsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function delete($id)
+    public function deletePoll($id)
     {
         $Poll = Polls::find($id);
         if (count($Poll) > 0) {
             $Poll->delete();
             return response()->json(['success' => trans('mobileLang.pollDeleteSuccess')], $this->successStatus);
         } else {
-            return response()->json(['success' => trans('mobileLang.pollNotFound')], $this->successStatus);
+            return response()->json(['error' => trans('mobileLang.pollNotFound')], 404);
         }
     }
 
@@ -187,7 +182,7 @@ class PollsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function favourite($id)
+    public function savePollById($id)
     {
         $Poll = Poll::find($id);
         if(count($Poll->favourites) > 0){ 
@@ -204,13 +199,13 @@ class PollsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function favourites()
+    public function getSavedPolls()
     {
         $ApplicationUser = ApplicationUsers::find(Auth::user()->id);
         if (count($ApplicationUser->favourites) > 0) {
-            return response()->json(['saved_polls' => $ApplicationUser->favourites], $this->successStatus);
+            return response()->json($ApplicationUser->favourites, $this->successStatus);
         } else {
-            return response()->json(['success' => trans('mobileLang.pollFavouriteNotFound')], $this->successStatus);
+            return response()->json(['error' => trans('mobileLang.pollFavouriteNotFound')], 404);
         }
     }
 
@@ -219,14 +214,53 @@ class PollsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function mypolls()
+    public function getMyPolls()
     {
         $Poll = Poll::where('created_by','=',Auth::user()->id)->get();
         if (count($Poll) > 0) {
-            return response()->json(['my_polls' => $Poll], $this->successStatus);
+            return response()->json($Poll, $this->successStatus);
         } else {
-            return response()->json(['success' => trans('mobileLang.pollMyPollsNotFound')], $this->successStatus);
+            return response()->json(['error' => trans('mobileLang.pollMyPollsNotFound')], 404);
         }
+    }
+
+    /**
+     * Select poll option for respective poll from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function makePoll(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'poll_id' => 'required',
+            'option_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->messages()->first()], 422);
+        }
+
+        if (!Poll::find($request->poll_id)->exists()) {
+            return response()->json(['error' => trans('mobileLang.pollNotFoundwithId')], 401);
+        }
+
+        if (!Option::find($request->option_id)->exists()) {
+            return response()->json(['error' => trans('mobileLang.optionNotFoundwithId')], 401);
+        }
+
+        $Comment = new Comment();
+        $Comment->date = date('Y-m-d H:i:s');
+        $Comment->comment = $request->comment;
+        $Comment->created_by = Auth::user()->id;
+        $Comment->updated_by = Auth::user()->id;
+        $Comment->created_at = date('Y-m-d H:i:s');
+        $Comment->updated_at = date('Y-m-d H:i:s');
+        $Comment->save();
+
+        $Comment->polls()->attach($request->poll_id,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
+        
+        return response()->json(['success' => trans('mobileLang.pollCommentSuccess')], $this->successStatus);
+    
     }
 
     /**
@@ -234,7 +268,7 @@ class PollsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function comment(Request $request)
+    public function addComment(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'poll_id' => 'required',
@@ -260,7 +294,7 @@ class PollsController extends Controller
 
         $Comment->polls()->attach($request->poll_id,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
         
-        return response()->json(['success' => trans('mobileLang.pollCommentSuccess')], $this->successStatus);
+        return response()->json(['success' => trans('mobileLang.pollCommentSuccess')], 404);
     
     }
 
@@ -269,14 +303,29 @@ class PollsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function comments($id)
+    public function getCommentsById($id)
     {
         //use PHP timespan() method to get the "hours ago" format for the comments
         $Poll = Poll::find($id);
         if (count($Poll->comments) > 0) {
-            return response()->json(['comments' => $Poll->comments], $this->successStatus);
+            return response()->json($Poll->comments, $this->successStatus);
         } else {
-            return response()->json(['success' => trans('mobileLang.pollCommentsNotFound')], $this->successStatus);
+            return response()->json(['error' => trans('mobileLang.pollCommentsNotFound')], 404);
+        }
+    }
+
+    /**
+     * Fetch the list of comments for respective poll from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getPollResults($id)
+    {
+        $Poll = Poll::find($id);
+        if (count($Poll->comments) > 0) {
+            return response()->json($Poll->comments, $this->successStatus);
+        } else {
+            return response()->json(['error' => trans('mobileLang.pollResultsNotFound')], 404);
         }
     }
 

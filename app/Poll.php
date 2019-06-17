@@ -59,4 +59,5 @@ class Poll extends Model
     public function comments() {
         return $this->belongsToMany(Comment::class);
     }
+
 }
