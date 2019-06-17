@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 17, 2019 at 09:36 AM
--- Server version: 5.7.26-0ubuntu0.16.04.1
--- PHP Version: 7.1.26-1+ubuntu16.04.1+deb.sury.org+1
+-- Generation Time: Jun 17, 2019 at 05:03 PM
+-- Server version: 10.0.38-MariaDB-0ubuntu0.16.04.1
+-- PHP Version: 7.1.29-1+ubuntu16.04.1+deb.sury.org+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -148,7 +148,12 @@ INSERT INTO `aaraa_analytics_pages` (`id`, `visitor_id`, `ip`, `title`, `name`, 
 (99, 5, '::1', 'http://localhost/portals/vavisa/aaraa/public/login', 'unknown', 'http://localhost/portals/vavisa/aaraa/public/login', '0.17407489', '2019-06-16', '20:28:54', '2019-06-16 14:58:54', '2019-06-16 14:58:54'),
 (100, 5, '::1', 'http://localhost/portals/vavisa/aaraa/public/api/mypolls', 'unknown', 'http://localhost/portals/vavisa/aaraa/public/api/mypolls', '0.05626297', '2019-06-16', '20:43:48', '2019-06-16 15:13:48', '2019-06-16 15:13:48'),
 (101, 5, '::1', 'http://localhost/portals/vavisa/aaraa/public/api/polls/create', 'unknown', 'http://localhost/portals/vavisa/aaraa/public/api/polls/create', '0.06614208', '2019-06-16', '21:01:10', '2019-06-16 15:31:10', '2019-06-16 15:31:10'),
-(102, 5, '::1', 'http://localhost/portals/vavisa/aaraa/public/api/polls/comments', 'unknown', 'http://localhost/portals/vavisa/aaraa/public/api/polls/comments', '0.06033802', '2019-06-16', '23:13:33', '2019-06-16 17:43:33', '2019-06-16 17:43:33');
+(102, 5, '::1', 'http://localhost/portals/vavisa/aaraa/public/api/polls/comments', 'unknown', 'http://localhost/portals/vavisa/aaraa/public/api/polls/comments', '0.06033802', '2019-06-16', '23:13:33', '2019-06-16 17:43:33', '2019-06-16 17:43:33'),
+(103, 6, '::1', 'http://localhost/internal/aaraa/public/login', 'unknown', 'http://localhost/internal/aaraa/public/login', '0.01778388', '2019-06-17', '06:53:02', '2019-06-17 03:53:02', '2019-06-17 03:53:02'),
+(104, 6, '::1', 'http://localhost/internal/aaraa/public/api/comments/1', 'unknown', 'http://localhost/internal/aaraa/public/api/comments/1', '0.01329398', '2019-06-17', '11:57:16', '2019-06-17 08:57:16', '2019-06-17 08:57:16'),
+(105, 6, '::1', 'http://localhost/internal/aaraa/public/api/comments/2', 'unknown', 'http://localhost/internal/aaraa/public/api/comments/2', '0.01016402', '2019-06-17', '11:57:20', '2019-06-17 08:57:20', '2019-06-17 08:57:20'),
+(106, 6, '::1', 'http://localhost/internal/aaraa/public/api/polls/results/1', 'unknown', 'http://localhost/internal/aaraa/public/api/polls/results/1', '0.01052499', '2019-06-17', '12:05:55', '2019-06-17 09:05:55', '2019-06-17 09:05:55'),
+(107, 6, '::1', 'http://localhost/internal/aaraa/public/api/poll/results/1', 'unknown', 'http://localhost/internal/aaraa/public/api/poll/results/1', '0.01203084', '2019-06-17', '12:06:32', '2019-06-17 09:06:32', '2019-06-17 09:06:32');
 
 -- --------------------------------------------------------
 
@@ -187,7 +192,8 @@ INSERT INTO `aaraa_analytics_visitors` (`id`, `ip`, `city`, `country_code`, `cou
 (2, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'Linux', 'Opera', 'unknown', 'http://localhost/internal/aaraa/public/admin/dashboard', 'No Hostname', 'unknown', '2019-06-10', '06:37:33', '2019-06-10 03:37:33', '2019-06-10 03:37:33'),
 (3, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'Linux', 'Opera', 'unknown', 'http://localhost/portals/vavisa/aaraa/', 'No Hostname', 'unknown', '2019-06-11', '07:32:39', '2019-06-11 02:02:39', '2019-06-11 02:02:39'),
 (4, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'unknown', NULL, 'unknown', 'http://localhost/internal/aaraa/public/api/users/profile', 'No Hostname', 'unknown', '2019-06-13', '10:26:25', '2019-06-13 07:26:25', '2019-06-13 07:26:25'),
-(5, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'Linux', 'Opera', 'unknown', 'http://localhost/internal/aaraa/', 'No Hostname', 'unknown', '2019-06-16', '06:41:30', '2019-06-16 03:41:30', '2019-06-16 03:41:30');
+(5, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'Linux', 'Opera', 'unknown', 'http://localhost/internal/aaraa/', 'No Hostname', 'unknown', '2019-06-16', '06:41:30', '2019-06-16 03:41:30', '2019-06-16 03:41:30'),
+(6, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'Linux', 'Opera', 'unknown', 'http://localhost/internal/aaraa/', 'No Hostname', 'unknown', '2019-06-17', '06:53:02', '2019-06-17 03:53:02', '2019-06-17 03:53:02');
 
 -- --------------------------------------------------------
 
@@ -233,6 +239,13 @@ CREATE TABLE `aaraa_application_users_poll` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `aaraa_application_users_poll`
+--
+
+INSERT INTO `aaraa_application_users_poll` (`id`, `poll_id`, `application_users_id`, `created_at`, `updated_at`) VALUES
+('dee66bfb-874e-46db-a0a5-79d4c68080bb', '1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-17 10:41:48', '2019-06-17 10:41:48');
 
 -- --------------------------------------------------------
 
@@ -381,6 +394,7 @@ INSERT INTO `aaraa_comments` (`id`, `date`, `comment`, `created_by`, `updated_by
 ('1', '2017-03-06 15:55:21', 'Donec semper, sem nec tristique tempus, justo neque commodo nisl, ut gravida sem tellus suscipit nunc. Aliquam erat volutpat. Ut tincidunt pretium elit. Aliquam pulvinar. Nulla cursus. Suspendisse potenti.', NULL, NULL, '2017-03-06 13:55:21', '2017-03-06 13:55:21'),
 ('2', '2017-03-06 15:55:59', 'Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Ut sit amet orci vel mauris blandit vehicula. Nullam quis enim. Integer dignissim viverra velit. Curabitur in odio. In hac habitasse platea dictumst. Ut consequat, tellus eu volutpat varius, justo orci elementum dolor, sed imperdiet nulla tellus ut diam. Vestibulum ipsum ante, malesuada quis, tempus ac, placerat sit amet, elit.', NULL, NULL, '2017-03-06 13:55:59', '2017-03-06 13:55:59'),
 ('3e5f0c7f-ac77-4ebe-bd27-0809483c46db', '2019-06-16 23:33:48', 'No more options to these polls', 31, 31, '2019-06-16 18:03:48', '2019-06-16 18:03:48'),
+('802e3764-4472-41e4-93fc-f36a16477474', '2019-06-17 11:58:36', 'Test Comment', 31, 31, '2019-06-17 08:58:36', '2019-06-17 08:58:36'),
 ('dbe04979-ac3c-444d-9542-2dbe0c397c5a', '2019-06-16 23:29:20', 'Hi there! This is just a comment', 31, 31, '2019-06-16 17:59:20', '2019-06-16 17:59:20');
 
 -- --------------------------------------------------------
@@ -404,7 +418,8 @@ CREATE TABLE `aaraa_comment_poll` (
 INSERT INTO `aaraa_comment_poll` (`id`, `poll_id`, `comment_id`, `created_at`, `updated_at`) VALUES
 ('1', '1', '1', '2019-06-16 18:30:00', '2019-06-16 18:30:00'),
 ('6968da42-5820-4931-ab23-2eebe75bd07f', '1', 'dbe04979-ac3c-444d-9542-2dbe0c397c5a', '2019-06-16 17:59:20', '2019-06-16 17:59:20'),
-('39edf504-3fc9-462c-acaf-6553ab4b112e', '1', '3e5f0c7f-ac77-4ebe-bd27-0809483c46db', '2019-06-16 18:03:49', '2019-06-16 18:03:49');
+('39edf504-3fc9-462c-acaf-6553ab4b112e', '1', '3e5f0c7f-ac77-4ebe-bd27-0809483c46db', '2019-06-16 18:03:49', '2019-06-16 18:03:49'),
+('c0e9b48d-944f-4005-a76d-fa77868ea0ec', '1', '802e3764-4472-41e4-93fc-f36a16477474', '2019-06-17 08:58:36', '2019-06-17 08:58:36');
 
 -- --------------------------------------------------------
 
@@ -950,6 +965,8 @@ CREATE TABLE `aaraa_oauth_access_tokens` (
 
 INSERT INTO `aaraa_oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
 ('05bc56197abc1d1da2338ff34d92784de1b683c1c3c70960a9b8a801d303f26503a5b4cdc8bda39c', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Laravel', '[]', 0, '2019-06-13 09:30:38', '2019-06-13 09:30:38', '2019-12-13 12:30:38'),
+('66227e6911ebd60d68e006c92680c237ff06e3a41a14c473467181fc0739b9b03607f50efb3cb97d', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Laravel', '[]', 0, '2019-06-17 05:45:13', '2019-06-17 05:45:13', '2019-12-17 08:45:13'),
+('8cf04e3d132aa3b88a937073f631422e0b012c00fb63a26444236b75ada67dc9be35d165c48c6f98', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Laravel', '[]', 0, '2019-06-17 10:02:26', '2019-06-17 10:02:26', '2019-12-17 13:02:26'),
 ('e3ea6bd012c1d6490ba93eec25ed68b2cf438003a337d35dfa649bc0d03c2ae94aac9fb50d2e6af0', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Laravel', '[]', 0, '2019-06-13 09:31:22', '2019-06-13 09:31:22', '2019-12-13 12:31:22'),
 ('e563ecb03a59fd81d173b19524c4e35b8b8e1e47e0a2a2ff712d09d8b9a24de8fba78800b1be45a5', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Laravel', '[]', 0, '2019-06-16 15:12:57', '2019-06-16 15:12:57', '2019-12-16 20:42:57');
 
@@ -1243,6 +1260,29 @@ INSERT INTO `aaraa_polls` (`id`, `poll_title_ar`, `poll_title_en`, `photo`, `sta
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `aaraa_poll_durations`
+--
+
+CREATE TABLE `aaraa_poll_durations` (
+  `id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `duration` int(11) DEFAULT NULL,
+  `is_hour` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `aaraa_poll_durations`
+--
+
+INSERT INTO `aaraa_poll_durations` (`id`, `duration`, `is_hour`) VALUES
+('a580108f-90e3-11e9-bb87-8cec4ba57079', 1, 1),
+('af9cff84-90e3-11e9-bb87-8cec4ba57079', 2, 1),
+('d514dc08-90e3-11e9-bb87-8cec4ba57079', 3, 1),
+('e155ff15-90e3-11e9-bb87-8cec4ba57079', 4, 1),
+('ea232aab-90e3-11e9-bb87-8cec4ba57079', 2, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `aaraa_poll_result`
 --
 
@@ -1255,8 +1295,7 @@ CREATE TABLE `aaraa_poll_result` (
   `created_by` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_by` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted` tinyint(4) NOT NULL
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1356,6 +1395,8 @@ CREATE TABLE `aaraa_settings` (
   `site_status` tinyint(4) NOT NULL,
   `ios_version` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `android_version` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `min_options` int(11) NOT NULL,
+  `max_options` int(11) NOT NULL,
   `close_msg` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `social_link1` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `social_link2` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -1400,8 +1441,8 @@ CREATE TABLE `aaraa_settings` (
 -- Dumping data for table `aaraa_settings`
 --
 
-INSERT INTO `aaraa_settings` (`id`, `site_title_ar`, `site_title_en`, `site_desc_ar`, `site_desc_en`, `site_keywords_ar`, `site_keywords_en`, `site_webmails`, `notify_messages_status`, `notify_comments_status`, `notify_orders_status`, `site_url`, `site_status`, `ios_version`, `android_version`, `close_msg`, `social_link1`, `social_link2`, `social_link3`, `social_link4`, `social_link5`, `social_link6`, `social_link7`, `social_link8`, `social_link9`, `social_link10`, `contact_t1_ar`, `contact_t1_en`, `contact_t3`, `contact_t4`, `contact_t5`, `contact_t6`, `contact_t7_ar`, `contact_t7_en`, `style_logo_ar`, `style_logo_en`, `style_fav`, `style_apple`, `style_color1`, `style_color2`, `style_type`, `style_bg_type`, `style_bg_pattern`, `style_bg_color`, `style_bg_image`, `style_subscribe`, `style_footer`, `style_footer_bg`, `style_preload`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-('1', 'اسم وعنوان الموقع', 'aaraa Laravel Site Preview', 'وصف الموقع الإلكتروني ونبذة قصيره عنه', 'Website description and some little information about it', 'كلمات، دلالية، موقع، موقع إلكتروني', 'key, words, website, web', 'support@smartfordesign.com', 1, 1, 1, 'http://smartfordesign.net/aaraa/demo', 1, '1.4', '1.4', 'Website under maintenance \r\n<h1>Comming SOON</h1>', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'المبني - اسم الشارع - المدينة - الدولة', 'Building, Street name, City, Country', '+(00) 0123456789', '+(00) 0123456789', '+(00) 0123456789', 'info@sitename.com', 'من الأحد إلى الخميس 08:00 ص - 05:00 م', 'Sunday to Thursday 08:00 AM to 05:00 PM', '15601488901911.png', '15601488907873.png', '14888091191764.png', '14888091198179.png', '#0cbaa4', '#2e3e4e', 0, 0, NULL, '#2e3e4e', NULL, 1, 1, NULL, 0, '1', '1', '2017-03-06 11:06:23', '2019-06-10 03:41:30');
+INSERT INTO `aaraa_settings` (`id`, `site_title_ar`, `site_title_en`, `site_desc_ar`, `site_desc_en`, `site_keywords_ar`, `site_keywords_en`, `site_webmails`, `notify_messages_status`, `notify_comments_status`, `notify_orders_status`, `site_url`, `site_status`, `ios_version`, `android_version`, `min_options`, `max_options`, `close_msg`, `social_link1`, `social_link2`, `social_link3`, `social_link4`, `social_link5`, `social_link6`, `social_link7`, `social_link8`, `social_link9`, `social_link10`, `contact_t1_ar`, `contact_t1_en`, `contact_t3`, `contact_t4`, `contact_t5`, `contact_t6`, `contact_t7_ar`, `contact_t7_en`, `style_logo_ar`, `style_logo_en`, `style_fav`, `style_apple`, `style_color1`, `style_color2`, `style_type`, `style_bg_type`, `style_bg_pattern`, `style_bg_color`, `style_bg_image`, `style_subscribe`, `style_footer`, `style_footer_bg`, `style_preload`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+('1', 'اسم وعنوان الموقع', 'aaraa Laravel Site Preview', 'وصف الموقع الإلكتروني ونبذة قصيره عنه', 'Website description and some little information about it', 'كلمات، دلالية، موقع، موقع إلكتروني', 'key, words, website, web', 'support@smartfordesign.com', 1, 1, 1, 'http://smartfordesign.net/aaraa/demo', 1, '1.4', '1.4', 2, 5, 'Website under maintenance \r\n<h1>Comming SOON</h1>', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'المبني - اسم الشارع - المدينة - الدولة', 'Building, Street name, City, Country', '+(00) 0123456789', '+(00) 0123456789', '+(00) 0123456789', 'info@sitename.com', 'من الأحد إلى الخميس 08:00 ص - 05:00 م', 'Sunday to Thursday 08:00 AM to 05:00 PM', '15601488901911.png', '15601488907873.png', '14888091191764.png', '14888091198179.png', '#0cbaa4', '#2e3e4e', 0, 0, NULL, '#2e3e4e', NULL, 1, 1, NULL, 0, '1', '1', '2017-03-06 11:06:23', '2019-06-10 03:41:30');
 
 -- --------------------------------------------------------
 
@@ -2070,6 +2111,12 @@ ALTER TABLE `aaraa_polls`
   ADD PRIMARY KEY (`id`) USING BTREE;
 
 --
+-- Indexes for table `aaraa_poll_durations`
+--
+ALTER TABLE `aaraa_poll_durations`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `aaraa_poll_result`
 --
 ALTER TABLE `aaraa_poll_result`
@@ -2168,13 +2215,13 @@ ALTER TABLE `aaraa_webmaster_settings`
 -- AUTO_INCREMENT for table `aaraa_analytics_pages`
 --
 ALTER TABLE `aaraa_analytics_pages`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT for table `aaraa_analytics_visitors`
 --
 ALTER TABLE `aaraa_analytics_visitors`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `aaraa_attach_files`
