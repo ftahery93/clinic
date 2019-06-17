@@ -101,7 +101,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 
     Route::get('/durations', 'API\SettingsController@getDurations')->name('apidurationsSetting');  
 
-    // Make a poll request
+    // Make a poll request and fetch the poll result in percentage.
 
     Route::post('/poll', 'API\PollsController@makePoll')->name('apipoll');  
 

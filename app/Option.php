@@ -20,6 +20,15 @@ class Option extends Model
         'updated_at',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'created_by', 'created_at','updated_by','updated_at','pivot'
+    ];
+
     public static function boot()
     {
         parent::boot();
@@ -31,5 +40,7 @@ class Option extends Model
     public function polls() {
         return $this->belongsToMany(Poll::class);
     }
+
+    
 
 }

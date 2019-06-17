@@ -5,11 +5,13 @@ namespace App\Http\Controllers\API;
 use Auth;
 use File;
 use App;
+use DB;
 use App\Poll;
 use App\Option;
 use App\Country;
 use App\Category;
 use App\Comment;
+use App\PollResult;
 use App\ApplicationUsers;
 use App\Http\Controllers\Controller;
 use Illuminate\Config;
@@ -36,6 +38,9 @@ class PollsController extends Controller
 
         //get the language from the HTTP header
         $this->language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];  
+        
+        //get the DB table prefix for raw queries
+        $this->db_table_prefix = preg_replace("/&#?[a-z0-9]+;/i","",DB::getTablePrefix());
     }
 
     /**
@@ -118,11 +123,7 @@ class PollsController extends Controller
         
         $Poll->photo = $fileFinalName_ar;
 
-        $Poll->poll_title_en = $request->poll_name;
-        $Poll->poll_title_ar = $request->poll_name;
-
-        $Poll->seo_title_en = $request->poll_name;
-        $Poll->seo_title_ar = $request->poll_name;
+        $Poll->name = $request->poll_name;
 
         if($request->enable_comments != ""){
             $Poll->enable_comments = $request->enable_comments;
@@ -153,6 +154,7 @@ class PollsController extends Controller
                 $Option->updated_at = date('Y-m-d H:i:s');
                 $Option->save();
                 
+                //attach issue on this line, throws UUID error - NEED FIX
                 // $Option->polls()->attach($Poll,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
             }
         }
@@ -248,19 +250,24 @@ class PollsController extends Controller
             return response()->json(['error' => trans('mobileLang.optionNotFoundwithId')], 401);
         }
 
-        $Comment = new Comment();
-        $Comment->date = date('Y-m-d H:i:s');
-        $Comment->comment = $request->comment;
-        $Comment->created_by = Auth::user()->id;
-        $Comment->updated_by = Auth::user()->id;
-        $Comment->created_at = date('Y-m-d H:i:s');
-        $Comment->updated_at = date('Y-m-d H:i:s');
-        $Comment->save();
+        // Save the Poll Result
+        $Result = new PollResult();
+        $Result->poll_id = $request->poll_id;
+        $Result->option_id = $request->option_id;
+        $Result->user_id = Auth::user()->id;
+        $Result->created_by = Auth::user()->id;
+        $Result->updated_by = Auth::user()->id;
+        $Result->created_at = date('Y-m-d H:i:s');
+        $Result->updated_at = date('Y-m-d H:i:s');
+        $Result->save();
 
-        $Comment->polls()->attach($request->poll_id,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
-        
-        return response()->json(['success' => trans('mobileLang.pollCommentSuccess')], $this->successStatus);
-    
+        // Get the Poll Result 
+        $PollResults = DB::select("SELECT {$this->db_table_prefix}option_poll.option_id, COUNT({$this->db_table_prefix}poll_results.id) * 100 / (SELECT COUNT(*) FROM {$this->db_table_prefix}poll_results WHERE {$this->db_table_prefix}poll_results.poll_id= :poll1) AS percentange FROM {$this->db_table_prefix}option_poll LEFT JOIN {$this->db_table_prefix}poll_results ON {$this->db_table_prefix}option_poll.option_id = {$this->db_table_prefix}poll_results.option_id WHERE {$this->db_table_prefix}option_poll.poll_id = :poll2 GROUP BY {$this->db_table_prefix}option_poll.option_id",[
+            'poll1' => $request->poll_id,
+            'poll2' => $request->poll_id,
+        ]);
+
+        return response()->json($PollResults, $this->successStatus);
     }
 
     /**

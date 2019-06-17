@@ -40,9 +40,13 @@ class CountriesController extends Controller
        // Get List of Categories
        $Country = Country::all();
        if(count($Country) > 0){
-            return response()->json($Country, $this->successStatus);
+            if($this->language == "ar"){
+                return response()->json(collect($Country)->pluck('title_ar','id'), $this->successStatus);
+            } else {
+                return response()->json(collect($Country)->pluck('title_en','id'), $this->successStatus);
+            }
        } else {
-            return response()->json(['success' => trans('mobileLang.countryNotFound')], $this->successStatus);
+            return response()->json(['error' => trans('mobileLang.countryNotFound')], 404);
        }
     }
 

@@ -17,15 +17,12 @@ class Poll extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'poll_title_ar',
-        'poll_title_en',
+        'name',
         'photo',
         'status',
         'start_datetime',
         'end_datetime',
         'enable_comments',
-        'seo_title_ar',
-        'seo_title_en',
         'created_by',
         'created_at',
         'updated_by',
@@ -39,6 +36,15 @@ class Poll extends Model
             $model->{$model->getKeyName()} = Str::uuid();
         });
     }
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'created_by', 'created_at','updated_at','updated_by','start_datetime','end_datetime','status','pivot'
+    ];
 
     public function countries() {
         return $this->belongsToMany(Country::class);

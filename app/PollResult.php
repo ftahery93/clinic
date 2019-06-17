@@ -2,25 +2,22 @@
 
 namespace App;
 
-use App\Poll;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class PollResult extends Model
 {
-
     //otherwise the user_id won't save properly.
     public $incrementing = false;
 
     protected $fillable = [
-        'title_ar',
-        'title_en',
-        'photo',
-        'status',
+        'poll_id',
+        'option_id',
+        'user_id',
         'created_by',
         'created_at',
         'updated_by',
-        'updated_at',
+        'updated_at'
     ];
 
     public static function boot()
@@ -37,11 +34,6 @@ class Category extends Model
      * @var array
      */
     protected $hidden = [
-        'created_by', 'created_at','updated_at','updated_by','status','pivot'
+        'created_by', 'created_at','updated_by','updated_at','pivot'
     ];
-
-    public function polls()
-    {
-        return $this->belongsToMany(Poll::class);
-    }
 }

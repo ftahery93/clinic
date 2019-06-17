@@ -28,6 +28,15 @@ class Comment extends Model
         });
     }
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'created_by', 'created_at','updated_at','updated_by','date','pivot'
+    ];
+
     public function polls() {
         return $this->belongsToMany(Poll::class);
     }

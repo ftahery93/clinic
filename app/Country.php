@@ -31,6 +31,6 @@ class Country extends Model
      * @var array
      */
     protected $hidden = [
-        'tel', 'created_at','updated_at','code'
+        'tel', 'created_at','updated_at','code','pivot'
     ];
 }

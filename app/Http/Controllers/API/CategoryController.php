@@ -40,7 +40,11 @@ class CategoryController extends Controller
        // Get List of Categories
        $Category = Category::all();
        if(count($Category) > 0){ 
-            return response()->json($Category, $this->successStatus);
+            if($this->language == "ar"){
+                return response()->json(collect($Category)->pluck('title_ar','id'), $this->successStatus);
+            } else {
+                return response()->json(collect($Category)->pluck('title_en','id'), $this->successStatus);
+            }
        } else {
             return response()->json(['success' => trans('mobileLang.categoryNotFound')], 404);
        }

@@ -83,6 +83,7 @@ class ApplicationUsersController extends Controller
             'password' => 'required',
             'age' => 'required',
             'terms_conditions' => 'required',
+            'gender' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -107,6 +108,7 @@ class ApplicationUsersController extends Controller
             'password' => bcrypt($request->password),
             'age' => $request->age,
             'terms_conditions' => $request->terms_conditions,
+            'gender' => $request->gender,
             'status' => 1,
             'notification' => 1,
             'created_at' => date("Y-m-d H:i:s"),
