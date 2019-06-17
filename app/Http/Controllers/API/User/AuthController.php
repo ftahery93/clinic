@@ -7,6 +7,7 @@ use App\Models\Admin\LanguageManagement;
 use App\Models\Admin\User;
 use App\Models\API\Authentication;
 use App\Models\API\Country;
+use App\Models\API\OneSignalUser;
 use App\Models\API\RegisteredUser;
 use App\Utility;
 use Illuminate\Http\Request;
@@ -143,6 +144,12 @@ class AuthController extends Controller
      *                  description="Country ID",
      *                  example=4
      *              ),
+     *             @SWG\Property(
+     *                  property="player_id",
+     *                  type="string",
+     *                  description="User player ID",
+     *                  example="124987655838376490473s"
+     *              ),
      *          ),
      *        ),
      *        @SWG\Response(
@@ -165,6 +172,7 @@ class AuthController extends Controller
         $validator = [
             'mobile' => 'bail|required|digits:8',
             'country_id' => 'required',
+            'player_id' => 'required',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
@@ -173,6 +181,15 @@ class AuthController extends Controller
         }
 
         $registeredUser = RegisteredUser::where('mobile', $request->mobile)->get()->first();
+        $player_id = OneSignalUser::where('player_id', $request->player_id)->get()->first();
+
+        if ($player_id == null) {
+            OneSignalUser::create([
+                'user_id' => $registeredUser->id,
+                'player_id' => $request->player_id,
+            ]);
+        }
+
         if ($registeredUser != null) {
             $otp = substr(str_shuffle("0123456789"), 0, 5);
             $registeredUser->update([
@@ -191,6 +208,11 @@ class AuthController extends Controller
                 'status' => 1,
                 'otp' => $otp,
                 'country_id' => $request->country_id,
+            ]);
+
+            OneSignalUser::create([
+                'user_id' => $registeredUser->id,
+                'player_id' => $request->player_id,
             ]);
 
             return response()->json([

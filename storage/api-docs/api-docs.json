@@ -1155,6 +1155,11 @@
                                     "description": "Country ID",
                                     "type": "integer",
                                     "example": 4
+                                },
+                                "player_id": {
+                                    "description": "User player ID",
+                                    "type": "string",
+                                    "example": "124987655838376490473s"
                                 }
                             }
                         }
