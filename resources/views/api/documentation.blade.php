@@ -11,8 +11,7 @@
    </p>
    <h2 id="toc" class="alt">Table of Contents</h2>
    <ol class="alpha">
-      <li>
-         Restful Web Services
+      <li> Restful Web Services
          <ol>
             <li>{ GET } &nbsp; &nbsp; <a href="#profile">/api/users/profile</a></li>
             <li>{ GET } &nbsp; &nbsp; <a href="#favourites">/api/users/favourites</a></li>
@@ -34,7 +33,6 @@
             <li>{ POST } &nbsp; &nbsp; <a href="#polls_delete_id">/api/polls/delete/{id}</a></li>
             <li>{ POST } &nbsp; &nbsp; <a href="#polls_comment">/api/polls/comment</a></li>
             <li>{ POST } &nbsp; &nbsp; <a href="#polls_comments_id">/api/polls/comments/{id}</a></li>
-            
          </ol>
       </li>
    </ol>
@@ -42,8 +40,7 @@
    <h3>A) Restful Web Services</h3>
    <hr>
    <h3 id="register"><strong>/api/users/register</strong> - <a href="#toc">top</a></h3>
-   <p>
-      Register a new user to login to mobile application
+   <p> API to register new user in the application.
    <table class="table">
       <tbody>
          <tr>
@@ -110,8 +107,7 @@
    </p>
    <hr>
    <h3 id="login"><strong>/api/users/login</strong> - <a href="#toc">top</a></h3>
-   <p>
-      Login to mobile application
+   <p> API to login to the application and get access token.
    <table class="table">
       <tbody>
          <tr>
@@ -177,8 +173,7 @@
    </p>
    <hr>
    <h3 id="logout"><strong>/api/users/logout</strong> - <a href="#toc">top</a></h3>
-   <p>
-      Logout from mobile application
+   <p> API to logout from the application.
    <table class="table">
       <tbody>
          <tr>
@@ -238,8 +233,7 @@
    <hr>
    <hr>
    <h3 id="profile"><strong>/api/users/profile</strong> - <a href="#toc">top</a></h3>
-   <p>
-      Get the user profile details.
+   <p> API to get the user profile.
    <table class="table">
       <tbody>
          <tr>
@@ -315,8 +309,7 @@
    <hr>
    <hr>
    <h3 id="profile_edit"><strong>/api/users/profile/edit</strong> - <a href="#toc">top</a></h3>
-   <p>
-      Edit the user profile details.
+   <p> API to edit the user profile.
    <table class="table">
       <tbody>
          <tr>
@@ -378,8 +371,7 @@
    <hr>
    <hr>
    <h3 id="password"><strong>/api/users/password</strong> - <a href="#toc">top</a></h3>
-   <p>
-      Change password
+   <p> API to change the user account password
    <table class="table">
       <tbody>
          <tr>
@@ -446,8 +438,7 @@
    <hr>
    <hr>
    <h3 id="favourites"><strong>/api/users/favourites</strong> - <a href="#toc">top</a></h3>
-   <p>
-      Get the saved polls details.
+   <p> API to get the user saved polls.
    <table class="table">
       <tbody>
          <tr>
@@ -527,8 +518,7 @@
    <hr>
    <hr>
    <h3 id="favourite_id"><strong>/api/users/favourite/{id}</strong> - <a href="#toc">top</a></h3>
-   <p>
-      Save poll in the profile.
+   <p> API to save the poll.
    <table class="table">
       <tbody>
          <tr>
@@ -588,8 +578,7 @@
    <hr>
    <hr>
    <h3 id="mypolls"><strong>/api/users/mypolls</strong> - <a href="#toc">top</a></h3>
-   <p>
-      Get the my polls details.
+   <p> API to get the polls specific to the users.
    <table class="table">
       <tbody>
          <tr>
@@ -661,8 +650,7 @@
    </p>
    <hr>
    <h3 id="polls"><strong>/api/polls</strong> - <a href="#toc">top</a></h3>
-   <p>
-      Get the polls based on IP address.
+   <p> API to get the polls based on the user current location (based on IP address).
    <table class="table">
       <tbody>
          <tr>
@@ -735,8 +723,7 @@
    <hr>
    <hr>
    <h3 id="polls_category_id"><strong>/api/polls</strong> - <a href="#toc">top</a></h3>
-   <p>
-      Get the polls based on Category ID
+   <p> API to get the polls based on Category ID
    <table class="table">
       <tbody>
          <tr>

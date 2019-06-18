@@ -27,7 +27,7 @@ class SettingsController extends Controller
         $this->middleware('app.version');
 
         //get the language from the HTTP header
-        $this->language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];  
+        $this->language = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : "en";  
     }
 
     /**
@@ -85,7 +85,6 @@ class SettingsController extends Controller
         } else {
             return response()->json(['error' => trans('mobileLang.durationNotFound')], 404);
         }
-
     }
 
 }
