@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 18, 2019 at 10:28 AM
--- Server version: 5.7.26-0ubuntu0.16.04.1
--- PHP Version: 7.1.26-1+ubuntu16.04.1+deb.sury.org+1
+-- Generation Time: Jun 18, 2019 at 06:34 PM
+-- Server version: 10.0.38-MariaDB-0ubuntu0.16.04.1
+-- PHP Version: 7.1.29-1+ubuntu16.04.1+deb.sury.org+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -154,7 +154,23 @@ INSERT INTO `aaraa_analytics_pages` (`id`, `visitor_id`, `ip`, `title`, `name`, 
 (105, 6, '::1', 'http://localhost/internal/aaraa/public/api/comments/2', 'unknown', 'http://localhost/internal/aaraa/public/api/comments/2', '0.01016402', '2019-06-17', '11:57:20', '2019-06-17 08:57:20', '2019-06-17 08:57:20'),
 (106, 6, '::1', 'http://localhost/internal/aaraa/public/api/polls/results/1', 'unknown', 'http://localhost/internal/aaraa/public/api/polls/results/1', '0.01052499', '2019-06-17', '12:05:55', '2019-06-17 09:05:55', '2019-06-17 09:05:55'),
 (107, 6, '::1', 'http://localhost/internal/aaraa/public/api/poll/results/1', 'unknown', 'http://localhost/internal/aaraa/public/api/poll/results/1', '0.01203084', '2019-06-17', '12:06:32', '2019-06-17 09:06:32', '2019-06-17 09:06:32'),
-(108, 6, '::1', 'http://localhost/portals/vavisa/aaraa/public/login', 'unknown', 'http://localhost/portals/vavisa/aaraa/public/login', '0.38282108', '2019-06-17', '21:58:01', '2019-06-17 16:28:01', '2019-06-17 16:28:01');
+(108, 6, '::1', 'http://localhost/portals/vavisa/aaraa/public/login', 'unknown', 'http://localhost/portals/vavisa/aaraa/public/login', '0.38282108', '2019-06-17', '21:58:01', '2019-06-17 16:28:01', '2019-06-17 16:28:01'),
+(109, 7, '::1', 'http://localhost/internal/aaraa/public/login', 'unknown', 'http://localhost/internal/aaraa/public/login', '0.08658099', '2019-06-18', '10:30:21', '2019-06-18 07:30:21', '2019-06-18 07:30:21'),
+(110, 7, '::1', 'http://localhost/internal/aaraa/public/password/reset', 'unknown', 'http://localhost/internal/aaraa/public/password/reset', '0.05300498', '2019-06-18', '10:30:24', '2019-06-18 07:30:24', '2019-06-18 07:30:24'),
+(111, 7, '::1', 'http://localhost/internal/aaraa/public/password/reset/f09d7a895f8d03e9d58d40a4b6fb361130d00480f27657b7b0c7e120048c89c9', 'unknown', 'http://localhost/internal/aaraa/public/password/reset/f09d7a895f8d03e9d58d40a4b6fb361130d00480f27657b7b0c7e120048c89c9', '0.02915096', '2019-06-18', '10:43:59', '2019-06-18 07:43:59', '2019-06-18 07:43:59'),
+(112, 7, '::1', 'http://localhost/internal/aaraa/public/password/reset/20308602ae96198783261dd9ce87fb6ca372db410c6f46987a06b69ee237c855', 'unknown', 'http://localhost/internal/aaraa/public/password/reset/20308602ae96198783261dd9ce87fb6ca372db410c6f46987a06b69ee237c855', '0.03489208', '2019-06-18', '11:00:58', '2019-06-18 08:00:58', '2019-06-18 08:00:58'),
+(113, 7, '::1', 'http://localhost/internal/aaraa/public/admin/dashboard', 'unknown', 'http://localhost/internal/aaraa/public/admin/dashboard', '0.54036903', '2019-06-18', '11:41:37', '2019-06-18 08:41:37', '2019-06-18 08:41:37'),
+(114, 7, '::1', 'http://localhost/internal/aaraa/public/admin/webmails', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmails', '0.09479117', '2019-06-18', '11:41:50', '2019-06-18 08:41:50', '2019-06-18 08:41:50'),
+(115, 7, '::1', 'http://localhost/internal/aaraa/public/admin/webmails/sent', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmails/sent', '0.01995397', '2019-06-18', '11:41:54', '2019-06-18 08:41:54', '2019-06-18 08:41:54'),
+(116, 7, '::1', 'http://localhost/internal/aaraa/public/admin/webmails/create', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmails/create', '0.02160001', '2019-06-18', '11:41:57', '2019-06-18 08:41:57', '2019-06-18 08:41:57'),
+(117, 7, '::1', 'http://localhost/internal/aaraa/public/admin/calendar', 'unknown', 'http://localhost/internal/aaraa/public/admin/calendar', '0.055305', '2019-06-18', '11:43:17', '2019-06-18 08:43:17', '2019-06-18 08:43:17'),
+(118, 7, '::1', 'http://localhost/internal/aaraa/public/admin/calendar?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/calendar?_pjax=%23view', '0.07223296', '2019-06-18', '11:43:17', '2019-06-18 08:43:17', '2019-06-18 08:43:17'),
+(119, 7, '::1', 'http://localhost/internal/aaraa/public/admin/contacts?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/contacts?_pjax=%23view', '0.06214499', '2019-06-18', '11:43:21', '2019-06-18 08:43:21', '2019-06-18 08:43:21'),
+(120, 7, '::1', 'http://localhost/internal/aaraa/public/admin/webmails?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmails?_pjax=%23view', '0.02723694', '2019-06-18', '11:43:25', '2019-06-18 08:43:25', '2019-06-18 08:43:25'),
+(121, 7, '::1', 'http://localhost/internal/aaraa/public/admin/ip?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/ip?_pjax=%23view', '0.05680919', '2019-06-18', '11:43:28', '2019-06-18 08:43:28', '2019-06-18 08:43:28'),
+(122, 7, '::1', 'http://localhost/internal/aaraa/public/admin/dashboard?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/dashboard?_pjax=%23view', '0.06018496', '2019-06-18', '11:43:29', '2019-06-18 08:43:29', '2019-06-18 08:43:29'),
+(123, 7, '::1', 'http://localhost/internal/aaraa/public/api/results/1', 'unknown', 'http://localhost/internal/aaraa/public/api/results/1', '0.03359604', '2019-06-18', '11:46:23', '2019-06-18 08:46:23', '2019-06-18 08:46:23'),
+(124, 7, '::1', 'http://localhost/internal/aaraa/public/admin/403', 'unknown', 'http://localhost/internal/aaraa/public/admin/403', '0.02662086', '2019-06-18', '13:54:36', '2019-06-18 10:54:36', '2019-06-18 10:54:36');
 
 -- --------------------------------------------------------
 
@@ -194,7 +210,8 @@ INSERT INTO `aaraa_analytics_visitors` (`id`, `ip`, `city`, `country_code`, `cou
 (3, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'Linux', 'Opera', 'unknown', 'http://localhost/portals/vavisa/aaraa/', 'No Hostname', 'unknown', '2019-06-11', '07:32:39', '2019-06-11 02:02:39', '2019-06-11 02:02:39'),
 (4, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'unknown', NULL, 'unknown', 'http://localhost/internal/aaraa/public/api/users/profile', 'No Hostname', 'unknown', '2019-06-13', '10:26:25', '2019-06-13 07:26:25', '2019-06-13 07:26:25'),
 (5, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'Linux', 'Opera', 'unknown', 'http://localhost/internal/aaraa/', 'No Hostname', 'unknown', '2019-06-16', '06:41:30', '2019-06-16 03:41:30', '2019-06-16 03:41:30'),
-(6, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'Linux', 'Opera', 'unknown', 'http://localhost/internal/aaraa/', 'No Hostname', 'unknown', '2019-06-17', '06:53:02', '2019-06-17 03:53:02', '2019-06-17 03:53:02');
+(6, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'Linux', 'Opera', 'unknown', 'http://localhost/internal/aaraa/', 'No Hostname', 'unknown', '2019-06-17', '06:53:02', '2019-06-17 03:53:02', '2019-06-17 03:53:02'),
+(7, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'Linux', 'Opera', 'unknown', 'unknown', 'No Hostname', 'unknown', '2019-06-18', '10:30:21', '2019-06-18 07:30:21', '2019-06-18 07:30:21');
 
 -- --------------------------------------------------------
 
@@ -208,7 +225,7 @@ CREATE TABLE `aaraa_application_users` (
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `photo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `gender` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'M - Male, F - Female',
+  `gender` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Male, Female',
   `age` int(4) DEFAULT NULL,
   `terms_conditions` tinyint(4) NOT NULL,
   `notification` tinyint(4) NOT NULL,
@@ -226,7 +243,8 @@ CREATE TABLE `aaraa_application_users` (
 --
 
 INSERT INTO `aaraa_application_users` (`id`, `name`, `email`, `password`, `photo`, `gender`, `age`, `terms_conditions`, `notification`, `preferred_language`, `status`, `remember_token`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-('031d14b4-e222-4bde-a770-b44fcaeba49f', 'Mohammed Jhosawa', 'mjhosawa@vavisa-kw.com', '$2y$10$jQg45nn0SAHlFQsAanw/bOQWak/yIHvUO41ShjS41/AXqiTG35tEG', '', 'M', 27, 1, 1, 'en', 1, NULL, NULL, '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-13 09:30:38', '2019-06-16 05:34:53');
+('031d14b4-e222-4bde-a770-b44fcaeba49f', 'Mohammed Jhosawa', 'mjhosawa@vavisa-kw.com', '$2y$10$jQg45nn0SAHlFQsAanw/bOQWak/yIHvUO41ShjS41/AXqiTG35tEG', '', 'Male', 24, 1, 1, 'en', 1, NULL, NULL, '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-13 09:30:38', '2019-06-16 05:34:53'),
+('335e6aeb-91c4-11e9-bb87-8cec4ba57079', 'Carla ', 'carla@vavisa-kw.com', '*89FA6EAF8B6264AC8D6E84759027252505A3EAEE', '', 'Female', 28, 1, 1, 'en', 1, NULL, NULL, '', '2019-06-13 09:30:38', '2019-06-16 05:34:53');
 
 -- --------------------------------------------------------
 
@@ -240,6 +258,18 @@ CREATE TABLE `aaraa_application_users_category` (
   `application_users_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aaraa_application_users_password_resets`
+--
+
+CREATE TABLE `aaraa_application_users_password_resets` (
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -370,8 +400,10 @@ CREATE TABLE `aaraa_category_poll` (
 
 INSERT INTO `aaraa_category_poll` (`id`, `poll_id`, `category_id`, `created_at`, `updated_at`) VALUES
 ('09c8a998-3f73-4129-995a-ac04bc732d4a', '92588104-3c5e-4e77-90dc-f1d3a377d1b8', '1', '2019-06-16 16:54:59', '2019-06-16 16:54:59'),
+('0dcb3b05-ba89-45bb-bb81-5c689a82e0df', '846489c3-37de-4a39-817f-86083cb3140e', '1', '2019-06-18 05:23:10', '2019-06-18 05:23:10'),
 ('17e9c8aa-37be-49a2-a3e3-966a35ebd32a', '244dd386-b7e1-440e-a9a5-4a8589fce177', '1', '2019-06-16 16:57:40', '2019-06-16 16:57:40'),
 ('1c992019-ae76-4fd5-8f98-6cf2341647c6', '9356d484-8fd8-4f4d-a517-fd7bb4b46369', '1', '2019-06-16 16:58:50', '2019-06-16 16:58:50'),
+('37ee2002-0a5a-40df-b038-4d8b76aa26c8', '56fce4c7-9860-4ad3-a264-3f546a490da4', '1', '2019-06-18 11:54:29', '2019-06-18 11:54:29'),
 ('6ff8d496-d778-4dec-a460-9cb074c16841', '8757daf5-f68e-463b-a39c-2c46d331f8db', '1', '2019-06-16 16:45:43', '2019-06-16 16:45:43'),
 ('71bf1c15-e9ac-4f0e-b98f-c1959f85c868', '7017a944-d280-417a-8b36-ea8790003af5', '1', '2019-06-16 16:47:02', '2019-06-16 16:47:02'),
 ('78e036f6-a1c2-4358-8f17-2434b71d763e', '9524e140-9e95-4417-b96e-5db73a8d5b90', '1', '2019-06-16 16:45:29', '2019-06-16 16:45:29'),
@@ -382,8 +414,11 @@ INSERT INTO `aaraa_category_poll` (`id`, `poll_id`, `category_id`, `created_at`,
 ('a1e54d9f-c501-4939-aa9e-0d1e5585330a', '3d76cd1f-2529-499b-9419-1608bf03689e', '1', '2019-06-16 16:38:29', '2019-06-16 16:38:29'),
 ('aa528052-ab2c-4ad3-bb5f-6ba39a6b57bb', 'fe9d2dec-4fe2-44ff-b043-983a5f1552a5', '1', '2019-06-16 16:48:55', '2019-06-16 16:48:55'),
 ('b60de1e4-f877-4632-a4b9-9a2c6546a512', 'a573d145-095d-4dd7-8372-e6596f13bccb', '1', '2019-06-16 16:51:32', '2019-06-16 16:51:32'),
+('ba44e78a-e761-4446-a038-89ad4afcd18d', 'd21c70cf-4c4f-4e88-a12e-091829ca677e', '1', '2019-06-18 05:58:24', '2019-06-18 05:58:24'),
 ('bb84b3d6-8c0b-4fa6-92ed-f8e490734d0e', '205a627b-3135-47b7-b924-41cadc02d7fb', '1', '2019-06-16 17:30:15', '2019-06-16 17:30:15'),
 ('bcd990b8-f695-465f-9d38-5e0c28670f35', '1cdd4bc5-1195-4309-b52e-6afeab837c78', '1', '2019-06-16 16:46:34', '2019-06-16 16:46:34'),
+('bf7e77c4-aec7-4e63-a596-90a0bb928fb6', 'a2ff7e79-3d5e-4378-866e-262a2f3f51bc', '1', '2019-06-18 05:23:42', '2019-06-18 05:23:42'),
+('c9f33d6f-24c9-4682-8739-2cc60549a7d3', '6c621270-0c59-493d-85ac-0d6b1a347c7c', '1', '2019-06-18 12:25:22', '2019-06-18 12:25:22'),
 ('ea881fcb-b5cf-49b4-a02b-156366edccc3', 'd2ac42e9-7a25-4e3d-9931-f7def8c04634', '1', '2019-06-16 16:58:29', '2019-06-16 16:58:29');
 
 -- --------------------------------------------------------
@@ -763,7 +798,8 @@ CREATE TABLE `aaraa_country_poll` (
 INSERT INTO `aaraa_country_poll` (`id`, `poll_id`, `country_id`, `created_at`, `updated_at`) VALUES
 ('1', '1', '25', '2019-06-11 22:43:00', '2019-06-11 22:43:00'),
 ('2', '1', '103', '2019-06-11 20:36:00', '2019-06-11 20:36:00'),
-('3', '2', '103', '2019-06-11 20:36:00', '2019-06-11 20:36:00');
+('3', '2', '103', '2019-06-11 20:36:00', '2019-06-11 20:36:00'),
+('d3d7f1c1-1c2a-42a9-8d41-0b85971af3f8', 'd21c70cf-4c4f-4e88-a12e-091829ca677e', '103', '2019-06-18 05:58:25', '2019-06-18 05:58:25');
 
 -- --------------------------------------------------------
 
@@ -1111,15 +1147,23 @@ INSERT INTO `aaraa_options` (`id`, `name`, `created_by`, `updated_by`, `created_
 ('191151d2-de23-4102-9c30-fa3a6fbd8c26', 'Test1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:57:40', '2019-06-16 16:57:40'),
 ('296501ba-0c1a-47fb-8dc5-fd9feea4553a', 'Test1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:58:51', '2019-06-16 16:58:51'),
 ('2c110825-cd34-47b1-ad58-aa54c6235145', ' Test2', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:58:29', '2019-06-16 16:58:29'),
+('3838da83-c205-488b-831c-0333521a9c82', 'test1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 05:23:42', '2019-06-18 05:23:42'),
 ('38a723a2-69b3-4654-8960-cb510150b6ba', ' Test3', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 17:00:01', '2019-06-16 17:00:01'),
+('4af79c08-8ba4-4c9f-b68b-e05a729de36b', 'test11', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 05:58:24', '2019-06-18 05:58:24'),
 ('531cd406-af9a-449b-83d1-73cea329f716', ' Test2', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 17:00:01', '2019-06-16 17:00:01'),
+('5b48b035-a437-4300-a14a-5670ce29646e', 'test21', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 05:58:24', '2019-06-18 05:58:24'),
 ('8749d37c-0c08-4d54-80f5-c4ed2a3bd896', 'Test1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:55:00', '2019-06-16 16:55:00'),
+('8ddb3117-4cd7-45cd-8b1d-998295eff237', 'test2', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 05:23:42', '2019-06-18 05:23:42'),
 ('9076c1ba-bdfe-4bdb-b808-b3dfe4115d04', ' Test3', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:57:40', '2019-06-16 16:57:40'),
+('91689a03-457b-4534-be0b-4bc1740cc3f7', 'test11', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 12:25:22', '2019-06-18 12:25:22'),
+('9697331d-b2c5-4858-9580-d5d1438350e8', 'test11', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 11:54:29', '2019-06-18 11:54:29'),
 ('9b45a52c-93e9-4249-aeb0-32e75d5b9f08', ' Test3', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:58:51', '2019-06-16 16:58:51'),
 ('ac10e38b-4f4e-4de6-bb14-38fbe48f95fc', ' Test2', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:58:51', '2019-06-16 16:58:51'),
 ('c1f10dc7-1c87-4d71-8822-9f94ba4ed376', 'Test1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 17:00:01', '2019-06-16 17:00:01'),
 ('c2e59d2d-2114-4640-8a8f-c9865838f1b7', 'Test1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:51:32', '2019-06-16 16:51:32'),
+('d88efd81-d311-4802-83df-2160ca42fa76', 'test21', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 12:25:22', '2019-06-18 12:25:22'),
 ('dcd195b1-b1e6-4b24-a8df-28db9d507bbf', ' Test3', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:58:29', '2019-06-16 16:58:29'),
+('e5778010-1bc1-4f72-a4e9-33c0425a57a6', 'test21', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 11:54:29', '2019-06-18 11:54:29'),
 ('e65c65c4-08a2-4e3e-bf2a-fb55caf94aff', ' Test2', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:57:40', '2019-06-16 16:57:40'),
 ('eee39539-f776-4393-97d5-e036e9796bb4', 'Test1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:48:55', '2019-06-16 16:48:55'),
 ('f52b24c2-58c6-4e16-be43-6295ca9d0a5e', 'Test1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 17:30:15', '2019-06-16 17:30:15');
@@ -1143,9 +1187,17 @@ CREATE TABLE `aaraa_option_poll` (
 --
 
 INSERT INTO `aaraa_option_poll` (`id`, `poll_id`, `option_id`, `created_at`, `updated_at`) VALUES
+('00dc4601-13dd-4f31-b573-409148bb4978', 'd21c70cf-4c4f-4e88-a12e-091829ca677e', '5b48b035-a437-4300-a14a-5670ce29646e', '2019-06-18 05:58:25', '2019-06-18 05:58:25'),
 ('03e6a0d7-9150-11e9-96b7-30d16bf2233d', '1', '2c110825-cd34-47b1-ad58-aa54c6235145', '2019-06-17 18:30:00', '2019-06-17 18:30:00'),
+('0c26e0c0-bf07-4c84-a3f0-9b23efac7e94', 'd21c70cf-4c4f-4e88-a12e-091829ca677e', '4af79c08-8ba4-4c9f-b68b-e05a729de36b', '2019-06-18 05:58:24', '2019-06-18 05:58:24'),
 ('0cb942d3-9150-11e9-96b7-30d16bf2233d', '1', '38a723a2-69b3-4654-8960-cb510150b6ba', '2019-06-17 18:30:00', '2019-06-17 18:30:00'),
-('a0b1abcf-914f-11e9-96b7-30d16bf2233d', '1', '12b4e764-b00c-4394-af04-8049cad7f3db', '2019-06-17 18:30:00', '2019-06-17 18:30:00');
+('303e433d-3be3-462f-a639-aef332d3e7bc', '56fce4c7-9860-4ad3-a264-3f546a490da4', 'e5778010-1bc1-4f72-a4e9-33c0425a57a6', '2019-06-18 11:54:29', '2019-06-18 11:54:29'),
+('4b97ee61-e51c-4404-af55-92994d2935d1', '56fce4c7-9860-4ad3-a264-3f546a490da4', '9697331d-b2c5-4858-9580-d5d1438350e8', '2019-06-18 11:54:29', '2019-06-18 11:54:29'),
+('57bd5c68-bbfe-49a9-a394-169ff749e2d7', 'a2ff7e79-3d5e-4378-866e-262a2f3f51bc', '3838da83-c205-488b-831c-0333521a9c82', '2019-06-18 05:23:42', '2019-06-18 05:23:42'),
+('78591d64-f2ed-489e-be2d-5e9bb745500a', 'a2ff7e79-3d5e-4378-866e-262a2f3f51bc', '8ddb3117-4cd7-45cd-8b1d-998295eff237', '2019-06-18 05:23:42', '2019-06-18 05:23:42'),
+('a0b1abcf-914f-11e9-96b7-30d16bf2233d', '1', '12b4e764-b00c-4394-af04-8049cad7f3db', '2019-06-17 18:30:00', '2019-06-17 18:30:00'),
+('a6461d83-e1d7-4ca9-a766-511e5ebefdef', '6c621270-0c59-493d-85ac-0d6b1a347c7c', '91689a03-457b-4534-be0b-4bc1740cc3f7', '2019-06-18 12:25:22', '2019-06-18 12:25:22'),
+('d0b48144-ca84-4d51-ad17-a9b3dce19e4b', '6c621270-0c59-493d-85ac-0d6b1a347c7c', 'd88efd81-d311-4802-83df-2160ca42fa76', '2019-06-18 12:25:22', '2019-06-18 12:25:22');
 
 -- --------------------------------------------------------
 
@@ -1158,6 +1210,13 @@ CREATE TABLE `aaraa_password_resets` (
   `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `aaraa_password_resets`
+--
+
+INSERT INTO `aaraa_password_resets` (`email`, `token`, `created_at`) VALUES
+('mjhosawa@vavisa-kw.com', '$2y$10$Em0ecIOP2.gpPtUHr7Jar.9tAHTjviMFFk4J.bbsC5zMlhQevwIpS', '2019-06-18 08:00:37');
 
 -- --------------------------------------------------------
 
@@ -1289,17 +1348,22 @@ INSERT INTO `aaraa_polls` (`id`, `name`, `photo`, `status`, `start_datetime`, `e
 ('244dd386-b7e1-440e-a9a5-4a8589fce177', 'test', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:57:39', '2019-06-16 16:57:39'),
 ('3d76cd1f-2529-499b-9419-1608bf03689e', 'test', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:38:29', '2019-06-16 16:38:29'),
 ('483ef500-abc9-4783-b61f-087610db247b', 'test', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:30:05', '2019-06-16 16:30:05'),
+('56fce4c7-9860-4ad3-a264-3f546a490da4', 'Test1', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 11:54:29', '2019-06-18 11:54:29'),
 ('6aa2d723-5c1c-465a-8c5d-7afffd34d847', 'test', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:20:52', '2019-06-16 16:20:52'),
+('6c621270-0c59-493d-85ac-0d6b1a347c7c', 'Test1', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 12:25:22', '2019-06-18 12:25:22'),
 ('7017a944-d280-417a-8b36-ea8790003af5', 'test', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:47:02', '2019-06-16 16:47:02'),
+('846489c3-37de-4a39-817f-86083cb3140e', 'Test', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 05:23:10', '2019-06-18 05:23:10'),
 ('84b46d74-c1af-436c-b236-2f3b844bf659', 'test', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:42:40', '2019-06-16 16:42:40'),
 ('8757daf5-f68e-463b-a39c-2c46d331f8db', 'test', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:45:43', '2019-06-16 16:45:43'),
 ('92588104-3c5e-4e77-90dc-f1d3a377d1b8', 'test', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:54:58', '2019-06-16 16:54:58'),
 ('932c08db-3355-4a7c-87c9-489503b7ac7c', 'test', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 17:00:00', '2019-06-16 17:00:00'),
 ('9356d484-8fd8-4f4d-a517-fd7bb4b46369', 'test', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:58:49', '2019-06-16 16:58:49'),
 ('9524e140-9e95-4417-b96e-5db73a8d5b90', 'test', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:45:29', '2019-06-16 16:45:29'),
+('a2ff7e79-3d5e-4378-866e-262a2f3f51bc', 'Test', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 05:23:42', '2019-06-18 05:23:42'),
 ('a573d145-095d-4dd7-8372-e6596f13bccb', 'test', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:51:31', '2019-06-16 16:51:31'),
 ('c09f5ff2-5ad3-4b7c-bc79-43cc59e20dc8', 'test', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:20:29', '2019-06-16 16:20:29'),
 ('c7c5c6aa-294b-4625-b679-68901bdf1992', 'test', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:44:04', '2019-06-16 16:44:04'),
+('d21c70cf-4c4f-4e88-a12e-091829ca677e', 'Test1', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 05:58:24', '2019-06-18 05:58:24'),
 ('d2ac42e9-7a25-4e3d-9931-f7def8c04634', 'test', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:58:29', '2019-06-16 16:58:29'),
 ('d8d5c159-d683-412a-89ee-c70ca21e44c4', 'test', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:32:50', '2019-06-16 16:32:50'),
 ('fe9d2dec-4fe2-44ff-b043-983a5f1552a5', 'test', '', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:48:55', '2019-06-16 16:48:55');
@@ -1350,16 +1414,24 @@ CREATE TABLE `aaraa_poll_results` (
 
 INSERT INTO `aaraa_poll_results` (`id`, `user_id`, `poll_id`, `option_id`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
 ('0cb39cf1-0d0f-4578-9a61-34c7f3e1dc6a', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '12b4e764-b00c-4394-af04-8049cad7f3db', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-17 16:55:09', '2019-06-17 16:55:09'),
+('10c74efe-3cd6-4458-9c87-601987ba41af', '335e6aeb-91c4-11e9-bb87-8cec4ba57079', '1', '38a723a2-69b3-4654-8960-cb510150b6ba', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 05:14:20', '2019-06-18 05:14:20'),
 ('2cb16c48-2778-4848-83d3-d9f3eb9ad96d', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '2c110825-cd34-47b1-ad58-aa54c6235145', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-17 17:50:06', '2019-06-17 17:50:06'),
+('34944da9-4fbf-4e0c-b702-cfccdfcc343a', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '38a723a2-69b3-4654-8960-cb510150b6ba', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 04:38:43', '2019-06-18 04:38:43'),
 ('3acefb28-e2f3-41ff-a563-4fff9016bb77', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '38a723a2-69b3-4654-8960-cb510150b6ba', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-17 17:37:55', '2019-06-17 17:37:55'),
+('3bc4ce02-0a93-4003-a235-a1063805676a', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '38a723a2-69b3-4654-8960-cb510150b6ba', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 05:09:05', '2019-06-18 05:09:05'),
 ('3d251893-7827-4286-808c-f8d0e1a2a2eb', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '38a723a2-69b3-4654-8960-cb510150b6ba', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-17 17:37:44', '2019-06-17 17:37:44'),
+('47fe07f5-6ebe-476a-8280-3823ad24d06c', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '38a723a2-69b3-4654-8960-cb510150b6ba', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 05:08:29', '2019-06-18 05:08:29'),
 ('4c77e596-3c90-4eaa-bb3f-1cb12a77b975', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '38a723a2-69b3-4654-8960-cb510150b6ba', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-17 17:37:59', '2019-06-17 17:37:59'),
 ('4e733b28-ad62-43bc-9f60-0110977aab90', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '2c110825-cd34-47b1-ad58-aa54c6235145', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-17 17:44:56', '2019-06-17 17:44:56'),
+('67db85f6-2c49-471a-a801-a54004b92810', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '38a723a2-69b3-4654-8960-cb510150b6ba', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 04:38:53', '2019-06-18 04:38:53'),
 ('6fc16cae-aa16-4d89-b2ae-091e84f702c8', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '38a723a2-69b3-4654-8960-cb510150b6ba', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-17 17:35:07', '2019-06-17 17:35:07'),
 ('82f28733-fd3c-4430-9367-4aa0134cc32a', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '2c110825-cd34-47b1-ad58-aa54c6235145', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-17 17:50:09', '2019-06-17 17:50:09'),
 ('864e3ac8-ab96-4ed5-955c-c5c8f4846379', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '38a723a2-69b3-4654-8960-cb510150b6ba', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-17 17:38:02', '2019-06-17 17:38:02'),
+('993f1103-1b6d-4737-8796-814adcc8265f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '38a723a2-69b3-4654-8960-cb510150b6ba', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 04:43:04', '2019-06-18 04:43:04'),
+('a4e7add4-d70f-4934-b7a9-e359fd71e330', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '38a723a2-69b3-4654-8960-cb510150b6ba', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 04:38:49', '2019-06-18 04:38:49'),
 ('a55cbc4e-d480-4928-8365-682218d8b434', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '2c110825-cd34-47b1-ad58-aa54c6235145', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-17 17:48:03', '2019-06-17 17:48:03'),
-('b9f13752-4284-4c3e-a19c-de7a25a8ad9a', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '38a723a2-69b3-4654-8960-cb510150b6ba', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-17 17:43:04', '2019-06-17 17:43:04');
+('b9f13752-4284-4c3e-a19c-de7a25a8ad9a', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '38a723a2-69b3-4654-8960-cb510150b6ba', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-17 17:43:04', '2019-06-17 17:43:04'),
+('fff14cff-ccdb-4be7-aa3f-e2ba58efec40', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '38a723a2-69b3-4654-8960-cb510150b6ba', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 05:17:02', '2019-06-18 05:17:02');
 
 -- --------------------------------------------------------
 
@@ -1716,7 +1788,7 @@ CREATE TABLE `aaraa_users` (
 --
 
 INSERT INTO `aaraa_users` (`id`, `name`, `email`, `password`, `photo`, `permissions_id`, `preferred_language`, `status`, `connect_email`, `connect_password`, `remember_token`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-('1', 'admin', 'admin@site.com', '$2y$10$vCYpyjX68hKYbzsAUZS4vuLCodSrXukCOHorulIwREO70hNgv6J5q', NULL, 1, '', 1, NULL, NULL, 'ezmYfwwTII9QIs4UVZ5eQA2PyFXQ3Nw0hIYEmvl9g8avmGifwTjlhAmWFyqu', '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
+('1', 'admin', 'mjhosawa@vavisa-kw.com', '$2y$10$vCYpyjX68hKYbzsAUZS4vuLCodSrXukCOHorulIwREO70hNgv6J5q', NULL, 1, '', 1, NULL, NULL, 'ezmYfwwTII9QIs4UVZ5eQA2PyFXQ3Nw0hIYEmvl9g8avmGifwTjlhAmWFyqu', '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
 ('2', 'manager', 'manager@site.com', '$2y$10$uwYocVmPgnGGxhW/ITU46ePqFEdsIyj87OXkYrRidYtuvvQR2Y6Yq', NULL, 2, '', 1, NULL, NULL, NULL, '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
 ('3', 'user', 'user@site.com', '$2y$10$JFfZ4nfOHNJlzEefZk9Oq.QcHzqaIOCM7kU0/0fltjptMrU4hj7UO', NULL, 3, '', 1, NULL, NULL, NULL, '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
 
@@ -1759,8 +1831,9 @@ INSERT INTO `aaraa_webmails` (`id`, `cat_id`, `group_id`, `contact_id`, `father_
 (2, 0, NULL, NULL, NULL, 'Need your help', 'Dear sir,\r\nI need your help to subscribe to your team. Please contact me as soon as possible.\r\n\r\nBest Regards', '2017-03-07 16:04:16', 'ayamen@site.com', 'Amar Yamen', '8378-475-466', 'info@sitename.com', 'aaraa Laravel Site Preview', NULL, NULL, 0, 0, NULL, NULL, '2017-03-07 14:04:16', '2017-03-07 14:04:16'),
 (3, 0, 3, NULL, NULL, 'My test message to this site', 'I just test sending messages\r\nThanks', '2017-03-07 16:05:32', 'email@site.com', 'Donyo Hawa', '343423-543', 'info@sitename.com', 'aaraa Laravel Site Preview', NULL, NULL, 0, 0, NULL, NULL, '2017-03-07 14:05:32', '2017-03-07 14:11:59'),
 (4, 0, 1, NULL, NULL, 'Contact me for support any time', 'This is a test message', '2017-03-07 16:10:29', 'email@site.com', 'MMondi', '7363758', 'info@sitename.com', 'aaraa Laravel Site Preview', NULL, NULL, 0, 0, NULL, NULL, '2017-03-07 14:10:29', '2017-03-07 14:11:54'),
-(5, 0, NULL, NULL, NULL, 'Test mail delivery message', 'Dear team,\r\nThis is a Test mail delivery message\r\nThank you', '2017-03-07 21:06:41', 'email@site.com', 'Ramy Adams', '87557home', 'support@smartfordesign.com', 'aaraa Laravel Site Preview', NULL, NULL, 0, 0, NULL, NULL, '2017-03-08 02:06:41', '2017-03-08 02:06:41'),
-(6, 0, NULL, NULL, NULL, 'Test mail delivery message', 'Dear team,\r\nThis is a Test mail delivery message\r\nThank you', '2017-03-07 21:08:54', 'email@site.com', 'Adam Ali', '3432423', 'support@smartfordesign.com', 'aaraa Laravel Site Preview', NULL, NULL, 0, 0, NULL, NULL, '2017-03-08 02:08:54', '2017-03-08 02:08:54');
+(5, 0, NULL, NULL, NULL, 'Test mail delivery message', 'Dear team,\r\nThis is a Test mail delivery message\r\nThank you', '2017-03-07 21:06:41', 'email@site.com', 'Ramy Adams', '87557home', 'support@smartfordesign.com', 'aaraa Laravel Site Preview', NULL, NULL, 1, 0, NULL, NULL, '2017-03-08 02:06:41', '2019-06-18 08:42:04'),
+(6, 0, NULL, NULL, NULL, 'Test mail delivery message', 'Dear team,\r\nThis is a Test mail delivery message\r\nThank you', '2017-03-07 21:08:54', 'email@site.com', 'Adam Ali', '3432423', 'support@smartfordesign.com', 'aaraa Laravel Site Preview', NULL, NULL, 1, 0, NULL, NULL, '2017-03-08 02:08:54', '2019-06-18 08:41:50'),
+(7, 1, NULL, NULL, NULL, 'Hi Gabru', '<p>This is just a test mail.</p>', '2019-06-18 11:42:47', 'support@smartfordesign.com', 'aaraa Laravel Site Preview', NULL, 'agabru@vavisa-kw.com', NULL, NULL, NULL, 1, 0, 1, NULL, '2019-06-18 08:42:47', '2019-06-18 08:42:47');
 
 -- --------------------------------------------------------
 
@@ -2007,6 +2080,12 @@ ALTER TABLE `aaraa_application_users_category`
   ADD PRIMARY KEY (`id`),
   ADD KEY `aaraa_poll_application_users_user_id_fk` (`application_users_id`),
   ADD KEY `aaraa_poll_application_users_category_id_fk` (`category_id`);
+
+--
+-- Indexes for table `aaraa_application_users_password_resets`
+--
+ALTER TABLE `aaraa_application_users_password_resets`
+  ADD KEY `application_users_password_resets_email_index` (`email`);
 
 --
 -- Indexes for table `aaraa_application_users_poll`
@@ -2292,13 +2371,13 @@ ALTER TABLE `aaraa_webmaster_settings`
 -- AUTO_INCREMENT for table `aaraa_analytics_pages`
 --
 ALTER TABLE `aaraa_analytics_pages`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 
 --
 -- AUTO_INCREMENT for table `aaraa_analytics_visitors`
 --
 ALTER TABLE `aaraa_analytics_visitors`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `aaraa_attach_files`
@@ -2412,7 +2491,7 @@ ALTER TABLE `aaraa_topic_fields`
 -- AUTO_INCREMENT for table `aaraa_webmails`
 --
 ALTER TABLE `aaraa_webmails`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `aaraa_webmails_files`
