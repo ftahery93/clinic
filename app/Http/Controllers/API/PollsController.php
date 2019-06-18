@@ -37,14 +37,14 @@ class PollsController extends Controller
         $this->middleware('app.version');
 
         //get the language from the HTTP header
-        $this->language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];  
+        $this->language = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : "en";  
         
         //get the DB table prefix for raw queries
         $this->db_table_prefix = preg_replace("/&#?[a-z0-9]+;/i","",DB::getTablePrefix());
     }
 
     /**
-     * Fetch the list of polls from storage.
+     * Fetch the list of polls 
      *
      * @return \Illuminate\Http\Response
      */
@@ -52,13 +52,11 @@ class PollsController extends Controller
     {
         $method = $_SERVER['REQUEST_METHOD'];
         if($method == "GET"){
-            $ip = '31.203.6.12'; //test ip address
-            // $ip = $_SERVER['REMOTE_ADDR']; // Get the server IP Address from where request is coming
+            $ip = $_SERVER['REMOTE_ADDR']; // Get the server IP Address from where request is coming
             //  Validate IP Address format
             if(filter_var($ip, FILTER_VALIDATE_IP)){
-                // $ip_details = json_decode(@file_get_contents("http://ipinfo.io/{$ip}/json"));
-                // $visitor_country_code = @$ip_details->country;
-                $visitor_country_code = "KW";
+                $ip_details = json_decode(@file_get_contents("http://ipinfo.io/{$ip}/json"));
+                $visitor_country_code = @$ip_details->country;
                 if ($visitor_country_code != "") {
                     $Country = Country::where('code', '=', $visitor_country_code)->first();
                     if (count($Country->polls) > 0) {
@@ -70,7 +68,7 @@ class PollsController extends Controller
                     return response()->json(['error' => trans('mobileLang.countryNotFound')], 404);
                 }
             } else {
-                return response()->json(['error' => trans('mobileLang.countryIPInvalid')], $this->successStatus);
+                return response()->json(['error' => trans('mobileLang.countryIPInvalid')], 404);
             }
         } else if($method == "POST"){
             $category_id = $request->category_id;
@@ -90,7 +88,7 @@ class PollsController extends Controller
     }
 
     /**
-     * Store a newly created poll in storage.
+     * Store a newly created poll
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
@@ -120,9 +118,7 @@ class PollsController extends Controller
         // End of Upload Files
 
         $Poll = new Poll();
-        
         $Poll->photo = $fileFinalName_ar;
-
         $Poll->name = $request->poll_name;
 
         if($request->enable_comments != ""){
@@ -143,34 +139,52 @@ class PollsController extends Controller
 
         // Get the Options
         if($request->options != ""){
-            
             $options_list = $request->options;
-
             //if not array, might be comma separated
             if(!is_array($options_list)){
                 $options_list = explode(",",$options_list);
             }
-
             //if options are in array form
-            foreach($options_list as $option){
+            foreach($options_list as $option_id => $option_value){
                 $Option = new Option();
-                $Option->title_ar = $option;
-                $Option->title_en = $option;
+                $Option->name = $option_value;
                 $Option->created_by = Auth::user()->id;
                 $Option->created_at = date('Y-m-d H:i:s');
                 $Option->updated_by = Auth::user()->id;
                 $Option->updated_at = date('Y-m-d H:i:s');
                 $Option->save();
-                
-                //attach issue on this line, throws UUID error - NEED FIX
-                // $Option->polls()->attach($Poll,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
+                //Link the options with created poll record
+                $Option->polls()->attach($Poll,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
             }
         }
 
+        // Get the Country
+        if($request->countries != ""){
+            $countries_list = $request->countries;
+            //if not array, might be comma separated
+            if(!is_array($countries_list)){
+                $countries_list = explode(",",$countries_list);
+            }
+            foreach($countries_list as $country_id => $country_value){
+                $Country = Country::where('code', '=', $country_value)->first();
+                $Country->polls()->attach($Poll,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
+            }
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR']; // Get the server IP Address from where request is coming
+            //  Validate IP Address format
+            if(filter_var($ip, FILTER_VALIDATE_IP)){
+                $ip_details = json_decode(@file_get_contents("http://ipinfo.io/{$ip}/json"));
+                $visitor_country_code = @$ip_details->country;
+                if ($visitor_country_code != "") {
+                    $Country = Country::where('code', '=', $visitor_country_code)->first();
+                    $Country->polls()->attach($Poll,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
+                }
+            }
+        }
     }
 
     /**
-     * Delete the specified poll resource in storage.
+     * Delete the specified poll resource
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
@@ -181,14 +195,14 @@ class PollsController extends Controller
         $Poll = Polls::find($id);
         if (count($Poll) > 0) {
             $Poll->delete();
-            return response()->json(['success' => trans('mobileLang.pollDeleteSuccess')], $this->successStatus);
+            return response()->json(['message' => trans('mobileLang.pollDeleteSuccess')], $this->successStatus);
         } else {
             return response()->json(['error' => trans('mobileLang.pollNotFound')], 404);
         }
     }
 
     /**
-     * Mark the poll favourite from storage.
+     * Mark the poll favourite 
      *
      * @return \Illuminate\Http\Response
      */
@@ -197,15 +211,15 @@ class PollsController extends Controller
         $Poll = Poll::find($id);
         if(count($Poll->favourites) > 0){ 
             $Poll->favourites()->detach(Auth::user()->id);
-            return response()->json(['success' => trans('mobileLang.pollUnFavourite')], $this->successStatus);
+            return response()->json(['message' => trans('mobileLang.pollUnFavourite')], $this->successStatus);
         } else {
             $Poll->favourites()->attach(Auth::user()->id,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
-            return response()->json(['success' => trans('mobileLang.pollFavourite')], $this->successStatus);
+            return response()->json(['message' => trans('mobileLang.pollFavourite')], $this->successStatus);
         }
     }
 
     /**
-     * Fetch the list of saved polls from storage.
+     * Fetch the list of saved polls 
      *
      * @return \Illuminate\Http\Response
      */
@@ -220,7 +234,7 @@ class PollsController extends Controller
     }
 
     /**
-     * Fetch the list of my polls from storage.
+     * Fetch the list of my polls 
      *
      * @return \Illuminate\Http\Response
      */
@@ -235,7 +249,7 @@ class PollsController extends Controller
     }
 
     /**
-     * Select poll option for respective poll from storage.
+     * Select poll option for respective poll 
      *
      * @return \Illuminate\Http\Response
      */
@@ -251,11 +265,11 @@ class PollsController extends Controller
         }
 
         if (!Poll::find($request->poll_id)->exists()) {
-            return response()->json(['error' => trans('mobileLang.pollNotFoundwithId')], 401);
+            return response()->json(['error' => trans('mobileLang.pollNotFoundwithId')], 404);
         }
 
         if (!Option::find($request->option_id)->exists()) {
-            return response()->json(['error' => trans('mobileLang.optionNotFoundwithId')], 401);
+            return response()->json(['error' => trans('mobileLang.optionNotFoundwithId')], 404);
         }
 
         // Save the Poll Result
@@ -270,16 +284,16 @@ class PollsController extends Controller
         $Result->save();
 
         // Get the Poll Result 
-        $PollResults = DB::select("SELECT {$this->db_table_prefix}option_poll.option_id, COUNT({$this->db_table_prefix}poll_results.id) * 100 / (SELECT COUNT(*) FROM {$this->db_table_prefix}poll_results WHERE {$this->db_table_prefix}poll_results.poll_id= :poll1) AS percentange FROM {$this->db_table_prefix}option_poll LEFT JOIN {$this->db_table_prefix}poll_results ON {$this->db_table_prefix}option_poll.option_id = {$this->db_table_prefix}poll_results.option_id WHERE {$this->db_table_prefix}option_poll.poll_id = :poll2 GROUP BY {$this->db_table_prefix}option_poll.option_id",[
+        $PollResultsExecute = DB::select("SELECT {$this->db_table_prefix}option_poll.option_id AS id, ROUND(COUNT({$this->db_table_prefix}poll_results.id) * 100 / (SELECT COUNT(*) FROM {$this->db_table_prefix}poll_results WHERE {$this->db_table_prefix}poll_results.poll_id= :poll1),2) AS percentage FROM {$this->db_table_prefix}option_poll LEFT JOIN {$this->db_table_prefix}poll_results ON {$this->db_table_prefix}option_poll.option_id = {$this->db_table_prefix}poll_results.option_id LEFT JOIN {$this->db_table_prefix}options ON {$this->db_table_prefix}option_poll.option_id = {$this->db_table_prefix}options.id WHERE {$this->db_table_prefix}option_poll.poll_id = :poll2 GROUP BY {$this->db_table_prefix}option_poll.option_id",[
             'poll1' => $request->poll_id,
             'poll2' => $request->poll_id,
         ]);
 
-        return response()->json($PollResults, $this->successStatus);
+        return response()->json($PollResultsExecute, $this->successStatus);
     }
 
     /**
-     * Add comment for respective poll from storage.
+     * Add comment for respective poll
      *
      * @return \Illuminate\Http\Response
      */
@@ -295,7 +309,7 @@ class PollsController extends Controller
         }
 
         if (!Poll::find($request->poll_id)->exists()) {
-            return response()->json(['error' => trans('mobileLang.pollNotFoundwithId')], 401);
+            return response()->json(['error' => trans('mobileLang.pollNotFoundwithId')], 494);
         }
 
         $Comment = new Comment();
@@ -308,13 +322,12 @@ class PollsController extends Controller
         $Comment->save();
 
         $Comment->polls()->attach($request->poll_id,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
-        
-        return response()->json(['success' => trans('mobileLang.pollCommentSuccess')], 404);
-    
+
+        return response()->json(['message' => trans('mobileLang.pollCommentSuccess')], $this->successStatus);
     }
 
     /**
-     * Fetch the list of comments for respective poll from storage.
+     * Fetch the list of comments for respective poll 
      *
      * @return \Illuminate\Http\Response
      */
@@ -330,22 +343,78 @@ class PollsController extends Controller
     }
 
     /**
-     * Fetch the list of comments for respective poll from storage.
+     * Fetch the results for respective poll 
      *
      * @return \Illuminate\Http\Response
      */
     public function getPollResults($id)
     {
-        $Poll = Poll::find($id);
-        if (count($Poll->comments) > 0) {
-            return response()->json($Poll->comments, $this->successStatus);
-        } else {
-            return response()->json(['error' => trans('mobileLang.pollResultsNotFound')], 404);
+        // Get the Poll Results - General wise 
+        $PollResultsGeneral = DB::select("SELECT {$this->db_table_prefix}options.name AS name,ROUND(COUNT({$this->db_table_prefix}poll_results.id) * 100 / (SELECT COUNT(*) FROM {$this->db_table_prefix}poll_results WHERE {$this->db_table_prefix}poll_results.poll_id= :poll1),2) AS percentage FROM {$this->db_table_prefix}option_poll LEFT JOIN {$this->db_table_prefix}poll_results ON {$this->db_table_prefix}option_poll.option_id = {$this->db_table_prefix}poll_results.option_id LEFT JOIN {$this->db_table_prefix}options ON {$this->db_table_prefix}option_poll.option_id = {$this->db_table_prefix}options.id WHERE {$this->db_table_prefix}option_poll.poll_id = :poll2 GROUP BY {$this->db_table_prefix}option_poll.option_id",[
+            'poll1' => $id,
+            'poll2' => $id,
+        ]);
+
+        // Get the Poll Results - Gender wise
+        $PollResultsGender = DB::select("SELECT {$this->db_table_prefix}option_poll.option_id AS id, {$this->db_table_prefix}options.name AS name, {$this->db_table_prefix}application_users.gender AS gender,ROUND(COUNT({$this->db_table_prefix}poll_results.id) * 100 / (SELECT COUNT(*) FROM {$this->db_table_prefix}poll_results WHERE {$this->db_table_prefix}poll_results.poll_id= :poll1),2) AS percentage FROM {$this->db_table_prefix}option_poll LEFT JOIN {$this->db_table_prefix}poll_results ON {$this->db_table_prefix}option_poll.option_id = {$this->db_table_prefix}poll_results.option_id LEFT JOIN {$this->db_table_prefix}options ON {$this->db_table_prefix}option_poll.option_id = {$this->db_table_prefix}options.id LEFT JOIN {$this->db_table_prefix}application_users ON {$this->db_table_prefix}poll_results.user_id = {$this->db_table_prefix}application_users.id WHERE {$this->db_table_prefix}option_poll.poll_id = :poll2 GROUP BY  {$this->db_table_prefix}option_poll.option_id,{$this->db_table_prefix}application_users.gender",[
+            'poll1' => $id,
+            'poll2' => $id,
+        ]);
+
+        $PollResultsGender = collect($PollResultsGender)->map(function ($result) {
+            $PollResultsGender['id'] = $result->id;
+            $PollResultsGender['name'] = $result->name;
+            $PollResultsGender[$result->gender] = $result->percentage;
+            return $PollResultsGender;
+        });
+
+        $group = array();
+        foreach ($PollResultsGender as $key => $value ) {
+            foreach($value as $k => $v){
+                $group[$value['id']]['name'] = $value['name'];
+                if($k == "Male") $group[$value['id']][$k] = $v;
+                if($k == "Female") $group[$value['id']][$k] = $v;
+            }
         }
+        
+        // Reset the array
+        $PollResultsGender = array_values($group);  
+
+        // Get the Poll Results - Age wise
+        $PollResultsAge = DB::select("SELECT {$this->db_table_prefix}option_poll.option_id AS id, {$this->db_table_prefix}options.name AS name,{$this->db_table_prefix}application_users.age AS age, ROUND(COUNT({$this->db_table_prefix}poll_results.id) * 100 / (SELECT COUNT(*) FROM {$this->db_table_prefix}poll_results WHERE {$this->db_table_prefix}poll_results.poll_id= :poll1),2) AS percentage FROM {$this->db_table_prefix}option_poll LEFT JOIN {$this->db_table_prefix}poll_results ON {$this->db_table_prefix}option_poll.option_id = {$this->db_table_prefix}poll_results.option_id LEFT JOIN {$this->db_table_prefix}options ON {$this->db_table_prefix}option_poll.option_id = {$this->db_table_prefix}options.id LEFT JOIN {$this->db_table_prefix}application_users ON {$this->db_table_prefix}poll_results.user_id = {$this->db_table_prefix}application_users.id WHERE {$this->db_table_prefix}option_poll.poll_id = :poll2 GROUP BY {$this->db_table_prefix}option_poll.option_id, {$this->db_table_prefix}application_users.age",[
+            'poll1' => $id,
+            'poll2' => $id,
+        ]);
+
+        $PollResultsAge = collect($PollResultsAge)->map(function ($result) {
+            $PollResultsAge['id'] = $result->id;
+            $PollResultsAge['name'] = $result->name;
+            if($result->age < 25)  $PollResultsAge['Under 25'] = $result->percentage;
+            if($result->age >= 25) $PollResultsAge['Above 25'] = $result->percentage;
+            return $PollResultsAge;
+        });
+
+        $group = array();
+        foreach ($PollResultsAge as $key => $value ) {
+            foreach($value as $k => $v){
+                $group[$value['id']]['name'] = $value['name'];
+                if($k == "Above 25") $group[$value['id']][$k] = $v;
+                if($k == "Under 25") $group[$value['id']][$k] = $v;
+            }
+        }
+
+        // Reset the array
+        $PollResultsAge = array_values($group);  
+        
+        return response()->json([
+            'general' => $PollResultsGeneral,
+            'gender' => $PollResultsGender,
+            'age' => $PollResultsAge
+        ], $this->successStatus);
     }
 
     /**
-     * Get Upload Path resource in storage.
+     * Get Upload Path resource
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
@@ -357,7 +426,7 @@ class PollsController extends Controller
     }
 
     /**
-     * Set Upload Path resource in storage.
+     * Set Upload Path resource
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id

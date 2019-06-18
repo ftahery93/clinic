@@ -23,16 +23,16 @@ class VerifyAppVersion
             switch($type[0]){
                 case "iOS":
                     if (!Setting::where('ios_version', '=', $type[1])->exists()) {
-                        return response()->json(['error' => trans('auth.iosAppUpdateMsg')], 200);
+                        return response()->json(['error' => trans('auth.iosAppUpdateMsg')], 404);
                     }    
                     break;
                 case "Android":
                     if (!Setting::where('android_version', '=', $type[1])->exists()) {
-                        return response()->json(['error' => trans('auth.androidAppUpdateMsg')], 200);
+                        return response()->json(['error' => trans('auth.androidAppUpdateMsg')], 404);
                     }    
                     break;
                 default: 
-                return response()->json(['error' => trans('auth.commonAppUpdateMsg')], 200);
+                return response()->json(['error' => trans('auth.commonAppUpdateMsg')], 404);
             }
         } else {
             return response()->json(['error' => trans('auth.appversionMissing')], 417);

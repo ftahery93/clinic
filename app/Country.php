@@ -10,12 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Country extends Model
 {
     //otherwise the user_id won't save properly.
-    public $incrementing = false;  
-
-    public function polls()
-    {
-        return $this->belongsToMany(Poll::class);
-    }
+    public $incrementing = false; 
 
     public static function boot()
     {
@@ -33,4 +28,9 @@ class Country extends Model
     protected $hidden = [
         'tel', 'created_at','updated_at','code','pivot'
     ];
+
+    public function polls()
+    {
+        return $this->belongsToMany(Poll::class);
+    }
 }

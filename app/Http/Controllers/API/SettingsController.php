@@ -42,7 +42,7 @@ class SettingsController extends Controller
         if(count($Setting) > 0){ 
           return response()->json(collect($Setting)->only('min_options','max_options'), $this->successStatus);
         } else {
-          return response()->json(['success' => trans('mobileLang.configNotFound')], 404);
+          return response()->json(['error' => trans('mobileLang.configNotFound')], 404);
         }
 
     }
@@ -83,7 +83,7 @@ class SettingsController extends Controller
             }
             return response()->json(array_values($durations), $this->successStatus);
         } else {
-            return response()->json(['success' => trans('mobileLang.durationNotFound')], 404);
+            return response()->json(['error' => trans('mobileLang.durationNotFound')], 404);
         }
 
     }

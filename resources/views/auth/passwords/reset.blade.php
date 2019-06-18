@@ -5,14 +5,14 @@
 </head>
 <body>
 <div class="app" id="app">
-
     <!-- ############ LAYOUT START-->
     <div class="center-block w-xxl w-auto-xs p-y-md">
         <div class="navbar">
             <div class="pull-center">
                 <div>
-                    <a class="navbar-brand"><img src="{{ URL::to('backEnd/assets/images/logo.png') }}" alt="."> <span
-                                class="hidden-folded inline">{{ trans('backLang.control') }}</span></a>
+                    <a class="navbar-brand"><img src="{{ URL::to('backEnd/assets/images/logo.png') }}" alt="."> 
+                        <span class="hidden-folded inline">{{ trans('backLang.control') }}</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -31,7 +31,6 @@
                         <strong>{{ $errors->first('email') }}</strong>
                     </span>
                 @endif
-
                 <div class="md-form-group {{ $errors->has('password') ? ' has-error' : '' }}">
                     <input type="password" name="password" class="md-input" required>
                     <label>{{ trans('backLang.newPassword') }}</label>
@@ -41,8 +40,6 @@
                         <strong>{{ $errors->first('password') }}</strong>
                     </span>
                 @endif
-
-
                 <div class="md-form-group {{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
                     <input type="password" name="password_confirmation" class="md-input" required>
                     <label>{{ trans('backLang.confirmPassword') }}</label>
@@ -52,15 +49,11 @@
                         <strong>{{ $errors->first('password_confirmation') }}</strong>
                     </span>
                 @endif
-
                 <button type="submit" class="btn primary btn-block p-x-md">{{ trans('backLang.resetPassword') }}</button>
             </form>
         </div>
     </div>
-
     <!-- ############ LAYOUT END-->
-
-
 </div>
 @include('backEnd.includes.foot')
 </body>

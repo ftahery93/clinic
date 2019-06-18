@@ -27,7 +27,7 @@ class CategoryController extends Controller
        $this->middleware('app.version');
 
         //get the language from the HTTP header
-        $this->language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];  
+        $this->language = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : "en";  
     }
 
     /**
@@ -41,12 +41,22 @@ class CategoryController extends Controller
        $Category = Category::where('status','=','1')->get();
        if(count($Category) > 0){ 
             if($this->language == "ar"){
-                return response()->json(collect($Category)->pluck('title_ar','id'), $this->successStatus);
+                $Category = $Category->map(function ($category) {
+                    $Category['id'] = $category->id;
+                    $Category['name'] = $category->title_ar;
+                    return $Category;
+                });
+                return response()->json($Category, $this->successStatus);
             } else {
-                return response()->json(collect($Category)->pluck('title_en','id'), $this->successStatus);
+                $Category = $Category->map(function ($category) {
+                    $Category['id'] = $category->id;
+                    $Category['name'] = $category->title_en;
+                    return $Category;
+                });
+                return response()->json($Category, $this->successStatus);
             }
        } else {
-            return response()->json(['success' => trans('mobileLang.categoryNotFound')], 404);
+            return response()->json(['error' => trans('mobileLang.categoryNotFound')], 404);
        }
     }
 

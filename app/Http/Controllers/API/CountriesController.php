@@ -38,12 +38,22 @@ class CountriesController extends Controller
     public function getCountries()
     {
        // Get List of Categories
-       $Country = Country::all();
+       $Country = Country::get();
        if(count($Country) > 0){
             if($this->language == "ar"){
-                return response()->json(collect($Country)->pluck('title_ar','id'), $this->successStatus);
+                $Country = $Country->map(function ($country) {
+                    $Country['id'] = $country->id;
+                    $Country['name'] = $country->title_ar;
+                    return $Country;
+                });
+                return response()->json($Country, $this->successStatus);
             } else {
-                return response()->json(collect($Country)->pluck('title_en','id'), $this->successStatus);
+                $Country = $Country->map(function ($country) {
+                    $Country['id'] = $country->id;
+                    $Country['name'] = $country->title_en;
+                    return $Country;
+                });
+                return response()->json($Country, $this->successStatus);
             }
        } else {
             return response()->json(['error' => trans('mobileLang.countryNotFound')], 404);

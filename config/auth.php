@@ -70,21 +70,23 @@ return [
     */
 
     'providers' => [
+        
+        // 'users' => [
+        //     'driver' => 'database',
+        //     'table' => 'users',
+        // ],
 
+        //Users
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
 
+        //Application Users
         'appusers' => [
             'driver' => 'eloquent',
             'model' => App\ApplicationUsers::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*
@@ -103,9 +105,18 @@ return [
     */
 
     'passwords' => [
+        
+        //Users
         'users' => [
             'provider' => 'users',
             'table' => 'password_resets',
+            'expire' => 60,
+        ],
+
+        //Application Users
+        'appusers' => [
+            'provider' => 'appusers',
+            'table' => 'application_users_password_resets',
             'expire' => 60,
         ],
     ],

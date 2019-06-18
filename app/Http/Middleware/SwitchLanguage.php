@@ -19,7 +19,7 @@ class SwitchLanguage
         if($request->server('HTTP_ACCEPT_LANGUAGE')){
             App::setLocale($request->server('HTTP_ACCEPT_LANGUAGE') ? $request->server('HTTP_ACCEPT_LANGUAGE') : Config::get('app.locale'));
         } else {
-            return response()->json(['error' => trans('auth.acceptLanguageMissing')], 200);
+            return response()->json(['error' => trans('auth.acceptLanguageMissing')], 404);
         }
         return $next($request);
     }

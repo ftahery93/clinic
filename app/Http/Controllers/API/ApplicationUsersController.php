@@ -51,14 +51,14 @@ class ApplicationUsersController extends Controller
 
         //check for email exists
         if (!ApplicationUsers::where('email', '=', $request->input('email'))->exists()) {
-            return response()->json(['error' => trans('auth.emailNotExists')], 417);
+            return response()->json(['error' => trans('auth.emailNotExists')], 404);
         } 
 
         //check for active account
         if (!ApplicationUsers::where('email', '=', $request->input('email'))
                 ->where('status', '=', 1)
                 ->exists()) {
-            return response()->json(['error' => trans('auth.emailInactive')], 401);
+            return response()->json(['error' => trans('auth.emailInactive')], 404);
         } 
 
         $ApplicationUser = ApplicationUsers::where('email', $request->input('email'))->get()->first();
@@ -82,7 +82,7 @@ class ApplicationUsersController extends Controller
             $token = $ApplicationUser->createToken(env('APP_NAME'))->accessToken;
             return response()->json(['access_token' => $token],$this->successStatus);
         } else {
-            return response()->json(['error' => trans('auth.invalidCredentials')], 401);
+            return response()->json(['error' => trans('auth.invalidCredentials')], 404);
         }
     }
 
@@ -238,7 +238,7 @@ class ApplicationUsersController extends Controller
             $ApplicationUser->save();
             return response()->json(['message' => trans('mobileLang.profileEditSuccess')], $this->successStatus);
         } else {
-            return response()->json(['error' => trans('mobileLang.userNotFound')], $this->successStatus);
+            return response()->json(['error' => trans('mobileLang.userNotFound')], 404);
         }
     }
 
@@ -271,13 +271,13 @@ class ApplicationUsersController extends Controller
                     $ApplicationUser->save();
                     return response()->json(['message' => trans('mobileLang.userPasswordChangeSuccess')], $this->successStatus);
                 } else {
-                    return response()->json(['error' => trans('mobileLang.userconfirmPasswordDoesNotMatch')], $this->successStatus); 
+                    return response()->json(['error' => trans('mobileLang.userconfirmPasswordDoesNotMatch')], 404);
                 }
             } else {    
-                return response()->json(['error' => trans('mobileLang.userwrongOldPassword')], $this->successStatus);
+                return response()->json(['error' => trans('mobileLang.userwrongOldPassword')], 404);
             }
         } else {
-            return response()->json(['error' => trans('mobileLang.userNotFound')], $this->successStatus);
+            return response()->json(['error' => trans('mobileLang.userNotFound')], 404);
         }
     }
 
@@ -298,7 +298,7 @@ class ApplicationUsersController extends Controller
             $ApplicationUser->save();
             return response()->json(['message' => trans('mobileLang.userDeleteSuccess')], $this->successStatus);
         } else {
-            return response()->json(['error' => trans('mobileLang.userNotFound')], $this->successStatus);
+            return response()->json(['error' => trans('mobileLang.userNotFound')], 404);
         }
     }
 
