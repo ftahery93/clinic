@@ -111,6 +111,11 @@
                                     "description": "Company's One Signal player ID",
                                     "type": "string",
                                     "example": "965789765456"
+                                },
+                                "device_type": {
+                                    "description": "device type, 1-iOS, 2-Android",
+                                    "type": "integer",
+                                    "example": 1
                                 }
                             }
                         }
@@ -1160,6 +1165,11 @@
                                     "description": "User player ID",
                                     "type": "string",
                                     "example": "124987655838376490473s"
+                                },
+                                "device_type": {
+                                    "description": "device type, 1-iOS, 2-Android",
+                                    "type": "integer",
+                                    "example": 1
                                 }
                             }
                         }

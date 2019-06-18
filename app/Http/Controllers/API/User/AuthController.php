@@ -150,6 +150,12 @@ class AuthController extends Controller
      *                  description="User player ID",
      *                  example="124987655838376490473s"
      *              ),
+     *             @SWG\Property(
+     *                  property="device_type",
+     *                  type="integer",
+     *                  description="device type, 1-iOS, 2-Android",
+     *                  example=1
+     *              ),
      *          ),
      *        ),
      *        @SWG\Response(
@@ -173,6 +179,7 @@ class AuthController extends Controller
             'mobile' => 'bail|required|digits:8',
             'country_id' => 'required',
             'player_id' => 'required',
+            'device_type' => 'required',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
@@ -187,6 +194,7 @@ class AuthController extends Controller
             OneSignalUser::create([
                 'user_id' => $registeredUser->id,
                 'player_id' => $request->player_id,
+                'device_type' => $request->device_type,
             ]);
         }
 
@@ -213,6 +221,7 @@ class AuthController extends Controller
             OneSignalUser::create([
                 'user_id' => $registeredUser->id,
                 'player_id' => $request->player_id,
+                'device_type' => $request->device_type,
             ]);
 
             return response()->json([

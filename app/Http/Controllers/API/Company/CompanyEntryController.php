@@ -7,6 +7,7 @@ use App\Models\Admin\LanguageManagement;
 use App\Models\API\Authentication;
 use App\Models\API\Company;
 use App\Models\API\FreeDelivery;
+use App\Models\API\OneSignalCompanyUser;
 use App\Models\API\Wallet;
 use App\Utility;
 use Illuminate\Http\Request;
@@ -197,6 +198,12 @@ class CompanyEntryController extends Controller
      *                  description="Company's One Signal player ID",
      *                  example="965789765456"
      *              ),
+     *             @SWG\Property(
+     *                  property="device_type",
+     *                  type="integer",
+     *                  description="device type, 1-iOS, 2-Android",
+     *                  example=1
+     *              ),
      *          ),
      *        ),
      *        @SWG\Response(
@@ -220,6 +227,7 @@ class CompanyEntryController extends Controller
             'email' => 'required',
             'password' => 'required',
             'player_id' => 'required',
+            'device_type' => 'required',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $valdiationMessages, 422);
@@ -242,6 +250,12 @@ class CompanyEntryController extends Controller
                 Authentication::create([
                     'access_token' => $token,
                     'user_id' => $registeredCompany->id,
+                ]);
+
+                OneSignalCompanyUser::create([
+                    'user_id' => $registeredCompany->id,
+                    'player_id' => $request->player_id,
+                    'device_type' => $request->device_type,
                 ]);
 
                 //TO-DO THis needs to be implemented once the app is integrated
