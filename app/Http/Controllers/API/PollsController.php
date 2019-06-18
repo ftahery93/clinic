@@ -100,6 +100,7 @@ class PollsController extends Controller
             'poll_name' => 'required',
             'category_id' => 'required',
             'options' => 'required',
+            'duration_id' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -117,6 +118,31 @@ class PollsController extends Controller
         }
         // End of Upload Files
 
+        // Get the Duration from request and set end time for poll 
+        if($request->duration_id != ""){
+            $Duration = DB::table("poll_durations")
+                ->select('duration','is_hour')
+                ->where('id', '=', $request->duration_id)
+                ->get();
+            
+            foreach($Duration as $key => $value){
+                foreach($value as $k => $v){
+                    if($k == "duration") $duration = $v;
+                    if($k == "is_hour") $hour = $v;
+                }
+            }
+            
+            //if not hour, then calculate days in hour format
+            if(!$hour){
+                $duration = $duration * 24;
+                $end_datetime = date('Y-m-d H:i:s',strtotime('+'.$duration.'hours'));
+                return $end_datetime;
+            } else {
+                $end_datetime = date('Y-m-d H:i:s',strtotime('+'.$duration.'hours'));
+                return $end_datetime;
+            }
+        }
+
         $Poll = new Poll();
         $Poll->photo = $fileFinalName_ar;
         $Poll->name = $request->poll_name;
@@ -125,6 +151,8 @@ class PollsController extends Controller
             $Poll->enable_comments = $request->enable_comments;
         }
 
+        $Poll->start_datetime = date('Y-m-d H:i:s');
+        $Poll->end_datetime = $end_datetime;
         $Poll->created_by = Auth::user()->id;
         $Poll->created_at = date('Y-m-d H:i:s');
         $Poll->updated_by = Auth::user()->id;
@@ -271,6 +299,9 @@ class PollsController extends Controller
         if (!Option::find($request->option_id)->exists()) {
             return response()->json(['error' => trans('mobileLang.optionNotFoundwithId')], 404);
         }
+
+        //Check before saving the input, whether poll is expired or not 
+        //Logic comes here..
 
         // Save the Poll Result
         $Result = new PollResult();
