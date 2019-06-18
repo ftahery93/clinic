@@ -30,7 +30,7 @@ class ApplicationUsersController extends Controller
         $this->middleware('app.version');
 
         //get the one signal player Id from header
-        $this->playerId = $_SERVER['HTTP_ONESIGNAL_PLAYER_ID'];  
+        $this->playerId = isset($_SERVER['HTTP_ONESIGNAL_PLAYER_ID']) ? $_SERVER['HTTP_ONESIGNAL_PLAYER_ID'] : "";  
     }
 
     /**
@@ -80,7 +80,7 @@ class ApplicationUsersController extends Controller
 
             // Get Token Laravel Passport
             $token = $ApplicationUser->createToken(env('APP_NAME'))->accessToken;
-            return response()->json(['success' => ['token' => $token,'status' => $this->successStatus]]);
+            return response()->json(['access_token' => $token],$this->successStatus);
         } else {
             return response()->json(['error' => trans('auth.invalidCredentials')], 401);
         }
@@ -136,7 +136,7 @@ class ApplicationUsersController extends Controller
         // Get Token Laravel Passport
         $token = $ApplicationUser->createToken(env('APP_NAME'))->accessToken;
 
-        return response()->json(['success' => ['message' => trans('auth.success'),'token' => $token,'status' => $this->successStatus]]);
+        return response()->json(['access_token' => $token],$this->successStatus);
     }
 
     public function getUploadPath()
@@ -158,7 +158,7 @@ class ApplicationUsersController extends Controller
     public function profile()
     {
         $ApplicationUser = Auth::user();
-        return response()->json(['success' => $ApplicationUser], $this->successStatus);
+        return response()->json($ApplicationUser, $this->successStatus);
     }
 
     /**
@@ -171,7 +171,7 @@ class ApplicationUsersController extends Controller
     {
         $ApplicationUser = Auth::user()->token();
         $ApplicationUser->revoke();
-        return response()->json(['success' => trans('auth.successLogout')], $this->successStatus);
+        return response()->json(['message' => trans('auth.successLogout')], $this->successStatus);
     }
 
     /**
@@ -236,7 +236,7 @@ class ApplicationUsersController extends Controller
             }
             $ApplicationUser->updated_by = Auth::user()->id;
             $ApplicationUser->save();
-            return response()->json(['success' => trans('mobileLang.profileEditSuccess')], $this->successStatus);
+            return response()->json(['message' => trans('mobileLang.profileEditSuccess')], $this->successStatus);
         } else {
             return response()->json(['error' => trans('mobileLang.userNotFound')], $this->successStatus);
         }
@@ -269,7 +269,7 @@ class ApplicationUsersController extends Controller
                     $ApplicationUser->updated_by = Auth::user()->id;
                     $ApplicationUser->updated_at = date("Y-m-d H:i:s");
                     $ApplicationUser->save();
-                    return response()->json(['success' => trans('mobileLang.userPasswordChangeSuccess')], $this->successStatus);
+                    return response()->json(['message' => trans('mobileLang.userPasswordChangeSuccess')], $this->successStatus);
                 } else {
                     return response()->json(['error' => trans('mobileLang.userconfirmPasswordDoesNotMatch')], $this->successStatus); 
                 }
@@ -296,7 +296,7 @@ class ApplicationUsersController extends Controller
             $ApplicationUser->updated_by = Auth::user()->id;
             $ApplicationUser->updated_at = date("Y-m-d H:i:s");
             $ApplicationUser->save();
-            return response()->json(['success' => trans('mobileLang.userDeleteSuccess')], $this->successStatus);
+            return response()->json(['message' => trans('mobileLang.userDeleteSuccess')], $this->successStatus);
         } else {
             return response()->json(['error' => trans('mobileLang.userNotFound')], $this->successStatus);
         }

@@ -21,6 +21,7 @@ class ApplicationUsers extends Authenticatable
         'email',
         'password',
         'age',
+        'gender',
         'terms_conditions',
         'notification',
         'status',
@@ -49,6 +50,16 @@ class ApplicationUsers extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'created_by','updated_by','password','terms_conditions','created_at','updated_at','status','pivot'
+        'created_by',
+        'updated_by',
+        'password',
+        'terms_conditions',
+        'created_at',
+        'updated_at',
+        'status',
+        'pivot',
+        'remember_token',
+        'preferred_language',
+        'notification'
     ];
 }
