@@ -242,6 +242,7 @@ class CompanyEntryController extends Controller
         }
 
         $registeredCompany = Company::where('email', $request->email)->get()->first();
+        $player_id = OneSignalCompanyUser::where('player_id', $request->player_id)->get()->first();
 
         if (Hash::check($request->password, $registeredCompany->password)) {
 
@@ -252,11 +253,13 @@ class CompanyEntryController extends Controller
                     'user_id' => $registeredCompany->id,
                 ]);
 
-                OneSignalCompanyUser::create([
-                    'user_id' => $registeredCompany->id,
-                    'player_id' => $request->player_id,
-                    'device_type' => $request->device_type,
-                ]);
+                if ($player_id == null) {
+                    OneSignalCompanyUser::create([
+                        'user_id' => $registeredCompany->id,
+                        'player_id' => $request->player_id,
+                        'device_type' => $request->device_type,
+                    ]);
+                }
 
                 //TO-DO THis needs to be implemented once the app is integrated
                 // $registeredCompany->update([

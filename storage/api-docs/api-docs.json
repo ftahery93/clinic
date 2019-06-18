@@ -1181,9 +1181,6 @@
                     },
                     "422": {
                         "description": "Unprocessable entity"
-                    },
-                    "401": {
-                        "description": "Mobile not found"
                     }
                 }
             }

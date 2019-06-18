@@ -166,10 +166,6 @@ class AuthController extends Controller
      *             response=422,
      *             description="Unprocessable entity"
      *        ),
-     *        @SWG\Response(
-     *             response=401,
-     *             description="Mobile not found"
-     *        ),
      *     )
      *
      */
