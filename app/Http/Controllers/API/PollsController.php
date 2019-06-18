@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
+use DB;
+use App;
 use Auth;
 use File;
-use App;
-use DB;
 use App\Poll;
 use App\Option;
 use App\Country;
@@ -143,7 +143,15 @@ class PollsController extends Controller
 
         // Get the Options
         if($request->options != ""){
-            $options_list = explode(",",$request->options);
+            
+            $options_list = $request->options;
+
+            //if not array, might be comma separated
+            if(!is_array($options_list)){
+                $options_list = explode(",",$options_list);
+            }
+
+            //if options are in array form
             foreach($options_list as $option){
                 $Option = new Option();
                 $Option->title_ar = $option;

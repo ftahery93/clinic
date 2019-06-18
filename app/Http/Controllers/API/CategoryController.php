@@ -31,14 +31,14 @@ class CategoryController extends Controller
     }
 
     /**
-     * Fetch the list of polls from storage.
+     * Fetch the list of categories from storage.
      *
      * @return \Illuminate\Http\Response
      */
     public function getCategories()
     {
-       // Get List of Categories
-       $Category = Category::all();
+       // Get List of Active Categories
+       $Category = Category::where('status','=','1')->get();
        if(count($Category) > 0){ 
             if($this->language == "ar"){
                 return response()->json(collect($Category)->pluck('title_ar','id'), $this->successStatus);
@@ -48,6 +48,16 @@ class CategoryController extends Controller
        } else {
             return response()->json(['success' => trans('mobileLang.categoryNotFound')], 404);
        }
+    }
+
+    /**
+     * Save the list of saved categories from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function saveUserCategories(Request $request)
+    {
+        //save the user specific categories and fetch them on their home screen along with polls
     }
 
 }

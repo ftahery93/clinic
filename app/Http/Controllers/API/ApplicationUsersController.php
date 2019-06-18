@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Auth;
 use File;
 use App\ApplicationUsers;
+use App\OneSignalApplicationUsers;
 use App\Http\Controllers\Controller;
 use Illuminate\Config;
 use Illuminate\Http\Request;
@@ -27,6 +28,9 @@ class ApplicationUsersController extends Controller
 
         //middleware to check the mobile application version before proceeding with incoming request
         $this->middleware('app.version');
+
+        //get the one signal player Id from header
+        $this->playerId = $_SERVER['HTTP_ONESIGNAL_PLAYER_ID'];  
     }
 
     /**
@@ -60,7 +64,21 @@ class ApplicationUsersController extends Controller
         $ApplicationUser = ApplicationUsers::where('email', $request->input('email'))->get()->first();
 
         if (Hash::check($request->password, $ApplicationUser->password)) {
-             // Get Token Laravel Passport
+
+            //check if player id is available in the header, fetch and store in the database
+            if($this->playerId != ""){
+                $GetPlayerID = OneSignalApplicationUsers::where('player_id','=',$this->playerId)->first();
+                if(!$GetPlayerID){
+                    $type = explode("-",$request->server('HTTP_APP_VERSION'));
+                    $OneSignal = new OneSignalApplicationUsers();
+                    $OneSignal->application_users_id = $ApplicationUser->id;
+                    $OneSignal->player_id = $this->playerId;
+                    $OneSignal->device_type = $type[0];
+                    $OneSignal->save();
+                }
+            }
+
+            // Get Token Laravel Passport
             $token = $ApplicationUser->createToken(env('APP_NAME'))->accessToken;
             return response()->json(['success' => ['token' => $token,'status' => $this->successStatus]]);
         } else {

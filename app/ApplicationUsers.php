@@ -42,4 +42,13 @@ class ApplicationUsers extends Authenticatable
         return $this->belongsToMany(Poll::class);
     }
 
+    
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'created_by','updated_by','password','terms_conditions','created_at','updated_at','status','pivot'
+    ];
 }
