@@ -511,6 +511,10 @@ class ShipmentController extends Controller
     public function getCategories()
     {
         $categories = Category::all();
-        return collect($categories);
+        $responseCategories = [];
+        foreach ($categories as $category) {
+            $responseCategories[] = $category;
+        }
+        return response()->json($responseCategories);
     }
 }
