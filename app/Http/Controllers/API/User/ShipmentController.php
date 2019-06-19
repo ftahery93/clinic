@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\User;
 
 use App\Helpers\Notification;
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Category;
 use App\Models\Admin\LanguageManagement;
 use App\Models\API\Company;
 use App\Models\API\Price;
@@ -477,5 +478,39 @@ class ShipmentController extends Controller
                 'error' => LanguageManagement::getLabel('shipment_booked_already', $this->language),
             ], 409);
         }
+    }
+
+    /**
+     *
+     * @SWG\Get(
+     *         path="/~tvavisa/masafah/public/api/user/getCategories",
+     *         tags={"User Shipment"},
+     *         operationId="getCategories",
+     *         summary="Get User Categories",
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
+    public function getCategories()
+    {
+        $categories = Category::all();
+        return collect($categories);
     }
 }

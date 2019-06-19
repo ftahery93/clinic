@@ -1649,6 +1649,36 @@
                 }
             }
         },
+        "/~tvavisa/masafah/public/api/user/getCategories": {
+            "get": {
+                "tags": [
+                    "User Shipment"
+                ],
+                "summary": "Get User Categories",
+                "operationId": "getCategories",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
         "/~tvavisa/masafah/public/api/user/getProfile": {
             "get": {
                 "tags": [
