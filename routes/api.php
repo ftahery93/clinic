@@ -38,6 +38,7 @@ Route::post('/user/addShipment', 'API\User\ShipmentController@addShipment');
 Route::get('/user/getShipments', 'API\User\ShipmentController@getShipments');
 Route::get('/user/getShipmentDetails/{shipment_id}', 'API\User\ShipmentController@getShipmentDetails');
 Route::put('/user/editShipment', 'API\User\ShipmentController@editShipment');
+Route::get('/user/getCategories', 'API\User\ShipmentController@getCategories');
 
 /* Company Profile*/
 Route::post('/company/login', 'API\Company\CompanyEntryController@login');
