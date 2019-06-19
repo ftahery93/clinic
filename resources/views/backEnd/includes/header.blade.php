@@ -103,7 +103,6 @@ if (Auth::user()->connect_email != "" && Auth::user()->connect_password) {
                     <div class="dropdown-divider"></div>
                     <a onclick="event.preventDefault();document.getElementById('logout-form').submit();"
                        class="dropdown-item" href="{{ url('/logout') }}">{{ trans('backLang.logout') }}</a>
-
                     <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}
                     </form>
