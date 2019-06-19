@@ -486,7 +486,7 @@ class ShipmentController extends Controller
      *         path="/~tvavisa/masafah/public/api/user/getCategories",
      *         tags={"User Shipment"},
      *         operationId="getCategories",
-     *         summary="Get User Categories",
+     *         summary="Get Shipment Categories",
      *          @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",

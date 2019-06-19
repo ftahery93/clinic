@@ -1654,7 +1654,7 @@
                 "tags": [
                     "User Shipment"
                 ],
-                "summary": "Get User Categories",
+                "summary": "Get Shipment Categories",
                 "operationId": "getCategories",
                 "parameters": [
                     {
