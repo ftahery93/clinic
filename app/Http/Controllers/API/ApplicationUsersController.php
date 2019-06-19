@@ -97,7 +97,7 @@ class ApplicationUsersController extends Controller
         $validator = Validator::make($request->all(), [
             'photo' => 'mimes:png,jpeg,jpg,gif|max:3000',
             'name' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:application_users',
             'password' => 'required',
             'age' => 'required',
             'terms_conditions' => 'required',
