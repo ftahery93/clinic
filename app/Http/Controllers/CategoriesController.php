@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Banner;
-use App\Http\Requests;
-use App\WebmasterBanner;
-use App\WebmasterSection;
+
 use Auth;
 use File;
 use Helper;
+use Redirect;
+use App\Category;
+use App\Http\Requests;
+use App\WebmasterBanner;
+use App\WebmasterSection;
 use Illuminate\Config;
 use Illuminate\Http\Request;
-use Redirect;
 
-class BannersController extends Controller
+
+class CategoriesController extends Controller
 {
 
-    private $uploadPath = "uploads/banners/";
+    private $uploadPath = "uploads/caegories/";
 
     // Define Default Variables
 
@@ -25,35 +27,30 @@ class BannersController extends Controller
         $this->middleware('auth');
 
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->banners_status) {
+        if (!@Auth::user()->permissionsGroup->categories_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the categories.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
         // General for all pages
         $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
         // General END
 
-        //List of Banners Sections
-        $WebmasterBanners = WebmasterBanner::where('status', '=', '1')->orderby('row_no', 'asc')->get();
-
         if (@Auth::user()->permissionsGroup->view_status) {
-            $Banners = Banner::where('created_by', '=', Auth::user()->id)->orderby('section_id',
-                'asc')->orderby('row_no',
+            $Categories = Category::where('created_by', '=', Auth::user()->id)->orderby('created_at',
                 'asc')->paginate(env('BACKEND_PAGINATION'));
         } else {
-            $Banners = Banner::orderby('section_id', 'asc')->orderby('row_no',
+            $Categories = Category::orderby('created_at',
                 'asc')->paginate(env('BACKEND_PAGINATION'));
         }
-        return view("backEnd.banners", compact("Banners", "GeneralWebmasterSections", "WebmasterBanners"));
+       return view("backEnd.categories", compact("GeneralWebmasterSections","Categories"));
     }
 
     /**

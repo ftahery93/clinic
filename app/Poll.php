@@ -9,6 +9,7 @@ use App\Comment;
 use App\ApplicationUsers;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 
 class Poll extends Model
 {

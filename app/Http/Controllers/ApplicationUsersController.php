@@ -15,7 +15,7 @@ use Redirect;
 class ApplicationUsersController extends Controller
 {
 
-    private $uploadPath = "uploads/users/";
+    private $uploadPath = "uploads/appusers/";
 
     // Define Default Variables
 

@@ -28,11 +28,11 @@ if (Auth::user()->connect_email != "" && Auth::user()->connect_password) {
 
         <!-- navbar right -->
         <ul class="nav navbar-nav pull-right">
-            {{-- <li class="nav-item p-t p-b">
+            <li class="nav-item p-t p-b">
                 <a class="btn btn-sm info marginTop2" href="{{ route("adminHome") }}" target="_blank" title="{{ trans('backLang.sitePreview') }}">
                     <i class="material-icons">&#xe895;</i> {{ trans('backLang.sitePreview') }}
                 </a>
-            </li> --}}
+            </li>
             <?php
             $alerts = count(Helper::webmailsAlerts()) + count(Helper::eventsAlerts());
             ?>
@@ -153,64 +153,18 @@ if (Auth::user()->connect_email != "" && Auth::user()->connect_password) {
                         <span>{{ trans('backLang.new') }} </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-scale">
-                        <?php
-                        $data_sections_arr = explode(",", Auth::user()->permissionsGroup->data_sections);
-                        $clr_ary = array("info", "danger", "success", "accent",);
-                        $ik = 0;
-                        ?>
-                        @if(@Auth::user()->permissionsGroup->add_status)
-                            @foreach($GeneralWebmasterSections as $headerWebmasterSection)
-                                @if(in_array($headerWebmasterSection->id,$data_sections_arr))
-                                    <?php
-                                    $LiIcon = "&#xe2c8;";
-                                    if ($headerWebmasterSection->type == 3) {
-                                        $LiIcon = "&#xe050;";
-                                    }
-                                    if ($headerWebmasterSection->type == 2) {
-                                        $LiIcon = "&#xe63a;";
-                                    }
-                                    if ($headerWebmasterSection->type == 1) {
-                                        $LiIcon = "&#xe251;";
-                                    }
-                                    if ($headerWebmasterSection->type == 0) {
-                                        $LiIcon = "&#xe2c8;";
-                                    }
-                                    if ($headerWebmasterSection->name == "sitePages") {
-                                        $LiIcon = "&#xe3e8;";
-                                    }
-                                    if ($headerWebmasterSection->name == "articles") {
-                                        $LiIcon = "&#xe02f;";
-                                    }
-                                    if ($headerWebmasterSection->name == "services") {
-                                        $LiIcon = "&#xe540;";
-                                    }
-                                    if ($headerWebmasterSection->name == "news") {
-                                        $LiIcon = "&#xe307;";
-                                    }
-                                    if ($headerWebmasterSection->name == "products") {
-                                        $LiIcon = "&#xe8f6;";
-                                    }
+                        @if(@Auth::user()->permissionsGroup->banners_status)
+                            <a class="dropdown-item" href="{{route("Banners")}}"><i class="material-icons">
+                                    &#xe433;</i>
+                                &nbsp;{{ trans('backLang.adsBanners') }}</a>
+                        @endif
+                        <div class="dropdown-divider"></div>
 
-                                    ?>
-                                    <a class="dropdown-item"
-                                       href="{{route("topicsCreate",$headerWebmasterSection->id)}}"><span><i
-                                                    class="material-icons">{!! $LiIcon !!}</i> &nbsp;{!! str_replace("backLang.","",trans('backLang.'.$headerWebmasterSection->name)) !!}</span></a>
-                                @endif
-                            @endforeach
-
-                            @if(@Auth::user()->permissionsGroup->banners_status)
-                                <a class="dropdown-item" href="{{route("Banners")}}"><i class="material-icons">
-                                        &#xe433;</i>
-                                    &nbsp;{{ trans('backLang.adsBanners') }}</a>
-                            @endif
-                            <div class="dropdown-divider"></div>
-
-                            @if(Helper::GeneralWebmasterSettings("newsletter_status"))
-                                @if(@Auth::user()->permissionsGroup->newsletter_status)
-                                    <a class="dropdown-item" href="{{route("contacts")}}"><i class="material-icons">
-                                            &#xe7ef;</i>
-                                        &nbsp;{{ trans('backLang.newContacts') }}</a>
-                                @endif
+                        @if(Helper::GeneralWebmasterSettings("newsletter_status"))
+                            @if(@Auth::user()->permissionsGroup->newsletter_status)
+                                <a class="dropdown-item" href="{{route("contacts")}}"><i class="material-icons">
+                                        &#xe7ef;</i>
+                                    &nbsp;{{ trans('backLang.newContacts') }}</a>
                             @endif
                         @endif
                         @if(Helper::GeneralWebmasterSettings("inbox_status"))
@@ -220,7 +174,6 @@ if (Auth::user()->connect_email != "" && Auth::user()->connect_password) {
                                 </a>
                             @endif
                         @endif
-
                     </div>
                 </li>
             </ul>

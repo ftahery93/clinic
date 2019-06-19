@@ -62,7 +62,6 @@
     </div>
 @endif
 
-
 @if(Session::has('warningMessage'))
     <div class="padding p-b-0">
         <div class="row">

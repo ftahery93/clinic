@@ -189,7 +189,7 @@ sup {
 
 .btn.b-primary:focus, .btn.b-primary:hover, .btn.primary:focus, .btn.primary:hover {
     color: rgba(255, 255, 255, .87) !important;
-    background-color: #0cc2aa
+    background-color: #de485d
 }
 
 .btn.accent:focus, .btn.accent:hover, .btn.b-accent:focus, .btn.b-accent:hover {
@@ -1108,8 +1108,7 @@ a.list-group-item.hover, a.list-group-item:focus, a.list-group-item:hover {
 }
 
 .navbar-brand img, .navbar-brand svg {
-    /* max-height: 24px; */
-    max-height: 70px;
+    max-height: 100px;
     vertical-align: -4px;
     display: inline-block
 }
@@ -1182,8 +1181,8 @@ a.list-group-item.hover, a.list-group-item:focus, a.list-group-item:hover {
 
 .pager .page-item.active, .pager > .active > a, .pager > .active > span, .pagination .page-item.active, .pagination > .active > a, .pagination > .active > span {
     color: #fff !important;
-    background-color: #0cc2aa !important;
-    border-color: #0cc2aa !important
+    background-color: #de485d!important;
+    border-color: #de485d!important
 }
 
 .pagination{
@@ -1857,7 +1856,7 @@ a.list-group-item.hover, a.list-group-item:focus, a.list-group-item:hover {
     top: 5px;
     width: 6px;
     height: 6px;
-    background-color: #0cc2aa
+    background-color: #de485d
 }
 
 .ui-check input:checked + span .active {
@@ -2302,7 +2301,7 @@ body {
 }
 
 .pace .pace-progress {
-    background: #0cc2aa;
+    background: #de485d;
     position: fixed;
     z-index: 2000;
     top: 0;
@@ -2320,8 +2319,8 @@ body {
     width: 14px;
     height: 14px;
     border: 2px solid transparent;
-    border-top-color: #0cc2aa;
-    border-left-color: #0cc2aa;
+    border-top-color: #de485d;
+    border-left-color: #de485d;
     border-radius: 10px;
     -webkit-animation: loading-bar-spinner .4s linear infinite;
     -moz-animation: loading-bar-spinner .4s linear infinite;
@@ -2803,7 +2802,7 @@ body {
 
 .nav-stacked .nav > li.active > a {
     color: rgba(255, 255, 255, .87);
-    background-color: #0cc2aa
+    background-color: #de485d
 }
 
 .nav-stacked .nav li a {
@@ -2865,7 +2864,7 @@ body {
 
 .nav-active-primary .nav-link.active, .nav-active-primary .nav > li.active > a {
     color: rgba(255, 255, 255, .87) !important;
-    background-color: #0cc2aa !important
+    background-color: #de485d!important
 }
 
 .nav-active-accent .nav-link.active, .nav-active-accent .nav > li.active > a {
@@ -3049,7 +3048,7 @@ body {
 }
 
 .ui-icon.primary:after {
-    background-color: #0cc2aa
+    background-color: #de485d
 }
 
 .ui-icon.success:after {
@@ -3728,7 +3727,7 @@ body {
 }
 
 .primary {
-    background-color: #0cc2aa
+    background-color: #de485d
 }
 
 .primary .lt {
@@ -3740,7 +3739,7 @@ body {
 }
 
 .primary .bg {
-    background-color: #0cc2aa
+    background-color: #de485d
 }
 
 .accent {
@@ -4144,23 +4143,23 @@ body {
 }
 
 .b-primary {
-    border-color: #0cc2aa
+    border-color: #de485d
 }
 
 .b-t-primary {
-    border-top-color: #0cc2aa
+    border-top-color: #de485d
 }
 
 .b-r-#e7f9f7 {
-    border-right-color: #0cc2aa
+    border-right-color: #de485d
 }
 
 .b-b-primary {
-    border-bottom-color: #0cc2aa
+    border-bottom-color: #de485d
 }
 
 .b-l-primary {
-    border-left-color: #0cc2aa
+    border-left-color: #de485d
 }
 
 .b-accent {
@@ -4776,7 +4775,7 @@ a.text-primary:hover {
 }
 
 .text-primary, .text-primary-hover a:hover {
-    color: #0cc2aa !important
+    color: #de485d!important
 }
 
 a.warn:hover {
@@ -6614,13 +6613,13 @@ a.text-blue:hover {
 }
 
 .md-input.focus, .md-input:focus {
-    border-color: #0cc2aa;
+    border-color: #de485d;
     border-bottom-width: 2px;
     padding-bottom: 1px
 }
 
 .md-input.focus ~ label, .md-input:focus ~ label {
-    color: #0cc2aa;
+    color: #de485d;
     opacity: 1;
     top: 0 !important;
     font-size: .85em !important

@@ -11,7 +11,6 @@
             <div class="pull-center">
                 <div>
                     <a class="navbar-brand"><img src="{{ URL::to('backEnd/assets/images/logo.png') }}" alt="."></a>
-                    {{-- <span lass="hidden-folded inline">{{ trans('backLang.control') }}</span> --}}
                 </div>
             </div>
         </div>

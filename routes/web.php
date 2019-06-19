@@ -42,6 +42,14 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('/search', 'HomeController@search')->name('adminSearch');
     Route::post('/find', 'HomeController@find')->name('adminFind');
 
+    // Polls
+    Route::get('/polls', 'PollsController@index')->name('adminPolls');
+    Route::get('/polls/{id}/edit', 'PollsController@edit')->name('adminPollsEdit');
+
+    // Categories
+    Route::get('/categories', 'CategoriesController@index')->name('adminCategories');
+    
+
     // Webmaster
     Route::get('/webmaster', 'WebmasterSettingsController@edit')->name('webmasterSettings');
     Route::post('/webmaster', 'WebmasterSettingsController@update')->name('webmasterSettingsUpdate');
@@ -84,6 +92,7 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::post('/settings/social', 'SettingsController@updateSocialLinks')->name('settingsUpdateSocialLinks');
     Route::post('/settings/contacts', 'SettingsController@updateContacts')->name('settingsUpdateContacts');
 
+ 
     // Ad. Banners
     Route::get('/banners', 'BannersController@index')->name('Banners');
     Route::get('/banners/create/{sectionId}', 'BannersController@create')->name('BannersCreate');
@@ -217,7 +226,7 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('/users/permissions/destroy/{id}', 'UsersController@permissions_destroy')->name('permissionsDestroy');
 
     // Application Users
-    Route::get('/appusers', 'ApplicationUsersController@index')->name('appusers');
+    Route::get('/appusers', 'ApplicationUsersController@index')->name('adminAppusers');
 
     // Menus
     Route::post('/menus/store/parent', 'MenusController@storeMenu')->name('parentMenusStore');
@@ -274,3 +283,51 @@ Route::Group(['prefix' => '/api/v1'], function () {
     Route::post('/contact', 'APIsController@ContactPageSubmit');
 });
 // .. End of RESTful API routes
+
+
+// Frontend Routes
+// ../site map
+// Route::get('/sitemap.xml', 'SiteMapController@siteMap')->name('siteMap');
+// Route::get('/{lang}/sitemap', 'SiteMapController@siteMap')->name('siteMapByLang');
+
+// Route::get('/', 'FrontendHomeController@HomePage')->name('Home');
+// // ../home url
+// Route::get('/home', 'FrontendHomeController@HomePage')->name('HomePage');
+// Route::get('/{lang?}/home', 'FrontendHomeController@HomePageByLang')->name('HomePageByLang');
+// // ../subscribe to newsletter submit  (ajax url)
+// Route::post('/subscribe', 'FrontendHomeController@subscribeSubmit')->name('subscribeSubmit');
+// // ../Comment submit  (ajax url)
+// Route::post('/comment', 'FrontendHomeController@commentSubmit')->name('commentSubmit');
+// // ../Order submit  (ajax url)
+// Route::post('/order', 'FrontendHomeController@orderSubmit')->name('orderSubmit');
+// // ..Custom URL for contact us page ( www.site.com/contact )
+// Route::get('/contact', 'FrontendHomeController@ContactPage')->name('contactPage');
+// Route::get('/{lang?}/contact', 'FrontendHomeController@ContactPageByLang')->name('contactPageByLang');
+// // ../contact message submit  (ajax url)
+// Route::post('/contact/submit', 'FrontendHomeController@ContactPageSubmit')->name('contactPageSubmit');
+// // ..if page by name ( ex: www.site.com/about )
+// Route::get('/topic/{id}', 'FrontendHomeController@topic')->name('FrontendPage');
+// // ..if page by user id ( ex: www.site.com/user )
+// Route::get('/user/{id}', 'FrontendHomeController@userTopics')->name('FrontendUserTopics');
+// Route::get('/{lang?}/user/{id}', 'FrontendHomeController@userTopicsByLang')->name('FrontendUserTopicsByLang');
+// // ../search
+// Route::post('/search', 'FrontendHomeController@searchTopics')->name('searchTopics');
+
+// // ..Topics url  ( ex: www.site.com/news/topic/32 )
+// Route::get('/{section}/topic/{id}', 'FrontendHomeController@topic')->name('FrontendTopic');
+// Route::get('/{lang?}/{section}/topic/{id}', 'FrontendHomeController@topicByLang')->name('FrontendTopicByLang');
+
+// // ..Sub category url for Section  ( ex: www.site.com/products/2 )
+// Route::get('/{section}/{cat}', 'FrontendHomeController@topics')->name('FrontendTopicsByCat');
+// Route::get('/{lang?}/{section}/{cat}', 'FrontendHomeController@topicsByLang')->name('FrontendTopicsByCatWithLang');
+
+// // ..Section url by name  ( ex: www.site.com/news )
+// Route::get('/{section}', 'FrontendHomeController@topics')->name('FrontendTopics');
+// Route::get('/{lang?}/{section}', 'FrontendHomeController@topicsByLang')->name('FrontendTopicsByLang');
+
+// // ..SEO url  ( ex: www.site.com/title-here )
+// Route::get('/{seo_url_slug}', 'FrontendHomeController@SEO')->name('FrontendSEO');
+// Route::get('/{lang?}/{seo_url_slug}', 'FrontendHomeController@SEOByLang')->name('FrontendSEOByLang');
+
+// // ..if page by name and language( ex: www.site.com/ar/about )
+// Route::get('/{lang?}/topic/{id}', 'FrontendHomeController@topicByLang')->name('FrontendPageByLang');
