@@ -29,9 +29,9 @@ if (Auth::user()->connect_email != "" && Auth::user()->connect_password) {
         <!-- navbar right -->
         <ul class="nav navbar-nav pull-right">
             <li class="nav-item p-t p-b">
-                <a class="btn btn-sm info marginTop2" href="{{ route("adminHome") }}" target="_blank" title="{{ trans('backLang.sitePreview') }}">
+                {{-- <a class="btn btn-sm info marginTop2" href="{{ route("adminHome") }}" target="_blank" title="{{ trans('backLang.sitePreview') }}">
                     <i class="material-icons">&#xe895;</i> {{ trans('backLang.sitePreview') }}
-                </a>
+                </a> --}}
             </li>
             <?php
             $alerts = count(Helper::webmailsAlerts()) + count(Helper::eventsAlerts());
@@ -96,24 +96,6 @@ if (Auth::user()->connect_email != "" && Auth::user()->connect_password) {
                   </span>
                 </a>
                 <div class="dropdown-menu pull-right dropdown-menu-scale">
-                    @if(Helper::GeneralWebmasterSettings("inbox_status"))
-                        @if(@Auth::user()->permissionsGroup->inbox_status)
-                            <a class="dropdown-item"
-                               href="{{ route('webmails') }}"><span>{{ trans('backLang.siteInbox') }}</span>
-                                @if( Helper::webmailsNewCount() >0)
-                                    <span class="label warn m-l-xs">{{ Helper::webmailsNewCount() }}</span>
-                                @endif
-                            </a>
-                        @endif
-                    @endif
-                    @if( $connectEmailAddress !="" )
-                        <a class="dropdown-item" target="_blank"
-                           href="<?php echo 'http' . ($useHTTPS ? 's' : '') . '://' . $connectDomainURL . ':' . ($useHTTPS ? '2096' : '2095') . '/login/?user=' . $connectEmailAddress . '&pass=' . $connectEmailPassword . '&failurl=http://' . $connectDomainURL; ?>"><span>{{ trans('backLang.openWebmail') }}</span>
-                            @if($nMsgCount >0 )
-                                <span class="label warn m-l-xs">{{ $nMsgCount }}</span>
-                            @endif
-                        </a>
-                    @endif
                     @if(Auth::user()->permissions ==0 || Auth::user()->permissions ==1)
                         <a class="dropdown-item"
                            href="{{ route('usersEdit',Auth::user()->id) }}"><span>{{ trans('backLang.profile') }}</span></a>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 18, 2019 at 06:34 PM
+-- Generation Time: Jun 19, 2019 at 06:22 PM
 -- Server version: 10.0.38-MariaDB-0ubuntu0.16.04.1
 -- PHP Version: 7.1.29-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -170,7 +170,79 @@ INSERT INTO `aaraa_analytics_pages` (`id`, `visitor_id`, `ip`, `title`, `name`, 
 (121, 7, '::1', 'http://localhost/internal/aaraa/public/admin/ip?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/ip?_pjax=%23view', '0.05680919', '2019-06-18', '11:43:28', '2019-06-18 08:43:28', '2019-06-18 08:43:28'),
 (122, 7, '::1', 'http://localhost/internal/aaraa/public/admin/dashboard?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/dashboard?_pjax=%23view', '0.06018496', '2019-06-18', '11:43:29', '2019-06-18 08:43:29', '2019-06-18 08:43:29'),
 (123, 7, '::1', 'http://localhost/internal/aaraa/public/api/results/1', 'unknown', 'http://localhost/internal/aaraa/public/api/results/1', '0.03359604', '2019-06-18', '11:46:23', '2019-06-18 08:46:23', '2019-06-18 08:46:23'),
-(124, 7, '::1', 'http://localhost/internal/aaraa/public/admin/403', 'unknown', 'http://localhost/internal/aaraa/public/admin/403', '0.02662086', '2019-06-18', '13:54:36', '2019-06-18 10:54:36', '2019-06-18 10:54:36');
+(124, 7, '::1', 'http://localhost/internal/aaraa/public/admin/403', 'unknown', 'http://localhost/internal/aaraa/public/admin/403', '0.02662086', '2019-06-18', '13:54:36', '2019-06-18 10:54:36', '2019-06-18 10:54:36'),
+(125, 8, '::1', 'http://localhost/internal/aaraa/public/admin', 'unknown', 'http://localhost/internal/aaraa/public/admin', '0.33575702', '2019-06-19', '10:03:12', '2019-06-19 07:03:12', '2019-06-19 07:03:12'),
+(126, 8, '::1', 'http://localhost/internal/aaraa/public/login', 'unknown', 'http://localhost/internal/aaraa/public/login', '0.03238702', '2019-06-19', '10:03:16', '2019-06-19 07:03:16', '2019-06-19 07:03:16'),
+(127, 8, '::1', 'http://localhost/internal/aaraa/public/admin/dashboard', 'unknown', 'http://localhost/internal/aaraa/public/admin/dashboard', '0.04137278', '2019-06-19', '10:04:42', '2019-06-19 07:04:42', '2019-06-19 07:04:42'),
+(128, 8, '::1', 'http://localhost/internal/aaraa/public/admin/dashboard?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/dashboard?_pjax=%23view', '0.05125809', '2019-06-19', '10:04:49', '2019-06-19 07:04:49', '2019-06-19 07:04:49'),
+(129, 8, '::1', 'http://localhost/internal/aaraa/public/admin/settings?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/settings?_pjax=%23view', '0.04799604', '2019-06-19', '10:09:13', '2019-06-19 07:09:13', '2019-06-19 07:09:13'),
+(130, 8, '::1', 'http://localhost/internal/aaraa/public/admin/settings', 'unknown', 'http://localhost/internal/aaraa/public/admin/settings', '0.0423131', '2019-06-19', '10:09:13', '2019-06-19 07:09:13', '2019-06-19 07:09:13'),
+(131, 8, '::1', 'http://localhost/internal/aaraa/public/admin/2/topics?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/2/topics?_pjax=%23view', '0.02572918', '2019-06-19', '10:13:46', '2019-06-19 07:13:46', '2019-06-19 07:13:46'),
+(132, 8, '::1', 'http://localhost/internal/aaraa/public/admin/1/topics?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/1/topics?_pjax=%23view', '0.0460031', '2019-06-19', '10:14:07', '2019-06-19 07:14:07', '2019-06-19 07:14:07'),
+(133, 8, '::1', 'http://localhost/internal/aaraa/public/admin/1/topics', 'unknown', 'http://localhost/internal/aaraa/public/admin/1/topics', '0.0213089', '2019-06-19', '10:14:15', '2019-06-19 07:14:15', '2019-06-19 07:14:15'),
+(134, 8, '::1', 'http://localhost/internal/aaraa/public/admin/5/sections?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/5/sections?_pjax=%23view', '0.05186296', '2019-06-19', '10:14:28', '2019-06-19 07:14:28', '2019-06-19 07:14:28'),
+(135, 8, '::1', 'http://localhost/internal/aaraa/public/admin/5/sections', 'unknown', 'http://localhost/internal/aaraa/public/admin/5/sections', '0.02780914', '2019-06-19', '10:14:30', '2019-06-19 07:14:30', '2019-06-19 07:14:30'),
+(136, 8, '::1', 'http://localhost/internal/aaraa/public/admin/2/topics', 'unknown', 'http://localhost/internal/aaraa/public/admin/2/topics', '0.07582092', '2019-06-19', '10:14:54', '2019-06-19 07:14:54', '2019-06-19 07:14:54'),
+(137, 8, '::1', 'http://localhost/internal/aaraa/public/admin/banners?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/banners?_pjax=%23view', '0.05148387', '2019-06-19', '10:28:56', '2019-06-19 07:28:56', '2019-06-19 07:28:56'),
+(138, 8, '::1', 'http://localhost/internal/aaraa/public/admin/menus?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/menus?_pjax=%23view', '0.09520316', '2019-06-19', '10:29:08', '2019-06-19 07:29:08', '2019-06-19 07:29:08'),
+(139, 8, '::1', 'http://localhost/internal/aaraa/public/admin/webmaster/translations?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmaster/translations?_pjax=%23view', '0.01370096', '2019-06-19', '10:29:11', '2019-06-19 07:29:11', '2019-06-19 07:29:11'),
+(140, 8, '::1', 'http://localhost/internal/aaraa/public/admin/webmaster/translations', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmaster/translations', '0.01831889', '2019-06-19', '10:29:12', '2019-06-19 07:29:12', '2019-06-19 07:29:12'),
+(141, 8, '::1', 'http://localhost/internal/aaraa/public/admin/menus', 'unknown', 'http://localhost/internal/aaraa/public/admin/menus', '0.07803321', '2019-06-19', '10:29:13', '2019-06-19 07:29:13', '2019-06-19 07:29:13'),
+(142, 8, '::1', 'http://localhost/internal/aaraa/public/admin/users?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/users?_pjax=%23view', '0.06245708', '2019-06-19', '10:29:19', '2019-06-19 07:29:19', '2019-06-19 07:29:19'),
+(143, 8, '::1', 'http://localhost/internal/aaraa/public/admin/users', 'unknown', 'http://localhost/internal/aaraa/public/admin/users', '0.04853392', '2019-06-19', '10:29:23', '2019-06-19 07:29:23', '2019-06-19 07:29:23'),
+(144, 8, '::1', 'http://localhost/internal/aaraa/public/admin/webmaster/banners?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmaster/banners?_pjax=%23view', '0.02174592', '2019-06-19', '10:29:28', '2019-06-19 07:29:28', '2019-06-19 07:29:28'),
+(145, 8, '::1', 'http://localhost/internal/aaraa/public/admin/users/1/edit', 'unknown', 'http://localhost/internal/aaraa/public/admin/users/1/edit', '0.07522893', '2019-06-19', '10:29:34', '2019-06-19 07:29:34', '2019-06-19 07:29:34'),
+(146, 8, '::1', 'http://localhost/internal/aaraa/public/admin/users/permissions/1/edit', 'unknown', 'http://localhost/internal/aaraa/public/admin/users/permissions/1/edit', '0.0189631', '2019-06-19', '10:29:40', '2019-06-19 07:29:40', '2019-06-19 07:29:40'),
+(147, 8, '::1', 'http://localhost/internal/aaraa/public/admin/1/topics/1/edit', 'unknown', 'http://localhost/internal/aaraa/public/admin/1/topics/1/edit', '0.06493902', '2019-06-19', '10:33:37', '2019-06-19 07:33:37', '2019-06-19 07:33:37'),
+(148, 8, '::1', 'http://localhost/internal/aaraa/public/admin/1/topics/3/edit', 'unknown', 'http://localhost/internal/aaraa/public/admin/1/topics/3/edit', '0.0497539', '2019-06-19', '10:34:58', '2019-06-19 07:34:58', '2019-06-19 07:34:58'),
+(149, 8, '::1', 'http://localhost/internal/aaraa/public/admin/1/topics/4/edit', 'unknown', 'http://localhost/internal/aaraa/public/admin/1/topics/4/edit', '0.06506801', '2019-06-19', '10:35:18', '2019-06-19 07:35:18', '2019-06-19 07:35:18'),
+(150, 8, '::1', 'http://localhost/internal/aaraa/public/admin/2/topics/5/edit', 'unknown', 'http://localhost/internal/aaraa/public/admin/2/topics/5/edit', '0.04774404', '2019-06-19', '10:35:24', '2019-06-19 07:35:24', '2019-06-19 07:35:24'),
+(151, 8, '::1', 'http://localhost/internal/aaraa/public/admin/9/topics?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/9/topics?_pjax=%23view', '0.04779506', '2019-06-19', '10:36:59', '2019-06-19 07:36:59', '2019-06-19 07:36:59'),
+(152, 8, '::1', 'http://localhost/internal/aaraa/public/admin/banners/create/2', 'unknown', 'http://localhost/internal/aaraa/public/admin/banners/create/2', '0.03932095', '2019-06-19', '10:37:06', '2019-06-19 07:37:06', '2019-06-19 07:37:06'),
+(153, 8, '::1', 'http://localhost/internal/aaraa/public/admin/banners', 'unknown', 'http://localhost/internal/aaraa/public/admin/banners', '0.05722404', '2019-06-19', '10:37:08', '2019-06-19 07:37:08', '2019-06-19 07:37:08'),
+(154, 8, '::1', 'http://localhost/internal/aaraa/public/home', 'unknown', 'http://localhost/internal/aaraa/public/home', '0.01462412', '2019-06-19', '10:57:08', '2019-06-19 07:57:08', '2019-06-19 07:57:08'),
+(155, 8, '::1', 'http://localhost/internal/aaraa/public/backEnd/assets/bootstrap/dist/css/bootstrap.min.css.map', 'unknown', 'http://localhost/internal/aaraa/public/backEnd/assets/bootstrap/dist/css/bootstrap.min.css.map', '0.00925899', '2019-06-19', '11:04:57', '2019-06-19 08:04:57', '2019-06-19 08:04:57'),
+(156, 8, '::1', 'http://localhost/internal/aaraa/public/admin/categories', 'unknown', 'http://localhost/internal/aaraa/public/admin/categories', '0.05589294', '2019-06-19', '11:07:21', '2019-06-19 08:07:21', '2019-06-19 08:07:21'),
+(157, 8, '::1', 'http://localhost/internal/aaraa/public/admin/banners/1/edit', 'unknown', 'http://localhost/internal/aaraa/public/admin/banners/1/edit', '0.02479792', '2019-06-19', '11:13:07', '2019-06-19 08:13:07', '2019-06-19 08:13:07'),
+(158, 8, '::1', 'http://localhost/internal/aaraa/public/admin/categories?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/categories?_pjax=%23view', '0.02088189', '2019-06-19', '11:17:03', '2019-06-19 08:17:03', '2019-06-19 08:17:03'),
+(159, 8, '::1', 'http://localhost/internal/aaraa/public/admin/polls', 'unknown', 'http://localhost/internal/aaraa/public/admin/polls', '0.02538204', '2019-06-19', '11:23:26', '2019-06-19 08:23:26', '2019-06-19 08:23:26'),
+(160, 8, '::1', 'http://localhost/internal/aaraa/public/admin/polls?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/polls?_pjax=%23view', '0.02660084', '2019-06-19', '12:17:01', '2019-06-19 09:17:01', '2019-06-19 09:17:01'),
+(161, 8, '::1', 'http://localhost/internal/aaraa/public/admin/9/topics', 'unknown', 'http://localhost/internal/aaraa/public/admin/9/topics', '0.04818296', '2019-06-19', '14:33:16', '2019-06-19 11:33:16', '2019-06-19 11:33:16'),
+(162, 8, '::1', 'http://localhost/internal/aaraa/public/admin/9/topics/create', 'unknown', 'http://localhost/internal/aaraa/public/admin/9/topics/create', '0.10326791', '2019-06-19', '14:33:21', '2019-06-19 11:33:21', '2019-06-19 11:33:21'),
+(163, 8, '::1', 'http://localhost/internal/aaraa/public/admin/webmails?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmails?_pjax=%23view', '0.04866004', '2019-06-19', '14:34:06', '2019-06-19 11:34:06', '2019-06-19 11:34:06'),
+(164, 8, '::1', 'http://localhost/internal/aaraa/public/admin/webmails/create', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmails/create', '0.01863599', '2019-06-19', '14:34:14', '2019-06-19 11:34:14', '2019-06-19 11:34:14'),
+(165, 8, '::1', 'http://localhost/internal/aaraa/public/admin/webmails/sent', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmails/sent', '0.02108908', '2019-06-19', '14:34:18', '2019-06-19 11:34:18', '2019-06-19 11:34:18'),
+(166, 8, '::1', 'http://localhost/internal/aaraa/public/admin/contacts?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/contacts?_pjax=%23view', '0.05724597', '2019-06-19', '14:34:21', '2019-06-19 11:34:21', '2019-06-19 11:34:21'),
+(167, 8, '::1', 'http://localhost/internal/aaraa/public/admin/contacts', 'unknown', 'http://localhost/internal/aaraa/public/admin/contacts', '0.07532215', '2019-06-19', '14:34:42', '2019-06-19 11:34:42', '2019-06-19 11:34:42'),
+(168, 8, '::1', 'http://localhost/internal/aaraa/public/admin/webmaster/banners/2/edit', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmaster/banners/2/edit', '0.07221818', '2019-06-19', '14:34:50', '2019-06-19 11:34:50', '2019-06-19 11:34:50'),
+(169, 8, '::1', 'http://localhost/internal/aaraa/public/admin/webmaster/banners', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmaster/banners', '0.01884198', '2019-06-19', '14:34:53', '2019-06-19 11:34:53', '2019-06-19 11:34:53'),
+(170, 8, '::1', 'http://localhost/internal/aaraa/public/admin/webmaster/sections?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmaster/sections?_pjax=%23view', '0.06663895', '2019-06-19', '14:34:55', '2019-06-19 11:34:55', '2019-06-19 11:34:55'),
+(171, 8, '::1', 'http://localhost/internal/aaraa/public/admin/webmaster/sections/5/edit', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmaster/sections/5/edit', '0.08199501', '2019-06-19', '14:34:58', '2019-06-19 11:34:58', '2019-06-19 11:34:58'),
+(172, 8, '::1', 'http://localhost/internal/aaraa/public/admin/webmaster/sections/create', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmaster/sections/create', '0.02140713', '2019-06-19', '14:35:15', '2019-06-19 11:35:15', '2019-06-19 11:35:15'),
+(173, 8, '::1', 'http://localhost/internal/aaraa/public/admin/webmaster/sections', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmaster/sections', '0.02136087', '2019-06-19', '14:35:20', '2019-06-19 11:35:20', '2019-06-19 11:35:20'),
+(174, 8, '::1', 'http://localhost/internal/aaraa/public/admin/webmaster?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmaster?_pjax=%23view', '0.13600802', '2019-06-19', '14:35:25', '2019-06-19 11:35:25', '2019-06-19 11:35:25'),
+(175, 8, '::1', 'http://localhost/internal/aaraa/public/admin/analytics/date', 'unknown', 'http://localhost/internal/aaraa/public/admin/analytics/date', '0.13387108', '2019-06-19', '15:04:13', '2019-06-19 12:04:13', '2019-06-19 12:04:13'),
+(176, 8, '::1', 'http://localhost/internal/aaraa/public/admin/analytics/country', 'unknown', 'http://localhost/internal/aaraa/public/admin/analytics/country', '0.0185101', '2019-06-19', '15:04:15', '2019-06-19 12:04:15', '2019-06-19 12:04:15'),
+(177, 8, '::1', 'http://localhost/internal/aaraa/public/admin/analytics/city', 'unknown', 'http://localhost/internal/aaraa/public/admin/analytics/city', '0.01926994', '2019-06-19', '15:04:17', '2019-06-19 12:04:17', '2019-06-19 12:04:17'),
+(178, 8, '::1', 'http://localhost/internal/aaraa/public/admin/analytics/os', 'unknown', 'http://localhost/internal/aaraa/public/admin/analytics/os', '0.08308792', '2019-06-19', '15:04:18', '2019-06-19 12:04:18', '2019-06-19 12:04:18'),
+(179, 8, '::1', 'http://localhost/internal/aaraa/public/admin/analytics/browser', 'unknown', 'http://localhost/internal/aaraa/public/admin/analytics/browser', '0.05699992', '2019-06-19', '15:04:19', '2019-06-19 12:04:19', '2019-06-19 12:04:19'),
+(180, 8, '::1', 'http://localhost/internal/aaraa/public/admin/analytics/referrer', 'unknown', 'http://localhost/internal/aaraa/public/admin/analytics/referrer', '0.01961112', '2019-06-19', '15:04:20', '2019-06-19 12:04:20', '2019-06-19 12:04:20'),
+(181, 8, '::1', 'http://localhost/internal/aaraa/public/admin/ip?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/ip?_pjax=%23view', '0.0685699', '2019-06-19', '15:04:22', '2019-06-19 12:04:22', '2019-06-19 12:04:22'),
+(182, 8, '::1', 'http://localhost/internal/aaraa/public/admin/calendar?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/calendar?_pjax=%23view', '0.04171705', '2019-06-19', '15:05:33', '2019-06-19 12:05:33', '2019-06-19 12:05:33'),
+(183, 8, '::1', 'http://localhost/internal/aaraa/public/admin/calendar', 'unknown', 'http://localhost/internal/aaraa/public/admin/calendar', '0.02560782', '2019-06-19', '15:05:33', '2019-06-19 12:05:33', '2019-06-19 12:05:33'),
+(184, 8, '::1', 'http://localhost/internal/aaraa/public/admin/contacts/2', 'unknown', 'http://localhost/internal/aaraa/public/admin/contacts/2', '0.02076387', '2019-06-19', '15:07:42', '2019-06-19 12:07:42', '2019-06-19 12:07:42'),
+(185, 8, '::1', 'http://localhost/internal/aaraa/public/admin/contacts/search', 'unknown', 'http://localhost/internal/aaraa/public/admin/contacts/search', '0.02197599', '2019-06-19', '15:07:51', '2019-06-19 12:07:51', '2019-06-19 12:07:51'),
+(186, 8, '::1', 'http://localhost/internal/aaraa/public/admin/contacts/1', 'unknown', 'http://localhost/internal/aaraa/public/admin/contacts/1', '0.06125116', '2019-06-19', '15:07:57', '2019-06-19 12:07:57', '2019-06-19 12:07:57'),
+(187, 8, '::1', 'http://localhost/internal/aaraa/public/admin/webmails', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmails', '0.06217313', '2019-06-19', '15:08:38', '2019-06-19 12:08:38', '2019-06-19 12:08:38'),
+(188, 8, '::1', 'http://localhost/internal/aaraa/public/admin/webmails/1', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmails/1', '0.04191995', '2019-06-19', '15:09:12', '2019-06-19 12:09:12', '2019-06-19 12:09:12'),
+(189, 8, '::1', 'http://localhost/internal/aaraa/public/admin/webmails/2', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmails/2', '0.06488895', '2019-06-19', '15:09:14', '2019-06-19 12:09:14', '2019-06-19 12:09:14'),
+(190, 8, '::1', 'http://localhost/internal/aaraa/public/admin/webmails/3', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmails/3', '0.02189207', '2019-06-19', '15:09:15', '2019-06-19 12:09:15', '2019-06-19 12:09:15'),
+(191, 8, '::1', 'http://localhost/internal/aaraa/public/admin/webmaster', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmaster', '0.02132511', '2019-06-19', '15:19:26', '2019-06-19 12:19:26', '2019-06-19 12:19:26'),
+(192, 8, '::1', 'http://localhost/internal/aaraa/public/admin/webmails/draft', 'unknown', 'http://localhost/internal/aaraa/public/admin/webmails/draft', '0.05645895', '2019-06-19', '17:25:02', '2019-06-19 14:25:02', '2019-06-19 14:25:02'),
+(193, 8, '::1', 'http://localhost/internal/aaraa/public/admin/appusers', 'unknown', 'http://localhost/internal/aaraa/public/admin/appusers', '0.01580119', '2019-06-19', '17:37:47', '2019-06-19 14:37:47', '2019-06-19 14:37:47'),
+(194, 8, '::1', 'http://localhost/internal/aaraa/public/admin/appusers?_pjax=%23view', 'unknown', 'http://localhost/internal/aaraa/public/admin/appusers?_pjax=%23view', '0.01821899', '2019-06-19', '17:41:08', '2019-06-19 14:41:08', '2019-06-19 14:41:08'),
+(195, 8, '::1', 'http://localhost/internal/aaraa/public/admin/menus/create/1', 'unknown', 'http://localhost/internal/aaraa/public/admin/menus/create/1', '0.03587604', '2019-06-19', '17:53:39', '2019-06-19 14:53:39', '2019-06-19 14:53:39'),
+(196, 8, '::1', 'http://localhost/internal/aaraa/public/admin/menus/1', 'unknown', 'http://localhost/internal/aaraa/public/admin/menus/1', '0.0584209', '2019-06-19', '17:53:41', '2019-06-19 14:53:41', '2019-06-19 14:53:41');
 
 -- --------------------------------------------------------
 
@@ -211,7 +283,8 @@ INSERT INTO `aaraa_analytics_visitors` (`id`, `ip`, `city`, `country_code`, `cou
 (4, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'unknown', NULL, 'unknown', 'http://localhost/internal/aaraa/public/api/users/profile', 'No Hostname', 'unknown', '2019-06-13', '10:26:25', '2019-06-13 07:26:25', '2019-06-13 07:26:25'),
 (5, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'Linux', 'Opera', 'unknown', 'http://localhost/internal/aaraa/', 'No Hostname', 'unknown', '2019-06-16', '06:41:30', '2019-06-16 03:41:30', '2019-06-16 03:41:30'),
 (6, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'Linux', 'Opera', 'unknown', 'http://localhost/internal/aaraa/', 'No Hostname', 'unknown', '2019-06-17', '06:53:02', '2019-06-17 03:53:02', '2019-06-17 03:53:02'),
-(7, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'Linux', 'Opera', 'unknown', 'unknown', 'No Hostname', 'unknown', '2019-06-18', '10:30:21', '2019-06-18 07:30:21', '2019-06-18 07:30:21');
+(7, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'Linux', 'Opera', 'unknown', 'unknown', 'No Hostname', 'unknown', '2019-06-18', '10:30:21', '2019-06-18 07:30:21', '2019-06-18 07:30:21'),
+(8, '::1', 'unknown', 'unknown', 'unknown', 'unknown', 'unknown, unknown, unknown', 'unknown', 'unknown', 'Linux', 'Opera', 'unknown', 'unknown', 'No Hostname', 'unknown', '2019-06-19', '10:03:12', '2019-06-19 07:03:12', '2019-06-19 07:03:12');
 
 -- --------------------------------------------------------
 
@@ -244,7 +317,8 @@ CREATE TABLE `aaraa_application_users` (
 
 INSERT INTO `aaraa_application_users` (`id`, `name`, `email`, `password`, `photo`, `gender`, `age`, `terms_conditions`, `notification`, `preferred_language`, `status`, `remember_token`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
 ('031d14b4-e222-4bde-a770-b44fcaeba49f', 'Mohammed Jhosawa', 'mjhosawa@vavisa-kw.com', '$2y$10$jQg45nn0SAHlFQsAanw/bOQWak/yIHvUO41ShjS41/AXqiTG35tEG', '', 'Male', 24, 1, 1, 'en', 1, NULL, NULL, '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-13 09:30:38', '2019-06-16 05:34:53'),
-('335e6aeb-91c4-11e9-bb87-8cec4ba57079', 'Carla ', 'carla@vavisa-kw.com', '*89FA6EAF8B6264AC8D6E84759027252505A3EAEE', '', 'Female', 28, 1, 1, 'en', 1, NULL, NULL, '', '2019-06-13 09:30:38', '2019-06-16 05:34:53');
+('335e6aeb-91c4-11e9-bb87-8cec4ba57079', 'Carla ', 'carla@vavisa-kw.com', '*89FA6EAF8B6264AC8D6E84759027252505A3EAEE', '', 'Female', 28, 1, 1, 'en', 1, NULL, NULL, '', '2019-06-13 09:30:38', '2019-06-16 05:34:53'),
+('354db5ef-08a9-4024-870b-936013820508', 'Hashim Sagir', 'hashim@vavisa-kw.com', '$2y$10$VSVpGqcM24hsozVE1rOIMuNokvvfiEsJuanQ1NnUmqn7czypSp9T2', '', 'M', 33, 1, 1, '', 1, NULL, NULL, NULL, '2019-06-19 13:19:43', '2019-06-19 13:19:43');
 
 -- --------------------------------------------------------
 
@@ -292,68 +366,6 @@ CREATE TABLE `aaraa_application_users_poll` (
 
 INSERT INTO `aaraa_application_users_poll` (`id`, `poll_id`, `application_users_id`, `created_at`, `updated_at`) VALUES
 ('dee66bfb-874e-46db-a0a5-79d4c68080bb', '1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-17 10:41:48', '2019-06-17 10:41:48');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `aaraa_attach_files`
---
-
-CREATE TABLE `aaraa_attach_files` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `topic_id` int(11) NOT NULL,
-  `file` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `title_ar` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `title_en` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `row_no` int(11) NOT NULL,
-  `created_by` int(11) DEFAULT NULL,
-  `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `aaraa_banners`
---
-
-CREATE TABLE `aaraa_banners` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `section_id` int(11) NOT NULL,
-  `title_ar` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `title_en` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `details_ar` text COLLATE utf8mb4_unicode_ci,
-  `details_en` text COLLATE utf8mb4_unicode_ci,
-  `code` text COLLATE utf8mb4_unicode_ci,
-  `file_ar` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `file_en` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `video_type` tinyint(4) DEFAULT NULL,
-  `youtube_link` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `link_url` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `icon` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` tinyint(4) NOT NULL,
-  `visits` int(11) NOT NULL,
-  `row_no` int(11) NOT NULL,
-  `created_by` int(11) DEFAULT NULL,
-  `updated_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `aaraa_banners`
---
-
-INSERT INTO `aaraa_banners` (`id`, `section_id`, `title_ar`, `title_en`, `details_ar`, `details_en`, `code`, `file_ar`, `file_en`, `video_type`, `youtube_link`, `link_url`, `icon`, `status`, `visits`, `row_no`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 1, 'بنر رقم 3', 'Banner #3', 'هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص.', 'It is a long established fact that a reader will be distracted by the readable content of a page.', NULL, '14888109018814.jpg', '14888109012163.jpg', NULL, NULL, '#', NULL, 1, 0, 3, 1, 1, '2017-03-06 11:06:24', '2017-03-07 18:27:19'),
-(2, 1, 'بنر رقم 2', 'Banner #2', 'هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص.', 'It is a long established fact that a reader will be distracted by the readable content of a page.', NULL, '14888112232028.jpg', '14888112237145.jpg', NULL, NULL, '#', NULL, 1, 0, 2, 1, 1, '2017-03-06 11:06:24', '2017-03-07 18:27:19'),
-(3, 2, 'تصميم ريسبونسف', 'Responsive Design', 'هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص.', 'It is a long established fact that a reader will be distracted by the readable content of a page.', NULL, '', '', NULL, NULL, '#', 'fa-object-group', 1, 0, 1, 1, NULL, '2017-03-06 11:06:24', '2017-03-07 18:27:19'),
-(4, 2, ' احدث التقنيات', 'HTML5 & CSS3', 'هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص.', 'It is a long established fact that a reader will be distracted by the readable content of a page.', NULL, '', '', NULL, NULL, '#', 'fa-html5', 1, 0, 2, 1, NULL, '2017-03-06 11:06:24', '2017-03-07 18:27:19'),
-(5, 2, 'باستخدام بوتستراب', 'Bootstrap Used', 'هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص.', 'It is a long established fact that a reader will be distracted by the readable content of a page.', NULL, '', '', NULL, NULL, '#', 'fa-code', 1, 0, 3, 1, NULL, '2017-03-06 11:06:24', '2017-03-07 18:27:19'),
-(6, 2, 'تصميم كلاسيكي', 'Classic Design', 'هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص.', 'It is a long established fact that a reader will be distracted by the readable content of a page.', NULL, '', '', NULL, NULL, '#', 'fa-laptop', 1, 0, 4, 1, NULL, '2017-03-06 11:06:24', '2017-03-07 18:27:19'),
-(7, 1, 'بنر رقم 1', 'Banner #1', 'هناك حقيقة مثبتة منذ زمن طويل وهي أن المحتوى المقروء لصفحة ما سيلهي القارئ عن التركيز على الشكل الخارجي للنص.', 'It is a long established fact that a reader will be distracted by the readable content of a page.', NULL, '14888126419392.jpg', '14888126415336.jpg', NULL, NULL, '#', NULL, 1, 0, 1, 1, 1, '2017-03-06 13:04:01', '2017-03-07 18:27:19'),
-(8, 3, 'بنر جانبي تجريبي', 'Side banner sample', NULL, NULL, NULL, '14888184555359.png', '14888184559632.png', NULL, NULL, '#', NULL, 1, 0, 5, 1, 1, '2017-03-06 14:25:52', '2017-03-07 18:27:19');
 
 -- --------------------------------------------------------
 
@@ -1018,6 +1030,7 @@ CREATE TABLE `aaraa_oauth_access_tokens` (
 INSERT INTO `aaraa_oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
 ('05bc56197abc1d1da2338ff34d92784de1b683c1c3c70960a9b8a801d303f26503a5b4cdc8bda39c', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Laravel', '[]', 0, '2019-06-13 09:30:38', '2019-06-13 09:30:38', '2019-12-13 12:30:38'),
 ('35f3b0ace26a72931c98089b13f6431e5de49f93679501ad124632b9c7ae47aab105174894f2216f', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Laravel', '[]', 0, '2019-06-17 18:42:34', '2019-06-17 18:42:34', '2019-12-18 00:12:34'),
+('60fcb45d2b455c58d5964edcf04d8521cb0309cf96cc0b161bb7423555489ef8c4ba4f9537081d46', '354db5ef-08a9-4024-870b-936013820508', 9, 'Aaraa', '[]', 0, '2019-06-19 13:19:43', '2019-06-19 13:19:43', '2019-12-19 16:19:43'),
 ('66227e6911ebd60d68e006c92680c237ff06e3a41a14c473467181fc0739b9b03607f50efb3cb97d', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Laravel', '[]', 0, '2019-06-17 05:45:13', '2019-06-17 05:45:13', '2019-12-17 08:45:13'),
 ('8cf04e3d132aa3b88a937073f631422e0b012c00fb63a26444236b75ada67dc9be35d165c48c6f98', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Laravel', '[]', 0, '2019-06-17 10:02:26', '2019-06-17 10:02:26', '2019-12-17 13:02:26'),
 ('9897c645511b27db90b76f9bedbbd0b67e45af47fd17bf8b6bc37fc5612c34a020c73ec20b6843c5', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Laravel', '[]', 0, '2019-06-17 16:51:25', '2019-06-17 16:51:25', '2019-12-17 22:21:24'),
@@ -1236,6 +1249,9 @@ CREATE TABLE `aaraa_permissions` (
   `newsletter_status` tinyint(4) NOT NULL DEFAULT '0',
   `calendar_status` tinyint(4) NOT NULL DEFAULT '0',
   `banners_status` tinyint(4) NOT NULL DEFAULT '0',
+  `polls_status` tinyint(4) NOT NULL,
+  `categories_status` tinyint(4) NOT NULL,
+  `appusers_status` tinyint(4) NOT NULL,
   `settings_status` tinyint(4) NOT NULL DEFAULT '0',
   `webmaster_status` tinyint(4) NOT NULL DEFAULT '0',
   `data_sections` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -1250,10 +1266,10 @@ CREATE TABLE `aaraa_permissions` (
 -- Dumping data for table `aaraa_permissions`
 --
 
-INSERT INTO `aaraa_permissions` (`id`, `name`, `view_status`, `add_status`, `edit_status`, `delete_status`, `analytics_status`, `inbox_status`, `newsletter_status`, `calendar_status`, `banners_status`, `settings_status`, `webmaster_status`, `data_sections`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 'Webmaster', 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, '1,2,3,4,5,6,7,8,9', 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
-(2, 'Website Manager', 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, '1,2,3,4,5,6,7,8,9', 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
-(3, 'Limited User', 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, '1,2,3,4,5,6,7,8,9', 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
+INSERT INTO `aaraa_permissions` (`id`, `name`, `view_status`, `add_status`, `edit_status`, `delete_status`, `analytics_status`, `inbox_status`, `newsletter_status`, `calendar_status`, `banners_status`, `polls_status`, `categories_status`, `appusers_status`, `settings_status`, `webmaster_status`, `data_sections`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 'Webmaster', 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, '1,2,3,4,5,6,7,8,9', 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
+(2, 'Website Manager', 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, '1,2,3,4,5,6,7,8,9', 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
+(3, 'Limited User', 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, '1,2,3,4,5,6,7,8,9', 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
 
 -- --------------------------------------------------------
 
@@ -1577,7 +1593,7 @@ CREATE TABLE `aaraa_settings` (
 --
 
 INSERT INTO `aaraa_settings` (`id`, `site_title_ar`, `site_title_en`, `site_desc_ar`, `site_desc_en`, `site_keywords_ar`, `site_keywords_en`, `site_webmails`, `notify_messages_status`, `notify_comments_status`, `notify_orders_status`, `site_url`, `site_status`, `ios_version`, `android_version`, `min_options`, `max_options`, `close_msg`, `social_link1`, `social_link2`, `social_link3`, `social_link4`, `social_link5`, `social_link6`, `social_link7`, `social_link8`, `social_link9`, `social_link10`, `contact_t1_ar`, `contact_t1_en`, `contact_t3`, `contact_t4`, `contact_t5`, `contact_t6`, `contact_t7_ar`, `contact_t7_en`, `style_logo_ar`, `style_logo_en`, `style_fav`, `style_apple`, `style_color1`, `style_color2`, `style_type`, `style_bg_type`, `style_bg_pattern`, `style_bg_color`, `style_bg_image`, `style_subscribe`, `style_footer`, `style_footer_bg`, `style_preload`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-('1', 'اسم وعنوان الموقع', 'aaraa Laravel Site Preview', 'وصف الموقع الإلكتروني ونبذة قصيره عنه', 'Website description and some little information about it', 'كلمات، دلالية، موقع، موقع إلكتروني', 'key, words, website, web', 'support@smartfordesign.com', 1, 1, 1, 'http://smartfordesign.net/aaraa/demo', 1, '1.4', '1.4', 2, 5, 'Website under maintenance \r\n<h1>Comming SOON</h1>', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'المبني - اسم الشارع - المدينة - الدولة', 'Building, Street name, City, Country', '+(00) 0123456789', '+(00) 0123456789', '+(00) 0123456789', 'info@sitename.com', 'من الأحد إلى الخميس 08:00 ص - 05:00 م', 'Sunday to Thursday 08:00 AM to 05:00 PM', '15601488901911.png', '15601488907873.png', '14888091191764.png', '14888091198179.png', '#0cbaa4', '#2e3e4e', 0, 0, NULL, '#2e3e4e', NULL, 1, 1, NULL, 0, '1', '1', '2017-03-06 11:06:23', '2019-06-10 03:41:30');
+('1', 'اسم وعنوان الموقع', 'aaraa Laravel Site Preview', 'وصف الموقع الإلكتروني ونبذة قصيره عنه', 'Website description and some little information about it', 'كلمات، دلالية، موقع، موقع إلكتروني', 'key, words, website, web', 'support@smartfordesign.com', 1, 1, 1, 'http://smartfordesign.net/aaraa/demo', 1, '1.4', '1.4', 2, 5, 'Website under maintenance \r\n<h1>Comming SOON</h1>', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', 'المبني - اسم الشارع - المدينة - الدولة', 'Building, Street name, City, Country', '+(00) 0123456789', '+(00) 0123456789', '+(00) 0123456789', 'info@sitename.com', 'من الأحد إلى الخميس 08:00 ص - 05:00 م', 'Sunday to Thursday 08:00 AM to 05:00 PM', '15609442269872.png', '15609442266788.png', '15609442269958.png', '15609442266095.png', '#de485d', '#242a37', 0, 0, NULL, '#2e3e4e', NULL, 1, 1, NULL, 0, '1', '1', '2017-03-06 11:06:23', '2019-06-19 11:37:06');
 
 -- --------------------------------------------------------
 
@@ -1788,7 +1804,7 @@ CREATE TABLE `aaraa_users` (
 --
 
 INSERT INTO `aaraa_users` (`id`, `name`, `email`, `password`, `photo`, `permissions_id`, `preferred_language`, `status`, `connect_email`, `connect_password`, `remember_token`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-('1', 'admin', 'mjhosawa@vavisa-kw.com', '$2y$10$vCYpyjX68hKYbzsAUZS4vuLCodSrXukCOHorulIwREO70hNgv6J5q', NULL, 1, '', 1, NULL, NULL, 'ezmYfwwTII9QIs4UVZ5eQA2PyFXQ3Nw0hIYEmvl9g8avmGifwTjlhAmWFyqu', '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
+('1', 'admin', 'mjhosawa@vavisa-kw.com', '$2y$10$vCYpyjX68hKYbzsAUZS4vuLCodSrXukCOHorulIwREO70hNgv6J5q', NULL, 1, '', 1, NULL, NULL, 'K2Fw9B23BIRrWmEEU1l7hcXuynQlEQDgzTwCWNQ1WFnPPi7neD6PmKdHPgtj', '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
 ('2', 'manager', 'manager@site.com', '$2y$10$uwYocVmPgnGGxhW/ITU46ePqFEdsIyj87OXkYrRidYtuvvQR2Y6Yq', NULL, 2, '', 1, NULL, NULL, NULL, '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
 ('3', 'user', 'user@site.com', '$2y$10$JFfZ4nfOHNJlzEefZk9Oq.QcHzqaIOCM7kU0/0fltjptMrU4hj7UO', NULL, 3, '', 1, NULL, NULL, NULL, '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
 
@@ -2010,6 +2026,9 @@ CREATE TABLE `aaraa_webmaster_settings` (
   `seo_status` tinyint(4) NOT NULL,
   `analytics_status` tinyint(4) NOT NULL,
   `banners_status` tinyint(4) NOT NULL,
+  `polls_status` tinyint(4) NOT NULL,
+  `categories_status` tinyint(4) NOT NULL,
+  `appusers_status` tinyint(4) NOT NULL,
   `inbox_status` tinyint(4) NOT NULL,
   `calendar_status` tinyint(4) NOT NULL,
   `settings_status` tinyint(4) NOT NULL,
@@ -2047,8 +2066,8 @@ CREATE TABLE `aaraa_webmaster_settings` (
 -- Dumping data for table `aaraa_webmaster_settings`
 --
 
-INSERT INTO `aaraa_webmaster_settings` (`id`, `ar_box_status`, `en_box_status`, `seo_status`, `analytics_status`, `banners_status`, `inbox_status`, `calendar_status`, `settings_status`, `newsletter_status`, `members_status`, `orders_status`, `shop_status`, `shop_settings_status`, `default_currency_id`, `languages_count`, `latest_news_section_id`, `header_menu_id`, `footer_menu_id`, `home_banners_section_id`, `home_text_banners_section_id`, `side_banners_section_id`, `contact_page_id`, `newsletter_contacts_group`, `new_comments_status`, `links_status`, `register_status`, `permission_group`, `api_status`, `api_key`, `home_content1_section_id`, `home_content2_section_id`, `home_content3_section_id`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 2, 3, 1, 2, 1, 2, 3, 2, 1, 1, 0, 0, 3, 1, '571775002564288', 7, 4, 9, 1, 1, '2017-11-08 13:25:54', '2017-11-09 18:55:04');
+INSERT INTO `aaraa_webmaster_settings` (`id`, `ar_box_status`, `en_box_status`, `seo_status`, `analytics_status`, `banners_status`, `polls_status`, `categories_status`, `appusers_status`, `inbox_status`, `calendar_status`, `settings_status`, `newsletter_status`, `members_status`, `orders_status`, `shop_status`, `shop_settings_status`, `default_currency_id`, `languages_count`, `latest_news_section_id`, `header_menu_id`, `footer_menu_id`, `home_banners_section_id`, `home_text_banners_section_id`, `side_banners_section_id`, `contact_page_id`, `newsletter_contacts_group`, `new_comments_status`, `links_status`, `register_status`, `permission_group`, `api_status`, `api_key`, `home_content1_section_id`, `home_content2_section_id`, `home_content3_section_id`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 2, 3, 1, 2, 1, 2, 3, 2, 1, 1, 0, 0, 3, 1, '571775002564288', 7, 4, 9, 1, 1, '2017-11-08 13:25:54', '2017-11-09 18:55:04');
 
 --
 -- Indexes for dumped tables
@@ -2094,18 +2113,6 @@ ALTER TABLE `aaraa_application_users_poll`
   ADD PRIMARY KEY (`id`),
   ADD KEY `aaraa_poll_application_users_user_id_fk` (`application_users_id`),
   ADD KEY `aaraa_poll_application_users_poll_id_fk` (`poll_id`);
-
---
--- Indexes for table `aaraa_attach_files`
---
-ALTER TABLE `aaraa_attach_files`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `aaraa_banners`
---
-ALTER TABLE `aaraa_banners`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `aaraa_categories`
@@ -2371,24 +2378,12 @@ ALTER TABLE `aaraa_webmaster_settings`
 -- AUTO_INCREMENT for table `aaraa_analytics_pages`
 --
 ALTER TABLE `aaraa_analytics_pages`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
 
 --
 -- AUTO_INCREMENT for table `aaraa_analytics_visitors`
 --
 ALTER TABLE `aaraa_analytics_visitors`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `aaraa_attach_files`
---
-ALTER TABLE `aaraa_attach_files`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `aaraa_banners`
---
-ALTER TABLE `aaraa_banners`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --

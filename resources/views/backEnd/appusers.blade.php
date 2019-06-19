@@ -7,11 +7,11 @@
                 <h3>{{ trans('backLang.appusers') }}</h3>
                 <small>
                     <a href="{{ route('adminHome') }}">{{ trans('backLang.home') }}</a> /
-                    <a href="">{{ trans('backLang.settings') }}</a>
+                    <a href="">{{ trans('backLang.appusers') }}</a>
                 </small>
             </div>
 
-            @if($Users->total() >0)
+            {{-- @if($ApplicationUsers->total() >0)
                 @if(@Auth::user()->permissionsGroup->webmaster_status)
                     <div class="row p-a pull-right" style="margin-top: -70px;">
                         <div class="col-sm-12">
@@ -23,7 +23,8 @@
                     </div>
                 @endif
             @endif
-            @if($Users->total() == 0)
+
+            @if($ApplicationUsers->total() == 0)
                 <div class="row p-a">
                     <div class="col-sm-12">
                         <div class=" p-a text-center ">
@@ -39,9 +40,9 @@
                         </div>
                     </div>
                 </div>
-            @endif
+            @endif --}}
 
-            @if($Users->total() > 0)
+            @if($ApplicationUsers->total() > 0)
                 {{Form::open(['route'=>'usersUpdateAll','method'=>'post'])}}
                 <div class="table-responsive">
                     <table class="table table-striped  b-t">
@@ -61,36 +62,36 @@
                         </thead>
                         <tbody>
 
-                        @foreach($Users as $User)
+                        @foreach($ApplicationUsers as $ApplicationUser)
                             <tr>
                                 <td><label class="ui-check m-a-0">
-                                        <input type="checkbox" name="ids[]" value="{{ $User->id }}"><i
+                                        <input type="checkbox" name="ids[]" value="{{ $ApplicationUser->id }}"><i
                                                 class="dark-white"></i>
-                                        {!! Form::hidden('row_ids[]',$User->id, array('class' => 'form-control row_no')) !!}
+                                        {!! Form::hidden('row_ids[]',$ApplicationUser->id, array('class' => 'form-control row_no')) !!}
                                     </label>
                                 </td>
                                 <td>
-                                    {!! $User->name   !!}
+                                    {!! $ApplicationUser->name   !!}
                                 </td>
 
                                 <td>
-                                    <small>{!! $User->email   !!}</small>
+                                    <small>{!! $ApplicationUser->email   !!}</small>
                                 </td>
                                 <td>
-                                    <small>{{$User->permissionsGroup->name}}</small>
+                                    {{-- <small>{{$ApplicationUser->permissionsGroup->name}}</small> --}}
                                 </td>
                                 <td class="text-center">
-                                    <i class="fa {{ ($User->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
+                                    <i class="fa {{ ($ApplicationUser->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
                                 </td>
                                 <td class="text-center">
                                     <a class="btn btn-sm success"
-                                       href="{{ route("usersEdit",["id"=>$User->id]) }}">
+                                       href="{{ route("usersEdit",["id"=>$ApplicationUser->id]) }}">
                                         <small><i class="material-icons">&#xe3c9;</i> {{ trans('backLang.edit') }}
                                         </small>
                                     </a>
                                     @if(@Auth::user()->permissionsGroup->webmaster_status)
                                         <button class="btn btn-sm warning" data-toggle="modal"
-                                                data-target="#m-{{ $User->id }}" ui-toggle-class="bounce"
+                                                data-target="#m-{{ $ApplicationUser->id }}" ui-toggle-class="bounce"
                                                 ui-target="#animate">
                                             <small><i class="material-icons">&#xe872;</i> {{ trans('backLang.delete') }}
                                             </small>
@@ -101,7 +102,7 @@
                                 </td>
                             </tr>
                             <!-- .modal -->
-                            <div id="m-{{ $User->id }}" class="modal fade" data-backdrop="true">
+                            <div id="m-{{ $ApplicationUser->id }}" class="modal fade" data-backdrop="true">
                                 <div class="modal-dialog" id="animate">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -111,13 +112,13 @@
                                             <p>
                                                 {{ trans('backLang.confirmationDeleteMsg') }}
                                                 <br>
-                                                <strong>[ {{ $User->name }} ]</strong>
+                                                <strong>[ {{ $ApplicationUser->name }} ]</strong>
                                             </p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn dark-white p-x-md"
                                                     data-dismiss="modal">{{ trans('backLang.no') }}</button>
-                                            <a href="{{ route("usersDestroy",["id"=>$User->id]) }}"
+                                            <a href="{{ route("usersDestroy",["id"=>$ApplicationUser->id]) }}"
                                                class="btn danger p-x-md">{{ trans('backLang.yes') }}</a>
                                         </div>
                                     </div><!-- /.modal-content -->
@@ -174,12 +175,12 @@
                         </div>
 
                         <div class="col-sm-3 text-center">
-                            <small class="text-muted inline m-t-sm m-b-sm">{{ trans('backLang.showing') }} {{ $Users->firstItem() }}
-                                -{{ $Users->lastItem() }} {{ trans('backLang.of') }}
-                                <strong>{{ $Users->total()  }}</strong> {{ trans('backLang.records') }}</small>
+                            <small class="text-muted inline m-t-sm m-b-sm">{{ trans('backLang.showing') }} {{ $ApplicationUsers->firstItem() }}
+                                -{{ $ApplicationUsers->lastItem() }} {{ trans('backLang.of') }}
+                                <strong>{{ $ApplicationUsers->total()  }}</strong> {{ trans('backLang.records') }}</small>
                         </div>
                         <div class="col-sm-6 text-right text-center-xs">
-                            {!! $Users->links() !!}
+                            {!! $ApplicationUsers->links() !!}
                         </div>
                     </div>
                 </footer>

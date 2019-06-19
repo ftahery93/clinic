@@ -31,6 +31,29 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                         </a>
                     </li>
 
+                    <li class="nav-header hidden-folded">
+                        <small class="text-muted">{{ trans('backLang.siteData') }}</small>
+                    </li>
+
+                    {{-- Polls --}}
+                    @if(Helper::GeneralWebmasterSettings("polls_status"))
+                        @if(@Auth::user()->permissionsGroup->categories_status)
+                            <?php
+                            $currentFolder = "polls"; // Put folder name here
+                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                            ?>
+                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }} >
+                                <a href="{{ route('adminPolls') }}">
+                                    <span class="nav-icon">
+                                    <i class="material-icons">description</i>
+                                    </span>
+                                    <span class="nav-text">{{ trans('backLang.polls') }}</span>
+                                </a>
+                            </li>
+                        @endif
+                    @endif
+
+                    {{-- Poll Analytics --}}
                     @if(Helper::GeneralWebmasterSettings("analytics_status"))
                         @if(@Auth::user()->permissionsGroup->analytics_status)
                             <?php
@@ -49,7 +72,7 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                                     <span class="nav-icon">
                                         <i class="material-icons">&#xe1b8;</i>
                                     </span>
-                                    <span class="nav-text">{{ trans('backLang.visitorsAnalytics') }}</span>
+                                    <span class="nav-text">{{ trans('backLang.pollAnalytics') }}</span>
                                 </a>
                                 <ul class="nav-sub">
                                     <li>
@@ -148,6 +171,43 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                         @endif
                     @endif
 
+                    {{-- Categories --}}
+                    @if(Helper::GeneralWebmasterSettings("categories_status"))
+                        @if(@Auth::user()->permissionsGroup->categories_status)
+                            <?php
+                            $currentFolder = "categories"; // Put folder name here
+                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                            ?>
+                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }} >
+                                <a href="{{ route('adminCategories') }}">
+                                    <span class="nav-icon">
+                                    <i class="material-icons">list</i>
+                                    </span>
+                                    <span class="nav-text">{{ trans('backLang.categories') }}</span>
+                                </a>
+                            </li>
+                        @endif
+                    @endif
+
+                    {{-- Application Users --}}
+                    @if(Helper::GeneralWebmasterSettings("appusers_status"))
+                        @if(@Auth::user()->permissionsGroup->appusers_status)
+                            <?php
+                            $currentFolder = "appusers"; // Put folder name here
+                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                            ?>
+                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
+                                <a href="{{ route('adminAppusers') }}">
+                                    <span class="nav-icon">
+                                        <i class="material-icons">account_circle</i>
+                                    </span>
+                                    <span class="nav-text">{{ trans('backLang.appusers') }}</span>
+                                </a>
+                            </li>
+                        @endif
+                    @endif
+
+                    {{-- Notifications --}}
                     @if(Helper::GeneralWebmasterSettings("inbox_status"))
                         @if(@Auth::user()->permissionsGroup->inbox_status)
                             <?php
@@ -170,44 +230,7 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                         @endif
                     @endif
 
-                    <li class="nav-header hidden-folded">
-                        <small class="text-muted">{{ trans('backLang.siteData') }}</small>
-                    </li>
-
-                    @if(Helper::GeneralWebmasterSettings("polls_status"))
-                        @if(@Auth::user()->permissionsGroup->categories_status)
-                            <?php
-                            $currentFolder = "polls"; // Put folder name here
-                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-                            ?>
-                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }} >
-                                <a href="{{ route('adminPolls') }}">
-                                    <span class="nav-icon">
-                                    <i class="material-icons">description</i>
-                                    </span>
-                                    <span class="nav-text">{{ trans('backLang.polls') }}</span>
-                                </a>
-                            </li>
-                        @endif
-                    @endif
-
-                    @if(Helper::GeneralWebmasterSettings("categories_status"))
-                        @if(@Auth::user()->permissionsGroup->categories_status)
-                            <?php
-                            $currentFolder = "categories"; // Put folder name here
-                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-                            ?>
-                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }} >
-                                <a href="{{ route('adminCategories') }}">
-                                    <span class="nav-icon">
-                                    <i class="material-icons">list</i>
-                                    </span>
-                                    <span class="nav-text">{{ trans('backLang.categories') }}</span>
-                                </a>
-                            </li>
-                        @endif
-                    @endif
-
+                    {{-- Settings --}}
                     @if(Helper::GeneralWebmasterSettings("settings_status"))
                         @if(@Auth::user()->permissionsGroup->settings_status)
                             <li class="nav-header hidden-folded">
@@ -218,13 +241,10 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                             $currentFolder = "settings"; // Put folder name here
                             $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
 
-                            $currentFolder2 = "menus"; // Put folder name here
+                            $currentFolder2 = "users"; // Put folder name here
                             $PathCurrentFolder2 = substr($urlAfterRoot, 0, strlen($currentFolder2));
-
-                            $currentFolder3 = "users"; // Put folder name here
-                            $PathCurrentFolder3 = substr($urlAfterRoot, 0, strlen($currentFolder2));
                             ?>
-                            <li {{ ($PathCurrentFolder==$currentFolder || $PathCurrentFolder2==$currentFolder2 || $PathCurrentFolder3==$currentFolder3 ) ? 'class=active' : '' }}>
+                            <li {{ ($PathCurrentFolder==$currentFolder || $PathCurrentFolder2==$currentFolder2 ) ? 'class=active' : '' }}>
                                 <a>
                                     <span class="nav-caret">
                                         <i class="fa fa-caret-down"></i>
@@ -243,24 +263,6 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                                         <a href="{{ route('settings') }}"
                                            onclick="location.href='{{ route('settings') }}'">
                                             <span class="nav-text">{{ trans('backLang.generalSettings') }}</span>
-                                        </a>
-                                    </li>
-                                    <?php
-                                    $currentFolder = "menus"; // Put folder name here
-                                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-                                    ?>
-                                    <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
-                                        <a href="{{ route('menus') }}">
-                                            <span class="nav-text">{{ trans('backLang.siteMenus') }}</span>
-                                        </a>
-                                    </li>
-                                    <?php
-                                    $currentFolder = "appusers"; // Put folder name here
-                                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-                                    ?>
-                                    <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
-                                        <a href="{{ route('adminAppusers') }}">
-                                            <span class="nav-text">{{ trans('backLang.appusers') }}</span>
                                         </a>
                                     </li>
                                     <?php

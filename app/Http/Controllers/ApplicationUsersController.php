@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
+use File;
+use Redirect;
 use App\Http\Requests;
 use App\Permissions;
 use App\ApplicationUsers;
 use App\WebmasterSection;
-use Auth;
-use File;
 use Illuminate\Config;
 use Illuminate\Http\Request;
-use Redirect;
+
 
 class ApplicationUsersController extends Controller
 {
@@ -21,7 +22,7 @@ class ApplicationUsersController extends Controller
 
     public function __construct()
     {
-        $this->middleware('checkAuthApi');
+        $this->middleware('auth');
 
         // // Check Permissions
         // if (@Auth::user()->permissions != 0 && Auth::user()->permissions != 1) {
@@ -36,24 +37,15 @@ class ApplicationUsersController extends Controller
      */
     public function index()
     {
-        
-        $Users = ApplicationUsers::where('id', '=', '6')->paginate(env('BACKEND_PAGINATION'));
-        $Users = trans('backLang.visitorsAnalytics');
-        var_dump($Users);exit;
-        //
-        // General for all pages
-        $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
-        // General END
-
         if (@Auth::user()->permissionsGroup->view_status) {
-            $Users = ApplicationUser::where('created_by', '=', Auth::user()->id)->orwhere('id', '=', Auth::user()->id)->orderby('id',
+            $ApplicationUsers = ApplicationUsers::where('created_by', '=', Auth::user()->id)->orwhere('id', '=', Auth::user()->id)->orderby('id',
                 'asc')->paginate(env('BACKEND_PAGINATION'));
             $Permissions = Permissions::where('created_by', '=', Auth::user()->id)->orderby('id', 'asc')->get();
         } else {
-            $Users = User::orderby('id', 'asc')->paginate(env('BACKEND_PAGINATION'));
+            $ApplicationUsers = ApplicationUsers::orderby('id', 'asc')->paginate(env('BACKEND_PAGINATION'));
             $Permissions = Permissions::orderby('id', 'asc')->get();
         }
-        return view("backEnd.users", compact("Users", "Permissions", "GeneralWebmasterSections"));
+        return view("backEnd.appusers", compact("ApplicationUsers", "Permissions"));
     }
 
     /**

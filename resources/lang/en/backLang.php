@@ -19,7 +19,7 @@ return array (
   'siteData' => 'Site Data',
   'settings' => 'Settings',
   'dashboard' => 'Dashboard',
-  'visitorsAnalytics' => 'Analytics',
+  'pollAnalytics' => 'Poll Analytics',
   'visitorsAnalyticsBydate' => 'By date',
   'visitorsAnalyticsByCity' => 'City',
   'visitorsAnalyticsByRegion' => 'Region',
