@@ -49,6 +49,7 @@ return [
     'optionNotFoundwithId' => 'لا يوجد خيار متاح بمعرف خيار محدد.',
     'pollResultsNotFound' => 'نتائج الاستطلاع غير موجودة.',
     'pollCreateSuccess' => 'تم تقديم الاستطلاع بنجاح.',
+    'pollExpired' => 'انتهى الاستطلاع.',
 
     /*
     |

@@ -14,6 +14,7 @@ use App\Comment;
 use App\PollResult;
 use App\ApplicationUsers;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Config;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -119,6 +120,7 @@ class PollsController extends Controller
         // End of Upload Files
 
         // Get the Duration from request and set end time for poll 
+        $end_datetime = '';
         if($request->duration_id != ""){
             $Duration = DB::table("poll_durations")
                 ->select('duration','is_hour')
@@ -301,8 +303,11 @@ class PollsController extends Controller
         }
 
         //Check before saving the input, whether poll is expired or not 
-        //Logic comes here..
-
+        $Poll = Poll::find($request->poll_id)->first();
+        if($Poll->end_datetime < Carbon::now()){
+            return response()->json(['error' => trans('mobileLang.pollExpired')], 404);
+        }
+    
         // Save the Poll Result
         $Result = new PollResult();
         $Result->poll_id = $request->poll_id;

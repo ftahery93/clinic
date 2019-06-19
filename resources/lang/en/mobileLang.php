@@ -49,6 +49,7 @@ return [
     'optionNotFoundwithId' => 'No option available with specific option ID.',
     'pollResultsNotFound' => 'Poll results not found.',
     'pollCreateSuccess' => 'Poll submitted successfully.',
+    'pollExpired' => 'Poll is expired.',
 
     /*
     |
