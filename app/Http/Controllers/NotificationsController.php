@@ -2,26 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\Setting;
-use App\Webmail;
-use App\WebmailsFile;
-use App\WebmailsGroup;
-use App\WebmasterSection;
 use Auth;
 use File;
-use Helper;
-use Illuminate\Config;
-use Illuminate\Http\Request;
 use Mail;
+use Helper;
 use Redirect;
 use Validator;
+use App\Http\Requests;
+use App\Setting;
+use App\Notification;
+use Illuminate\Config;
+use Illuminate\Http\Request;
 
 
-class WebmailsController extends Controller
+
+class NotificationsController extends Controller
 {
 
-    private $uploadPath = "uploads/inbox/";
+    private $uploadPath = "uploads/notifications/";
 
     // Define Default Variables
 
@@ -30,7 +28,7 @@ class WebmailsController extends Controller
         $this->middleware('auth');
 
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->inbox_status) {
+        if (!@Auth::user()->permissionsGroup->notifications_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
     }
@@ -45,11 +43,6 @@ class WebmailsController extends Controller
      */
     public function index($group_id = null, $wid = null, $stat = null, $contact_email = null)
     {
-        //
-        // General for all pages
-        $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
-        // General END
-
         //List of groups
         if (@Auth::user()->permissionsGroup->view_status) {
             $WebmailsGroups = WebmailsGroup::where('created_by', '=', Auth::user()->id)->orderby('id', 'asc')->get();
@@ -175,7 +168,7 @@ class WebmailsController extends Controller
 
         $search_word = "";
 
-        return view("backEnd.webmails",
+        return view("backEnd.notifications",
             compact("Webmails", "GeneralWebmasterSections", "WebmailsGroups", "WaitWebmailsCount", "DraftWebmailsCount",
                 "AllWebmailsCount", "group_id", "WebmailToreply", "stat", "search_word", "SiteSetting",
                 "contact_email"));

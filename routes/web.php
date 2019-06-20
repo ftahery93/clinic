@@ -179,30 +179,14 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('/contacts/destroy/{id}', 'ContactsController@destroy')->name('contactsDestroy');
     Route::post('/contacts/updateAll', 'ContactsController@updateAll')->name('contactsUpdateAll');
 
-    // WebMails Groups
-    Route::post('/webmails/storeGroup', 'WebmailsController@storeGroup')->name('webmailsStoreGroup');
-    Route::get('/webmails/{id}/editGroup', 'WebmailsController@editGroup')->name('webmailsEditGroup');
-    Route::post('/webmails/{id}/updateGroup', 'WebmailsController@updateGroup')->name('webmailsUpdateGroup');
-    Route::get('/webmails/destroyGroup/{id}', 'WebmailsController@destroyGroup')->name('webmailsDestroyGroup');
-
     // WebMails
-    Route::post('/webmails/store', 'WebmailsController@store')->name('webmailsStore');
-    Route::post('/webmails/search', 'WebmailsController@search')->name('webmailsSearch');
-    Route::get('/webmails/{id}/edit', 'WebmailsController@edit')->name('webmailsEdit');
-    Route::get('/webmails/{group_id?}/{wid?}/{stat?}/{contact_email?}', 'WebmailsController@index')->name('webmails');
-    Route::post('/webmails/{id}/update', 'WebmailsController@update')->name('webmailsUpdate');
-    Route::get('/webmails/destroy/{id}', 'WebmailsController@destroy')->name('webmailsDestroy');
-    Route::post('/webmails/updateAll', 'WebmailsController@updateAll')->name('webmailsUpdateAll');
-
-    // Calendar
-    Route::get('/calendar', 'EventsController@index')->name('calendar');
-    Route::get('/calendar/create', 'EventsController@create')->name('calendarCreate');
-    Route::post('/calendar/store', 'EventsController@store')->name('calendarStore');
-    Route::get('/calendar/{id}/edit', 'EventsController@edit')->name('calendarEdit');
-    Route::post('/calendar/{id}/update', 'EventsController@update')->name('calendarUpdate');
-    Route::get('/calendar/destroy/{id}', 'EventsController@destroy')->name('calendarDestroy');
-    Route::get('/calendar/updateAll', 'EventsController@updateAll')->name('calendarUpdateAll');
-    Route::post('/calendar/{id}/extend', 'EventsController@extend')->name('calendarExtend');
+    Route::post('/notifications/store', 'NotificationsController@store')->name('webmailsStore');
+    Route::post('/notifications/search', 'NotificationsController@search')->name('webmailsSearch');
+    Route::get('/notifications/{id}/edit', 'NotificationsController@edit')->name('webmailsEdit');
+    Route::get('/notifications/{group_id?}/{wid?}/{stat?}/{contact_email?}', 'NotificationsController@index')->name('adminNotifications');
+    Route::post('/notifications/{id}/update', 'NotificationsController@update')->name('webmailsUpdate');
+    Route::get('/notifications/destroy/{id}', 'NotificationsController@destroy')->name('webmailsDestroy');
+    Route::post('/notifications/updateAll', 'NotificationsController@updateAll')->name('webmailsUpdateAll');
 
     // Analytics
     Route::get('/ip/{ip_code?}', 'AnalyticsController@ip')->name('visitorsIP');

@@ -208,14 +208,14 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                     @endif
 
                     {{-- Notifications --}}
-                    @if(Helper::GeneralWebmasterSettings("inbox_status"))
-                        @if(@Auth::user()->permissionsGroup->inbox_status)
+                    {{-- @if(Helper::GeneralWebmasterSettings("notifications_status"))
+                        @if(@Auth::user()->permissionsGroup->notifications_status)
                             <?php
-                            $currentFolder = "webmails"; // Put folder name here
+                            $currentFolder = "notifications"; // Put folder name here
                             $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
                             ?>
                             <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
-                                <a href="{{ route('webmails') }}">
+                                <a href="{{ route('adminNotifications') }}">
                                     <span class="nav-icon">
                                         <i class="material-icons">&#xe156;</i>
                                         </span>
@@ -224,11 +224,10 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                                             <badge class="label warn m-l-xs">{{ Helper::webmailsNewCount() }}</badge>
                                         @endif
                                     </span>
-
                                 </a>
                             </li>
                         @endif
-                    @endif
+                    @endif --}}
 
                     {{-- Settings --}}
                     @if(Helper::GeneralWebmasterSettings("settings_status"))

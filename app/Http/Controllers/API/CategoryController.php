@@ -44,6 +44,7 @@ class CategoryController extends Controller
                 $Category = $Category->map(function ($category) {
                     $Category['id'] = $category->id;
                     $Category['name'] = $category->title_ar;
+                    $Category['photo'] = $category->photo;
                     return $Category;
                 });
                 return response()->json($Category, $this->successStatus);
@@ -51,6 +52,7 @@ class CategoryController extends Controller
                 $Category = $Category->map(function ($category) {
                     $Category['id'] = $category->id;
                     $Category['name'] = $category->title_en;
+                    $Category['photo'] = $category->photo;
                     return $Category;
                 });
                 return response()->json($Category, $this->successStatus);

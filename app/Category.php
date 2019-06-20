@@ -37,11 +37,15 @@ class Category extends Model
      * @var array
      */
     protected $hidden = [
-        'created_by', 'created_at','updated_at','updated_by','status','pivot'
+        'created_by','created_at','updated_at','updated_by','status','pivot'
     ];
 
     public function polls()
     {
         return $this->belongsToMany(Poll::class);
+    }
+
+    public function getPhotoAttribute($value){
+        return $value ? url('/uploads/categories/' . $value) : null;
     }
 }
