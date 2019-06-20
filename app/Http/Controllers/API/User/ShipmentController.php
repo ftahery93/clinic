@@ -552,7 +552,7 @@ class ShipmentController extends Controller
 
         $companyList = [];
         foreach ($companies as $company) {
-            if ($company->aƒpproved) {
+            if ($company->approved) {
                 $companyList[] = $company;
             }
         }
