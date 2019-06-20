@@ -25,6 +25,10 @@ Route::post('/users/login', 'API\ApplicationUsersController@login')->name('apius
 
 Route::post('/users/register', 'API\ApplicationUsersController@register')->name('apiusersRegister'); 
 
+// Forgot Password from Mobile devie
+
+Route::post('/users/forgot', 'API\ApplicationUsersController@forgot')->name('apiusersForgot'); 
+
 // Middleware auth:api 
 
 Route::group(['middleware' => 'auth:api'], function(){
@@ -47,27 +51,27 @@ Route::group(['middleware' => 'auth:api'], function(){
 
     // Delete/Disable Account from Mobile devie
 
-    Route::post('/users/delete', 'API\ApplicationUsersController@delete')->name('apiusersDelete'); 
+    Route::delete('/users/delete', 'API\ApplicationUsersController@delete')->name('apiusersDelete'); 
 
     // List of Saved Polls 
 
-    Route::get('/users/favourites', 'API\PollsController@getSavedPolls')->name('apipollsFavourites'); 
+    Route::get('/users/getfavourites', 'API\PollsController@getSavedPolls')->name('apipollsFavourites'); 
 
     // List of My Polls
 
-    Route::get('/users/mypolls', 'API\PollsController@getMyPolls')->name('apipollsMypolls');  
+    Route::get('/users/getmypolls', 'API\PollsController@getMyPolls')->name('apipollsMypolls');  
 
     // Mark Poll as Favourite
 
-    Route::post('/users/favourite/{id}', 'API\PollsController@savePollById')->name('apipollsFavourite');  
+    Route::post('/users/markfavourite/{id}', 'API\PollsController@savePollById')->name('apipollsFavourite');  
 
     // Fetch List of Polls 
 
-    Route::get('/polls', 'API\PollsController@getPolls')->name('apipollsIndex');  
+    Route::get('/getpolls', 'API\PollsController@getPolls')->name('apipollsIndex');  
 
     // Get Polls List based on Category ID
 
-    Route::post('/polls', 'API\PollsController@getPolls')->name('apipollsCategory');  
+    Route::post('/categories/getpolls', 'API\PollsController@getPollsByCategory')->name('apipollsCategory');  
 
     // Create Poll
 
@@ -75,43 +79,43 @@ Route::group(['middleware' => 'auth:api'], function(){
     
     // Delete Poll
 
-    Route::post('/polls/delete/{id}', 'API\PollsController@deletePoll')->name('apipollDelete');  
+    Route::delete('/polls/delete/{id}', 'API\PollsController@deletePoll')->name('apipollDelete');  
 
     // Add a comment
 
-    Route::post('/polls/comment', 'API\PollsController@addComment')->name('apipollComment');  
+    Route::post('/polls/addcomment', 'API\PollsController@addComment')->name('apipollComment');  
 
     // Fetch comments List
 
-    Route::post('/polls/comments/{id}', 'API\PollsController@getCommentsById')->name('apipollComments');  
+    Route::post('/polls/getcomments/{id}', 'API\PollsController@getCommentsById')->name('apipollComments');  
 
     // Fetch List of Categories 
 
-    Route::get('/categories', 'API\CategoryController@getCategories')->name('apicategoriesIndex');  
+    Route::get('/getcategories', 'API\CategoryController@getCategories')->name('apicategoriesIndex');  
 
     // Save List of User interested Categories 
 
-    Route::post('/users/categories', 'API\CategoryController@saveUserCategories')->name('apisaveUserCategories');  
+    Route::post('/users/categories/favourite', 'API\CategoryController@saveUserCategories')->name('apisaveUserCategories');  
 
     // Fetch List of Categories 
 
-    Route::get('/countries', 'API\CountriesController@getCountries')->name('apiCountries');  
+    Route::get('/getcountries', 'API\CountriesController@getCountries')->name('apiCountries');  
 
     // Fetch List of Settings 
 
-    Route::get('/config', 'API\SettingsController@getConfiguration')->name('apisettingsIndex');
+    Route::get('/getconfig', 'API\SettingsController@getConfiguration')->name('apisettingsIndex');
 
     // Fetch List of Durations for Poll 
 
-    Route::get('/durations', 'API\SettingsController@getDurations')->name('apidurationsSetting');  
+    Route::get('/getdurations', 'API\SettingsController@getDurations')->name('apidurationsSetting');  
 
     // Make a poll request and fetch the poll result in percentage.
 
-    Route::post('/poll', 'API\PollsController@makePoll')->name('apipoll');  
+    Route::post('/makepoll', 'API\PollsController@makePoll')->name('apipoll');  
 
     // Get poll results
 
-    Route::post('/poll/results/{id}', 'API\PollsController@getPollResults')->name('apipollResults');  
+    Route::get('/poll/results/{id}', 'API\PollsController@getPollResults')->name('apipollResults');  
 
 });
 

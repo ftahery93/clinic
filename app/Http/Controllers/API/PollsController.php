@@ -39,6 +39,9 @@ class PollsController extends Controller
 
         //get the language from the HTTP header
         $this->language = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : "en";  
+
+        //get the language from the HTTP header
+        $this->ip_address = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "";  
         
         //get the DB table prefix for raw queries
         $this->db_table_prefix = preg_replace("/&#?[a-z0-9]+;/i","",DB::getTablePrefix());
@@ -51,40 +54,55 @@ class PollsController extends Controller
      */
     public function getPolls(Request $request)
     {
-        $method = $_SERVER['REQUEST_METHOD'];
-        if($method == "GET"){
-            $ip = $_SERVER['REMOTE_ADDR']; // Get the server IP Address from where request is coming
-            //  Validate IP Address format
-            if(filter_var($ip, FILTER_VALIDATE_IP)){
-                $ip_details = json_decode(@file_get_contents("http://ipinfo.io/{$ip}/json"));
-                $visitor_country_code = @$ip_details->country;
-                if ($visitor_country_code != "") {
-                    $Country = Country::where('code', '=', $visitor_country_code)->first();
-                    if (count($Country->polls) > 0) {
-                        return response()->json($Country->polls, $this->successStatus);
-                    } else {
-                        return response()->json(['error' => trans('mobileLang.countryPollsNotFound')],404);
-                    }
+        // Get the server IP Address from the incoming request
+        if(!$this->ip_address){
+            return response()->json(['error' => trans('mobileLang.ipNotFoundinHeader')], 404);
+        }
+        //  Validate IP Address format
+        if(filter_var($this->ip_address, FILTER_VALIDATE_IP)){
+            $ip_details = json_decode(@file_get_contents("http://ipinfo.io/{$this->ip_address}/json"));
+            $visitor_country_code = @$ip_details->country;
+            if ($visitor_country_code != "") {
+                $Country = Country::where('code', '=', $visitor_country_code)->first();
+                if (count($Country->polls) > 0) {
+                    return response()->json($Country->polls, $this->successStatus);
                 } else {
-                    return response()->json(['error' => trans('mobileLang.countryNotFound')], 404);
+                    return response()->json(['error' => trans('mobileLang.countryPollsNotFound')],404);
                 }
             } else {
-                return response()->json(['error' => trans('mobileLang.countryIPInvalid')], 404);
-            }
-        } else if($method == "POST"){
-            $category_id = $request->category_id;
-            if($category_id){
-                $Category = Category::find($category_id);
-                if (count($Category->polls) > 0) {
-                    return response()->json($Category->polls, $this->successStatus);
-                } else {
-                    return response()->json(['error' => trans('mobileLang.categoryPollsNotFound')], 404);
-                }
-            } else {
-                return response()->json(['error' => trans('mobileLang.categoryIsMissing')], 404);
+                return response()->json(['error' => trans('mobileLang.countryNotFound')], 404);
             }
         } else {
-            return response()->json(['error' => trans('mobileLang.methodNotFound')], 404);
+            return response()->json(['error' => trans('mobileLang.countryIPInvalid')], 404);
+        }
+
+    }
+
+    /**
+     * Fetch the list of polls from category
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getPollsByCategory(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'category_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->messages()->first()], 422);
+        }
+
+        $category_id = $request->category_id;
+        if($category_id){
+            $Category = Category::find($category_id);
+            if (count($Category->polls) > 0) {
+                return response()->json($Category->polls, $this->successStatus);
+            } else {
+                return response()->json(['error' => trans('mobileLang.categoryPollsNotFound')], 404);
+            }
+        } else {
+            return response()->json(['error' => trans('mobileLang.categoryIsMissing')], 404);
         }
     }
 
