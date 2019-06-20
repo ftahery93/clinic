@@ -50,7 +50,7 @@ class CompanyProfileController extends Controller
      */
     public function getCompanies()
     {
-        $companies = Companies::all();
+        $companies = Company::all();
 
         $companyList = [];
         foreach ($companies as $company) {
