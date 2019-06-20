@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\LanguageManagement;
 use App\Models\API\Company;
 use App\Models\API\Rating;
 use App\Utility;
 use Illuminate\Http\Request;
-use App\Models\Admin\LanguageManagement;
 
 class RatingController extends Controller
 {
@@ -67,10 +67,6 @@ class RatingController extends Controller
      *        @SWG\Response(
      *             response=422,
      *             description="Unprocessable entity"
-     *        ),
-     *        @SWG\Response(
-     *             response=409,
-     *             description="Shipment already accepted"
      *        ),
      *     )
      *

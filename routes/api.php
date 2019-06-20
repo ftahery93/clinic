@@ -32,6 +32,7 @@ Route::patch('/user/updateMobileNumber', 'API\User\UserProfileController@updateM
 /* User Address */
 Route::post('/user/addAddress', 'API\User\AddressController@addAddress');
 Route::get('/user/getAddress/{address_id}', 'API\User\AddressController@getAddress');
+Route::put('/user/editAddress', 'API\User\AddressController@editAddress');
 
 /* User shipments  */
 Route::post('/user/addShipment', 'API\User\ShipmentController@addShipment');

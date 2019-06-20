@@ -930,72 +930,27 @@
                                     "description": "Address name",
                                     "type": "string",
                                     "example": "Home, office"
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "name": "Block",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "properties": {
+                                },
                                 "block": {
                                     "description": "Block",
                                     "type": "string",
                                     "example": "12, 13B"
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "name": "Street",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "properties": {
+                                },
                                 "street": {
                                     "description": "Street",
                                     "type": "string",
                                     "example": "12, 14A"
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "name": "Area",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "properties": {
+                                },
                                 "area": {
                                     "description": "Area",
                                     "type": "string",
                                     "example": "Salmiya, Sharq"
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "name": "Building",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "properties": {
+                                },
                                 "building": {
                                     "description": "Building number",
                                     "type": "string",
                                     "example": "14, 13Z"
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "name": "Notes",
-                        "in": "body",
-                        "required": false,
-                        "schema": {
-                            "properties": {
+                                },
                                 "notes": {
                                     "description": "Extra user notes",
                                     "type": "string",
@@ -1081,6 +1036,83 @@
                 "responses": {
                     "200": {
                         "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/~tvavisa/masafah/public/api/user/editAddress": {
+            "put": {
+                "tags": [
+                    "User Address"
+                ],
+                "summary": "Edit Address",
+                "operationId": "editAddress",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Name",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "address_id": {
+                                    "description": "Address ID",
+                                    "type": "integer",
+                                    "example": 24
+                                },
+                                "name": {
+                                    "description": "Address name",
+                                    "type": "string",
+                                    "example": "Home, office"
+                                },
+                                "block": {
+                                    "description": "Block",
+                                    "type": "string",
+                                    "example": "12, 13B"
+                                },
+                                "street": {
+                                    "description": "Street",
+                                    "type": "string",
+                                    "example": "12, 14A"
+                                },
+                                "area": {
+                                    "description": "Area",
+                                    "type": "string",
+                                    "example": "Salmiya, Sharq"
+                                },
+                                "building": {
+                                    "description": "Building number",
+                                    "type": "string",
+                                    "example": "14, 13Z"
+                                },
+                                "notes": {
+                                    "description": "Extra user notes",
+                                    "type": "string",
+                                    "example": "Do not park vehicle infront of the gate"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
                     }
                 }
             }
@@ -1430,9 +1462,6 @@
                     },
                     "422": {
                         "description": "Unprocessable entity"
-                    },
-                    "409": {
-                        "description": "Shipment already accepted"
                     }
                 }
             }
