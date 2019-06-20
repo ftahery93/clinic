@@ -205,7 +205,7 @@ class ShipmentController extends Controller
         $pickedUp = [];
         $delivered = [];
 
-        $shipments = Shipment::where('user_id', $request->user_id);
+        $shipments = Shipment::where('user_id', $request->user_id)->get();
 
         if ($shipments) {
             foreach ($shipments as $shipment) {
