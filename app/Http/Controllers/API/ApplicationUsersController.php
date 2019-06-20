@@ -17,7 +17,7 @@ class ApplicationUsersController extends Controller
 {
 
     public $successStatus = 200;
-    private $uploadPath = "uploads/users/";
+    private $uploadPath = "uploads/appusers/";
 
     // Define Default Variables
 
@@ -100,6 +100,7 @@ class ApplicationUsersController extends Controller
             'email' => 'required|email|unique:application_users',
             'password' => 'required',
             'age' => 'required',
+            'terms_conditions' => 'required',
             'gender' => 'required',
         ]);
 
@@ -171,6 +172,25 @@ class ApplicationUsersController extends Controller
         $ApplicationUser = Auth::user()->token();
         $ApplicationUser->revoke();
         return response()->json(['message' => trans('auth.successLogout')], $this->successStatus);
+    }
+
+    /**
+     * Forgot password
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function forgot(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->messages()->first()], 422);
+        }
+
+        return false;
     }
 
     /**

@@ -208,7 +208,7 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                     @endif
 
                     {{-- Notifications --}}
-                    {{-- @if(Helper::GeneralWebmasterSettings("notifications_status"))
+                    @if(Helper::GeneralWebmasterSettings("notifications_status"))
                         @if(@Auth::user()->permissionsGroup->notifications_status)
                             <?php
                             $currentFolder = "notifications"; // Put folder name here
@@ -227,7 +227,7 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                                 </a>
                             </li>
                         @endif
-                    @endif --}}
+                    @endif
 
                     {{-- Settings --}}
                     @if(Helper::GeneralWebmasterSettings("settings_status"))

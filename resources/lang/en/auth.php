@@ -44,6 +44,7 @@ return [
     'commonAppUpdateMsg' => 'An update for the application is available, please keep your application up-to-date to get latest features.',
     'appversionMissing' => 'App version parameter is missing in the request.',
     'acceptLanguageMissing' => 'Accept language parameter is missing in the request.',
+    'authorisationMissing' => 'You\'re not authorized to access this page',
 
 
 

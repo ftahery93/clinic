@@ -63,13 +63,30 @@ class CategoryController extends Controller
     }
 
     /**
-     * Save the list of saved categories from storage.
+     * Save the list of saved categories.
      *
      * @return \Illuminate\Http\Response
      */
     public function saveUserCategories(Request $request)
     {
-        //save the user specific categories and fetch them on their home screen along with polls
+        json_decode($request->getContent(),true);
+
+        $validator = Validator::make($request->all(), [
+            'categories' => 'required|array|min:1',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->messages()->first()], 422);
+        }
+        
+        if($request->categories != ""){
+            foreach($request->categories as $val){
+                Auth::user()->categories()->attach($val,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
+            }
+            return response()->json(['message' => trans('mobileLang.categoryInterestSuccess')], $this->successStatus);
+        } else {
+            return response()->json(['message' => trans('mobileLang.categoryInterestFail')], 404);
+        }
     }
 
 }

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Poll;
+use App\Category;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Str;
 use Illuminate\Notifications\Notifiable;
@@ -41,6 +42,10 @@ class ApplicationUsers extends Authenticatable
 
     public function favourites() {
         return $this->belongsToMany(Poll::class);
+    }
+
+    public function categories() {
+        return $this->belongsToMany(Category::class);
     }
 
     

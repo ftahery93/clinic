@@ -65,6 +65,7 @@ class PollsController extends Controller
             if ($visitor_country_code != "") {
                 $Country = Country::where('code', '=', $visitor_country_code)->first();
                 if (count($Country->polls) > 0) {
+                    return $Country->polls;
                     return response()->json($Country->polls, $this->successStatus);
                 } else {
                     return response()->json(['error' => trans('mobileLang.countryPollsNotFound')],404);
@@ -114,11 +115,13 @@ class PollsController extends Controller
      */
     public function createPoll(Request $request)
     {
+        json_decode($request->getContent(),true);
+
         $validator = Validator::make($request->all(), [
             'photo' => 'mimes:png,jpeg,jpg,gif|max:3000',
             'poll_name' => 'required',
             'category_id' => 'required',
-            'options' => 'required',
+            'options' => 'required|array|min:1',
             'duration_id' => 'required',
         ]);
 
@@ -187,15 +190,9 @@ class PollsController extends Controller
 
         // Get the Options
         if($request->options != ""){
-            $options_list = $request->options;
-            //if not array, might be comma separated
-            if(!is_array($options_list)){
-                $options_list = explode(",",$options_list);
-            }
-            //if options are in array form
-            foreach($options_list as $option_id => $option_value){
+            foreach($request->options as $val){
                 $Option = new Option();
-                $Option->name = $option_value;
+                $Option->name = $val;
                 $Option->created_by = Auth::user()->id;
                 $Option->created_at = date('Y-m-d H:i:s');
                 $Option->updated_by = Auth::user()->id;
@@ -208,20 +205,14 @@ class PollsController extends Controller
 
         // Get the Country
         if($request->countries != ""){
-            $countries_list = $request->countries;
-            //if not array, might be comma separated
-            if(!is_array($countries_list)){
-                $countries_list = explode(",",$countries_list);
-            }
-            foreach($countries_list as $country_id => $country_value){
-                $Country = Country::where('code', '=', $country_value)->first();
+            foreach($request->countries as $val){
+                $Country = Country::where('code', '=', $val)->first();
                 $Country->polls()->attach($Poll,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
             }
         } else {
-            $ip = $_SERVER['REMOTE_ADDR']; // Get the server IP Address from where request is coming
-            //  Validate IP Address format
-            if(filter_var($ip, FILTER_VALIDATE_IP)){
-                $ip_details = json_decode(@file_get_contents("http://ipinfo.io/{$ip}/json"));
+            // Get the server IP Address from where request is coming
+            if(filter_var($this->ip_address, FILTER_VALIDATE_IP)){
+                $ip_details = json_decode(@file_get_contents("http://ipinfo.io/{$this->ip_address}/json"));
                 $visitor_country_code = @$ip_details->country;
                 if ($visitor_country_code != "") {
                     $Country = Country::where('code', '=', $visitor_country_code)->first();

@@ -116,6 +116,9 @@ return [
         'gender' => [
             'required' => 'Please enter the gender',
         ],
+        'terms_conditions' => [
+            'required' => 'Please accept terms and conditions',
+        ],
         'old_password' => [
             'required' => 'Please enter current password',
         ],
@@ -145,6 +148,9 @@ return [
         ],
         'comment' => [
             'required' => 'Please enter the comments',
+        ],
+        'categories' => [
+            'required' => 'Please select the category',
         ],
     ],
 

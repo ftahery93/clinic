@@ -63,6 +63,8 @@ return [
     'categoryIsMissing' => 'Category Id is missing.',
     'categoryPollsNotFound' => 'No polls available for selected category.',
     'categoryNotFound' => 'No category available.',
+    'categoryInterestSuccess' => 'Category of your interest added successfully.',
+    'categoryInterestFail' => 'Category failed to add',
     
     /*
     |
@@ -97,7 +99,17 @@ return [
     'durationHourSingular' => 'Hour',
     'durationHourPlural' => 'Hours',
     'durationDaySingular' => 'Day',
-    'durationDayPlural' => 'Days'
+    'durationDayPlural' => 'Days',
+
+    /*
+    |
+    |---------------------------------------------------------------------------
+    | Pages Language Lines
+    |---------------------------------------------------------------------------
+    | The following language lines are used for durations.
+    |
+    */
+    'pageNotFound' => 'Requested page not found.',
 
 ];
 

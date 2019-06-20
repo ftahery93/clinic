@@ -45,5 +45,6 @@ return [
     'commonAppUpdateMsg' => 'يتوفر تحديث للتطبيق ، يرجى تحديث التطبيق الخاص بك للحصول على أحدث الميزات',
     'appversionMissing' => 'إصدار التطبيق مفقود في الطلب',
     'acceptLanguageMissing' => 'قبول معلمة اللغة مفقود في الطلب',
+    'authorisationMissing' => 'أنت غير مفوض لدخول هذه الصفحة',
 
 ];

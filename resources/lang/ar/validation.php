@@ -116,6 +116,9 @@ return [
         'gender' => [
             'required' => 'الرجاء إدخال الجنس',
         ],
+        'terms_conditions' => [
+            'required' => 'يرجى قبول الشروط والأحكام',
+        ],
         'old_password' => [
             'required' => 'الرجاء إدخال كلمة المرور الحالية',
         ],
@@ -145,6 +148,9 @@ return [
         ],
         'comment' => [
             'required' => 'الرجاء إدخال التعليقات',
+        ],
+        'categories' => [
+            'required' => 'يرجى اختيار الفئة',
         ],
     ],
 

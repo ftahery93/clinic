@@ -117,5 +117,9 @@ Route::group(['middleware' => 'auth:api'], function(){
 
     Route::get('/poll/results/{id}', 'API\PollsController@getPollResults')->name('apipollResults');  
 
+    // Get page results
+
+    Route::post('/pages', 'API\PagesController@getPage')->name('apiPages');  
+
 });
 

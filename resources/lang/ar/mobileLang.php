@@ -63,6 +63,8 @@ return [
     'categoryIsMissing' => 'اسم الفئة مفقود.',
     'categoryPollsNotFound' => 'لا استطلاعات الرأي متاحة للفئة المحددة',
     'categoryNotFound' => 'لا يوجد فئة متاحة.',
+    'categoryInterestSuccess' => 'تمت إضافة فئة اهتمامك بنجاح.',
+    'categoryInterestFail' => 'فشل في إضافة الفئة',
 
     /*
     |
@@ -97,7 +99,17 @@ return [
     'durationHourSingular' => 'ساعة',
     'durationHourPlural' => 'ساعات',
     'durationDaySingular' => 'يوم',
-    'durationDayPlural' => 'أيام'
+    'durationDayPlural' => 'أيام',
+
+    /*
+    |
+    |---------------------------------------------------------------------------
+    | Pages Language Lines
+    |---------------------------------------------------------------------------
+    | The following language lines are used for durations.
+    |
+    */
+    'pageNotFound' => 'الصفحة المطلوبة غير موجودة.',
 
 ];
 
