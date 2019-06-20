@@ -107,9 +107,6 @@ class RatingController extends Controller
         foreach ($ratings as $eachRating) {
             $totalRating += $eachRating->rating;
         }
-
-        echo $totalRating;
-
         $company = Company::find($request->company_id);
         if ($company != null) {
             $rating = $totalRating / count($ratings);
