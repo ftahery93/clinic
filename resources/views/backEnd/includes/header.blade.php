@@ -1,20 +1,3 @@
-<?php
-$connectEmailAddress = "";
-$connectEmailPassword = "";
-$connectDomainURL = "";
-$nMsgCount = "";
-if (Auth::user()->connect_email != "" && Auth::user()->connect_password) {
-    try {
-        $connectEmailAddress = Auth::user()->connect_email; // Full email address
-        $connectEmailPassword = Auth::user()->connect_password;        // Email password
-        $connectDomainURL = substr($connectEmailAddress, strpos($connectEmailAddress, "@") + 1);
-        $useHTTPS = true;
-    } catch (Exception $e) {
-
-    }
-}
-?>
-
 <div class="app-header white box-shadow navbar-md">
     <div class="navbar">
         <!-- Open side - Naviation on mobile -->
@@ -36,7 +19,7 @@ if (Auth::user()->connect_email != "" && Auth::user()->connect_password) {
             <?php
             $alerts = count(Helper::webmailsAlerts()) + count(Helper::eventsAlerts());
             ?>
-            @if($alerts >0)
+            {{-- @if($alerts >0)
                 <li class="nav-item dropdown pos-stc-xs">
                     <a class="nav-link" href data-toggle="dropdown">
                         <i class="material-icons">&#xe7f5;</i>
@@ -81,7 +64,7 @@ if (Auth::user()->connect_email != "" && Auth::user()->connect_password) {
                         </div>
                     </div>
                 </li>
-            @endif
+            @endif --}}
             <li class="nav-item dropdown">
                 <a class="nav-link clear" href data-toggle="dropdown">
                   <span class="avatar w-32">
