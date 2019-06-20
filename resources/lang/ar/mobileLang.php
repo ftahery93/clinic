@@ -40,6 +40,7 @@ return [
     'pollNotFound' => 'معرف الاستطلاع غير موجود.',
     'countryNotFound' => 'البلد على أساس عنوان IP غير موجود!',
     'countryIPInvalid' => 'عنوان IP غير صالح.',
+    'ipNotFoundinHeader' => 'عنوان IP غير موجود في الرأس.',
     'pollMyPollsNotFound' => 'لا استطلاعات الرأي المتاحة!',
     'pollFavouriteNotFound' => 'لا استطلاعات الرأي المتاحة!',
     'pollUnFavourite' => 'استطلاع الرأي غير لائق',

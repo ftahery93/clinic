@@ -100,7 +100,6 @@ class ApplicationUsersController extends Controller
             'email' => 'required|email|unique:application_users',
             'password' => 'required',
             'age' => 'required',
-            'terms_conditions' => 'required',
             'gender' => 'required',
         ]);
 

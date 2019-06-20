@@ -100,8 +100,51 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'name' => [
+            'required' => 'Please enter the name',
+        ],
+        'email' => [
+            'required' => 'Please enter the email address',
+            'unique' => 'Account already registered with this email address',
+        ],
+        'password' => [
+            'required' => 'Please enter the email address',
+        ],
+        'age' => [
+            'required' => 'Please enter the age',
+        ],
+        'gender' => [
+            'required' => 'Please enter the gender',
+        ],
+        'old_password' => [
+            'required' => 'Please enter current password',
+        ],
+        'new_password' => [
+            'required' => 'Please enter new password',
+        ],
+        'confirm_password' => [
+            'required' => 'Please enter confirm password',
+        ],
+        'category_id' => [
+            'required' => 'Category ID is required',
+        ],
+        'poll_id' => [
+            'required' => 'Poll ID is required',
+        ],
+        'option_id' => [
+            'required' => 'Option ID is required',
+        ],
+        'poll_name' => [
+            'required' => 'Poll name is required',
+        ],
+        'options' => [
+            'required' => 'Options are required',
+        ],
+        'duration_id' => [
+            'required' => 'Duration ID is required',
+        ],
+        'comment' => [
+            'required' => 'Please enter the comments',
         ],
     ],
 
