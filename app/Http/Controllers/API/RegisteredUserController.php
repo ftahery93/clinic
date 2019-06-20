@@ -20,7 +20,7 @@ use Image;
 class RegisteredUserController extends Controller {
 
  
-    public function __construct() {
+    public function __construct(Request $request) {
        $this->middleware('api');        
         $this->Lang=$request->header('Accept-Language');
         $this->middleware('localization:'.$this->Lang);

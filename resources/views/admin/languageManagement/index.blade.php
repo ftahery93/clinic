@@ -67,8 +67,10 @@ Language Management
                     <table class="table table-bordered datatable" id="table-4">
                         <thead>
                             <tr>
-                                <th class="text-center" id="td_checkbox"><input tabindex="5" type="checkbox" class="icheck-14"  id="check-all"></th>
-                                <th class="col-sm-8">Label</th>
+                                {{-- <th class="text-center" id="td_checkbox"><input tabindex="5" type="checkbox" class="icheck-14"  id="check-all"></th> --}}
+                                <th class="col-sm-2">Title</th>
+                                <th class="col-sm-4">Labe EN</th>
+                                <th class="col-sm-4">Label AR</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center col-sm-2">Created On</th>
                                 <th class="text-center">Actions</th>
@@ -112,13 +114,15 @@ Language Management
                                         }
                                     },
                                     columns: [
-                                        {data: 0, name: 'id', orderable: false, searchable: false, class: 'text-center checkbox_padding'},
-                                        {data: 1, name: 'name_en'},
-                                        {data: 2, name: 'status', orderable: false, searchable: false, class: 'text-center'},
-                                        {data: 3, name: 'created_at', class: 'text-center'},
-                                        {data: 4, name: 'action', orderable: false, searchable: false, class: 'text-center'}
+                                        // {data:  'id', orderable: false, searchable: false, class: 'text-center checkbox_padding'},
+                                        {data:  'name'},
+                                        {data:  'label_en'},
+                                        {data:  'label_ar'},
+                                        {data:  'status', orderable: false, searchable: false, class: 'text-center'},
+                                        {data:  'created_at', class: 'text-center'},
+                                        {data:  'action', orderable: false, searchable: false, class: 'text-center'}
                                     ],
-                                    order: [[3, 'desc']],
+                                    order: [[0, 'asc']],
                                     "fnDrawCallback": function (oSettings) {
                                         $('input.icheck-14').iCheck({
                                             checkboxClass: 'icheckbox_polaris',
@@ -132,7 +136,7 @@ Language Management
                                             $('.check').iCheck('uncheck');
                                             return false;
                                         });
-// Removed the checked state from "All" if any checkbox is unchecked
+                                        // Removed the checked state from "All" if any checkbox is unchecked
                                         $('#check-all').on('ifChanged', function (event) {
                                             if (!this.changed) {
                                                 this.changed = true;

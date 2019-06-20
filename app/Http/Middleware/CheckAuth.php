@@ -2,10 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
-use App\Models\API\RegisteredUser;
 use App\Models\Admin\LanguageManagement;
-use Illuminate\Support\Facades\Auth;
+use App\Models\API\Authentication;
+use Closure;
 
 class CheckAuth
 {
@@ -16,13 +15,29 @@ class CheckAuth
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $lang)
-    {       
-        if (!$request->user('api')) {
-		 return response()->json([
-                    'message' => LanguageManagement::getLabel('text_unauthorized',$lang)
-              ]);
+    public function handle($request, Closure $next)
+    {
+        $language = $request->header('Accept-Language');
+        if ($request->header('Authorization')) {
+            $token = $request->header('Authorization');
+            $authenticatedUser = Authentication::where('access_token', $token)->get()->first();
+            if ($authenticatedUser != null) {
+                if ($authenticatedUser->type == 1) {
+                    $request->request->add(['user_id' => $authenticatedUser["user_id"]]);
+                } else {
+                    $request->request->add(['company_id' => $authenticatedUser["user_id"]]);
+                }
+
+                return $next($request);
+            } else {
+                return response()->json([
+                    'error' => LanguageManagement::getLabel('text_unauthorized', $language),
+                ], 403);
+            }
+        } else {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('invalid_api_request', $language),
+            ], 400);
         }
-        return $next($request);
     }
 }

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.2
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Apr 29, 2019 at 02:44 PM
--- Server version: 10.1.34-MariaDB
--- PHP Version: 7.0.31
+-- Host: localhost
+-- Generation Time: May 26, 2019 at 02:48 PM
+-- Server version: 10.1.39-MariaDB
+-- PHP Version: 7.1.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,6 +21,33 @@ SET time_zone = "+00:00";
 --
 -- Database: `project_masafah`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `addresses`
+--
+
+CREATE TABLE `addresses` (
+  `id` int(10) NOT NULL,
+  `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `block` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `street` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `area` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `building` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `notes` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `addresses`
+--
+
+INSERT INTO `addresses` (`id`, `name`, `block`, `street`, `area`, `building`, `notes`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 'Home', '1', '1', 'Salmiya', '2', NULL, 26, '2019-05-16 08:34:21', '2019-05-16 08:34:21'),
+(2, 'Work', '2', '2', 'Sharq', '11', NULL, 26, '2019-05-16 08:34:41', '2019-05-16 08:34:41');
 
 -- --------------------------------------------------------
 
@@ -65,6 +92,29 @@ INSERT INTO `admin_modules` (`id`, `module`, `module_prefix`, `view`, `created`,
 (19, 'settings', 'settings', 0, 0, 0, 0, 0, 0, 0, 19, 0, 0),
 (21, 'Service Provider', 'serviceProviders', 1, 1, 1, 1, 0, 0, 1, 6, 0, 0),
 (24, 'faq', 'faq', 1, 1, 1, 1, 0, 0, 0, 10, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `authentication`
+--
+
+CREATE TABLE `authentication` (
+  `access_token` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` int(10) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `authentication`
+--
+
+INSERT INTO `authentication` (`access_token`, `user_id`, `created_at`, `updated_at`) VALUES
+('2687988798ZzlHUHFJajdsQkJXNDc4QUl1Sk8zWkFzUVN0eE40OEdlWmxPY1VkNTc4OEVVOU1wSEw=5cdc0d5757c9a', 26, '2019-05-15 13:00:07', '2019-05-15 13:00:07'),
+('4DHLR2tlTjhWY1htQjV5N0pHM0hHWERLek5md3R1MXIxWDVvS1EyQjc2NzVhOHBsOWtUTmQ=5cdbcd4068196', 4, '2019-05-15 08:26:40', '2019-05-15 08:26:40'),
+('5AramexdUR0NEU3aDQ4UXY2UGVoVXd4QTAzVWQxV3Q5RGVMYlZvVXlrcFVMMVZSbkRINDA0TFk=5cdbea0b40813', 5, '2019-05-15 10:29:31', '2019-05-15 10:29:31'),
+('5AramexMlhKNHZoQUkzc3FabjBCVXBTUUFneUNlNjFZTlZYQ2F1dnBwaG5BNjNRTHAxZVVEVHo=5cdd2b75d2047', 5, '2019-05-16 09:20:54', '2019-05-16 09:20:54');
 
 -- --------------------------------------------------------
 
@@ -118,9 +168,9 @@ INSERT INTO `banner_images` (`id`, `image`, `created_at`, `updated_at`) VALUES
 CREATE TABLE `categories` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `description` text COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci,
   `image` text COLLATE utf8_unicode_ci,
-  `parent_id` int(10) NOT NULL DEFAULT '0',
+  `parent_id` int(10) DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -131,14 +181,9 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `name`, `description`, `image`, `parent_id`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Construction', 'Construction', '1530082459.png', 0, 1, '2018-06-26 03:20:07', '2018-06-27 04:24:51'),
-(2, 'Eng and Co.', 'Eng and Co.', '1529998716.png', 1, 1, '2018-06-26 04:38:36', '2018-06-27 04:01:27'),
-(3, 'Painters', 'Painters', '1529998784.png', 1, 1, '2018-06-26 04:39:44', '2018-06-27 04:20:57'),
-(4, 'Furniture and Wood Work', 'Furniture and Wood Work', '1530082853.png', 1, 1, '2018-06-27 04:00:16', '2018-06-27 04:02:21'),
-(5, 'Plumber Work', 'Plumber Work', '1530083067.png', 1, 1, '2018-06-27 04:04:27', '2018-06-27 04:09:29'),
-(6, 'Sanitary', 'Sanitary', '1530083100.png', 1, 1, '2018-06-27 04:05:00', '2018-06-27 04:09:42'),
-(7, 'Air Conditioning', 'Air Conditioning', '1530083171.png', 1, 1, '2018-06-27 04:06:11', '2018-06-27 04:08:19'),
-(8, 'Ready Mix concrete', 'Ready Mix concrete', '1530083199.png', 1, 1, '2018-06-27 04:06:39', '2018-06-27 04:09:03');
+(1, 'Gift', NULL, NULL, NULL, 1, NULL, NULL),
+(2, 'Food', NULL, NULL, NULL, 1, NULL, NULL),
+(3, 'Electronics', NULL, NULL, NULL, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -231,6 +276,53 @@ INSERT INTO `cmspages` (`id`, `name_en`, `name_ar`, `description_en`, `descripti
 (1, 'about', 'about', '<p>aboutfsadfsa</p>\r\n', '<p>aboutdfasf</p>\r\n', 1, '2018-06-25 13:21:14', '2018-06-25 13:21:14'),
 (2, 'Terms & Conditions', 'Terms & Conditions', '<p>aboutfsadfsa</p>\r\n', '<p>aboutdfasf</p>\r\n', 1, '2018-06-25 13:21:14', '2018-06-25 13:21:14'),
 (3, 'Privacy & Policy', 'Privacy & Policy', '<p>aboutfsadfsa</p>\r\n', '<p>aboutdfasf</p>\r\n', 1, '2018-06-25 13:21:14', '2018-06-25 13:21:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `companies`
+--
+
+CREATE TABLE `companies` (
+  `id` int(10) NOT NULL,
+  `name` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `mobile` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `phone` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `rating` float DEFAULT NULL,
+  `image` varchar(512) COLLATE utf8_unicode_ci NOT NULL,
+  `player_id` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `otp` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL,
+  `approved` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `companies`
+--
+
+INSERT INTO `companies` (`id`, `name`, `email`, `password`, `mobile`, `phone`, `description`, `rating`, `image`, `player_id`, `otp`, `status`, `approved`, `created_at`, `updated_at`) VALUES
+(4, 'DHL', 'test@gmail.com', '$2y$10$SBKXO6vwhwHhYCUu/DpzM.bfgE0eO8lLdM2WovR0KGr7Od28eo3/m', '12345678', NULL, NULL, NULL, 'company_image_1557908800.png', NULL, '14802', 1, 1, '2019-05-15 08:26:40', '2019-05-16 09:19:51'),
+(5, 'Aramex', 'aramextest123@gmail.com', '$2y$10$Wqohj3VJTzWEq2OBd4KH7ekv0vNyA/OJzpS7YpMaCoE0Qjmlm7Jdi', '11223344', NULL, NULL, NULL, 'company_image_1557916171.png', NULL, '36879', 1, 1, '2019-05-15 10:29:31', '2019-05-16 09:19:51');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `company_payments`
+--
+
+CREATE TABLE `company_payments` (
+  `id` int(10) NOT NULL,
+  `company_id` int(10) NOT NULL,
+  `amount` float NOT NULL,
+  `payment_type` int(1) NOT NULL COMMENT '1- Card, 2- Wallet, 3- Cash',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -362,6 +454,7 @@ CREATE TABLE `knet_payments` (
 
 CREATE TABLE `language_management` (
   `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `title` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `label_en` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `label_ar` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -374,21 +467,29 @@ CREATE TABLE `language_management` (
 -- Dumping data for table `language_management`
 --
 
-INSERT INTO `language_management` (`id`, `title`, `label_en`, `label_ar`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'text_successRegistered', 'Successfully registered !', 'سجلت بنجاح !', 1, '2019-04-14 12:36:47', '2019-04-14 12:56:40'),
-(2, 'text_errorMobile', 'Your have enter wrong mobile number', 'لديك أدخل رقم الجوال خاطئ', 1, '2019-04-14 12:37:16', '2019-04-14 12:56:28'),
-(3, 'text_accountDeactivated', 'Your account has been deactivated, Kindly contact Administrator.', 'تم إلغاء تنشيط حسابك ، يرجى الاتصال بالمسؤول.', 1, '2019-04-14 12:37:41', '2019-04-14 12:56:15'),
-(4, 'text_successLoggout', 'Successfully logged out', 'تم تسجيل الخروج بنجاح', 1, '2019-04-14 12:38:00', '2019-04-14 12:55:45'),
-(5, 'text_tokenMismatch', 'Token Mismatch', 'عدم تطابق الرمز', 1, '2019-04-14 12:38:39', '2019-04-14 12:55:28'),
-(6, 'text_OTPrequired', 'OTP required', 'مكتب المدعي العام المطلوبة', 1, '2019-04-14 12:39:09', '2019-04-14 12:55:06'),
-(7, 'text_wrongOTP', 'Your have enter wrong OTP!', 'لديك أدخل خطأ مكتب المدعي العام!', 1, '2019-04-14 12:39:42', '2019-04-14 12:54:00'),
-(8, 'text_languageError', 'Language parameter required', 'معلمة اللغة المطلوبة', 1, '2019-04-14 14:22:16', '2019-04-14 14:22:42'),
-(9, 'text_errorMobile8Digit', 'Either you have enter wrong mobile number or number not equal to 8 digits', 'إما أن تدخل رقم هاتف خاطئ أو رقمًا لا يساوي 8 أرقام', 1, '2019-04-15 07:40:23', '2019-04-15 07:40:23'),
-(10, 'text_unauthorized', 'Unauthorized', 'غير مصرح', 1, '2019-04-15 08:01:11', '2019-04-15 08:01:11'),
-(11, 'text_errorName', 'The name field is required.', 'حقل الاسم مطلوب.', 1, '2019-04-15 08:08:54', '2019-04-15 08:13:51'),
-(12, 'text_errorCountry', 'The country field is required.', 'حقل البلد مطلوب.', 1, '2019-04-15 08:10:01', '2019-04-15 08:19:59'),
-(13, 'text_errorEmail', 'Either email address already exist or invalid.', 'إما أن عنوان البريد الإلكتروني موجود بالفعل أو غير صالح.', 1, '2019-04-15 08:14:40', '2019-04-15 08:19:10'),
-(14, 'text_successUpdated', 'Profile Successfully Updated', 'تم تحديث الملف الشخصي بنجاح', 1, '2019-04-15 08:25:28', '2019-04-15 08:25:28');
+INSERT INTO `language_management` (`id`, `name`, `title`, `label_en`, `label_ar`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Register success', 'text_successRegistered', 'Successfully registered !', 'سجلت بنجاح !', 1, '2019-04-14 12:36:47', '2019-04-14 12:56:40'),
+(2, 'Error mobile', 'text_errorMobile', 'Your have enter wrong mobile number', 'لديك أدخل رقم الجوال خاطئ', 1, '2019-04-14 12:37:16', '2019-04-14 12:56:28'),
+(3, 'Account deactivated', 'text_accountDeactivated', 'Your account has been deactivated, Kindly contact Administrator.', 'تم إلغاء تنشيط حسابك ، يرجى الاتصال بالمسؤول.', 1, '2019-04-14 12:37:41', '2019-04-14 12:56:15'),
+(4, 'Logged out successfully', 'text_successLoggout', 'Successfully logged out', 'تم تسجيل الخروج بنجاح', 1, '2019-04-14 12:38:00', '2019-04-14 12:55:45'),
+(5, 'Token mismatch', 'text_tokenMismatch', 'Token Mismatch', 'عدم تطابق الرمز', 1, '2019-04-14 12:38:39', '2019-04-14 12:55:28'),
+(6, 'OTP required', 'text_OTPrequired', 'OTP required', 'مكتب المدعي العام المطلوبة', 1, '2019-04-14 12:39:09', '2019-04-14 12:55:06'),
+(7, 'Invalid OTP', 'text_wrongOTP', 'Your have enter wrong OTP!', 'لديك أدخل خطأ مكتب المدعي العام!', 1, '2019-04-14 12:39:42', '2019-04-14 12:54:00'),
+(8, 'Language error', 'text_languageError', 'Language parameter required', 'معلمة اللغة المطلوبة', 1, '2019-04-14 14:22:16', '2019-04-14 14:22:42'),
+(9, 'Mobile 8 digit required', 'text_errorMobile8Digit', 'Either you have enter wrong mobile number or number not equal to 8 digits', 'إما أن تدخل رقم هاتف خاطئ أو رقمًا لا يساوي 8 أرقام', 1, '2019-04-15 07:40:23', '2019-04-15 07:40:23'),
+(10, 'Unauthorized', 'text_unauthorized', 'Unauthorized', 'غير مصرح', 1, '2019-04-15 08:01:11', '2019-04-15 08:01:11'),
+(11, 'Error in name', 'text_errorName', 'The name field is required.', 'حقل الاسم مطلوب.', 1, '2019-04-15 08:08:54', '2019-04-15 08:13:51'),
+(12, 'Error in country', 'text_errorCountry', 'The country field is required.', 'حقل البلد مطلوب.', 1, '2019-04-15 08:10:01', '2019-04-15 08:19:59'),
+(13, 'Error in email', 'text_errorEmail', 'Either email address already exist or invalid.', 'إما أن عنوان البريد الإلكتروني موجود بالفعل أو غير صالح.', 1, '2019-04-15 08:14:40', '2019-04-15 08:19:10'),
+(14, 'Updated successfully', 'text_successUpdated', 'Profile Successfully Updated', 'تم تحديث الملف الشخصي بنجاح', 1, '2019-04-15 08:25:28', '2019-04-15 08:25:28'),
+(15, 'Mobile number already exist', 'text_mobileNumberExist', 'The mobile number is already registered', 'رقم الجوال مسجل بالفعل', 1, NULL, NULL),
+(16, 'Account is not approved', 'text_accountNotApproved', 'Your account is not approved from Masafah', 'حسابك غير معتمد من مصافح', 1, NULL, NULL),
+(17, 'Invalid credentials', 'invalid_crendentials', 'Invalid email or password', 'البريد الإلكتروني أو كلمة السر خاطئة', 1, NULL, NULL),
+(18, 'Shipment placed success', 'add_shipment_success', 'Shipment has been placed successfully', 'تم وضع الشحنة بنجاح', 1, NULL, NULL),
+(19, 'shipment_booked_already', 'Shipment Already booked', 'The shipment is already booked', 'تم حجز الشحنة بالفعل', 1, NULL, NULL),
+(20, 'booked', 'Booked', 'Booked', 'حجز', 1, NULL, NULL),
+(21, 'picked_up', 'Picked Up', 'Picked up', 'التقط', 1, NULL, NULL),
+(22, 'delivered', 'Delivered', 'Delivered', 'تم التوصيل', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -795,10 +896,16 @@ CREATE TABLE `oauth_access_tokens` (
 INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
 ('0459104bd0ac8658eb3ff0e43fb9be0fd46f2dc8b2f4d8dcc4745a744660aaadd40a4ef75001222e', 26, 1, '87988798', '[\"*\"]', 0, '2019-04-14 12:28:36', '2019-04-14 12:28:36', '2029-04-14 15:28:36'),
 ('185219c7162633e2ebde5982df4b816ef21f344f4482c1943c40f8c7979d5f18f242a481f391e2fd', 2, 1, '25725725', '[\"*\"]', 1, '2019-04-14 08:32:24', '2019-04-14 08:32:24', '2029-04-14 11:32:24'),
+('261e34eea89e24841b6d0f1009db47ba3d2517675dc6c9a4a6389110edea71d325716315f68778b2', 32, 3, '88877766', '[\"*\"]', 0, '2019-04-30 12:03:28', '2019-04-30 12:03:28', '2029-04-30 15:03:28'),
 ('456f6e395762f0cc1f9d705eb1c28486dc2379aa2ee299d2f933d67ab25ecfdb05f82662a8a4027d', 2, 1, '25725725', '[\"*\"]', 1, '2019-04-14 10:18:11', '2019-04-14 10:18:11', '2029-04-14 13:18:11'),
+('469a33c0fafc9a9c16d678ab794a12551debb6fdd47483fe3a3e5cdb858e7aa321d75cd418aeac05', 1, 3, 'Masafah', '[]', 0, '2019-05-13 11:18:10', '2019-05-13 11:18:10', '2020-05-13 14:18:10'),
+('57970b6114e0a9e0ffda50e65abaa153f9cda3af435e2cebc1ca6ec58ffa081015d18c8e4fd26858', 1, 3, 'Masafah', '[]', 0, '2019-05-13 13:02:38', '2019-05-13 13:02:38', '2020-05-13 16:02:38'),
+('6ea575a97eec78005c3314e03c7dc488ddfd2233856d80ff32431bc26cbd06302b7d27b08a4b9729', 26, 3, '87988798', '[\"*\"]', 0, '2019-05-13 12:30:57', '2019-05-13 12:30:57', '2020-05-13 15:30:57'),
 ('7fcf23f65869f701a7d621b0dcb56b6678d1d3b49948549d3d64f84aeed38a08fea9cc1ae8b358a5', 2, 1, '25725725', '[\"*\"]', 0, '2019-04-14 08:29:28', '2019-04-14 08:29:28', '2029-04-14 11:29:28'),
 ('877381cca0122f6f7511727d2a66625b65daff1f3d8b3b973075a9853d9ea92c2fe2dcb894333706', 26, 1, '87988798', '[\"*\"]', 0, '2019-04-14 14:16:16', '2019-04-14 14:16:16', '2029-04-14 17:16:16'),
+('a980c95025f907bd5bf4dca7a144ed61724dc1312c78df4a90d0e5c0a9f94fbd6d1c8377dae771be', 32, 3, '88877766', '[\"*\"]', 0, '2019-04-30 11:35:03', '2019-04-30 11:35:03', '2029-04-30 14:35:03'),
 ('b2618b623fe9f9ddd3382885555c5aec555eb7195ba52d8f21fc8b6f973b6ee395d430498d5dd241', 26, 1, '87988798', '[\"*\"]', 0, '2019-04-14 14:19:17', '2019-04-14 14:19:17', '2029-04-14 17:19:17'),
+('b2f0f41efde71b627aa2f1c8ce3707989a1e6e2cb0d0a29eb6e0e0c6a7250302520b47f71943eb24', 2, 3, 'Masafah', '[]', 0, '2019-05-13 11:25:52', '2019-05-13 11:25:52', '2020-05-13 14:25:52'),
 ('c44aac173841b2cd7b5e406881616e54b7d1d2f0a0d500dd2a42fd922c56ac51a24d5a3a17b32a5d', 26, 1, '87988798', '[\"*\"]', 0, '2019-04-14 12:27:34', '2019-04-14 12:27:34', '2029-04-14 15:27:34'),
 ('c7414d245e0740b04b2ec1446d9e6dfe9794c2794919fe06e5c4871b6f4f8a3b09c7ba0a31445617', 2, 1, '25725725', '[\"*\"]', 1, '2019-04-14 10:47:03', '2019-04-14 10:47:03', '2029-04-14 13:47:03'),
 ('cb0bb79ac44a0427dc7bd223fcc1b63a776453c9d860ef555392eac61ab5fe8a6f0fd209f19c3f84', 2, 1, '25725725', '[\"*\"]', 0, '2019-04-14 10:52:01', '2019-04-14 10:52:01', '2029-04-14 13:52:01'),
@@ -806,6 +913,7 @@ INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes
 ('e2e32d42048a06a61feef7062f90dea7be77aaa80944459294ad31e734d918c8a6cbad65ae18fc5e', 2, 1, '25725725', '[\"*\"]', 0, '2019-04-14 10:35:10', '2019-04-14 10:35:10', '2029-04-14 13:35:10'),
 ('f1995ad0d4dc84582ebb0e20821bc6123dc4eb9dca6b047bd5324a8b04db83de27677b092b1d5c84', 2, 1, '25725725', '[\"*\"]', 0, '2019-04-14 12:24:33', '2019-04-14 12:24:33', '2029-04-14 15:24:33'),
 ('fb93d7191ee388d5cd37dede5f5fc68cc2f9b99e10a715af93663de3f5a3faac476bd922a57b5102', 2, 1, '25725725', '[\"*\"]', 1, '2019-04-14 10:50:53', '2019-04-14 10:50:53', '2029-04-14 13:50:53'),
+('fdca82a12c43375b3a7da11b2590db3846310d90c68a6593ae5c8511ff1f4c7fc801c3262681e907', 2, 3, 'Masafah', '[]', 0, '2019-05-13 11:20:24', '2019-05-13 11:20:24', '2020-05-13 14:20:24'),
 ('ff599ec915d863d77aeeeadd77d114efaeafcc54f92fa33e0bf4aa8a5a7010f86510a345e2bfa8be', 26, 1, '87988798', '[\"*\"]', 0, '2019-04-14 14:23:08', '2019-04-14 14:23:08', '2029-04-14 17:23:08');
 
 -- --------------------------------------------------------
@@ -848,7 +956,9 @@ CREATE TABLE `oauth_clients` (
 
 INSERT INTO `oauth_clients` (`id`, `user_id`, `name`, `secret`, `redirect`, `personal_access_client`, `password_client`, `revoked`, `created_at`, `updated_at`) VALUES
 (1, NULL, 'Events Personal Access Client', '5pdRmfhcMabEhfCntzIvall40pMGAImOhzvfDM7n', 'http://localhost', 1, 0, 0, '2019-04-10 11:51:17', '2019-04-10 11:51:17'),
-(2, NULL, 'Events Password Grant Client', '1FQXRRgJp0WJQSMmNtOyA5NVR9LYegYtBl1Uhzxu', 'http://localhost', 0, 1, 0, '2019-04-10 11:51:17', '2019-04-10 11:51:17');
+(2, NULL, 'Events Password Grant Client', '1FQXRRgJp0WJQSMmNtOyA5NVR9LYegYtBl1Uhzxu', 'http://localhost', 0, 1, 0, '2019-04-10 11:51:17', '2019-04-10 11:51:17'),
+(3, NULL, 'Events Personal Access Client', 'qsfcd7sWPSfxLFExTjyqX4tGnuFS7UcIVWzqudgJ', 'http://localhost', 1, 0, 0, '2019-04-30 11:33:47', '2019-04-30 11:33:47'),
+(4, NULL, 'Events Password Grant Client', 'b31LtLbqRuaM6gwctCpDVFwWCuzCzyL7N7ZjceXe', 'http://localhost', 0, 1, 0, '2019-04-30 11:33:47', '2019-04-30 11:33:47');
 
 -- --------------------------------------------------------
 
@@ -868,7 +978,8 @@ CREATE TABLE `oauth_personal_access_clients` (
 --
 
 INSERT INTO `oauth_personal_access_clients` (`id`, `client_id`, `created_at`, `updated_at`) VALUES
-(1, 1, '2019-04-10 21:00:00', '2019-04-10 21:00:00');
+(1, 1, '2019-04-10 21:00:00', '2019-04-10 21:00:00'),
+(2, 3, '2019-04-30 11:33:47', '2019-04-30 11:33:47');
 
 -- --------------------------------------------------------
 
@@ -911,6 +1022,27 @@ CREATE TABLE `packages` (
 
 INSERT INTO `packages` (`id`, `name_en`, `name_ar`, `num_points`, `price`, `num_days`, `expired_notify_duration`, `description_en`, `description_ar`, `status`, `has_offer`, `created_at`, `updated_at`) VALUES
 (1, 'Free Package', 'Free Package', 0, '0.000', 365, 5, 'Free Package', 'Free Package', 1, 0, '2018-06-25 13:13:29', '2018-06-25 13:19:02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pages`
+--
+
+CREATE TABLE `pages` (
+  `id` int(10) NOT NULL,
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `message` varchar(1000) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `pages`
+--
+
+INSERT INTO `pages` (`id`, `name`, `message`, `created_at`, `updated_at`) VALUES
+(1, 'Terms and Conditions', 'These are our terms and conditions. Here the privacy policy will be written as well.This is just a short description of it', '2019-05-05 08:12:44', '2019-05-05 08:12:44');
 
 -- --------------------------------------------------------
 
@@ -972,6 +1104,26 @@ INSERT INTO `permissions` (`id`, `groupname`, `permissions`, `status`, `created_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `prices`
+--
+
+CREATE TABLE `prices` (
+  `id` int(10) NOT NULL,
+  `price` float NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `prices`
+--
+
+INSERT INTO `prices` (`id`, `price`, `created_at`, `updated_at`) VALUES
+(1, 10, '2019-05-16 08:40:57', '2019-05-16 08:40:57');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `push_registration`
 --
 
@@ -1005,6 +1157,21 @@ CREATE TABLE `push_report` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `ratings`
+--
+
+CREATE TABLE `ratings` (
+  `id` int(10) NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `company_id` int(10) NOT NULL,
+  `rating` float NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `registered_users`
 --
 
@@ -1023,6 +1190,7 @@ CREATE TABLE `registered_users` (
   `location` text COLLATE utf8_unicode_ci,
   `phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `otp` varchar(10) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
+  `player_id` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -1032,23 +1200,20 @@ CREATE TABLE `registered_users` (
 -- Dumping data for table `registered_users`
 --
 
-INSERT INTO `registered_users` (`id`, `fullname`, `email`, `password`, `original_password`, `mobile`, `profile_image`, `status`, `remember_token`, `country_id`, `address`, `location`, `phone`, `otp`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Arshad', 'arshad@gmail.com', '6297787ba54529df693c9b80e2820259cf4dd3ea', '25825825', '99353599', NULL, 1, NULL, 4, NULL, NULL, NULL, '', '2018-06-27 09:38:59', '2018-07-03 13:53:26', NULL),
-(2, NULL, 'shams@gmail.com', '786177b28e32c85e26c3129fe3849433af909f85', '258258', '25725725', NULL, 1, NULL, 5, 'fdaf', NULL, '', '', '2018-06-27 14:00:45', '2019-04-08 08:55:15', '2019-04-08 08:55:15'),
-(3, NULL, 'mintra@gmail.com', '43a366ca2d7b7babf54ec2e8c210370136f95665', '254254', '55885588', NULL, 1, NULL, 1, 'Kuwait City', NULL, '', '', '2018-06-28 07:10:20', '2019-04-08 08:55:15', '2019-04-08 08:55:15'),
-(4, 'Noor Mohammed', 'noor@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '89789785', NULL, 1, NULL, 1, NULL, NULL, NULL, '', '2018-06-28 07:35:24', '2018-06-28 07:35:24', NULL),
-(5, 'Salim', 'salim@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '12345678', '1554716813.jpg', 1, NULL, 1, NULL, NULL, NULL, '', '2018-07-02 09:08:20', '2019-04-08 09:46:53', NULL),
-(6, NULL, 'makaan@gmal.com', '7c222fb2927d828af22f592134e8932480637c0d', '12345678', '25252525', NULL, 1, NULL, 1, 'Khaian', NULL, '', '', '2018-07-03 13:38:29', '2019-04-08 08:55:15', '2019-04-08 08:55:15'),
-(7, NULL, 'adm@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '25252578', NULL, 1, NULL, 1, 'd', NULL, '', '', '2018-07-03 13:44:19', '2018-07-03 13:44:30', '2018-07-03 13:44:30'),
-(8, 'Mohammed', 'Mohammed@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '55555555', '', 1, NULL, 1, NULL, NULL, NULL, '', '2019-04-08 08:01:18', '2019-04-08 09:46:09', NULL),
-(9, 'dfasf', 'fdsaf@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '78787878', NULL, 1, NULL, 1, NULL, NULL, NULL, '', '2019-04-08 08:55:05', '2019-04-08 08:55:15', '2019-04-08 08:55:15'),
-(10, 'taher', 'ytahe@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '85859598', '', 1, NULL, 1, NULL, NULL, NULL, '', '2019-04-08 09:54:34', '2019-04-08 09:58:43', '2019-04-08 09:58:43'),
-(11, 'teatea', 'daf@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '32323232', '', 1, NULL, 1, NULL, NULL, NULL, '', '2019-04-08 09:59:48', '2019-04-08 10:01:42', '2019-04-08 10:01:42'),
-(12, 'tagee', 'ta@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '89898989', '', 1, NULL, 1, NULL, NULL, NULL, '82140', '2019-04-08 10:01:01', '2019-04-14 12:04:59', '2019-04-08 10:01:42'),
-(24, NULL, '', '', '', '85858585', NULL, 1, NULL, NULL, NULL, NULL, NULL, '32695', '2019-04-11 14:52:42', '2019-04-11 14:52:42', NULL),
-(26, 'testing', 'test@g.com', '', '', '87988798', '1555317654.jpg', 1, NULL, 1, NULL, NULL, NULL, '80945', '2019-04-14 12:26:56', '2019-04-15 08:40:54', NULL),
-(27, NULL, '', '', '', '87988777', NULL, 0, NULL, NULL, NULL, NULL, NULL, '49561', '2019-04-14 13:31:09', '2019-04-14 13:31:09', NULL),
-(28, NULL, '', '', '', '87988998', NULL, 0, NULL, NULL, NULL, NULL, NULL, '30184', '2019-04-14 13:32:17', '2019-04-14 13:32:17', NULL);
+INSERT INTO `registered_users` (`id`, `fullname`, `email`, `password`, `original_password`, `mobile`, `profile_image`, `status`, `remember_token`, `country_id`, `address`, `location`, `phone`, `otp`, `player_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Arshad', 'arshad@gmail.com', '6297787ba54529df693c9b80e2820259cf4dd3ea', '25825825', '99353599', NULL, 1, NULL, 4, NULL, NULL, NULL, '', '', '2018-06-27 09:38:59', '2018-07-03 13:53:26', NULL),
+(2, NULL, 'shams@gmail.com', '786177b28e32c85e26c3129fe3849433af909f85', '258258', '25725725', NULL, 1, NULL, 5, 'fdaf', NULL, '', '', '', '2018-06-27 14:00:45', '2019-04-08 08:55:15', '2019-04-08 08:55:15'),
+(3, NULL, 'mintra@gmail.com', '43a366ca2d7b7babf54ec2e8c210370136f95665', '254254', '55885588', NULL, 1, NULL, 1, 'Kuwait City', NULL, '', '', '', '2018-06-28 07:10:20', '2019-04-08 08:55:15', '2019-04-08 08:55:15'),
+(4, 'Noor Mohammed', 'noor@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '89789785', NULL, 1, NULL, 1, NULL, NULL, NULL, '', '', '2018-06-28 07:35:24', '2018-06-28 07:35:24', NULL),
+(5, 'Salim', 'salim@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '12345678', '1554716813.jpg', 1, NULL, 1, NULL, NULL, NULL, '', '', '2018-07-02 09:08:20', '2019-04-08 09:46:53', NULL),
+(6, NULL, 'makaan@gmal.com', '7c222fb2927d828af22f592134e8932480637c0d', '12345678', '25252525', NULL, 1, NULL, 1, 'Khaian', NULL, '', '', '', '2018-07-03 13:38:29', '2019-04-08 08:55:15', '2019-04-08 08:55:15'),
+(7, NULL, 'adm@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '25252578', NULL, 1, NULL, 1, 'd', NULL, '', '', '', '2018-07-03 13:44:19', '2018-07-03 13:44:30', '2018-07-03 13:44:30'),
+(8, 'Mohammed', 'Mohammed@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '55555555', '', 1, NULL, 1, NULL, NULL, NULL, '', '', '2019-04-08 08:01:18', '2019-04-08 09:46:09', NULL),
+(9, 'dfasf', 'fdsaf@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '78787878', NULL, 1, NULL, 1, NULL, NULL, NULL, '', '', '2019-04-08 08:55:05', '2019-04-08 08:55:15', '2019-04-08 08:55:15'),
+(10, 'taher', 'ytahe@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '85859598', '', 1, NULL, 1, NULL, NULL, NULL, '', '', '2019-04-08 09:54:34', '2019-04-08 09:58:43', '2019-04-08 09:58:43'),
+(11, 'teatea', 'daf@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '32323232', '', 1, NULL, 1, NULL, NULL, NULL, '', '', '2019-04-08 09:59:48', '2019-04-08 10:01:42', '2019-04-08 10:01:42'),
+(12, 'tagee', 'ta@g.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '89898989', '', 1, NULL, 1, NULL, NULL, NULL, '82140', '', '2019-04-08 10:01:01', '2019-04-14 12:04:59', '2019-04-08 10:01:42'),
+(26, 'testing', 'fakhriwild@gmail.com', '', '', '87988798', '1555317654.jpg', 1, NULL, 1, NULL, NULL, NULL, '80945', '', '2019-04-14 12:26:56', '2019-04-15 08:40:54', NULL);
 
 -- --------------------------------------------------------
 
@@ -1177,6 +1342,38 @@ INSERT INTO `settings` (`id`, `title`, `left_menu_label_en`, `left_menu_label_ar
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `shipments`
+--
+
+CREATE TABLE `shipments` (
+  `id` int(10) NOT NULL,
+  `name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `image` varchar(512) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `quantity` int(5) NOT NULL,
+  `category_id` int(10) NOT NULL,
+  `price` float NOT NULL,
+  `address_from_id` int(10) NOT NULL,
+  `address_to_id` int(10) NOT NULL,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `company_id` int(10) DEFAULT NULL,
+  `pickup_time` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `status` int(2) NOT NULL COMMENT '1 - Pending, 2- Accepted, 3- picked Up, 4 - Delivered',
+  `payment_type` varchar(10) COLLATE utf8_unicode_ci NOT NULL COMMENT '1- Knet, 2- Wallet, 3- CC , 4- COD',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `shipments`
+--
+
+INSERT INTO `shipments` (`id`, `name`, `description`, `image`, `quantity`, `category_id`, `price`, `address_from_id`, `address_to_id`, `user_id`, `company_id`, `pickup_time`, `status`, `payment_type`, `created_at`, `updated_at`) VALUES
+(1, NULL, NULL, NULL, 3, 1, 10, 1, 2, 26, 5, '2019-28-05 08:00:00', 4, '', '2019-05-16 08:54:43', '2019-05-16 11:01:29');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `subscribers_package_details`
 --
 
@@ -1237,7 +1434,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `username`, `email`, `password`, `original_password`, `civilid`, `mobile`, `user_role_id`, `permission_id`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Superadmin', 'admin', 'sagirhashim@gmail.com', '$2y$10$/SSSo/hc.7L9VCxw8Vu6PuZ1MIB.XAaybdc5FuZ9fzLvV66OmZPGe', '123456', NULL, '12345678', 1, 2, 1, 'CYFkzqYcWBS00AufdWPxib2uannoQdsle5NZ4OgXxYWfx4d3jmcB60avTw4R', NULL, '2019-04-17 14:32:48'),
+(1, 'Superadmin', 'admin', 'sagirhashim@gmail.com', '$2y$10$/SSSo/hc.7L9VCxw8Vu6PuZ1MIB.XAaybdc5FuZ9fzLvV66OmZPGe', '123456', NULL, '12345678', 1, 2, 1, 'UVlyWUwRb08kc3kc4O57xdMQdX2O6wJH5QBvh8oNreRao7ZylZKBMkpR79FI', NULL, '2019-04-17 14:32:48'),
 (6, 'hashim', 'hashim', 'hashimvavisa@gmail.com', '$2y$10$vtZdXUgTjTVKUQbEkxxEpOqkTcFZ4WKXWsVP3fisHW2DXGrzmF8dq', '123456', NULL, '93969696', 5, 1, 1, NULL, '2018-12-26 09:14:40', '2018-12-26 09:14:58');
 
 -- --------------------------------------------------------
@@ -1293,15 +1490,92 @@ INSERT INTO `user_role` (`id`, `name`, `status`) VALUES
 (4, 'viewer', 0),
 (5, 'Employee', 1);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wallet`
+--
+
+CREATE TABLE `wallet` (
+  `id` int(10) NOT NULL,
+  `company_id` int(10) NOT NULL,
+  `balance` float NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wallet_in`
+--
+
+CREATE TABLE `wallet_in` (
+  `id` int(10) NOT NULL,
+  `company_id` int(10) NOT NULL,
+  `amount` float NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wallet_offers`
+--
+
+CREATE TABLE `wallet_offers` (
+  `id` int(10) NOT NULL,
+  `amount` float NOT NULL,
+  `offer_amount` float NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `wallet_offers`
+--
+
+INSERT INTO `wallet_offers` (`id`, `amount`, `offer_amount`, `created_at`, `updated_at`) VALUES
+(1, 50, 2, '2019-05-16 11:46:14', '2019-05-16 11:46:14'),
+(2, 100, 4, '2019-05-16 11:46:14', '2019-05-16 11:46:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wallet_out`
+--
+
+CREATE TABLE `wallet_out` (
+  `id` int(10) NOT NULL,
+  `company_id` int(10) NOT NULL,
+  `amount` float NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `addresses`
+--
+ALTER TABLE `addresses`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `addresses_user_id_foreign` (`user_id`);
 
 --
 -- Indexes for table `admin_modules`
 --
 ALTER TABLE `admin_modules`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `authentication`
+--
+ALTER TABLE `authentication`
+  ADD UNIQUE KEY `authentication_access_token` (`access_token`);
 
 --
 -- Indexes for table `backup_lists`
@@ -1343,6 +1617,18 @@ ALTER TABLE `cc_payments`
 -- Indexes for table `cmspages`
 --
 ALTER TABLE `cmspages`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `companies`
+--
+ALTER TABLE `companies`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `company_payments`
+--
+ALTER TABLE `company_payments`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1447,6 +1733,12 @@ ALTER TABLE `packages`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `pages`
+--
+ALTER TABLE `pages`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `password_resets`
 --
 ALTER TABLE `password_resets`
@@ -1466,6 +1758,18 @@ ALTER TABLE `payment_details`
 -- Indexes for table `permissions`
 --
 ALTER TABLE `permissions`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `prices`
+--
+ALTER TABLE `prices`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ratings`
+--
+ALTER TABLE `ratings`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1511,6 +1815,14 @@ ALTER TABLE `settings`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `shipments`
+--
+ALTER TABLE `shipments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `shipments_user_id_foreign` (`user_id`),
+  ADD KEY `shipments_company_id_foreign` (`company_id`);
+
+--
 -- Indexes for table `subscribers_package_details`
 --
 ALTER TABLE `subscribers_package_details`
@@ -1544,8 +1856,41 @@ ALTER TABLE `user_role`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `wallet`
+--
+ALTER TABLE `wallet`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `wallet_company_id_foreign` (`company_id`);
+
+--
+-- Indexes for table `wallet_in`
+--
+ALTER TABLE `wallet_in`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `wallet_in_company_id_foreign` (`company_id`);
+
+--
+-- Indexes for table `wallet_offers`
+--
+ALTER TABLE `wallet_offers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `wallet_out`
+--
+ALTER TABLE `wallet_out`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `wallet_out_company_id_foreign` (`company_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `addresses`
+--
+ALTER TABLE `addresses`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `admin_modules`
@@ -1569,7 +1914,7 @@ ALTER TABLE `banner_images`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `category_additional_applyquotation_fields`
@@ -1594,6 +1939,18 @@ ALTER TABLE `cc_payments`
 --
 ALTER TABLE `cmspages`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `companies`
+--
+ALTER TABLE `companies`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `company_payments`
+--
+ALTER TABLE `company_payments`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `contactus`
@@ -1635,7 +1992,7 @@ ALTER TABLE `knet_payments`
 -- AUTO_INCREMENT for table `language_management`
 --
 ALTER TABLE `language_management`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `log_activities`
@@ -1659,19 +2016,25 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT for table `oauth_clients`
 --
 ALTER TABLE `oauth_clients`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `oauth_personal_access_clients`
 --
 ALTER TABLE `oauth_personal_access_clients`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `packages`
 --
 ALTER TABLE `packages`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `pages`
+--
+ALTER TABLE `pages`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `payment_details`
@@ -1686,10 +2049,22 @@ ALTER TABLE `permissions`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `prices`
+--
+ALTER TABLE `prices`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `ratings`
+--
+ALTER TABLE `ratings`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `registered_users`
 --
 ALTER TABLE `registered_users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `serviceprovider_images`
@@ -1722,6 +2097,12 @@ ALTER TABLE `settings`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `shipments`
+--
+ALTER TABLE `shipments`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `subscribers_package_details`
 --
 ALTER TABLE `subscribers_package_details`
@@ -1744,6 +2125,65 @@ ALTER TABLE `user_request_quotations`
 --
 ALTER TABLE `user_role`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `wallet`
+--
+ALTER TABLE `wallet`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `wallet_in`
+--
+ALTER TABLE `wallet_in`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `wallet_offers`
+--
+ALTER TABLE `wallet_offers`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `wallet_out`
+--
+ALTER TABLE `wallet_out`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `addresses`
+--
+ALTER TABLE `addresses`
+  ADD CONSTRAINT `addresses_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `registered_users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `shipments`
+--
+ALTER TABLE `shipments`
+  ADD CONSTRAINT `shipments_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `shipments_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `registered_users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `wallet`
+--
+ALTER TABLE `wallet`
+  ADD CONSTRAINT `wallet_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `wallet_in`
+--
+ALTER TABLE `wallet_in`
+  ADD CONSTRAINT `wallet_in_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `wallet_out`
+--
+ALTER TABLE `wallet_out`
+  ADD CONSTRAINT `wallet_out_company_id_foreign` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

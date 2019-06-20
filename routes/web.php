@@ -84,7 +84,6 @@ Route::get('serviceProviders/requirements', 'Admin\ServiceProviderController@req
 Route::get('serviceProviders/{id}/requirementViewed', 'Admin\ServiceProviderController@requirementViewed');
 Route::get('serviceProviders/{id}/requirements', 'Admin\ServiceProviderController@requirement');
 
-
 // Service Provider Quotation Form routes
 Route::get('serviceProviders/dynamicForm/{id}', 'Admin\ServiceProviderController@dynamicForm');
 Route::get('serviceProviders/quotationForm', 'Admin\ServiceProviderController@quotationForm');
@@ -160,17 +159,17 @@ Route::get('routeCacheClear', 'Admin\CacheController@routeCacheClear');
 Route::get('viewCacheClear', 'Admin\CacheController@viewCacheClear');
 Route::get('cacheClear', 'Admin\CacheController@cacheClear');
 
-Route::get('/updateapp', function()
-{
-    exec('composer dump-autoload');
-    echo 'composer dump-autoload complete';
-});
+// Route::get('/updateapp', function()
+// {
+//     exec('composer dump-autoload');
+//     echo 'composer dump-autoload complete';
+// });
 
-//Errors 
-Route::get('errors/401', function () {
-    return view('errors.401');
-});
-Route::get('errors/505', function () {
-    return view('errors.505');
-});
+// //Errors 
+// Route::get('errors/401', function () {
+//     return view('errors.401');
+// });
+// Route::get('errors/505', function () {
+//     return view('errors.505');
+// });
 

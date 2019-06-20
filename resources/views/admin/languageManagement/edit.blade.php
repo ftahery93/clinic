@@ -105,14 +105,14 @@ Language Management
                                     </select>
                                 </div>
                             </div>
-                           <div class="col-sm-6{{ $errors->has('title') ? ' has-error' : '' }}">
-                                <label for="label_ar" class="col-sm-3 control-label">Title (text_)</label>
+                           <div class="col-sm-6{{ $errors->has('name') ? ' has-error' : '' }}">
+                                <label for="label_ar" class="col-sm-3 control-label">Name</label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="title" autocomplete="off" value="{{str_replace('text_', '', $LanguageManagement->title)}}" name="title" >
-                                    @if ($errors->has('title'))
+                                    <input type="text" class="form-control" id="name" autocomplete="off" value="{{$LanguageManagement->name}}" name="name" >
+                                    @if ($errors->has('name'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('title') }}</strong>
+                                        <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                                     @endif
                                 </div>
