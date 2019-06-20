@@ -1382,6 +1382,61 @@
                 }
             }
         },
+        "/~tvavisa/masafah/public/api/user/rateCompany": {
+            "post": {
+                "tags": [
+                    "Rating"
+                ],
+                "summary": "User rating Company",
+                "operationId": "rateCompany",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "company_id": {
+                                    "description": "Company ID",
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "rating": {
+                                    "description": "user rating",
+                                    "type": "double",
+                                    "example": 4.5
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    },
+                    "409": {
+                        "description": "Shipment already accepted"
+                    }
+                }
+            }
+        },
         "/~tvavisa/masafah/public/api/user/addShipment": {
             "post": {
                 "tags": [

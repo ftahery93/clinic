@@ -79,4 +79,7 @@ Route::get('/user/getCountries', 'API\User\CountryController@getCountries');
 /* Additional APIs for development sake */
 Route::get('/user/getCompanies', 'API\User\ShipmentController@getCompanies');
 
+/* Ratings */
+Route::post('/user/rateCompany', 'API\User\RatingController@rateCompany');
+
 Route::post('/sendMail', 'API\User\AuthController@sendMail');
