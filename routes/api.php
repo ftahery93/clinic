@@ -49,6 +49,7 @@ Route::patch('/company/changeMobileNumber', 'API\Company\CompanyProfileControlle
 Route::patch('/company/updateMobileNumber', 'API\Company\CompanyProfileController@updateMobileNumber');
 
 /* Company Details */
+Route::get('/company/getCompanies', 'API\Company\CompanyProfileController@getCompanies');
 Route::get('/company/getCompanyDetails', 'API\Company\CompanyProfileController@getCompanyDetails');
 Route::get('/company/getCompanyDetailsById/{company_id}', 'API\Company\CompanyProfileController@getCompanyDetailsById');
 
@@ -74,5 +75,8 @@ Route::get('/user/getTermsAndConditions', 'API\User\PagesController@getTermsAndC
 
 /* Countries */
 Route::get('/user/getCountries', 'API\User\CountryController@getCountries');
+
+/* Additional APIs for development sake */
+Route::get('/user/getCompanies', 'API\User\ShipmentController@getCompanies');
 
 Route::post('/sendMail', 'API\User\AuthController@sendMail');

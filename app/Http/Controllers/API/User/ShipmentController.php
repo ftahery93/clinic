@@ -517,4 +517,45 @@ class ShipmentController extends Controller
         }
         return response()->json($responseCategories);
     }
+
+    /**
+     *
+     * @SWG\Get(
+     *         path="/~tvavisa/masafah/public/api/user/getCompanies",
+     *         tags={"User Shipment"},
+     *         operationId="getCompanies",
+     *         summary="Get all approved companies",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
+    public function getCompanies()
+    {
+        $companies = Companies::all();
+
+        $companyList = [];
+        foreach ($companies as $company) {
+            if ($company->aƒpproved) {
+                $companyList[] = $company;
+            }
+        }
+        return $companyList;
+    }
 }
