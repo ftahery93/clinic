@@ -218,7 +218,7 @@ class UserProfileController extends Controller
                 $user->update([
                     'otp' => substr(str_shuffle("0123456789"), 0, 5),
                 ]);
-                return reponse()->json([
+                return response()->json([
                     'otp' => $user->otp,
                 ]);
             } else {
