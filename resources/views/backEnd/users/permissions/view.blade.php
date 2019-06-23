@@ -1,7 +1,5 @@
 <div class="padding">
     <div class="box">
-
-
         <div class="box-header dker">
             <h3>{{ trans('backLang.permissions') }}</h3>
             <small>
@@ -19,7 +17,6 @@
                 </div>
             </div>
         @endif
-
         @if(count($Permissions)  == 0)
             <div class="row p-a">
                 <div class="col-sm-12">
@@ -36,7 +33,6 @@
                 </div>
             </div>
         @endif
-
         @if(count($Permissions) > 0)
             <div class="table-responsive">
                 <table class="table table-striped  b-t">
@@ -69,12 +65,10 @@
                                             <i class="fa fa-check text-success inline"></i> {{ trans('backLang.perDelete') }}
                                             &nbsp;
                                         @endif
-
                                         @if($Permission->add_status==0 && $Permission->edit_status==0 && $Permission->delete_status==0)
                                             {{ trans('backLang.viewOnly') }}
                                             &nbsp;
                                         @endif
-
                                         <br>
                                         @if($Permission->analytics_status==1)
                                             {{ trans('backLang.visitorsAnalytics') }},
@@ -97,20 +91,7 @@
                                         @if($Permission->webmaster_status==1)
                                             {{ trans('backLang.webmasterTools') }},
                                         @endif
-
                                         <br>
-                                        <?php $i = 0; ?>
-                                        @foreach($GeneralWebmasterSections as $WebmasterSection)
-                                            <?php
-                                            $data_sections_arr = explode(",", $Permission->data_sections);
-                                            ?>
-                                            @if(in_array($WebmasterSection->id,$data_sections_arr) && $i!=0)
-                                                ,
-                                            @endif
-                                            {!! (in_array($WebmasterSection->id,$data_sections_arr)) ? trans('backLang.'.$WebmasterSection->name):"" !!}
-
-                                            <?php $i++; ?>
-                                        @endforeach
                                     </small>
                                 </small>
 
@@ -124,15 +105,12 @@
                                     <small><i class="material-icons">&#xe3c9;</i> {{ trans('backLang.edit') }}
                                     </small>
                                 </a>
-
                                 <button class="btn btn-sm danger" data-toggle="modal"
                                         data-target="#p-{{ $Permission->id }}" ui-toggle-class="bounce"
                                         ui-target="#animate">
                                     <small><i class="material-icons">&#xe872;</i> {{ trans('backLang.delete') }}
                                     </small>
                                 </button>
-
-
                             </td>
                         </tr>
                         <!-- .modal -->
@@ -160,12 +138,9 @@
                         </div>
                         <!-- / .modal -->
                     @endforeach
-
                     </tbody>
                 </table>
-
             </div>
-
         @endif
     </div>
 </div>

@@ -1060,7 +1060,7 @@ a.list-group-item.hover, a.list-group-item:focus, a.list-group-item:hover {
     margin: 0;
     padding: 0 1rem;
     flex-shrink: 0;
-    min-height: 3.5rem
+    min-height: 5rem
 }
 
 .navbar .up {

@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\Permissions;
-use App\User;
-use App\WebmasterSection;
 use Auth;
 use File;
+use Redirect;
+use App\User;
+use App\Permissions;
+use App\Http\Requests;
 use Illuminate\Config;
 use Illuminate\Http\Request;
-use Redirect;
+
 
 class UsersController extends Controller
 {
@@ -36,11 +36,6 @@ class UsersController extends Controller
      */
     public function index()
     {
-        //
-        // General for all pages
-        $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
-        // General END
-
         if (@Auth::user()->permissionsGroup->view_status) {
             $Users = User::where('created_by', '=', Auth::user()->id)->orwhere('id', '=', Auth::user()->id)->orderby('id',
                 'asc')->paginate(env('BACKEND_PAGINATION'));
@@ -49,7 +44,7 @@ class UsersController extends Controller
             $Users = User::orderby('id', 'asc')->paginate(env('BACKEND_PAGINATION'));
             $Permissions = Permissions::orderby('id', 'asc')->get();
         }
-        return view("backEnd.users", compact("Users", "Permissions", "GeneralWebmasterSections"));
+        return view("backEnd.users", compact("Users", "Permissions"));
     }
 
     /**
@@ -59,13 +54,9 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
-        // General for all pages
-        $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
-        // General END
         $Permissions = Permissions::orderby('id', 'asc')->get();
 
-        return view("backEnd.users.create", compact("GeneralWebmasterSections", "Permissions"));
+        return view("backEnd.users.create", compact("Permissions"));
     }
 
     /**
@@ -76,7 +67,6 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $this->validate($request, [
             'photo' => 'mimes:png,jpeg,jpg,gif|max:3000',
             'name' => 'required',
@@ -84,7 +74,6 @@ class UsersController extends Controller
             'password' => 'required',
             'permissions_id' => 'required'
         ]);
-
 
         // Start of Upload Files
         $formFileName = "photo";
@@ -130,12 +119,6 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        //
-        // General for all pages
-        $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
-        // General END
-        $Permissions = Permissions::orderby('id', 'asc')->get();
-
         if (@Auth::user()->permissionsGroup->view_status) {
             $Users = User::where('created_by', '=', Auth::user()->id)->orwhere('id', '=', Auth::user()->id)->find($id);
         } else {
@@ -157,15 +140,14 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
         $User = User::find($id);
         if (count($User) > 0) {
-
 
             $this->validate($request, [
                 'photo' => 'mimes:png,jpeg,jpg,gif|max:3000',
                 'name' => 'required',
-                'permissions_id' => 'required'
+                'permissions_id' => 'required',
+                'email' => 'email|unique:users',
             ]);
 
             if ($request->email != $User->email) {
@@ -173,6 +155,7 @@ class UsersController extends Controller
                     'email' => 'required|email|unique:users',
                 ]);
             }
+
             // Start of Upload Files
             $formFileName = "photo";
             $fileFinalName_ar = "";
@@ -184,20 +167,17 @@ class UsersController extends Controller
             }
             // End of Upload Files
 
-            //if ($id != 1) {
             $User->name = $request->name;
             $User->email = $request->email;
             if ($request->password != "") {
                 $User->password = bcrypt($request->password);
             }
             $User->permissions_id = $request->permissions_id;
-            //}
             if ($request->photo_delete == 1) {
                 // Delete a User file
                 if ($User->photo != "") {
                     File::delete($this->getUploadPath() . $User->photo);
                 }
-
                 $User->photo = "";
             }
             if ($fileFinalName_ar != "") {
@@ -205,15 +185,12 @@ class UsersController extends Controller
                 if ($User->photo != "") {
                     File::delete($this->getUploadPath() . $User->photo);
                 }
-
                 $User->photo = $fileFinalName_ar;
             }
-
             $User->connect_email = $request->connect_email;
             if ($request->connect_password != "") {
                 $User->connect_password = $request->connect_password;
             }
-
             $User->status = $request->status;
             $User->updated_by = Auth::user()->id;
             $User->save();
@@ -231,7 +208,6 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
         if (@Auth::user()->permissionsGroup->view_status) {
             $User = User::where('created_by', '=', Auth::user()->id)->find($id);
         } else {
@@ -242,7 +218,6 @@ class UsersController extends Controller
             if ($User->photo != "") {
                 File::delete($this->getUploadPath() . $User->photo);
             }
-
             $User->delete();
             return redirect()->action('UsersController@index')->with('doneMessage', trans('backLang.deleteDone'));
         } else {
@@ -260,15 +235,12 @@ class UsersController extends Controller
      */
     public function updateAll(Request $request)
     {
-        //
         if ($request->action == "activate") {
             User::wherein('id', $request->ids)
                 ->update(['status' => 1]);
-
         } elseif ($request->action == "block") {
             User::wherein('id', $request->ids)->where('id', '!=', 1)
                 ->update(['status' => 0]);
-
         } elseif ($request->action == "delete") {
             // Delete User photo
             $Users = User::wherein('id', $request->ids)->where('id', '!=', 1)->get();
@@ -277,10 +249,7 @@ class UsersController extends Controller
                     File::delete($this->getUploadPath() . $User->photo);
                 }
             }
-
-            User::wherein('id', $request->ids)->where('id', "!=", 1)
-                ->delete();
-
+            User::wherein('id', $request->ids)->where('id', "!=", 1)->delete();
         }
         return redirect()->action('UsersController@index')->with('doneMessage', trans('backLang.saveDone'));
     }
@@ -293,12 +262,7 @@ class UsersController extends Controller
      */
     public function permissions_create()
     {
-        //
-        // General for all pages
-        $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
-        // General END
-
-        return view("backEnd.users.permissions.create", compact("GeneralWebmasterSections"));
+        return view("backEnd.users.permissions.create");
     }
 
     /**
@@ -309,7 +273,6 @@ class UsersController extends Controller
      */
     public function permissions_store(Request $request)
     {
-        //
         $this->validate($request, [
             'name' => 'required'
         ]);
@@ -351,18 +314,13 @@ class UsersController extends Controller
      */
     public function permissions_edit($id)
     {
-        //
-        // General for all pages
-        $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
-        // General END
-
         if (@Auth::user()->permissionsGroup->view_status) {
             $Permissions = Permissions::where('created_by', '=', Auth::user()->id)->find($id);
         } else {
             $Permissions = Permissions::find($id);
         }
         if (count($Permissions) > 0) {
-            return view("backEnd.users.permissions.edit", compact("Permissions", "GeneralWebmasterSections"));
+            return view("backEnd.users.permissions.edit", compact("Permissions"));
         } else {
             return redirect()->action('UsersController@index');
         }
@@ -426,14 +384,12 @@ class UsersController extends Controller
      */
     public function permissions_destroy($id)
     {
-        //
         if (@Auth::user()->permissionsGroup->view_status) {
             $Permissions = Permissions::where('created_by', '=', Auth::user()->id)->find($id);
         } else {
             $Permissions = Permissions::find($id);
         }
         if (count($Permissions) > 0 && $id != 1) {
-
             $Permissions->delete();
             return redirect()->action('UsersController@index')->with('doneMessage', trans('backLang.deleteDone'));
         } else {

@@ -1,10 +1,4 @@
 @extends('backEnd.layout')
-@section('headerInclude')
-    <link href="{{ URL::to("backEnd/libs/js/iconpicker/fontawesome-iconpicker.min.css") }}" rel="stylesheet">
-    <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-@endsection
 @section('content')
     <div class="padding">
         <div class="box">
@@ -14,15 +8,6 @@
                     <a href="{{ route('adminHome') }}">{{ trans('backLang.home') }}</a> /
                     <a href="">{{ trans('backLang.countries') }}</a>
                 </small>
-            </div>
-            <div class="box-tool">
-                <ul class="nav">
-                    <li class="nav-item inline">
-                        <a class="nav-link" href="{{route("Banners")}}">
-                            <i class="material-icons md-18">×</i>
-                        </a>
-                    </li>
-                </ul>
             </div>
             <div class="box-body">
                 {{Form::open(['route'=>['adminCountriesUpdate',$Country->id],'method'=>'POST', 'files' => true])}}
@@ -91,17 +76,5 @@
             </div>
         </div>
     </div>
-
-
-
 @endsection
 
-@section('footerInclude')
-
-    <script src="{{ URL::to("backEnd/libs/js/iconpicker/fontawesome-iconpicker.js") }}"></script>
-    <script>
-        $(function () {
-            $('.icp-auto').iconpicker({placement: '{{ (trans('backLang.direction')=="rtl")?"topLeft":"topRight" }}'});
-        });
-    </script>
-@endsection

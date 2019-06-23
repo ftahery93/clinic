@@ -1,5 +1,4 @@
 @extends('backEnd.layout')
-
 @section('content')
     <div class="padding">
         <div class="box">
@@ -9,15 +8,6 @@
                     <a href="{{ route('adminHome') }}">{{ trans('backLang.home') }}</a> /
                     <a href="">{{ trans('backLang.countries') }}</a>
                 </small>
-            </div>
-            <div class="box-tool">
-                <ul class="nav">
-                    <li class="nav-item inline">
-                        <a class="nav-link" href="{{route("Banners")}}">
-                            <i class="material-icons md-18">×</i>
-                        </a>
-                    </li>
-                </ul>
             </div>
             <div class="box-body">
             {{Form::open(['route'=>['adminCountriesStore'],'method'=>'POST', 'files' => true ])}}
