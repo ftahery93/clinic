@@ -51,10 +51,7 @@ class Handler extends ExceptionHandler
         // return parent::render($request, $exception);
         return response()->json(
             [
-                'errors' => [
-                    'status' => 401,
-                    'message' => 'Unauthenticated',
-                ]
+                'errors' => 'You\'re not authorised to access this page',
             ], 401
         );
     }
