@@ -48,12 +48,15 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        // return parent::render($request, $exception);
-        return response()->json(
-            [
-                'errors' => 'You\'re not authorised to access this page',
-            ], 401
-        );
+        //This method allows you to verify that the incoming request URI matches a given pattern. 
+        //use of the * character as a wildcard when utilizing this method.
+        if( $request->is('api/*')){
+            // return JSON-formatted response
+            return response()->json(['errors' => 'You\'re not authorised to access this page',], 401);
+        } else {
+            // return HTML response
+            return parent::render($request, $exception);
+        }
     }
 
 }
