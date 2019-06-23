@@ -1958,10 +1958,15 @@
                         "required": true,
                         "schema": {
                             "properties": {
-                                "mobile": {
-                                    "description": "User's Mobile number - *(Required)",
+                                "old_mobile": {
+                                    "description": "User's Old Mobile number - *(Required)",
                                     "type": "string",
                                     "example": "66341897"
+                                },
+                                "new_mobile": {
+                                    "description": "User's New Mobile number - *(Required)",
+                                    "type": "string",
+                                    "example": "99653421"
                                 },
                                 "otp": {
                                     "description": "Received OTP - *(Required)",

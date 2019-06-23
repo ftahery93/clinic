@@ -256,10 +256,16 @@ class UserProfileController extends Controller
      *             required=true,
      *          @SWG\Schema(
      *              @SWG\Property(
-     *                  property="mobile",
+     *                  property="old_mobile",
      *                  type="string",
-     *                  description="User's Mobile number - *(Required)",
+     *                  description="User's Old Mobile number - *(Required)",
      *                  example="66341897"
+     *              ),
+     *          @SWG\Property(
+     *                  property="new_mobile",
+     *                  type="string",
+     *                  description="User's New Mobile number - *(Required)",
+     *                  example="99653421"
      *              ),
      *              @SWG\Property(
      *                  property="otp",
@@ -291,7 +297,8 @@ class UserProfileController extends Controller
     public function updateMobileNumber(Request $request)
     {
         $validator = [
-            'mobile' => 'required',
+            'old_mobile' => 'required',
+            'new_mobile' => 'required',
             'otp' => 'required',
         ];
 
@@ -302,8 +309,8 @@ class UserProfileController extends Controller
 
         $user = RegisteredUser::find($request->user_id);
 
-        if ($user->mobile != $request->mobile) {
-            $existingUser = RegisteredUser::where('mobile', $user->mobile)->get();
+        if ($user->mobile != $request->new_mobile && $user->mobile == $request->old_mobile) {
+            $existingUser = RegisteredUser::where('mobile', $user->new_mobile)->get()->first();
             if ($existingUser != null) {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
@@ -313,7 +320,7 @@ class UserProfileController extends Controller
 
         if ($request->otp == $user->otp) {
             $user->update([
-                'mobile' => $request->mobile,
+                'mobile' => $request->new_mobile,
             ]);
         } else {
             return response()->json([
