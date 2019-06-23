@@ -73,7 +73,6 @@
                                 <td>
                                     {!! $ApplicationUser->name   !!}
                                 </td>
-
                                 <td>
                                     <small>{!! $ApplicationUser->email   !!}</small>
                                 </td>
@@ -103,8 +102,6 @@
                                             </small>
                                         </button>
                                     @endif
-
-
                                 </td>
                             </tr>
                             <!-- .modal -->
@@ -167,8 +164,8 @@
                                         required>
                                     <option value="">{{ trans('backLang.bulkAction') }}</option>
                                     {{-- <option value="activate">{{ trans('backLang.activeSelected') }}</option>
-                                    <option value="block">{{ trans('backLang.blockSelected') }}</option>
-                                    <option value="delete">{{ trans('backLang.deleteSelected') }}</option> --}}
+                                    <option value="block">{{ trans('backLang.blockSelected') }}</option> --}}
+                                    <option value="delete">{{ trans('backLang.deleteSelected') }}</option>
                                 </select>
                                 <button type="submit" id="submit_all"
                                         class="btn btn-sm white">{{ trans('backLang.apply') }}</button>
