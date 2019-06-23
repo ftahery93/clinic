@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 23, 2019 at 05:59 PM
--- Server version: 10.0.38-MariaDB-0ubuntu0.16.04.1
--- PHP Version: 7.1.29-1+ubuntu16.04.1+deb.sury.org+1
+-- Generation Time: Jun 24, 2019 at 05:12 AM
+-- Server version: 5.7.26-0ubuntu0.16.04.1
+-- PHP Version: 7.1.26-1+ubuntu16.04.1+deb.sury.org+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -897,7 +897,6 @@ CREATE TABLE `aaraa_permissions` (
   `appusers_status` tinyint(4) NOT NULL,
   `settings_status` tinyint(4) NOT NULL DEFAULT '0',
   `webmaster_status` tinyint(4) NOT NULL DEFAULT '0',
-  `data_sections` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` tinyint(4) NOT NULL,
   `created_by` int(11) DEFAULT NULL,
   `updated_by` int(11) DEFAULT NULL,
@@ -909,10 +908,10 @@ CREATE TABLE `aaraa_permissions` (
 -- Dumping data for table `aaraa_permissions`
 --
 
-INSERT INTO `aaraa_permissions` (`id`, `name`, `view_status`, `add_status`, `edit_status`, `delete_status`, `analytics_status`, `notifications_status`, `countries_status`, `calendar_status`, `banners_status`, `polls_status`, `categories_status`, `appusers_status`, `settings_status`, `webmaster_status`, `data_sections`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 'Webmaster', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, '1,2,3,4,5,6,7,8,9', 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
-(2, 'Website Manager', 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, '1,2,3,4,5,6,7,8,9', 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
-(3, 'Limited User', 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, '1,2,3,4,5,6,7,8,9', 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
+INSERT INTO `aaraa_permissions` (`id`, `name`, `view_status`, `add_status`, `edit_status`, `delete_status`, `analytics_status`, `notifications_status`, `countries_status`, `calendar_status`, `banners_status`, `polls_status`, `categories_status`, `appusers_status`, `settings_status`, `webmaster_status`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 'Webmaster', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
+(2, 'Website Manager', 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
+(3, 'Limited User', 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
 
 -- --------------------------------------------------------
 

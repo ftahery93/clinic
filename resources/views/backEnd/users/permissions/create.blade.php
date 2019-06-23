@@ -31,8 +31,6 @@
                         {!! Form::text('name','', array('placeholder' => '','class' => 'form-control','id'=>'name','required'=>'')) !!}
                     </div>
                 </div>
-
-
                 <div class="form-group row">
                     <label for="permissions1"
                            class="col-sm-2 form-control-label">{!!  trans('backLang.dataManagements') !!}</label>
@@ -52,14 +50,11 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="form-group row">
                     <label for="analytics_status"
                            class="col-sm-2 form-control-label">{!!  trans('backLang.activeApps') !!}
                     </label>
                     <div class="col-sm-10">
-
-
                         <div class="checkbox">
                             <label class="ui-check">
                                 {!! Form::checkbox('analytics_status','1',false, array('id' => 'analytics_status')) !!}
@@ -67,8 +62,6 @@
                                         for="analytics_status">{{ trans('backLang.visitorsAnalytics') }}</label>
                             </label>
                         </div>
-
-
                         <div class="checkbox">
                             <label class="ui-check">
                                 {!! Form::checkbox('newsletter_status','1',false, array('id' => 'newsletter_status')) !!}
@@ -76,8 +69,6 @@
                                         for="newsletter_status">{{ trans('backLang.newsletter') }}</label>
                             </label>
                         </div>
-
-
                         <div class="checkbox">
                             <label class="ui-check">
                                 {!! Form::checkbox('inbox_status','1',false, array('id' => 'inbox_status')) !!}
@@ -85,7 +76,6 @@
                                         for="inbox_status">{{ trans('backLang.siteInbox') }}</label>
                             </label>
                         </div>
-
                         <div class="checkbox">
                             <label class="ui-check">
                                 {!! Form::checkbox('calendar_status','1',false, array('id' => 'calendar_status')) !!}
@@ -93,7 +83,6 @@
                                         for="calendar_status">{{ trans('backLang.calendar') }}</label>
                             </label>
                         </div>
-
                         <div class="checkbox">
                             <label class="ui-check">
                                 {!! Form::checkbox('banners_status','1',false, array('id' => 'banners_status')) !!}
@@ -101,8 +90,6 @@
                                         for="banners_status">{{ trans('backLang.adsBanners') }}</label>
                             </label>
                         </div>
-
-
                         <div class="checkbox">
                             <label class="ui-check">
                                 {!! Form::checkbox('settings_status','1',false, array('id' => 'settings_status')) !!}
@@ -110,8 +97,6 @@
                                         for="settings_status">{{ trans('backLang.generalSettings') }}</label>
                             </label>
                         </div>
-
-
                         <div class="checkbox">
                             <label class="ui-check">
                                 {!! Form::checkbox('webmaster_status','1',false, array('id' => 'webmaster_status')) !!}
@@ -119,33 +104,8 @@
                                         for="webmaster_status">{{ trans('backLang.webmasterTools') }}</label>
                             </label>
                         </div>
-
                     </div>
                 </div>
-
-
-                <div class="form-group row">
-                    <label for="data_sections0"
-                           class="col-sm-2 form-control-label">{!!  trans('backLang.activeSiteSections') !!}
-                    </label>
-                    <div class="col-sm-10">
-
-                        <?php $i = 0; ?>
-                        @foreach($GeneralWebmasterSections as $WebmasterSection)
-                            <div class="checkbox">
-                                <label class="ui-check">
-                                    {!! Form::checkbox('data_sections[]',$WebmasterSection->id,false, array('id' => 'data_sections'.$i)) !!}
-                                    <i class="dark-white"></i><label
-                                            for="data_sections{{$i}}">{!! str_replace("backLang.","",trans('backLang.'.$WebmasterSection->name)) !!}</label>
-                                </label>
-                            </div>
-                                <?php $i++; ?>
-                        @endforeach
-
-                    </div>
-                </div>
-
-
                 <div class="form-group row">
                     <label for="add_status1"
                            class="col-sm-2 form-control-label">{!!  trans('backLang.addPermission') !!}</label>
@@ -203,7 +163,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="form-group row m-t-md">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-primary m-t"><i class="material-icons">

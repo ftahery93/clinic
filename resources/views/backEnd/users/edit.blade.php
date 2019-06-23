@@ -22,7 +22,6 @@
             </div>
             <div class="box-body">
                 {{Form::open(['route'=>['usersUpdate',$Users->id],'method'=>'POST', 'files' => true])}}
-
                 <div class="form-group row">
                     <label for="name"
                            class="col-sm-2 form-control-label">{!!  trans('backLang.fullName') !!}
@@ -31,7 +30,6 @@
                         {!! Form::text('name',$Users->name, array('placeholder' => '','class' => 'form-control','id'=>'name','required'=>'')) !!}
                     </div>
                 </div>
-
                 <div class="form-group row">
                     <label for="email"
                            class="col-sm-2 form-control-label">{!!  trans('backLang.loginEmail') !!}
@@ -40,7 +38,6 @@
                         {!! Form::email('email',$Users->email, array('placeholder' => '','class' => 'form-control','id'=>'email','required'=>'')) !!}
                     </div>
                 </div>
-
                 <div class="form-group row">
                     <label for="password"
                            class="col-sm-2 form-control-label">{!!  trans('backLang.loginPassword') !!}
@@ -49,7 +46,6 @@
                         {!! Form::text('password','', array('placeholder' => '','class' => 'form-control','id'=>'password')) !!}
                     </div>
                 </div>
-
                 <div class="form-group row">
                     <label for="photo_file"
                            class="col-sm-2 form-control-label">{!!  trans('backLang.topicPhoto') !!}</label>
@@ -73,12 +69,10 @@
                                             <i class="material-icons">&#xe166;</i> {!!  trans('backLang.undoDelete') !!}
                                         </a>
                                     </div>
-
                                     {!! Form::hidden('photo_delete','0', array('id'=>'photo_delete')) !!}
                                 </div>
                             </div>
                         @endif
-
                         {!! Form::file('photo', array('class' => 'form-control','id'=>'photo','accept'=>'image/*')) !!}
                         <small>
                             <i class="material-icons">&#xe8fd;</i>
@@ -86,7 +80,6 @@
                         </small>
                     </div>
                 </div>
-
                 @if(@Auth::user()->permissionsGroup->webmaster_status)
                     <div class="form-group row">
                         <label for="permissions1"
@@ -103,8 +96,6 @@
                             </div>
                         </div>
                     </div>
-
-
                     <div class="form-group row">
                         <label for="link_status"
                                class="col-sm-2 form-control-label">{!!  trans('backLang.status') !!}</label>
@@ -125,34 +116,9 @@
                         </div>
                     </div>
                 @else
-                    {!! Form::hidden('permissions_id',$Users->permissions_id) !!}
-                    {!! Form::hidden('status',$Users->status) !!}
-
+                {!! Form::hidden('permissions_id',$Users->permissions_id) !!}
+                {!! Form::hidden('status',$Users->status) !!}
                 @endif
-                <div class="form-group row">
-                    <div class="col-sm-12">
-                        <strong>{{ trans('backLang.connectEmailToConnect') }}</strong>
-                        <hr>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="connect_email"
-                           class="col-sm-2 form-control-label">{!!  trans('backLang.connectEmail') !!}
-                    </label>
-                    <div class="col-sm-10">
-                        {!! Form::email('connect_email',$Users->connect_email, array('placeholder' => '','class' => 'form-control','id'=>'connect_email')) !!}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="connect_password"
-                           class="col-sm-2 form-control-label">{!!  trans('backLang.connectPassword') !!}
-                    </label>
-                    <div class="col-sm-10">
-                        {!! Form::text('connect_password',$Users->connect_password, array('placeholder' => '','class' => 'form-control','id'=>'connect_password')) !!}
-                    </div>
-                </div>
-
                 <div class="form-group row m-t-md">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="btn btn-primary m-t"><i class="material-icons">
@@ -162,10 +128,8 @@
                                 &#xe5cd;</i> {!! trans('backLang.cancel') !!}</a>
                     </div>
                 </div>
-
                 {{Form::close()}}
             </div>
         </div>
     </div>
-
 @endsection

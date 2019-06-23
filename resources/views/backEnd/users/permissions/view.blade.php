@@ -45,7 +45,6 @@
                     </tr>
                     </thead>
                     <tbody>
-
                     @foreach($Permissions as $Permission)
                         <tr>
                             <td>

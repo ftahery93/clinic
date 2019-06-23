@@ -4,7 +4,6 @@
     @if(@Auth::user()->permissionsGroup->webmaster_status)
         @include('backEnd.users.permissions.view')
     @endif
-
     <div class="padding">
         <div class="box">
 
@@ -15,7 +14,6 @@
                     <a href="">{{ trans('backLang.settings') }}</a>
                 </small>
             </div>
-
             @if($Users->total() >0)
                 @if(@Auth::user()->permissionsGroup->webmaster_status)
                     <div class="row p-a pull-right" style="margin-top: -70px;">
@@ -45,7 +43,6 @@
                     </div>
                 </div>
             @endif
-
             @if($Users->total() > 0)
                 {{Form::open(['route'=>'usersUpdateAll','method'=>'post'])}}
                 <div class="table-responsive">
@@ -65,7 +62,6 @@
                         </tr>
                         </thead>
                         <tbody>
-
                         @foreach($Users as $User)
                             <tr>
                                 <td><label class="ui-check m-a-0">
@@ -74,16 +70,9 @@
                                         {!! Form::hidden('row_ids[]',$User->id, array('class' => 'form-control row_no')) !!}
                                     </label>
                                 </td>
-                                <td>
-                                    {!! $User->name   !!}
-                                </td>
-
-                                <td>
-                                    <small>{!! $User->email   !!}</small>
-                                </td>
-                                <td>
-                                    <small>{{$User->permissionsGroup->name}}</small>
-                                </td>
+                                <td>{!! $User->name   !!}</td>
+                                <td><small>{!! $User->email   !!}</small></td>
+                                <td><small>{{$User->permissionsGroup->name}}</small></td>
                                 <td class="text-center">
                                     <i class="fa {{ ($User->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
                                 </td>
@@ -101,8 +90,6 @@
                                             </small>
                                         </button>
                                     @endif
-
-
                                 </td>
                             </tr>
                             <!-- .modal -->
@@ -130,10 +117,8 @@
                             </div>
                             <!-- / .modal -->
                         @endforeach
-
                         </tbody>
                     </table>
-
                 </div>
                 <footer class="dker p-a">
                     <div class="row">
@@ -177,7 +162,6 @@
                                 </button>
                             @endif
                         </div>
-
                         <div class="col-sm-3 text-center">
                             <small class="text-muted inline m-t-sm m-b-sm">{{ trans('backLang.showing') }} {{ $Users->firstItem() }}
                                 -{{ $Users->lastItem() }} {{ trans('backLang.of') }}
@@ -189,7 +173,6 @@
                     </div>
                 </footer>
                 {{Form::close()}}
-
                 <script type="text/javascript">
                     $("#checkAll").click(function () {
                         $('input:checkbox').not(this).prop('checked', this.checked);

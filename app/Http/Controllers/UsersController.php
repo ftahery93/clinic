@@ -121,11 +121,13 @@ class UsersController extends Controller
     {
         if (@Auth::user()->permissionsGroup->view_status) {
             $Users = User::where('created_by', '=', Auth::user()->id)->orwhere('id', '=', Auth::user()->id)->find($id);
+            $Permissions = Permissions::where('created_by', '=', Auth::user()->id)->orderby('id', 'asc')->get();
         } else {
             $Users = User::find($id);
+            $Permissions = Permissions::orderby('id', 'asc')->get();
         }
         if (count($Users) > 0) {
-            return view("backEnd.users.edit", compact("Users", "Permissions", "GeneralWebmasterSections"));
+            return view("backEnd.users.edit", compact("Users", "Permissions"));
         } else {
             return redirect()->action('UsersController@index');
         }
