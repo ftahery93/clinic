@@ -213,7 +213,7 @@ class UserProfileController extends Controller
         $user = RegisteredUser::find($request->user_id);
 
         if ($user->mobile != $request->mobile) {
-            $existingUser = RegisteredUser::where('mobile', $request->mobile)->get();
+            $existingUser = RegisteredUser::where('mobile', $request->mobile)->get()->first();
             if ($existingUser == null) {
                 $user->update([
                     'otp' => substr(str_shuffle("0123456789"), 0, 5),
