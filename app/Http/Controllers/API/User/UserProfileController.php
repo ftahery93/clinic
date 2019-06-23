@@ -310,7 +310,7 @@ class UserProfileController extends Controller
         $user = RegisteredUser::find($request->user_id);
 
         if ($user->mobile != $request->new_mobile && $user->mobile == $request->old_mobile) {
-            $existingUser = RegisteredUser::where('mobile', $user->new_mobile)->get()->first();
+            $existingUser = RegisteredUser::where('mobile', $request->new_mobile)->get()->first();
             if ($existingUser != null) {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
