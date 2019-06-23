@@ -8,6 +8,7 @@ use App\Models\Admin\User;
 use App\Models\API\Authentication;
 use App\Models\API\Country;
 use App\Models\API\OneSignalUser;
+use App\Models\API\Otp;
 use App\Models\API\RegisteredUser;
 use App\Utility;
 use Illuminate\Http\Request;
@@ -195,23 +196,28 @@ class AuthController extends Controller
         }
 
         if ($registeredUser != null) {
-            $otp = substr(str_shuffle("0123456789"), 0, 5);
-            $registeredUser->update([
-                'otp' => $otp,
+            $otp = $registeredUser->mobile;
+            $newOtp = substr(str_shuffle("0123456789"), 0, 5);
+            $otp->update([
+                'otp' => $newOtp,
             ]);
 
             return response()->json([
-                'otp' => $otp,
+                'otp' => $otp->otp,
             ]);
         } else {
             //return response()->json(['error' => LanguageManagement::getLabel('mobile_not_found', $this->language)], 401);
             $country = Country::find($request->country_id);
-            $otp = substr(str_shuffle("0123456789"), 0, 5);
+            $generatedOtp = substr(str_shuffle("0123456789"), 0, 5);
             $registeredUser = RegisteredUser::create([
                 'mobile' => $request->mobile,
                 'status' => 1,
-                'otp' => $otp,
                 'country_id' => $request->country_id,
+            ]);
+
+            $otp = Otp::create([
+                'mobile' => $request->mobile,
+                'otp' => $generatedOtp,
             ]);
 
             OneSignalUser::create([
@@ -222,7 +228,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'message' => LanguageManagement::getLabel('text_successRegistered', $this->language),
-                'otp' => $otp,
+                'otp' => $otp->otp,
             ]);
         }
         //$token = '' . $registeredUser->id . '' . $registeredUser->mobile . '' . $this->accessToken;
@@ -335,8 +341,29 @@ class AuthController extends Controller
             return $checkForError;
         }
 
+        $exisitingUser = Otp::where('mobile', $request->mobile)->get()->first();
+
+        if ($exisitingUser == null) {
+            return response()->json(['error' => LanguageManagement::getLabel('no_user_found', $this->language)], 404);
+        } else {
+            if ($request->otp == $exisitingUser->otp) {
+                $registeredUser = RegisteredUser::where('mobile', $request->mobile)->get()->first();
+                $token = '' . $registeredUser->id . '' . $registeredUser->mobile . '' . $this->accessToken;
+                Authentication::create([
+                    'user_id' => $registeredUser->id,
+                    'access_token' => $token,
+                    'type' => 1,
+                ]);
+                return response()->json([
+                    'access_token' => $token,
+                    'user' => $registeredUser,
+                ]);
+            }
+
+        }
+
         if (!RegisteredUser::where('otp', $request->otp)->where('mobile', $request->mobile)->exists()) {
-            return response()->json(['error' => LanguageManagement::getLabel('text_wrongOTP', $this->language)], 417);
+
         } else {
             $registeredUser = RegisteredUser::where('mobile', $request->mobile)->get()->first();
             $token = '' . $registeredUser->id . '' . $registeredUser->mobile . '' . $this->accessToken;

@@ -316,6 +316,10 @@ class UserProfileController extends Controller
                     'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
                 ], 409);
             }
+        } else {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_user_found', $this->language),
+            ], 404);
         }
 
         if ($request->otp == $user->otp) {
