@@ -214,17 +214,17 @@ class UserProfileController extends Controller
 
         if ($user->mobile != $request->mobile) {
             $existingUser = RegisteredUser::where('mobile', $request->mobile)->get();
-            if ($existingUser != null) {
-                return response()->json([
-                    'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
-                ], 409);
-            } else {
+            if ($existingUser == null) {
                 $user->update([
                     'otp' => substr(str_shuffle("0123456789"), 0, 5),
                 ]);
                 return reponse()->json([
                     'otp' => $user->otp,
                 ]);
+            } else {
+                return response()->json([
+                    'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
+                ], 409);
             }
         }
     }
