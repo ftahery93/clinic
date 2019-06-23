@@ -1851,11 +1851,6 @@
                         "required": true,
                         "schema": {
                             "properties": {
-                                "mobile": {
-                                    "description": "User's mobile number *(Required)",
-                                    "type": "string",
-                                    "example": "88563421"
-                                },
                                 "fullname": {
                                     "description": "Users full name",
                                     "type": "string",

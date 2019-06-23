@@ -83,12 +83,6 @@ class UserProfileController extends Controller
      *             required=true,
      *          @SWG\Schema(
      *              @SWG\Property(
-     *                  property="mobile",
-     *                  type="string",
-     *                  description="User's mobile number *(Required)",
-     *                  example="88563421"
-     *              ),
-     *              @SWG\Property(
      *                  property="fullname",
      *                  type="string",
      *                  description="Users full name",
@@ -122,7 +116,8 @@ class UserProfileController extends Controller
     public function updateProfile(Request $request)
     {
         $validator = [
-            'mobile' => 'required|digits:8',
+            'fullname' => 'required',
+            'email' => 'required',
         ];
 
         $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);

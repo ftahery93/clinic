@@ -274,7 +274,6 @@ class AuthController extends Controller
                 'error' => LanguageManagement::getLabel('no_user_found', $this->language),
             ], 404);
         }
-
     }
 
     /**
