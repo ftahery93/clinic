@@ -24,10 +24,10 @@ class ApplicationUsersController extends Controller
     {
         $this->middleware('auth');
 
-        // // Check Permissions
-        // if (@Auth::user()->permissions != 0 && Auth::user()->permissions != 1) {
-        //     return Redirect::to(route('NoPermission'))->send();
-        // }
+        // Check Permissions
+        if (@Auth::user()->permissions != 0 && Auth::user()->permissions != 1) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
     }
 
     /**
@@ -38,72 +38,10 @@ class ApplicationUsersController extends Controller
     public function index()
     {
         if (@Auth::user()->permissionsGroup->view_status) {
-            $ApplicationUsers = ApplicationUsers::where('created_by', '=', Auth::user()->id)->orwhere('id', '=', Auth::user()->id)->orderby('id',
-                'asc')->paginate(env('BACKEND_PAGINATION'));
-            $Permissions = Permissions::where('created_by', '=', Auth::user()->id)->orderby('id', 'asc')->get();
-        } else {
             $ApplicationUsers = ApplicationUsers::orderby('id', 'asc')->paginate(env('BACKEND_PAGINATION'));
             $Permissions = Permissions::orderby('id', 'asc')->get();
         }
         return view("backEnd.appusers", compact("ApplicationUsers", "Permissions"));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-        // General for all pages
-        $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
-        // General END
-        $Permissions = Permissions::orderby('id', 'asc')->get();
-
-        return view("backEnd.users.create", compact("GeneralWebmasterSections", "Permissions"));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-        $this->validate($request, [
-            'photo' => 'mimes:png,jpeg,jpg,gif|max:3000',
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required',
-            'age' => 'required',
-            'terms_conditions' => 'required',
-        ]);
-
-        // Start of Upload Files
-        $formFileName = "photo";
-        $fileFinalName_ar = "";
-        if ($request->$formFileName != "") {
-            $fileFinalName_ar = time() . rand(1111,
-                    9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
-            $path = base_path() . "/public/" . $this->getUploadPath();
-            $request->file($formFileName)->move($path, $fileFinalName_ar);
-        }
-        // End of Upload Files
-        $ApplicationUser = new ApplicationUsers;
-        $ApplicationUser->name = $request->name;
-        $ApplicationUser->email = $request->email;
-        $ApplicationUser->password = bcrypt($request->password);
-        // $ApplicationUser->photo = $fileFinalName_ar;
-        $ApplicationUser->age = $request->age;
-        $ApplicationUser->terms_conditions = $request->terms_conditions;
-        $ApplicationUser->status = 1;
-        $ApplicationUser->created_by = Auth::user()->id;
-        $ApplicationUser->save();
-        
-        return redirect()->action('UsersController@index')->with('doneMessage', trans('backLang.addDone'));
     }
 
     public function getUploadPath()

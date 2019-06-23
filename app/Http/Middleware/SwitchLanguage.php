@@ -21,12 +21,6 @@ class SwitchLanguage
         } else {
             return response()->json(['error' => trans('auth.acceptLanguageMissing')], 404);
         }
-
-        if($request->server('Authorization')){
-            $header = $request->server('Authorization');
-            return response()->json(['error' => $header], 404);
-        }
-
         return $next($request);
     }
 }

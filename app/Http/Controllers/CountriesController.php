@@ -5,18 +5,17 @@ namespace App\Http\Controllers;
 
 use Auth;
 use File;
-use Helper;
 use Redirect;
-use App\Category;
+use App\Country;
 use App\Http\Requests;
 use Illuminate\Config;
 use Illuminate\Http\Request;
 
 
-class CategoriesController extends Controller
+class CountriesController extends Controller
 {
 
-    private $uploadPath = "uploads/caegories/";
+    private $uploadPath = "uploads/countries/";
 
     // Define Default Variables
 
@@ -25,7 +24,7 @@ class CategoriesController extends Controller
         $this->middleware('auth');
 
         // Check Permissions
-        if (!@Auth::user()->permissionsGroup->categories_status) {
+        if (!@Auth::user()->permissionsGroup->countries_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
     }
@@ -38,13 +37,13 @@ class CategoriesController extends Controller
     public function index()
     {
         if (@Auth::user()->permissionsGroup->view_status) {
-            $Categories = Category::orderby('created_at','asc')->paginate(env('BACKEND_PAGINATION'));
+            $Countries = Country::orderby('created_at','asc')->paginate(env('BACKEND_PAGINATION'));
         }
-       return view("backEnd.categories", compact("Categories"));
+       return view("backEnd.countries", compact("Countries"));
     }
     
-    /**
-     * Show the form for creating a new category
+   /**
+     * Show the form for creating a add country
      *
      * @param  \Illuminate\Http\Request $webmasterId
      * @return \Illuminate\Http\Response
@@ -56,7 +55,7 @@ class CategoriesController extends Controller
             return Redirect::to(route('NoPermission'))->send();
         }
 
-        return view("backEnd.categories.create");
+        return view("backEnd.countries.create");
     }
 
     /**

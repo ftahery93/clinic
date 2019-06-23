@@ -36,11 +36,7 @@ class PollsController extends Controller
     public function index()
     {
         if (@Auth::user()->permissionsGroup->view_status) {
-            $Polls = Poll::where('created_by', '=', Auth::user()->id)->orderby('created_at',
-                'asc')->paginate(env('BACKEND_PAGINATION'));
-        } else {
-            $Polls = Poll::orderby('created_at',
-                'asc')->paginate(env('BACKEND_PAGINATION'));
+            $Polls = Poll::orderby('created_at','asc')->paginate(env('BACKEND_PAGINATION'));
         }
 
         // Map categories for each poll.

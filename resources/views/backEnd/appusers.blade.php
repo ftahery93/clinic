@@ -90,7 +90,7 @@
                                 </td>
                                 <td class="text-center">
                                     <a class="btn btn-sm success"
-                                       href="{{ route("usersEdit",["id"=>$ApplicationUser->id]) }}">
+                                       href="{{ route("adminAppusersEdit",["id"=>$ApplicationUser->id]) }}">
                                         <small><i class="material-icons">&#xe3c9;</i> {{ trans('backLang.edit') }}
                                         </small>
                                     </a>
@@ -121,7 +121,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn dark-white p-x-md"
                                                     data-dismiss="modal">{{ trans('backLang.no') }}</button>
-                                            <a href="{{ route("usersDestroy",["id"=>$ApplicationUser->id]) }}"
+                                            <a href="{{ route("adminAppusersDestroy",["id"=>$ApplicationUser->id]) }}"
                                                class="btn danger p-x-md">{{ trans('backLang.yes') }}</a>
                                         </div>
                                     </div><!-- /.modal-content -->

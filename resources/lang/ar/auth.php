@@ -46,5 +46,6 @@ return [
     'appversionMissing' => 'إصدار التطبيق مفقود في الطلب',
     'acceptLanguageMissing' => 'قبول معلمة اللغة مفقود في الطلب',
     'authorisationMissing' => 'أنت غير مفوض لدخول هذه الصفحة',
+    'maintainMode' => 'التطبيق تحت الصيانة',
 
 ];

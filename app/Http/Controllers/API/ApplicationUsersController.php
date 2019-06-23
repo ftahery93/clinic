@@ -23,6 +23,9 @@ class ApplicationUsersController extends Controller
 
     public function __construct()
     {
+        //middleware to check the maintenance mode
+       $this->middleware('app.maintenance');
+
         //middleware to check the authorization header for language before proceeding with incoming request
        $this->middleware('switch.lang');
 

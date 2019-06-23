@@ -45,7 +45,6 @@ return [
     'appversionMissing' => 'App version parameter is missing in the request.',
     'acceptLanguageMissing' => 'Accept language parameter is missing in the request.',
     'authorisationMissing' => 'You\'re not authorized to access this page',
-
-
+    'maintainMode' => 'Application is under maintenance',
 
 ];

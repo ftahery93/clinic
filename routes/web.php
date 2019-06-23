@@ -42,6 +42,13 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('/search', 'HomeController@search')->name('adminSearch');
     Route::post('/find', 'HomeController@find')->name('adminFind');
 
+   // Application Users
+   Route::get('/appusers', 'ApplicationUsersController@index')->name('adminAppusers');
+   Route::get('/appusers/{id}/edit', 'ApplicationUsersController@edit')->name('adminAppusersEdit');
+   Route::post('/appusers/{id}/update', 'ApplicationUsersController@update')->name('adminAppusersUpdate');
+   Route::get('/appusers/destroy/{id}', 'ApplicationUsersController@destroy')->name('adminAppusersDestroy');
+   Route::post('/appusers/updateAll', 'ApplicationUsersController@updateAll')->name('adminAppusersUpdateAll');
+
     // Polls
     Route::get('/polls', 'PollsController@index')->name('adminPolls');
     Route::post('/polls/updateAll', 'PollsController@updateAll')->name('adminPollsUpdateAll');
@@ -54,19 +61,16 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('/categories/destroy/{id}', 'CategoriesController@destroy')->name('adminCategoriesDestroy');
     Route::post('/categories/updateAll', 'CategoriesController@updateAll')->name('adminCategoriesUpdateAll');
     
+    // Countries
+    Route::get('/countries', 'CountriesController@index')->name('countries');
+    Route::get('/countries/create', 'CountriesController@create')->name('adminCountriesCreate');
+    Route::get('/countries/store', 'CountriesController@store')->name('adminCountriesStore');
+    Route::post('/countries/{id}/edit', 'CountriesController@edit')->name('adminCountriesEdit');
 
-    // Webmaster
-    Route::get('/webmaster', 'WebmasterSettingsController@edit')->name('webmasterSettings');
-    Route::post('/webmaster', 'WebmasterSettingsController@update')->name('webmasterSettingsUpdate');
-
-    // Webmaster Banners
-    Route::get('/webmaster/banners', 'WebmasterBannersController@index')->name('WebmasterBanners');
-    Route::get('/webmaster/banners/create', 'WebmasterBannersController@create')->name('WebmasterBannersCreate');
-    Route::post('/webmaster/banners/store', 'WebmasterBannersController@store')->name('WebmasterBannersStore');
-    Route::get('/webmaster/banners/{id}/edit', 'WebmasterBannersController@edit')->name('WebmasterBannersEdit');
-    Route::post('/webmaster/banners/{id}/update', 'WebmasterBannersController@update')->name('WebmasterBannersUpdate');
-    Route::get('/webmaster/banners/destroy/{id}','WebmasterBannersController@destroy')->name('WebmasterBannersDestroy');
-    Route::post('/webmaster/banners/updateAll','WebmasterBannersController@updateAll')->name('WebmasterBannersUpdateAll');
+    // Settings
+    Route::get('/settings', 'SettingsController@edit')->name('settings');
+    Route::post('/settings', 'SettingsController@updateSiteInfo')->name('settingsUpdateSiteInfo');
+    Route::post('/settings/status', 'SettingsController@updateSiteStatus')->name('settingsUpdateSiteStatus');
 
     // Webmaster Sections
     Route::get('/webmaster/sections', 'WebmasterSectionsController@index')->name('WebmasterSections');
@@ -89,13 +93,7 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('/webmaster/{webmasterId}/fields/destroy/{field_id}', 'WebmasterSectionsController@fieldsDestroy')->name('webmasterFieldsDestroy');
     Route::post('/webmaster/{webmasterId}/fields/updateAll', 'WebmasterSectionsController@fieldsUpdateAll')->name('webmasterFieldsUpdateAll');
 
-    // Settings
-    Route::get('/settings', 'SettingsController@edit')->name('settings');
-    Route::post('/settings', 'SettingsController@updateSiteInfo')->name('settingsUpdateSiteInfo');
-    Route::post('/settings/style', 'SettingsController@updateSiteStyle')->name('settingsUpdateSiteStyle');
-    Route::post('/settings/status', 'SettingsController@updateSiteStatus')->name('settingsUpdateSiteStatus');
-    Route::post('/settings/social', 'SettingsController@updateSocialLinks')->name('settingsUpdateSocialLinks');
-    Route::post('/settings/contacts', 'SettingsController@updateContacts')->name('settingsUpdateContacts');
+
 
  
     // Ad. Banners
@@ -214,8 +212,7 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::post('/users/permissions/{id}/update', 'UsersController@permissions_update')->name('permissionsUpdate');
     Route::get('/users/permissions/destroy/{id}', 'UsersController@permissions_destroy')->name('permissionsDestroy');
 
-    // Application Users
-    Route::get('/appusers', 'ApplicationUsersController@index')->name('adminAppusers');
+ 
 
     // Menus
     Route::post('/menus/store/parent', 'MenusController@storeMenu')->name('parentMenusStore');

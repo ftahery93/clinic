@@ -265,6 +265,16 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                                         </a>
                                     </li>
                                     <?php
+                                    $currentFolder = "countries"; // Put folder name here
+                                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                                    ?>
+                                    <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
+                                        <a href="{{ route('countries') }}"
+                                           onclick="location.href='{{ route('countries') }}'">
+                                            <span class="nav-text">{{ trans('backLang.countries') }}</span>
+                                        </a>
+                                    </li>
+                                    <?php
                                     $currentFolder = "users"; // Put folder name here
                                     $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
                                     ?>

@@ -19,6 +19,9 @@ class PagesController extends Controller
 
     public function __construct()
     {
+        //middleware to check the maintenance mode
+        $this->middleware('app.maintenance');
+        
         //middleware to check the authorization header before proceeding with incoming request
         $this->middleware('switch.lang');
 
@@ -47,7 +50,21 @@ class PagesController extends Controller
 
         $Page = Page::where('name','=',$request->name)->where('status','=','1')->get();
         if (count($Page) > 0) {
-            return response()->json($Page, $this->successStatus);
+            if($this->language == "ar"){
+                $Page = $Page->map(function ($page) {
+                    $Page['name'] = $page->title_ar;
+                    $Page['content'] = $page->details_ar;
+                    return $Page;
+                });
+                return response()->json($Page, $this->successStatus);
+            } else {
+                $Page = $Page->map(function ($page) {
+                    $Page['name'] = $page->title_en;
+                    $Page['content'] = $page->details_en;
+                    return $Page;
+                });
+                return response()->json($Page, $this->successStatus);
+            }
         } else {
             return response()->json(['error' => trans('mobileLang.pageNotFound')], 404);
         }
