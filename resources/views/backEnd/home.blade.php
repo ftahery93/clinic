@@ -330,8 +330,8 @@
         <div class="row">
             <?php 
             $col_count = 0;
-            if (Helper::GeneralWebmasterSettings("inbox_status")) {
-                if (Auth::user()->permissionsGroup->inbox_status) {
+            if (Helper::GeneralWebmasterSettings("notifications_status")) {
+                if (Auth::user()->permissionsGroup->notifications_status) {
                     $col_count++;
                 }
             }
@@ -351,8 +351,8 @@
             }
             ?>
 
-            @if(Helper::GeneralWebmasterSettings("inbox_status"))
-                @if(@Auth::user()->permissionsGroup->inbox_status)
+            @if(Helper::GeneralWebmasterSettings("notifications_status"))
+                @if(@Auth::user()->permissionsGroup->notifications_status)
                     <div class="col-md-12 col-xl-{{$col_width}}">
                         <div class="box m-b-0" style="min-height: 370px">
                             <div class="box-header">
@@ -366,32 +366,32 @@
                                         </a>
                                         <div class="dropdown-menu dropdown-menu-scale pull-right">
                                             <a class="dropdown-item"
-                                               href="{{ route("webmails") }}"> {!! trans('backLang.inbox') !!} </a>
+                                               href="{{ route("adminNotifications") }}"> {!! trans('backLang.inbox') !!} </a>
                                             <a class="dropdown-item"
-                                               href="{{ route("webmails",["group_id"=>"sent"]) }}">{!! trans('backLang.sent') !!}</a>
+                                               href="{{ route("adminNotifications",["group_id"=>"sent"]) }}">{!! trans('backLang.sent') !!}</a>
                                         </div>
                                     </li>
                                 </ul>
                             </div>
-                            @if(count($Webmails) == 0)
+                            @if(count($Notifications) == 0)
                                 <div class="text-center m-t-1" style="color:#bbb">
                                     <h1><i class="material-icons">&#xe156;</i></h1>
                                     {{ trans('backLang.noData') }}</div>
                             @else
                                 <ul class="list-group no-border">
-                                    @foreach($Webmails as $Webmail)
+                                    @foreach($Notifications as $Notification)
                                         <?php
                                         $s4ds_current_date = date('Y-m-d', $_SERVER['REQUEST_TIME']);
-                                        $day_mm = date('Y-m-d', strtotime($Webmail->date));
+                                        $day_mm = date('Y-m-d', strtotime($Notification->date));
                                         if ($day_mm == $s4ds_current_date) {
-                                            $dtformated = date('h:i A', strtotime($Webmail->date));
+                                            $dtformated = date('h:i A', strtotime($Notification->date));
                                         } else {
-                                            $dtformated = date('d M Y', strtotime($Webmail->date));
+                                            $dtformated = date('d M Y', strtotime($Notification->date));
                                         }
 
                                         try {
-                                            $groupColor = $Webmail->webmailsGroup->color;
-                                            $groupName = $Webmail->webmailsGroup->name;
+                                            $groupColor = $Notification->webmailsGroup->color;
+                                            $groupName = $Notification->webmailsGroup->name;
                                         } catch (Exception $e) {
                                             $groupColor = "";
                                             $groupName = "";
@@ -401,7 +401,7 @@
                                         $unreadIcon = "&#xe151;";
                                         $unreadbg = "";
                                         $unreadText = "";
-                                        if ($Webmail->status == 0) {
+                                        if ($Notification->status == 0) {
                                             $fontStyle = "_700";
                                             $unreadIcon = "&#xe0be;";
                                             $unreadbg = "style=\"background: $groupColor \"";
@@ -412,16 +412,16 @@
                                             <div class="pull-right">
                                                 <small>{{ $dtformated }}</small>
                                             </div>
-                                            <a href="{{ route("webmailsEdit",["id"=>$Webmail->id]) }}"
+                                            <a href="{{ route("webmailsEdit",["id"=>$Notification->id]) }}"
                                                class="pull-left w-40 m-r">
                                     <span class="w-40 rounded danger" style="background: {!! $groupColor !!}">
 		                  <i class="material-icons">{!! $unreadIcon !!}</i>
 		                </span>
                                             </a>
                                             <div class="clear">
-                                                <a href="{{ route("webmailsEdit",["id"=>$Webmail->id]) }}"
-                                                   class="_500 block">{{ $Webmail->from_name }}</a>
-                                                <span class="text-muted">{{ $Webmail->title }}</span>
+                                                <a href="{{ route("webmailsEdit",["id"=>$Notification->id]) }}"
+                                                   class="_500 block">{{ $Notification->from_name }}</a>
+                                                <span class="text-muted">{{ $Notification->title }}</span>
                                             </div>
                                         </li>
                                     @endforeach
@@ -429,118 +429,11 @@
                                 </ul>
 
                                 <div class="box-footer">
-                                    <a href="{{ route("webmails",["group_id"=>"create"]) }}"
+                                    <a href="{{ route("adminNotifications",["group_id"=>"create"]) }}"
                                        class="btn btn-sm btn-outline b-primary rounded text-u-c pull-right">{{ trans('backLang.compose') }}</a>
-                                    <a href="{{ route("webmails") }}"
+                                    <a href="{{ route("adminNotifications") }}"
                                        class="btn btn-sm white text-u-c rounded">{{ trans('backLang.more') }}</a>
                                 </div>
-                            @endif
-                        </div>
-                    </div>
-                @endif
-            @endif
-            @if(Helper::GeneralWebmasterSettings("calendar_status"))
-                @if(@Auth::user()->permissionsGroup->calendar_status)
-                    <div class="col-md-12 col-xl-{{$col_width}}">
-                        <div class="box m-b-0" style="min-height: 370px">
-                            <div class="box-header">
-                                <h3>{{ trans('backLang.notesEvents') }}</h3>
-                            </div>
-                            <div class="box-tool">
-                                <ul class="nav">
-                                    <li class="nav-item inline">
-                                        <a href="{{ route("calendarCreate") }}"
-                                           class="btn btn-sm white text-u-c rounded">{{ trans('backLang.addNew') }}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="box-body">
-                                @if(count($Events) == 0)
-                                    <div class="text-center m-t-1" style="color:#bbb">
-                                        <h1><i class="material-icons">&#xe5c3;</i></h1>
-                                        {{ trans('backLang.noData') }}</div>
-                                @else
-                                    <div class="streamline b-l m-l">
-                                        @foreach($Events as $Event)
-                                            <?php
-                                            if ($Event->type == 3) {
-                                                $cls = "info";
-                                            } elseif ($Event->type == 2) {
-                                                $cls = "danger";
-                                            } elseif ($Event->type == 1) {
-                                                $cls = "success";
-                                            } else {
-                                                $cls = "black";
-                                            }
-                                            ?>
-                                            <div class="sl-item  b-{{$cls}}">
-                                                <div class="sl-content">
-                                                    <div class="sl-date text-muted">
-                                                        @if($Event->type ==1 || $Event->type ==2)
-                                                            {{ date('Y-m-d H:i:s', strtotime($Event->start_date)) }}
-                                                        @else
-                                                            {{ date('Y-m-d', strtotime($Event->start_date)) }}
-                                                        @endif
-                                                    </div>
-                                                    <div>
-                                                        <a href="{{ route("calendarEdit",["id"=>$Event->id]) }}">{{ $Event->title }}</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                @endif
-            @endif
-            @if(Helper::GeneralWebmasterSettings("newsletter_status"))
-                @if(@Auth::user()->permissionsGroup->newsletter_status)
-                    <div class="col-md-12 col-xl-{{$col_width}}">
-                        <div class="box m-b-0" style="min-height: 370px">
-                            <div class="box-header">
-                                <h3>{{ trans('backLang.latestContacts') }}</h3>
-                            </div>
-                            <div class="box-tool">
-                                <ul class="nav">
-                                    <li class="nav-item inline">
-                                        <a href="{{ route("contacts") }}"
-                                           class="btn btn-sm white text-u-c rounded">{{ trans('backLang.addNew') }}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            @if(count($Contacts) == 0)
-                                <div class="text-center m-t-1" style="color:#bbb">
-                                    <h1><i class="material-icons">&#xe7ef;</i></h1>
-                                    {{ trans('backLang.noData') }}</div>
-                            @else
-                                <ul class="list no-border p-b">
-                                    @foreach($Contacts as $Contact)
-                                        <li class="list-item">
-                                            <a href="{{ route("contactsEdit",["id"=>$Contact->id]) }}"
-                                               class="list-left">
-	                	<span class="w-40 avatar">
-                            @if($Contact->photo!="")
-                                <img src="{{ URL::to('uploads/contacts/'.$Contact->photo) }}"
-                                     alt="{{ $Contact->first_name }} {{ $Contact->last_name }}">
-                            @else
-                                <img src="{{ URL::to('uploads/contacts/profile.jpg') }}"
-                                     alt="{{ $Contact->first_name }} {{ $Contact->last_name }}" style="opacity: 0.5">
-                            @endif
-	                    </span>
-                                            </a>
-                                            <div class="list-body">
-                                                <div>
-                                                    <a href="{{ route("contactsEdit",["id"=>$Contact->id]) }}">{{ $Contact->first_name }} {{ $Contact->last_name }}</a>
-                                                </div>
-                                                <small class="text-muted text-ellipsis"><span
-                                                            dir="ltr">{{ $Contact->phone }}</span></small>
-                                            </div>
-                                        </li>
-                                    @endforeach
-
-                                </ul>
                             @endif
                         </div>
                     </div>

@@ -17,7 +17,7 @@
                 </a> --}}
             </li>
             <?php
-            $alerts = count(Helper::webmailsAlerts()) + count(Helper::eventsAlerts());
+            //$alerts = count(Helper::webmailsAlerts()) + count(Helper::eventsAlerts());
             ?>
             {{-- @if($alerts >0)
                 <li class="nav-item dropdown pos-stc-xs">
@@ -110,7 +110,7 @@
             </div>
         {{Form::close()}}
         <!-- link and dropdown -->
-            <ul class="nav navbar-nav">
+            {{-- <ul class="nav navbar-nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link" href data-toggle="dropdown">
                         <i class="fa fa-fw fa-plus text-muted"></i>
@@ -131,16 +131,16 @@
                                     &nbsp;{{ trans('backLang.newContacts') }}</a>
                             @endif
                         @endif
-                        @if(Helper::GeneralWebmasterSettings("inbox_status"))
-                            @if(@Auth::user()->permissionsGroup->inbox_status)
-                                <a class="dropdown-item" href="{{ route("webmails",["group_id"=>"create"]) }}"><i
+                        @if(Helper::GeneralWebmasterSettings("notifications_status"))
+                            @if(@Auth::user()->permissionsGroup->notifications_status)
+                                <a class="dropdown-item" href="{{ route("adminNotifications",["group_id"=>"create"]) }}"><i
                                             class="material-icons">&#xe0be;</i> &nbsp;{{ trans('backLang.compose') }}
                                 </a>
                             @endif
                         @endif
                     </div>
                 </li>
-            </ul>
+            </ul> --}}
             <!-- / -->
         </div>
         <!-- / navbar collapse -->

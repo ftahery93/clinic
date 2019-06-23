@@ -10,42 +10,8 @@
                     <a href="">{{ trans('backLang.polls') }}</a>
                 </small>
             </div>
-            @if($Polls->total() >0)
-                @if(@Auth::user()->permissionsGroup->add_status)
-                    <div class="row p-a">
-                        <div class="col-sm-12">
-                            {{-- @foreach($WebmasterBanners as $WebmasterBanner)
-                                <a class="btn btn-fw primary marginBottom5"
-                                   href="{{route("BannersCreate",$WebmasterBanner->id)}}">
-                                    <i class="material-icons">&#xe02e;</i>
-                                    &nbsp; {!! trans('backLang.'.$WebmasterBanner->name) !!}</a>
-                            @endforeach --}}
-                        </div>
-                    </div>
-                @endif
-            @endif
-            @if($Polls->total() == 0)
-                <div class="row p-a">
-                    <div class="col-sm-12">
-                        <div class=" p-a text-center ">
-                            {{ trans('backLang.noData') }}
-                            <br>
-                            <br>
-                            @if(@Auth::user()->permissionsGroup->add_status)
-                                {{-- @foreach($WebmasterBanners as $WebmasterBanner)
-                                    <a class="btn btn-fw primary marginBottom5"
-                                       href="{{route("BannersCreate",$WebmasterBanner->id)}}">
-                                        <i class="material-icons">&#xe02e;</i>
-                                        &nbsp; {!! trans('backLang.'.$WebmasterBanner->name) !!}</a>
-                                @endforeach --}}
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            @endif
-
             @if($Polls->total() > 0)
-                {{Form::open(['route'=>'BannersUpdateAll','method'=>'post'])}}
+                {{Form::open(['route'=>'adminPollsUpdateAll','method'=>'post'])}}
                 <div class="table-responsive">
                     <table class="table table-striped  b-t">
                         <thead>
@@ -98,13 +64,13 @@
                                     <i class="fa {{ ($Poll->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
                                 </td>
                                 <td class="text-center">
-                                    @if(@Auth::user()->permissionsGroup->edit_status)
+                                    {{-- @if(@Auth::user()->permissionsGroup->edit_status)
                                         <a class="btn btn-sm success"
                                            href="{{ route("adminPollsEdit",["id"=>$Poll->id]) }}">
                                             <small><i class="material-icons">&#xe3c9;</i> {{ trans('backLang.edit') }}
                                             </small>
                                         </a>
-                                    @endif
+                                    @endif --}}
                                         @if(@Auth::user()->permissionsGroup->delete_status)
                                         <button class="btn btn-sm warning" data-toggle="modal"
                                                 data-target="#m-{{ $Poll->id }}" ui-toggle-class="bounce"
@@ -132,7 +98,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn dark-white p-x-md" data-dismiss="modal">{{ trans('backLang.no') }}</button>
-                                            <a href="{{ route("BannersDestroy",["id"=>$Poll->id]) }}" class="btn danger p-x-md">{{ trans('backLang.yes') }}</a>
+                                            <a href="{{ route("adminPollsDestroy",["id"=>$Poll->id]) }}" class="btn danger p-x-md">{{ trans('backLang.yes') }}</a>
                                         </div>
                                     </div><!-- /.modal-content -->
                                 </div>
@@ -168,21 +134,18 @@
                             </div>
                             <!-- / .modal -->
                             @if(@Auth::user()->permissionsGroup->edit_status)
-                                <select name="action" id="action" class="input-sm form-control w-sm inline v-middle"
-                                        required>
+                                <select name="action" id="action" class="input-sm form-control w-sm inline v-middle" required>
                                     <option value="">{{ trans('backLang.bulkAction') }}</option>
-                                    <option value="order">{{ trans('backLang.saveOrder') }}</option>
+                                    {{-- <option value="order">{{ trans('backLang.saveOrder') }}</option>
                                     <option value="activate">{{ trans('backLang.activeSelected') }}</option>
-                                    <option value="block">{{ trans('backLang.blockSelected') }}</option>
+                                    <option value="block">{{ trans('backLang.blockSelected') }}</option> --}}
                                     @if(@Auth::user()->permissionsGroup->delete_status)
                                         <option value="delete">{{ trans('backLang.deleteSelected') }}</option>
                                     @endif
                                 </select>
-                                <button type="submit" id="submit_all"
-                                        class="btn btn-sm white">{{ trans('backLang.apply') }}</button>
-                                <button id="submit_show_msg" class="btn btn-sm white displayNone" data-toggle="modal"
-                                        data-target="#m-all" ui-toggle-class="bounce"
-                                        ui-target="#animate">{{ trans('backLang.apply') }}
+                                <button type="submit" id="submit_all" class="btn btn-sm white">{{ trans('backLang.apply') }}</button>
+                                <button id="submit_show_msg" class="btn btn-sm white displayNone" data-toggle="modal" data-target="#m-all" ui-toggle-class="bounce" ui-target="#animate">
+                                    {{ trans('backLang.apply') }}
                                 </button>
                             @endif
                         </div>

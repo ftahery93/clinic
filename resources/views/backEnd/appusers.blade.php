@@ -10,7 +10,6 @@
                     <a href="">{{ trans('backLang.appusers') }}</a>
                 </small>
             </div>
-
             {{-- @if($ApplicationUsers->total() >0)
                 @if(@Auth::user()->permissionsGroup->webmaster_status)
                     <div class="row p-a pull-right" style="margin-top: -70px;">
@@ -55,7 +54,8 @@
                             </th>
                             <th>{{ trans('backLang.fullName') }}</th>
                             <th>{{ trans('backLang.loginEmail') }}</th>
-                            <th>{{ trans('backLang.Permission') }}</th>
+                            <th>{{ trans('backLang.gender') }}</th>
+                            <th>{{ trans('backLang.age') }}</th>
                             <th class="text-center" style="width:50px;">{{ trans('backLang.status') }}</th>
                             <th class="text-center" style="width:200px;">{{ trans('backLang.options') }}</th>
                         </tr>
@@ -78,8 +78,14 @@
                                     <small>{!! $ApplicationUser->email   !!}</small>
                                 </td>
                                 <td>
-                                    {{-- <small>{{$ApplicationUser->permissionsGroup->name}}</small> --}}
+                                    <small>{!! $ApplicationUser->gender   !!}</small>
                                 </td>
+                                <td>
+                                    <small>{!! $ApplicationUser->age   !!}</small>
+                                </td>
+                                {{-- <td>
+                                    <small>{{$ApplicationUser->permissionsGroup->name}}</small>
+                                </td> --}}
                                 <td class="text-center">
                                     <i class="fa {{ ($ApplicationUser->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
                                 </td>
@@ -160,9 +166,9 @@
                                 <select name="action" id="action" class="input-sm form-control w-sm inline v-middle"
                                         required>
                                     <option value="">{{ trans('backLang.bulkAction') }}</option>
-                                    <option value="activate">{{ trans('backLang.activeSelected') }}</option>
+                                    {{-- <option value="activate">{{ trans('backLang.activeSelected') }}</option>
                                     <option value="block">{{ trans('backLang.blockSelected') }}</option>
-                                    <option value="delete">{{ trans('backLang.deleteSelected') }}</option>
+                                    <option value="delete">{{ trans('backLang.deleteSelected') }}</option> --}}
                                 </select>
                                 <button type="submit" id="submit_all"
                                         class="btn btn-sm white">{{ trans('backLang.apply') }}</button>

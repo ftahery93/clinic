@@ -95,20 +95,18 @@ class PollsController extends Controller
     {
         if ($request->action == "order") {
             foreach ($request->row_ids as $rowId) {
-                $Banner = Banner::find($rowId);
-                if (count($Banner) > 0) {
+                $Poll = Poll::find($rowId);
+                if (count($Poll) > 0) {
                     $row_no_val = "row_no_" . $rowId;
-                    $Banner->row_no = $request->$row_no_val;
-                    $Banner->save();
+                    $Poll->row_no = $request->$row_no_val;
+                    $Poll->save();
                 }
             }
         } elseif ($request->action == "activate") {
-            Banner::wherein('id', $request->ids)
-                ->update(['status' => 1]);
+            Poll::wherein('id', $request->ids)->update(['status' => 1]);
 
         } elseif ($request->action == "block") {
-            Banner::wherein('id', $request->ids)
-                ->update(['status' => 0]);
+            Poll::wherein('id', $request->ids)->update(['status' => 0]);
 
         } elseif ($request->action == "delete") {
             // Check Permissions
@@ -116,16 +114,16 @@ class PollsController extends Controller
                 return Redirect::to(route('NoPermission'))->send();
             }
             // Delete banners files
-            $Banners = Banner::wherein('id', $request->ids)->get();
-            foreach ($Banners as $banner) {
-                if ($banner->file_ar != "") {
-                    File::delete($this->getUploadPath() . $banner->file_ar);
+            $Polls = Poll::wherein('id', $request->ids)->get();
+            foreach ($Polls as $Poll) {
+                if ($Poll->file_ar != "") {
+                    File::delete($this->getUploadPath() . $Poll->file_ar);
                 }
-                if ($banner->file_en != "") {
-                    File::delete($this->getUploadPath() . $banner->file_en);
+                if ($Poll->file_en != "") {
+                    File::delete($this->getUploadPath() . $Poll->file_en);
                 }
             }
-            Banner::wherein('id', $request->ids)->delete();
+            Poll::wherein('id', $request->ids)->delete();
         }
         return redirect()->action('PollsController@index')->with('doneMessage', trans('backLang.saveDone'));
     }

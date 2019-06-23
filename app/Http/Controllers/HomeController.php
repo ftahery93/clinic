@@ -9,8 +9,7 @@ use App\Event;
 use App\Http\Requests;
 use App\Section;
 use App\Topic;
-use App\Webmail;
-use App\WebmasterSection;
+use App\Notification;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -34,35 +33,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // General for all pages
-        $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
-        // General END
-
         if (@Auth::user()->permissionsGroup->view_status) {
-            //List of all Webmails
-            $Webmails = Webmail::where('created_by', '=', Auth::user()->id)->orderby('id', 'desc')
-                ->where('cat_id', '=', 0)->limit(4)->get();
-
-            //List of Events
-            $Events = Event::where('created_by', '=', Auth::user()->id)->where('start_date', '>=',
-                date('Y-m-d 00:00:00'))->orderby('start_date', 'asc')->limit(5)->get();
-
-
-            //List of all contacts
-            $Contacts = Contact::where('created_by', '=', Auth::user()->id)->orderby('id', 'desc')->limit(5)->get();
+            //List of all Notifications
+            $Notifications = Notification::where('created_by', '=', Auth::user()->id)->orderby('id', 'desc')->where('cat_id', '=', 0)->limit(4)->get();
         } else {
-            //List of all Webmails
-            $Webmails = Webmail::orderby('id', 'desc')
-                ->where('cat_id', '=', 0)->limit(4)->get();
-
-            //List of Events
-            $Events = Event::where('start_date', '>=',
-                date('Y-m-d 00:00:00'))->orderby('start_date', 'asc')->limit(5)->get();
-
-
-            //List of all contacts
-            $Contacts = Contact::orderby('id', 'desc')->limit(5)->get();
+            //List of all Notifications
+            $Notifications = Notification::orderby('id', 'desc')->where('cat_id', '=', 0)->limit(4)->get();
         }
+
         // Analytics
         $TodayVisitors = AnalyticsVisitor::where('date', date('Y-m-d'))->count();
         $TodayPages = AnalyticsPage::where('date', date('Y-m-d'))->count();
@@ -225,7 +203,7 @@ class HomeController extends Controller
             $TodayVisitorsRate = $TodayVisitorsRate . $fsla . "[$ii,$TotalV]";
         }
         return view('backEnd.home',
-            compact("GeneralWebmasterSections", "Webmails", "Events", "Contacts", "TodayVisitors", "TodayPages",
+            compact("Notifications", "TodayVisitors", "TodayPages",
                 "Last7DaysVisitors", "TodayByCountry", "TodayByBrowser1", "TodayByBrowser1_val", "TodayByBrowser2",
                 "TodayByBrowser2_val", "TodayVisitorsRate"));
     }

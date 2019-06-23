@@ -44,10 +44,15 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
 
     // Polls
     Route::get('/polls', 'PollsController@index')->name('adminPolls');
-    Route::get('/polls/{id}/edit', 'PollsController@edit')->name('adminPollsEdit');
+    Route::post('/polls/updateAll', 'PollsController@updateAll')->name('adminPollsUpdateAll');
+    Route::get('/polls/destroy/{id}', 'PollsController@destroy')->name('adminPollsDestroy');
 
     // Categories
     Route::get('/categories', 'CategoriesController@index')->name('adminCategories');
+    Route::get('/categories/create', 'CategoriesController@create')->name('adminCategoriesCreate');
+    Route::get('/categories/{id}/edit', 'CategoriesController@edit')->name('adminCategoriesEdit');
+    Route::get('/categories/destroy/{id}', 'CategoriesController@destroy')->name('adminCategoriesDestroy');
+    Route::post('/categories/updateAll', 'CategoriesController@updateAll')->name('adminCategoriesUpdateAll');
     
 
     // Webmaster

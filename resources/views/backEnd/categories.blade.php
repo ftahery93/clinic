@@ -14,12 +14,11 @@
                 @if(@Auth::user()->permissionsGroup->add_status)
                     <div class="row p-a">
                         <div class="col-sm-12">
-                            {{-- @foreach($WebmasterBanners as $WebmasterBanner)
-                                <a class="btn btn-fw primary marginBottom5"
-                                   href="{{route("BannersCreate",$WebmasterBanner->id)}}">
-                                    <i class="material-icons">&#xe02e;</i>
-                                    &nbsp; {!! trans('backLang.'.$WebmasterBanner->name) !!}</a>
-                            @endforeach --}}
+                            {{-- @foreach($Categories as $Category) --}}
+                                <a class="btn btn-fw primary marginBottom5" href="{{route("adminCategoriesCreate")}}">
+                                    <i class="material-icons">&#xe02e;</i> &nbsp; {!! trans('backLang.createCategory') !!}
+                                </a>
+                            {{-- @endforeach --}}
                         </div>
                     </div>
                 @endif
@@ -45,7 +44,7 @@
             @endif
 
             @if($Categories->total() > 0)
-                {{Form::open(['route'=>'BannersUpdateAll','method'=>'post'])}}
+                {{Form::open(['route'=> 'adminCategoriesUpdateAll','method'=>'post'])}}
                 <div class="table-responsive">
                     <table class="table table-striped  b-t">
                         <thead>
@@ -55,8 +54,7 @@
                                     <input id="checkAll" type="checkbox"><i></i>
                                 </label>
                             </th>
-                            <th>{{ trans('backLang.sectionName') }}</th>
-                            <th>{{ trans('backLang.bannerSection') }}</th>
+                            <th>{{ trans('backLang.categoryName') }}</th>
                             <th class="text-center width50">{{ trans('backLang.status') }}</th>
                             <th class="text-center width200">{{ trans('backLang.options') }}</th>
                         </tr>
@@ -82,21 +80,18 @@
                                     </label>
                                 </td>
                                 <td>
-                                    {!! Form::text('row_no_'.$Category->id,$Category->created_at, array('class' => 'form-control row_no','id'=>'row_no')) !!}
-                                    @if($Category->icon !="")
-                                        <i class="fa {!! $Category->icon !!} "></i>
-                                    @endif
-                                    {!! $title   !!}</td>
-                                <td>
-                                    {{-- {!! trans('backLang.'.$Banner->webmasterBanner->name)   !!} --}}
+                                    {!! $title !!}
                                 </td>
+                                {{-- <td>
+                                    {!! trans('backLang.'.$Category->name)   !!}
+                                </td> --}}
                                 <td class="text-center">
                                     <i class="fa {{ ($Category->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
                                 </td>
                                 <td class="text-center">
                                     @if(@Auth::user()->permissionsGroup->edit_status)
                                         <a class="btn btn-sm success"
-                                           href="{{ route("BannersEdit",["id"=>$Category->id]) }}">
+                                           href="{{ route("adminCategoriesEdit",["id"=>$Category->id]) }}">
                                             <small><i class="material-icons">&#xe3c9;</i> {{ trans('backLang.edit') }}
                                             </small>
                                         </a>
@@ -171,9 +166,9 @@
                                 <select name="action" id="action" class="input-sm form-control w-sm inline v-middle"
                                         required>
                                     <option value="">{{ trans('backLang.bulkAction') }}</option>
-                                    <option value="order">{{ trans('backLang.saveOrder') }}</option>
+                                    {{-- <option value="order">{{ trans('backLang.saveOrder') }}</option>
                                     <option value="activate">{{ trans('backLang.activeSelected') }}</option>
-                                    <option value="block">{{ trans('backLang.blockSelected') }}</option>
+                                    <option value="block">{{ trans('backLang.blockSelected') }}</option> --}}
                                     @if(@Auth::user()->permissionsGroup->delete_status)
                                         <option value="delete">{{ trans('backLang.deleteSelected') }}</option>
                                     @endif

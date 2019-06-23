@@ -217,12 +217,12 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                             <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
                                 <a href="{{ route('adminNotifications') }}">
                                     <span class="nav-icon">
-                                        <i class="material-icons">&#xe156;</i>
+                                        <i class="material-icons">notifications</i>
                                         </span>
                                     <span class="nav-text">{{ trans('backLang.siteInbox') }}
-                                        @if( Helper::webmailsNewCount() >0)
+                                        {{-- @if( Helper::webmailsNewCount() >0)
                                             <badge class="label warn m-l-xs">{{ Helper::webmailsNewCount() }}</badge>
-                                        @endif
+                                        @endif --}}
                                     </span>
                                 </a>
                             </li>
