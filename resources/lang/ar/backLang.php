@@ -486,4 +486,5 @@ return array (
   'homeRow_3' => 'محتويات الرئيسة الصف الثالث',
   'partners' => 'العملاء',
   'countries' => 'بلدان',
+  'countryEdit' => 'تحرير البلد',
 );

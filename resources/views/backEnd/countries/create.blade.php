@@ -49,7 +49,7 @@
                            class="col-sm-2 form-control-label">{!!  trans('backLang.countryCode') !!}
                         </label>
                         <div class="col-sm-10">
-                          {!! Form::text('country_code','', array('placeholder' => '','class' => 'form-control', 'dir'=>trans('backLang.ltr'))) !!}
+                          {!! Form::text('code','', array('placeholder' => '','class' => 'form-control', 'dir'=>trans('backLang.ltr'))) !!}
                         </div>
                     </div>
                 @endif

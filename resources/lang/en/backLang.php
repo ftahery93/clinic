@@ -105,7 +105,7 @@ return array (
   'imagesTypes' => 'Extensions: .png, .jpg, .jpeg, .gif',
   'audioTypes' => 'Extensions: .mp3, .wav',
   'attachTypes' => 'Extensions: (* ALL)',
-  'addDone' => 'New record has been Added successfully',
+  'addDone' => 'New record has been added successfully',
   'saveDone' => 'Modifications you have made saved successfully',
   'deleteDone' => 'Data was deleted successfully',
   'erorr' => 'There is an error, please try again',
@@ -493,4 +493,5 @@ return array (
   'homeRow_3' => 'Home Page Contents ROW 3',
   'partners' => 'Partners',
   'countries' => 'Countries',
+  'countryEdit' => 'Edit Country',
 );
