@@ -352,6 +352,7 @@ class UserProfileController extends Controller
             'access_token' => $token,
             'mobile' => $user->mobile,
             'type' => $authenticatedUser->type,
+            'user_id' => $user->id,
         ]);
         return response()->json([
             'message' => LanguageManagement::getLabel('text_successUpdated', $this->language),
