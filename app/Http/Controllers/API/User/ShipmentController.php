@@ -6,6 +6,7 @@ use App\Helpers\Notification;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Category;
 use App\Models\Admin\LanguageManagement;
+use App\Models\API\Address;
 use App\Models\API\Company;
 use App\Models\API\Price;
 use App\Models\API\Shipment;
@@ -202,13 +203,13 @@ class ShipmentController extends Controller
     {
         $pending = [];
         $accepted = [];
-        $pickedUp = [];
-        $delivered = [];
 
         $shipments = Shipment::where('user_id', $request->user_id)->get();
 
         if ($shipments) {
             foreach ($shipments as $shipment) {
+                $shipment["address_from_id"] = Address::find($shipment->address_from_id);
+                $shipment["address_to_id"] = Address::find($shipment->address_to_id);
                 switch ($shipment->status) {
                     case 1:
                         $pending[] = $shipment;
@@ -216,20 +217,12 @@ class ShipmentController extends Controller
                     case 2:
                         $accepted[] = $shipment;
                         break;
-                    case 3:
-                        $pickedUp[] = $shipment;
-                        break;
-                    case 4:
-                        $delivered[] = $shipment;
-                        break;
                 }
             }
 
             return response()->json([
                 'pending' => $pending,
                 'accepted' => $accepted,
-                'pickedUp' => $pickedUp,
-                'delivered' => $delivered,
             ]);
         }
     }
@@ -286,6 +279,8 @@ class ShipmentController extends Controller
                 $items[] = $item;
             }
             $shipment["items"] = $items;
+            $shipment["address_from_id"] = Address::find($shipment->address_from_id);
+            $shipment["address_to_id"] = Address::find($shipment->address_to_id);
             return collect($shipment);
         } else {
             return response()->json([
