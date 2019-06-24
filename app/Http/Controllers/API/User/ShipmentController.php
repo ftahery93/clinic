@@ -208,8 +208,8 @@ class ShipmentController extends Controller
 
         if ($shipments) {
             foreach ($shipments as $shipment) {
-                $shipment["address_from_id"] = Address::find($shipment->address_from_id);
-                $shipment["address_to_id"] = Address::find($shipment->address_to_id);
+                $shipment["address_from"] = Address::find($shipment->address_from_id);
+                $shipment["address_to"] = Address::find($shipment->address_to_id);
                 switch ($shipment->status) {
                     case 1:
                         $pending[] = $shipment;
@@ -279,8 +279,8 @@ class ShipmentController extends Controller
                 $items[] = $item;
             }
             $shipment["items"] = $items;
-            $shipment["address_from_id"] = Address::find($shipment->address_from_id);
-            $shipment["address_to_id"] = Address::find($shipment->address_to_id);
+            $shipment["address_from"] = Address::find($shipment->address_from_id);
+            $shipment["address_to"] = Address::find($shipment->address_to_id);
             return collect($shipment);
         } else {
             return response()->json([
