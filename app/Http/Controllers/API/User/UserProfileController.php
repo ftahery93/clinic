@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\User;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
 use App\Models\Admin\User;
+use App\Models\API\Authentication;
 use App\Models\API\Otp;
 use App\Models\API\RegisteredUser;
 use App\Utility;
@@ -277,6 +278,12 @@ class UserProfileController extends Controller
      *                  description="Received OTP - *(Required)",
      *                  example="46137"
      *              ),
+     *              @SWG\Property(
+     *                  property="type",
+     *                  type="integer",
+     *                  description="1-iOS, 2-Android - *(Required)",
+     *                  example="46137"
+     *              ),
      *          ),
      *        ),
      *        @SWG\Response(
@@ -336,9 +343,19 @@ class UserProfileController extends Controller
             }
         }
 
+        $accessToken = uniqid(base64_encode(str_random(50)));
+
+        $token = '' . $user->id . '' . $user->mobile . '' . $accessToken;
+        $access_token = $request->header('Authorization');
+        $authenticatedUser = Authentication::where('access_token', $access_token)->get()->first();
+        $authenticatedUser->update([
+            'mobile' => $user->mobile,
+            'access_token' => $token,
+        ]);
         return response()->json([
             'message' => LanguageManagement::getLabel('text_successUpdated', $this->language),
             'user' => collect($user),
+            'access_token' => $token,
         ]);
     }
 }
