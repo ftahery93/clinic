@@ -13,10 +13,8 @@
 
 // Language Route
 Route::post('/lang', array('Middleware' => 'LanguageSwitcher','uses' => 'LanguageController@index',))->name('lang');
-
 // For Language direct URL link
 Route::get('/lang/{lang}', array('Middleware' => 'LanguageSwitcher','uses' => 'LanguageController@change',))->name('langChange');
-
 // .. End of Language Route
 
 // Backend Routes
@@ -103,17 +101,18 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::post('/users/permissions/{id}/update', 'UsersController@permissions_update')->name('permissionsUpdate');
     Route::get('/users/permissions/destroy/{id}', 'UsersController@permissions_destroy')->name('permissionsDestroy');
 
+     // Languages & Management
+     Route::get('/languages', 'LanguageController@getList')->name('languages');
+     Route::post('/languages/show', 'LanguageController@showLanguages')->name('adminLangIndex');
+
     // Reset Password from Mobile device
     // Route::get('/users/password/reset', 'API\ResetPasswordController@showResetForm')->name('apiusersReset'); 
 
 });
-
 // .. End of Backend Routes
 
 // RESTful API routes
-
 Route::Group(['prefix' => '/api/v1'], function () {
     Route::get('/', 'APIsController@api');
 });
-
 // .. End of RESTful API routes

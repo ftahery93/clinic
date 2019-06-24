@@ -488,4 +488,8 @@ return array (
   'partners' => 'العملاء',
   'countries' => 'بلدان',
   'countryEdit' => 'تحرير البلد',
+  'select' => 'تحديد',
+  'selectLangTemplate' => 'اختر قالب اللغة',
+  'languages' => 'إدارة اللغات',
+  'selectLanguage' => 'اختار اللغة',
 );

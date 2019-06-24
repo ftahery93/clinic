@@ -20,9 +20,6 @@ class CategoryController extends Controller
 
     public function __construct()
     {
-        //middleware to check the maintenance mode
-       $this->middleware('app.maintenance');
-
         //middleware to check the authorization header before proceeding with incoming request
        $this->middleware('switch.lang');
 
@@ -87,11 +84,39 @@ class CategoryController extends Controller
                 if (!Category::where('id','=',$val)->exists()) {
                     return response()->json(['error' => trans('mobileLang.categoryInterestFailToAdd',[ 'id' => $val])], 404);
                 } 
-                Auth::user()->categories()->attach($val,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
+                Auth::user()->categories()->sync($val,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
             }
             return response()->json(['message' => trans('mobileLang.categoryInterestSuccess')], $this->successStatus);
         } else {
             return response()->json(['message' => trans('mobileLang.categoryInterestFail')], 404);
+        }
+    }
+
+    /**
+     * Get the list of user selected categories.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUserCategories()
+    {
+        if (Auth::user()->categories) {
+            return response()->json(Auth::user()->categories, $this->successStatus);
+        } else {
+            return response()->json(['message' => trans('mobileLang.categoryNotFound')], 404);
+        }
+    }
+
+    /**
+     * Get the filtered list of user selected categories.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getUserFilteredCategories()
+    {
+        if (Auth::user()->categories) {
+            return response()->json(Auth::user()->categories, $this->successStatus);
+        } else {
+            return response()->json(['message' => trans('mobileLang.categoryNotFound')], 404);
         }
     }
 

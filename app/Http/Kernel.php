@@ -63,6 +63,5 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'switch.lang' =>\App\Http\Middleware\SwitchLanguage::class,
         'app.version' =>\App\Http\Middleware\VerifyAppVersion::class,
-        'app.maintenance' =>\App\Http\Middleware\MaintenanceMode::class,
     ];
 }

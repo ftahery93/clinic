@@ -495,4 +495,8 @@ return array (
   'partners' => 'Partners',
   'countries' => 'Countries',
   'countryEdit' => 'Edit Country',
+  'select' => 'Select',
+  'selectLangTemplate' => 'Select Language Template',
+  'languages' => 'Manage Languages',
+  'selectLanguage' => 'Select Language',
 );

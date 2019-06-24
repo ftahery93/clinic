@@ -97,6 +97,10 @@ Route::group(['middleware' => 'auth:api'], function(){
 
     Route::post('/users/categories/favourite', 'API\CategoryController@saveUserCategories')->name('apisaveUserCategories');  
 
+    // Get List of User interested Categories 
+
+    Route::get('/users/categories/interest', 'API\CategoryController@getUserCategories')->name('apigetUserCategories');  
+
     // Fetch List of Categories 
 
     Route::get('/getcountries', 'API\CountriesController@getCountries')->name('apiCountries');  
