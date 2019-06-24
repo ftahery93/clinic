@@ -255,7 +255,7 @@ class AuthController extends Controller
 
     /**
      *
-     * @SWG\Post(
+     * @SWG\Get(
      *         path="/~tvavisa/masafah/public/api/user/logout",
      *         tags={"User Logout"},
      *         operationId="logout",

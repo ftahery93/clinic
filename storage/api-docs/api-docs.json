@@ -1221,7 +1221,7 @@
             }
         },
         "/~tvavisa/masafah/public/api/user/logout": {
-            "post": {
+            "get": {
                 "tags": [
                     "User Logout"
                 ],
@@ -1972,6 +1972,11 @@
                                 "otp": {
                                     "description": "Received OTP - *(Required)",
                                     "type": "string",
+                                    "example": "46137"
+                                },
+                                "type": {
+                                    "description": "1-iOS, 2-Android - *(Required)",
+                                    "type": "integer",
                                     "example": "46137"
                                 }
                             }
