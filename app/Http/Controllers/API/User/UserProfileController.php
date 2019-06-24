@@ -331,7 +331,7 @@ class UserProfileController extends Controller
                     'error' => LanguageManagement::getLabel('mobile_not_found', $this->language),
                 ], 404);
             } else {
-                if ($request->otp == $$existingUser->otp) {
+                if ($request->otp == $existingUser->otp) {
                     $user->update([
                         'mobile' => $request->new_mobile,
                     ]);
@@ -341,16 +341,6 @@ class UserProfileController extends Controller
                     ], 401);
                 }
             }
-        }
-
-        if ($request->otp == $user->otp) {
-            $user->update([
-                'mobile' => $request->new_mobile,
-            ]);
-        } else {
-            return response()->json([
-                'error' => LanguageManagement::getLabel('text_wrongOTP', $this->language),
-            ], 401);
         }
 
         return response()->json([
