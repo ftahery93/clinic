@@ -288,7 +288,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $authenticateEntry = Authentication::where('access_token', $request->header('Authorization'))->get()->first();
-        if (authenticateEntry != null) {
+        if ($authenticateEntry != null) {
             $authenticateEntry->delete();
             return response()->json([
                 'message' => LanguageManagement::getLabel('text_successLoggout', $this->language),
