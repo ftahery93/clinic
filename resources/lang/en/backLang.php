@@ -55,6 +55,7 @@ return array (
   'startTime' => 'Start Time',
   'endTime' => 'End Time',
   'siteInbox' => 'Notifications',
+  'notifications' => 'Notifications',
   'newsletter' => 'Contacts',
   'calendar' => 'Calendar',
   'generalSiteSettings' => 'Settings',

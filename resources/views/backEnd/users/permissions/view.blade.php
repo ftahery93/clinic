@@ -70,30 +70,29 @@
                                         @endif
                                         <br>
                                         @if($Permission->analytics_status==1)
-                                            {{ trans('backLang.visitorsAnalytics') }},
+                                            {{ trans('backLang.pollAnalytics') }},
                                         @endif
-                                        @if($Permission->newsletter_status==1)
-                                            {{ trans('backLang.newsletter') }},
+                                        @if($Permission->polls_status==1)
+                                            {{ trans('backLang.polls') }},
                                         @endif
-                                        @if($Permission->inbox_status==1)
-                                            {{ trans('backLang.siteInbox') }},
+                                        @if($Permission->categories_status==1)
+                                            {{ trans('backLang.categories') }},
                                         @endif
-                                        @if($Permission->calendar_status==1)
-                                            {{ trans('backLang.calendar') }},
+                                        @if($Permission->appusers_status==1)
+                                            {{ trans('backLang.appusers') }},
                                         @endif
-                                        @if($Permission->banners_status==1)
-                                            {{ trans('backLang.adsBanners') }},
+                                        @if($Permission->countries_status==1)
+                                            {{ trans('backLang.countries') }},
+                                        @endif
+                                        @if($Permission->notifications_status==1)
+                                            {{ trans('backLang.notifications') }},
                                         @endif
                                         @if($Permission->settings_status==1)
                                             {{ trans('backLang.generalSettings') }},
                                         @endif
-                                        @if($Permission->webmaster_status==1)
-                                            {{ trans('backLang.webmasterTools') }},
-                                        @endif
                                         <br>
                                     </small>
                                 </small>
-
                             </td>
                             <td class="text-center">
                                 <i class="fa {{ ($Permission->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>

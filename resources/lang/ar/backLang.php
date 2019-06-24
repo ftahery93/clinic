@@ -37,6 +37,7 @@ return array (
   'members' => 'الأعضاء',
   'adsBanners' => 'البنرات الإعلانية',
   'siteInbox' => 'إخطارات',
+  'notifications' => 'إخطارات',
   'newsletter' => 'جهات الاتصال',
   'calendar' => 'الأجندة والملاحظات',
   'generalSiteSettings' => 'الإعدادات العامة للموقع',

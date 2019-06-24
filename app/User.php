@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Support\Str;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -32,9 +33,15 @@ class User extends Authenticatable
         'permissions_id',
         'status',
         'permissions',
-        'connect_email',
-        'connect_password',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->{$model->getKeyName()} = Str::uuid();
+        });
+    }
 
     /**
      * The attributes that should be hidden for arrays.

@@ -72,7 +72,7 @@
                                 </td>
                                 <td>{!! $User->name   !!}</td>
                                 <td><small>{!! $User->email   !!}</small></td>
-                                <td><small>{{$User->permissionsGroup->name}}</small></td>
+                                <td><small>{{!! $User->permissionsGroup->name !!}}</small></td>
                                 <td class="text-center">
                                     <i class="fa {{ ($User->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
                                 </td>

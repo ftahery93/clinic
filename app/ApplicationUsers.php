@@ -63,8 +63,6 @@ class ApplicationUsers extends Authenticatable
         'updated_at',
         'status',
         'pivot',
-        'remember_token',
-        'preferred_language',
         'notification'
     ];
 }
