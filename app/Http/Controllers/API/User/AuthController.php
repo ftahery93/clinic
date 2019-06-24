@@ -358,24 +358,10 @@ class AuthController extends Controller
                     'access_token' => $token,
                     'user' => $registeredUser,
                 ]);
+            }else{
+                return response()->json(['error' => LanguageManagement::getLabel('no_user_found', $this->language)], 417);
             }
 
-        }
-
-        if (!RegisteredUser::where('otp', $request->otp)->where('mobile', $request->mobile)->exists()) {
-
-        } else {
-            $registeredUser = RegisteredUser::where('mobile', $request->mobile)->get()->first();
-            $token = '' . $registeredUser->id . '' . $registeredUser->mobile . '' . $this->accessToken;
-            Authentication::create([
-                'user_id' => $registeredUser->id,
-                'access_token' => $token,
-                'type' => 1,
-            ]);
-            return response()->json([
-                'access_token' => $token,
-                'user' => $registeredUser,
-            ]);
         }
     }
 
