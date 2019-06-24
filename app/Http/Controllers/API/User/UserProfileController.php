@@ -266,15 +266,9 @@ class UserProfileController extends Controller
      *             required=true,
      *          @SWG\Schema(
      *              @SWG\Property(
-     *                  property="old_mobile",
+     *                  property="mobile",
      *                  type="string",
-     *                  description="User's Old Mobile number - *(Required)",
-     *                  example="66341897"
-     *              ),
-     *          @SWG\Property(
-     *                  property="new_mobile",
-     *                  type="string",
-     *                  description="User's New Mobile number - *(Required)",
+     *                  description="User's Mobile number - *(Required)",
      *                  example="99653421"
      *              ),
      *              @SWG\Property(
@@ -307,8 +301,7 @@ class UserProfileController extends Controller
     public function updateMobileNumber(Request $request)
     {
         $validator = [
-            'old_mobile' => 'required',
-            'new_mobile' => 'required',
+            'mobile' => 'required',
             'otp' => 'required',
         ];
 
@@ -319,13 +312,13 @@ class UserProfileController extends Controller
 
         $user = RegisteredUser::find($request->user_id);
 
-        $existingUser = RegisteredUser::where('mobile', $request->new_mobile)->get()->first();
+        $existingUser = RegisteredUser::where('mobile', $request->mobile)->get()->first();
         if ($existingUser != null) {
             return response()->json([
                 'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
             ], 409);
         } else {
-            $existingUser = Otp::where('mobile', $request->new_mobile)->get()->first();
+            $existingUser = Otp::where('mobile', $request->mobile)->get()->first();
             if ($existingUser == null) {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('mobile_not_found', $this->language),
@@ -333,7 +326,7 @@ class UserProfileController extends Controller
             } else {
                 if ($request->otp == $existingUser->otp) {
                     $user->update([
-                        'mobile' => $request->new_mobile,
+                        'mobile' => $request->mobile,
                     ]);
                 } else {
                     return response()->json([

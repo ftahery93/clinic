@@ -1213,6 +1213,9 @@
                     },
                     "422": {
                         "description": "Unprocessable entity"
+                    },
+                    "404": {
+                        "description": "Mobile not found"
                     }
                 }
             }
@@ -1291,6 +1294,9 @@
                     },
                     "422": {
                         "description": "Unprocessable entity"
+                    },
+                    "404": {
+                        "description": "Mobile not found"
                     },
                     "417": {
                         "description": "Wrong OTP"
@@ -1958,13 +1964,8 @@
                         "required": true,
                         "schema": {
                             "properties": {
-                                "old_mobile": {
-                                    "description": "User's Old Mobile number - *(Required)",
-                                    "type": "string",
-                                    "example": "66341897"
-                                },
-                                "new_mobile": {
-                                    "description": "User's New Mobile number - *(Required)",
+                                "mobile": {
+                                    "description": "User's Mobile number - *(Required)",
                                     "type": "string",
                                     "example": "99653421"
                                 },
