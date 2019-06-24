@@ -332,6 +332,10 @@ class UserProfileController extends Controller
                 ], 404);
             } else {
                 if ($request->otp == $existingUser->otp) {
+                    $removeUser = Otp::where('mobile', $user->mobile)->get()->first();
+                    if ($removeUser != null) {
+                        $removeUser->delete();
+                    }
                     $user->update([
                         'mobile' => $request->mobile,
                     ]);
