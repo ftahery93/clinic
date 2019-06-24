@@ -209,7 +209,7 @@ class ApplicationUsersController extends Controller
 
             $validator = Validator::make($request->all(), [
                 'photo' => 'mimes:png,jpeg,jpg,gif|max:3000',
-                'name' => 'required',
+                'email' => 'email|unique:application_users',
             ]);
 
             if ($validator->fails()) {
@@ -228,18 +228,32 @@ class ApplicationUsersController extends Controller
 
             $ApplicationUser->name = $request->name;
             
+            //Email
             if ($request->email != "") {
                 $ApplicationUser->email = $request->email;
             }
 
+            //Password
             if ($request->password != "") {
                 $ApplicationUser->password = bcrypt($request->password);
             }
 
+            //Notification
             if ($request->notification != "") {
                 $ApplicationUser->notification = $request->notification;
             }
 
+            //Age
+            if ($request->age != "") {
+                $ApplicationUser->age = $request->age;
+            }
+
+            //Gender
+            if ($request->gender != "") {
+                $ApplicationUser->gender = $request->gender;
+            }
+
+            //Delete Photo
             if ($request->photo_delete == 1) {
                 // Delete a User file
                 if ($ApplicationUser->photo != "") {
@@ -253,7 +267,6 @@ class ApplicationUsersController extends Controller
                 if ($ApplicationUser->photo != "") {
                     File::delete($this->getUploadPath() . $ApplicationUser->photo);
                 }
-
                 $ApplicationUser->photo = $fileFinalName_ar;
             }
             $ApplicationUser->updated_by = Auth::user()->id;
