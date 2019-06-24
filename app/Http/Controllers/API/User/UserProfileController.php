@@ -137,13 +137,12 @@ class UserProfileController extends Controller
 
             if ($file_data != null) {
                 Storage::disk('public')->put('user_images/' . $file_name, base64_decode($file_data));
-                if ($user->profile_image != null) {
-                    Storage::disk('public')->delete('user_images/' . $user->profile_image);
+                if ($user->image != null) {
+                    Storage::disk('public')->delete('user_images/' . $user->image);
                 }
-
             }
             $user->update([
-                'profile_image' => $file_name,
+                'image' => $file_name,
             ]);
         }
 
