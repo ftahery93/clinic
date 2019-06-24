@@ -348,9 +348,10 @@ class UserProfileController extends Controller
         $token = '' . $user->id . '' . $user->mobile . '' . $accessToken;
         $access_token = $request->header('Authorization');
         $authenticatedUser = Authentication::where('access_token', $access_token)->get()->first();
-        $authenticatedUser->update([
-            'mobile' => $user->mobile,
+        $newAuthenticatedUser = Authentication::create([
             'access_token' => $token,
+            'mobile' => $user->mobile,
+            'type' => $authenticatedUser->type,
         ]);
         return response()->json([
             'message' => LanguageManagement::getLabel('text_successUpdated', $this->language),
