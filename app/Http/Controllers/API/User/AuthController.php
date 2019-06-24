@@ -167,6 +167,10 @@ class AuthController extends Controller
      *             response=422,
      *             description="Unprocessable entity"
      *        ),
+     *        @SWG\Response(
+     *             response=404,
+     *             description="Mobile not found"
+     *        ),
      *     )
      *
      */
@@ -204,14 +208,18 @@ class AuthController extends Controller
                 $exisitingOtp->update([
                     'otp' => $newOtp,
                 ]);
+                return response()->json([
+                    'otp' => $exisitingOtp->otp,
+                ]);
+            } else {
+                return response()->json([
+                    'error' => LanguageManagement::getLabel('mobile_not_found', $this->language),
+                ], 404);
             }
 
-            return response()->json([
-                'otp' => $exisitingOtp->otp,
-            ]);
         } else {
             //return response()->json(['error' => LanguageManagement::getLabel('mobile_not_found', $this->language)], 401);
-            $country = Country::find($request->country_id);
+            $country = Country::find($request->country_id)->get();
             if ($country != null) {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('no_country_found', $this->language),
