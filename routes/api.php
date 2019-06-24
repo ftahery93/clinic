@@ -29,8 +29,6 @@ Route::post('/users/register', 'API\ApplicationUsersController@register')->name(
 
 Route::post('/users/forgot', 'API\ForgotPasswordController@sendResetLinkEmail')->name('apiusersForgot'); 
 
-
-
 // Middleware auth:api 
 
 Route::group(['middleware' => 'auth:api'], function(){

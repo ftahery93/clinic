@@ -65,6 +65,7 @@ return [
     'categoryNotFound' => 'No category available.',
     'categoryInterestSuccess' => 'Category of your interest added successfully.',
     'categoryInterestFail' => 'Category failed to add',
+    'categoryInterestFailToAdd' => 'Category ID :id failed to add',
     
     /*
     |

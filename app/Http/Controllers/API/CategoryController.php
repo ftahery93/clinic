@@ -84,6 +84,9 @@ class CategoryController extends Controller
         
         if($request->categories != ""){
             foreach($request->categories as $val){
+                if (!Category::where('id','=',$val)->exists()) {
+                    return response()->json(['error' => trans('mobileLang.categoryInterestFailToAdd',[ 'id' => $val])], 404);
+                } 
                 Auth::user()->categories()->attach($val,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
             }
             return response()->json(['message' => trans('mobileLang.categoryInterestSuccess')], $this->successStatus);

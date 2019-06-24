@@ -65,6 +65,7 @@ return [
     'categoryNotFound' => 'لا يوجد فئة متاحة.',
     'categoryInterestSuccess' => 'تمت إضافة فئة اهتمامك بنجاح.',
     'categoryInterestFail' => 'فشل في إضافة الفئة',
+    'categoryInterestFailToAdd' => 'معرف id: فشل معرف الإضافة',
 
     /*
     |
