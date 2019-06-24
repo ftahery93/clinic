@@ -350,7 +350,6 @@ class UserProfileController extends Controller
         $authenticatedUser = Authentication::where('access_token', $access_token)->get()->first();
         $newAuthenticatedUser = Authentication::create([
             'access_token' => $token,
-            'mobile' => $user->mobile,
             'type' => $authenticatedUser->type,
             'user_id' => $user->id,
         ]);
