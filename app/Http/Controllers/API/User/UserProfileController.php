@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\User;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
 use App\Models\Admin\User;
+use App\Models\API\Otp;
 use App\Models\API\RegisteredUser;
 use App\Utility;
 use Illuminate\Http\Request;
@@ -217,17 +218,24 @@ class UserProfileController extends Controller
         if ($user->mobile != $request->mobile) {
             $existingUser = RegisteredUser::where('mobile', $request->mobile)->get()->first();
             if ($existingUser == null) {
-                $user->update([
-                    'otp' => substr(str_shuffle("0123456789"), 0, 5),
+
+                //$existingOtp = Otp::where('mobile', $request->mobile)->get()->first();
+                $generatedOtp = substr(str_shuffle("0123456789"), 0, 5);
+                $otpUser = Otp::create([
+                    'mobile' => $request->mobile,
+                    'otp' => $generatedOtp,
                 ]);
+
                 return response()->json([
-                    'otp' => $user->otp,
+                    'otp' => $otpUser->otp,
                 ]);
             } else {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
                 ], 409);
             }
+        } else {
+            return response()->json(['error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language)], 409);
         }
     }
 
@@ -311,17 +319,28 @@ class UserProfileController extends Controller
 
         $user = RegisteredUser::find($request->user_id);
 
-        if ($user->mobile != $request->new_mobile && $user->mobile == $request->old_mobile) {
-            $existingUser = RegisteredUser::where('mobile', $request->new_mobile)->get()->first();
-            if ($existingUser != null) {
-                return response()->json([
-                    'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
-                ], 409);
-            }
-        } else {
+        $existingUser = RegisteredUser::where('mobile', $request->new_mobile)->get()->first();
+        if ($existingUser != null) {
             return response()->json([
-                'error' => LanguageManagement::getLabel('no_user_found', $this->language),
-            ], 404);
+                'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
+            ], 409);
+        } else {
+            $existingUser = Otp::where('mobile', $request->new_mobile)->get()->first();
+            if ($existingUser == null) {
+                return response()->json([
+                    'error' => LanguageManagement::getLabel('mobile_not_found', $this->language),
+                ], 404);
+            } else {
+                if ($request->otp == $$existingUser->otp) {
+                    $user->update([
+                        'mobile' => $request->new_mobile,
+                    ]);
+                } else {
+                    return response()->json([
+                        'error' => LanguageManagement::getLabel('text_wrongOTP', $this->language),
+                    ], 401);
+                }
+            }
         }
 
         if ($request->otp == $user->otp) {

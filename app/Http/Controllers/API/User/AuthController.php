@@ -196,18 +196,28 @@ class AuthController extends Controller
         }
 
         if ($registeredUser != null) {
-            $otp = $registeredUser->mobile;
-            $newOtp = substr(str_shuffle("0123456789"), 0, 5);
-            $otp->update([
-                'otp' => $newOtp,
-            ]);
+
+            $exisitingOtp = Otp::where('mobile', $registeredUser->mobile)->get()->first();
+
+            if ($exisitingOtp != null) {
+                $newOtp = substr(str_shuffle("0123456789"), 0, 5);
+                $exisitingOtp->update([
+                    'otp' => $newOtp,
+                ]);
+            }
 
             return response()->json([
-                'otp' => $otp->otp,
+                'otp' => $exisitingOtp->otp,
             ]);
         } else {
             //return response()->json(['error' => LanguageManagement::getLabel('mobile_not_found', $this->language)], 401);
             $country = Country::find($request->country_id);
+            if ($country != null) {
+                return response()->json([
+                    'error' => LanguageManagement::getLabel('no_country_found', $this->language),
+                ], 404);
+            }
+
             $generatedOtp = substr(str_shuffle("0123456789"), 0, 5);
             $registeredUser = RegisteredUser::create([
                 'mobile' => $request->mobile,
@@ -324,6 +334,10 @@ class AuthController extends Controller
      *             description="Unprocessable entity"
      *        ),
      *        @SWG\Response(
+     *             response=404,
+     *             description="Mobile not found"
+     *        ),
+     *        @SWG\Response(
      *             response=417,
      *             description="Wrong OTP"
      *        ),
@@ -344,7 +358,7 @@ class AuthController extends Controller
         $exisitingUser = Otp::where('mobile', $request->mobile)->get()->first();
 
         if ($exisitingUser == null) {
-            return response()->json(['error' => LanguageManagement::getLabel('no_user_found', $this->language)], 404);
+            return response()->json(['error' => LanguageManagement::getLabel('mobile_not_found', $this->language)], 404);
         } else {
             if ($request->otp == $exisitingUser->otp) {
                 $registeredUser = RegisteredUser::where('mobile', $request->mobile)->get()->first();
@@ -356,10 +370,10 @@ class AuthController extends Controller
                 ]);
                 return response()->json([
                     'access_token' => $token,
-                    'user' => $registeredUser,
+                    'user' => collect($registeredUser),
                 ]);
-            }else{
-                return response()->json(['error' => LanguageManagement::getLabel('no_user_found', $this->language)], 417);
+            } else {
+                return response()->json(['error' => LanguageManagement::getLabel('text_wrongOTP', $this->language)], 417);
             }
 
         }
@@ -405,8 +419,6 @@ class AuthController extends Controller
      */
     public function resendOTP(Request $request)
     {
-        $input = $request->all();
-
         $validator = [
             'mobile' => 'required|digits:8',
         ];
@@ -414,10 +426,19 @@ class AuthController extends Controller
         if ($checkForError) {
             return $checkForError;
         }
-        $input['otp'] = substr(str_shuffle("0123456789"), 0, 5);
-        RegisteredUser::where('mobile', '=', $request->input('mobile'))->update(array('otp' => $input['otp']));
-        return response()->json([
-            'otp' => $input['otp'],
-        ]);
+
+        $existingUser = Otp::where('mobile', $request->mobile)->get()->first();
+        if ($existingUser != null) {
+            $generatedOtp = substr(str_shuffle("0123456789"), 0, 5);
+            $existingUser->update([
+                'otp' => $generatedOtp,
+            ]);
+            return response()->json([
+                'otp' => $existingUser->otp,
+            ]);
+        } else {
+            return response()->json(['error' => LanguageManagement::getLabel('mobile_not_found', $this->language)], 404);
+        }
+
     }
 }
