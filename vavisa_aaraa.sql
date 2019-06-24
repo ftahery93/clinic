@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 24, 2019 at 05:12 AM
+-- Generation Time: Jun 24, 2019 at 03:23 PM
 -- Server version: 5.7.26-0ubuntu0.16.04.1
 -- PHP Version: 7.1.26-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -38,9 +38,7 @@ CREATE TABLE `aaraa_application_users` (
   `age` int(4) DEFAULT NULL,
   `terms_conditions` tinyint(1) NOT NULL,
   `notification` tinyint(4) NOT NULL,
-  `preferred_language` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` tinyint(4) NOT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_by` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `updated_by` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -51,10 +49,10 @@ CREATE TABLE `aaraa_application_users` (
 -- Dumping data for table `aaraa_application_users`
 --
 
-INSERT INTO `aaraa_application_users` (`id`, `name`, `email`, `password`, `photo`, `gender`, `age`, `terms_conditions`, `notification`, `preferred_language`, `status`, `remember_token`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-('031d14b4-e222-4bde-a770-b44fcaeba49f', 'Mohammed Jhosawa', 'mjhosawa@vavisa-kw.com', '$2y$10$jQg45nn0SAHlFQsAanw/bOQWak/yIHvUO41ShjS41/AXqiTG35tEG', '', 'Male', 24, 1, 1, 'en', 1, NULL, NULL, '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-13 09:30:38', '2019-06-16 05:34:53'),
-('335e6aeb-91c4-11e9-bb87-8cec4ba57079', 'Carla ', 'carla@vavisa-kw.com', '*89FA6EAF8B6264AC8D6E84759027252505A3EAEE', '', 'Female', 28, 1, 1, 'en', 1, NULL, NULL, '', '2019-06-13 09:30:38', '2019-06-16 05:34:53'),
-('354db5ef-08a9-4024-870b-936013820508', 'Hashim Sagir', 'hashim@vavisa-kw.com', '$2y$10$VSVpGqcM24hsozVE1rOIMuNokvvfiEsJuanQ1NnUmqn7czypSp9T2', '', 'M', 33, 1, 1, '', 1, NULL, NULL, NULL, '2019-06-19 13:19:43', '2019-06-19 13:19:43');
+INSERT INTO `aaraa_application_users` (`id`, `name`, `email`, `password`, `photo`, `gender`, `age`, `terms_conditions`, `notification`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+('031d14b4-e222-4bde-a770-b44fcaeba49f', 'Mohammed Jhosawa', 'mjhosawa@vavisa-kw.com', '$2y$10$jQg45nn0SAHlFQsAanw/bOQWak/yIHvUO41ShjS41/AXqiTG35tEG', '', 'Male', 24, 1, 1, 1, NULL, '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-13 09:30:38', '2019-06-16 05:34:53'),
+('335e6aeb-91c4-11e9-bb87-8cec4ba57079', 'Carla ', 'carla@vavisa-kw.com', '*89FA6EAF8B6264AC8D6E84759027252505A3EAEE', '', 'Female', 28, 1, 1, 1, NULL, '', '2019-06-13 09:30:38', '2019-06-16 05:34:53'),
+('354db5ef-08a9-4024-870b-936013820508', 'Hashim Sagir', 'hashim@vavisa-kw.com', '$2y$10$VSVpGqcM24hsozVE1rOIMuNokvvfiEsJuanQ1NnUmqn7czypSp9T2', '', 'M', 33, 1, 1, 1, NULL, NULL, '2019-06-19 13:19:43', '2019-06-19 13:19:43');
 
 -- --------------------------------------------------------
 
@@ -890,8 +888,6 @@ CREATE TABLE `aaraa_permissions` (
   `analytics_status` tinyint(4) NOT NULL DEFAULT '0',
   `notifications_status` tinyint(4) NOT NULL DEFAULT '0',
   `countries_status` tinyint(4) NOT NULL DEFAULT '0',
-  `calendar_status` tinyint(4) NOT NULL DEFAULT '0',
-  `banners_status` tinyint(4) NOT NULL DEFAULT '0',
   `polls_status` tinyint(4) NOT NULL,
   `categories_status` tinyint(4) NOT NULL,
   `appusers_status` tinyint(4) NOT NULL,
@@ -908,10 +904,9 @@ CREATE TABLE `aaraa_permissions` (
 -- Dumping data for table `aaraa_permissions`
 --
 
-INSERT INTO `aaraa_permissions` (`id`, `name`, `view_status`, `add_status`, `edit_status`, `delete_status`, `analytics_status`, `notifications_status`, `countries_status`, `calendar_status`, `banners_status`, `polls_status`, `categories_status`, `appusers_status`, `settings_status`, `webmaster_status`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 'Webmaster', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
-(2, 'Website Manager', 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
-(3, 'Limited User', 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
+INSERT INTO `aaraa_permissions` (`id`, `name`, `view_status`, `add_status`, `edit_status`, `delete_status`, `analytics_status`, `notifications_status`, `countries_status`, `polls_status`, `categories_status`, `appusers_status`, `settings_status`, `webmaster_status`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 'Webmaster', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
+(2, 'Website Manager', 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
 
 -- --------------------------------------------------------
 
@@ -1074,7 +1069,6 @@ CREATE TABLE `aaraa_users` (
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `photo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `permissions_id` int(11) DEFAULT NULL,
-  `preferred_language` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` tinyint(4) NOT NULL,
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_by` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -1087,10 +1081,10 @@ CREATE TABLE `aaraa_users` (
 -- Dumping data for table `aaraa_users`
 --
 
-INSERT INTO `aaraa_users` (`id`, `name`, `email`, `password`, `photo`, `permissions_id`, `preferred_language`, `status`, `remember_token`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-('1', 'admin', 'mjhosawa@vavisa-kw.com', '$2y$10$vCYpyjX68hKYbzsAUZS4vuLCodSrXukCOHorulIwREO70hNgv6J5q', NULL, 1, '', 1, 'DGJjlzOb7mLtSDmicRMzsXV4Sr3dJpr6kPxedmtrvA99qLFJ4G7dlnpJ18zO', '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
-('2', 'manager', 'manager@site.com', '$2y$10$uwYocVmPgnGGxhW/ITU46ePqFEdsIyj87OXkYrRidYtuvvQR2Y6Yq', NULL, 2, '', 1, NULL, '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
-('3', 'user', 'user@site.com', '$2y$10$JFfZ4nfOHNJlzEefZk9Oq.QcHzqaIOCM7kU0/0fltjptMrU4hj7UO', NULL, 3, '', 1, NULL, '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
+INSERT INTO `aaraa_users` (`id`, `name`, `email`, `password`, `photo`, `permissions_id`, `status`, `remember_token`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+('1', 'admin', 'mjhosawa@vavisa-kw.com', '$2y$10$vCYpyjX68hKYbzsAUZS4vuLCodSrXukCOHorulIwREO70hNgv6J5q', NULL, 1, 1, 'DGJjlzOb7mLtSDmicRMzsXV4Sr3dJpr6kPxedmtrvA99qLFJ4G7dlnpJ18zO', '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
+('2', 'manager', 'manager@site.com', '$2y$10$uwYocVmPgnGGxhW/ITU46ePqFEdsIyj87OXkYrRidYtuvvQR2Y6Yq', NULL, 2, 1, NULL, '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
+('3', 'user', 'user@site.com', '$2y$10$JFfZ4nfOHNJlzEefZk9Oq.QcHzqaIOCM7kU0/0fltjptMrU4hj7UO', NULL, 3, 1, NULL, '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
 
 -- --------------------------------------------------------
 
