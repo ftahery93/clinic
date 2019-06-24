@@ -103,6 +103,9 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::post('/users/permissions/{id}/update', 'UsersController@permissions_update')->name('permissionsUpdate');
     Route::get('/users/permissions/destroy/{id}', 'UsersController@permissions_destroy')->name('permissionsDestroy');
 
+    // Reset Password from Mobile device
+    // Route::get('/users/password/reset', 'API\ResetPasswordController@showResetForm')->name('apiusersReset'); 
+
 });
 
 // .. End of Backend Routes

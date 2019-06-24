@@ -65,4 +65,5 @@ class ApplicationUsers extends Authenticatable
         'pivot',
         'notification'
     ];
+
 }

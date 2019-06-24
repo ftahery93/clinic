@@ -1,7 +1,8 @@
 <?php
 
-namespace Illuminate\Foundation\Auth;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -9,9 +10,14 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 
-trait ResetsPasswords
+class ResetPasswordController extends Controller
 {
-    use RedirectsUsers;
+    /**
+     * Where to redirect users after resetting their password.
+     *
+     * @var string
+     */
+    public $redirectTo = '/';
 
     /**
      * Display the password reset view for the given token.
@@ -29,7 +35,7 @@ trait ResetsPasswords
         );
     }
 
-    /**
+      /**
      * Reset the given user's password.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -61,7 +67,7 @@ trait ResetsPasswords
      *
      * @return array
      */
-    protected function rules()
+    public function rules()
     {
         return [
             'token' => 'required',
@@ -75,7 +81,7 @@ trait ResetsPasswords
      *
      * @return array
      */
-    protected function validationErrorMessages()
+    public function validationErrorMessages()
     {
         return [];
     }
@@ -86,7 +92,7 @@ trait ResetsPasswords
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    protected function credentials(Request $request)
+    public function credentials(Request $request)
     {
         return $request->only(
             'email', 'password', 'password_confirmation', 'token'
@@ -100,9 +106,8 @@ trait ResetsPasswords
      * @param  string  $password
      * @return void
      */
-    protected function resetPassword($user, $password)
+    public function resetPassword($user, $password)
     {
-        return array();
         $user->password = Hash::make($password);
 
         $user->setRememberToken(Str::random(60));
@@ -120,10 +125,9 @@ trait ResetsPasswords
      * @param  string  $response
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    protected function sendResetResponse($response)
+    public function sendResetResponse($response)
     {
-        return redirect($this->redirectPath())
-                            ->with('status', trans($response));
+        return redirect($this->redirectPath())->with('status', trans($response));
     }
 
     /**
@@ -133,11 +137,20 @@ trait ResetsPasswords
      * @param  string  $response
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    protected function sendResetFailedResponse(Request $request, $response)
+    public function sendResetFailedResponse(Request $request, $response)
     {
-        return redirect()->back()
-                    ->withInput($request->only('email'))
-                    ->withErrors(['email' => trans($response)]);
+        return redirect()->back()->withInput($request->only('email'))->withErrors(['email' => trans($response)]);
+    }
+
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('guest');
     }
 
     /**
@@ -147,7 +160,7 @@ trait ResetsPasswords
      */
     public function broker()
     {
-        return Password::broker();
+        return Password::broker('appusers');
     }
 
     /**
@@ -155,8 +168,8 @@ trait ResetsPasswords
      *
      * @return \Illuminate\Contracts\Auth\StatefulGuard
      */
-    protected function guard()
+    public function guard()
     {
-        return Auth::guard();
+        return Auth::guard('web');
     }
 }

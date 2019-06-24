@@ -17,17 +17,19 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-// Login from Mobile devie
+// Login from Mobile device
 
 Route::post('/users/login', 'API\ApplicationUsersController@login')->name('apiusersLogin'); 
 
-// Register from Mobile devie
+// Register from Mobile device
 
 Route::post('/users/register', 'API\ApplicationUsersController@register')->name('apiusersRegister'); 
 
-// Forgot Password from Mobile devie
+// Forgot Password Link
 
-Route::post('/users/forgot', 'API\ApplicationUsersController@forgot')->name('apiusersForgot'); 
+Route::post('/users/forgot', 'API\ForgotPasswordController@sendResetLinkEmail')->name('apiusersForgot'); 
+
+
 
 // Middleware auth:api 
 
@@ -37,19 +39,19 @@ Route::group(['middleware' => 'auth:api'], function(){
 
     Route::post('/users/logout', 'API\ApplicationUsersController@logout')->name('apiusersLogout');  
 
-   // Profile from Mobile devie
+   // Profile from Mobile device
 
     Route::get('/users/profile', 'API\ApplicationUsersController@profile')->name('apiusersProfile'); 
 
-    // Profile Edit from Mobile devie
+    // Profile Edit from Mobile device
 
     Route::post('/users/profile/edit', 'API\ApplicationUsersController@edit')->name('apiusersProfileEdit'); 
 
-    // Change Password for Account from Mobile devie
+    // Change Password for Account from Mobile device
 
     Route::post('/users/password', 'API\ApplicationUsersController@changePassword')->name('apiuserschangePassword'); 
 
-    // Delete/Disable Account from Mobile devie
+    // Delete/Disable Account from Mobile device
 
     Route::delete('/users/delete', 'API\ApplicationUsersController@delete')->name('apiusersDelete'); 
 
