@@ -219,8 +219,8 @@ class AuthController extends Controller
 
         } else {
             //return response()->json(['error' => LanguageManagement::getLabel('mobile_not_found', $this->language)], 401);
-            $country = Country::find($request->country_id)->get();
-            if ($country != null) {
+            $country = Country::find($request->country_id);
+            if ($country == null) {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('no_country_found', $this->language),
                 ], 404);
