@@ -8,7 +8,7 @@ use App\Models\Admin\User;
 use App\Models\API\RegisteredUser;
 use App\Utility;
 use Illuminate\Http\Request;
-use Image;
+use Illuminate\Support\Facades\Storage;
 
 class UserProfileController extends Controller
 {
