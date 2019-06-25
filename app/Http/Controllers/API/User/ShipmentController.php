@@ -120,10 +120,23 @@ class ShipmentController extends Controller
 
         $price = Price::find(1);
 
+        // Do checks on all the fields before inserting
+
         $shipment = new Shipment();
         $shipment->price = $price->price;
-        $shipment->address_from_id = $request->address_from_id;
-        $shipment->address_to_id = $request->address_to_id;
+
+        $address_from = Address::find($request->address_from_id);
+        $address_to = Address::find($request->address_to_id);
+
+        if ($address_from != null || $address_to != null) {
+            $shipment->address_from_id = $request->address_from_id;
+            $shipment->address_to_id = $request->address_to_id;
+        } else {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_address_found', $this->language),
+            ], 404);
+        }
+
         $shipment->pickup_time = $request->pickup_time;
         $shipment->user_id = $request->user_id;
         $shipment->status = 1;
@@ -131,17 +144,19 @@ class ShipmentController extends Controller
 
         $shipment->save();
 
-        // $shipment = Shipment::create([
-        //     'price' => $price->price,
-        //     'address_from_id' => $request->address_from_id,
-        //     'address_to_id' => $request->address_to_id,
-        //     'pickup_time' => $request->pickup_time,
-        //     'user_id' => $request->user_id,
-        //     'status' => 1,
-        //     'payment_type' => 1,
-        // ]);
+        foreach ($request->shipments as $eachShipment) {
 
-        //return print_r($request->shipments);
+            $category_ids[] = $eachShipment["category_id"];
+        }
+
+        $categories = Category::findMany($category_ids);
+
+        if (count($categories != count($category_ids))) {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_category_found', $this->language),
+            ], 404);
+            $shipment->delete();
+        }
 
         foreach ($request->shipments as $eachShipment) {
             $shipment->categories()->attach($eachShipment["category_id"], ['quantity' => $eachShipment["quantity"]]);
@@ -210,6 +225,7 @@ class ShipmentController extends Controller
             foreach ($shipments as $shipment) {
                 $shipment["address_from"] = Address::find($shipment->address_from_id);
                 $shipment["address_to"] = Address::find($shipment->address_to_id);
+                $shipment = $this->getShipmentDetailsResponse($shipment);
                 switch ($shipment->status) {
                     case 1:
                         $pending[] = $shipment;
@@ -270,15 +286,7 @@ class ShipmentController extends Controller
     {
         $shipment = Shipment::find($shipment_id);
         if ($shipment != null && $shipment->user_id == $request->user_id) {
-            $items = [];
-            $categories = $shipment->categories()->get();
-            foreach ($categories as $category) {
-                $item["category_id"] = $category->id;
-                $item["category_name"] = $category->name;
-                $item["quantity"] = $category->pivot->quantity;
-                $items[] = $item;
-            }
-            $shipment["items"] = $items;
+            $shipment = $this->getShipmentDetailsResponse($shipment);
             $shipment["address_from"] = Address::find($shipment->address_from_id);
             $shipment["address_to"] = Address::find($shipment->address_to_id);
             return collect($shipment);
@@ -552,5 +560,19 @@ class ShipmentController extends Controller
             }
         }
         return $companyList;
+    }
+
+    private function getShipmentDetailsResponse($shipment)
+    {
+        $items = [];
+        $categories = $shipment->categories()->get();
+        foreach ($categories as $category) {
+            $item["category_id"] = $category->id;
+            $item["category_name"] = $category->name;
+            $item["quantity"] = $category->pivot->quantity;
+            $items[] = $item;
+        }
+        $shipment["items"] = $items;
+        return $shipment;
     }
 }
