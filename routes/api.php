@@ -15,7 +15,7 @@
 //    return $request->user();
 //})->middleware('auth:api');
 
-Route::group(['middleware' => 'checkAuth'], function () {
+//Route::group(['middleware' => 'checkAuth'], function () {
 
     /* User Profile */
     Route::get('/user/getProfile', 'API\User\UserProfileController@getProfile');
@@ -69,7 +69,7 @@ Route::group(['middleware' => 'checkAuth'], function () {
     /* Ratings */
     Route::post('/user/rateCompany', 'API\User\RatingController@rateCompany');
 
-});
+//});
 
 Route::group(['middleware' => 'checkVersion'], function () {
 

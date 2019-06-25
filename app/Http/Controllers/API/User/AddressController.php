@@ -14,7 +14,7 @@ class AddressController extends Controller
     public $language;
     public function __construct(Request $request)
     {
-        //$this->middleware('checkAuth');
+        $this->middleware('checkAuth');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
     }
