@@ -492,4 +492,6 @@ return array (
   'selectLangTemplate' => 'اختر قالب اللغة',
   'languages' => 'إدارة اللغات',
   'selectLanguage' => 'اختار اللغة',
+  'languageKey' => 'معرف اللغة',
+  'languageMessage' => 'رسالة اللغة',
 );

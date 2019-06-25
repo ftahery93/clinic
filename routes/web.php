@@ -104,6 +104,7 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
      // Languages & Management
      Route::get('/languages', 'LanguageController@getList')->name('languages');
      Route::post('/languages/show', 'LanguageController@showLanguages')->name('adminLangIndex');
+     Route::post('/languages/edit', 'LanguageController@edit')->name('adminLanguagesEdit');
 
     // Reset Password from Mobile device
     // Route::get('/users/password/reset', 'API\ResetPasswordController@showResetForm')->name('apiusersReset'); 

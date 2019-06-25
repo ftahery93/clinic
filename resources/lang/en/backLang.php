@@ -499,4 +499,6 @@ return array (
   'selectLangTemplate' => 'Select Language Template',
   'languages' => 'Manage Languages',
   'selectLanguage' => 'Select Language',
+  'languageKey' => 'Language ID',
+  'languageMessage' => 'Language Message',
 );

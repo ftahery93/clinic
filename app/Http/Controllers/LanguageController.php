@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App;
 use Session;
-use App\Http\Requests;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
 class LanguageController extends Controller
@@ -31,29 +31,26 @@ class LanguageController extends Controller
     public function getList(){
 
         //Languages
-        $Languages = [
-            'en' => "English",
-            'ar' => "Arabic"
-        ];
-
-        //Template you willing to modify
-        $LanguagesTemp = [
-            'backLang' => "Backend",
-            'mobileLang' => "Mobile Application"
-        ];
+        $Languages = ['en' => "English",'ar' => "Arabic"];
+        $LanguagesTemp = ['backLang' => "Backend",'mobileLang' => "Mobile Application"];
 
         return view("backEnd.languages", compact("Languages","LanguagesTemp"));
     }
 
-    public function showLanguages(){
+    public function showLanguages(Request $request){
 
-        return array();
+        $lang = $request->language_id;
+        $key = $request->language_key;
+        $resource =  base_path('resources')."/lang/{$lang}/{$key}.php";
 
-        $resource =  base_path('resources')."/lang/en/auth.php";
-
-        // Get the contents of the JSON file 
-        $Languages = include $resource;
-        
-        return $Languages;
+        if(file_exists($resource)){
+            // Get the contents of the array file 
+            $Languages = include $resource;
+            $Languages = collect($Languages);
+            
+            return view("backEnd.languages.list", compact("Languages"));
+        } else {
+            abort('404');
+        }
     }
 }
