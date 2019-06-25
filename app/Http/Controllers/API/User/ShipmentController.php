@@ -151,7 +151,7 @@ class ShipmentController extends Controller
 
         $categories = Category::findMany($category_ids);
 
-        if (count($categories != count($category_ids))) {
+        if (count($categories) != count($category_ids)) {
             return response()->json([
                 'error' => LanguageManagement::getLabel('no_category_found', $this->language),
             ], 404);
