@@ -16,7 +16,7 @@ class WalletController extends Controller
     public $language;
     public function __construct(Request $request)
     {
-        $this->middleware('checkAuth');
+        //$this->middleware('checkAuth');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
     }
@@ -199,40 +199,40 @@ class WalletController extends Controller
     }
 
 /**
-     *
-     * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/company/getWalletDetails",
-     *         tags={"Company Wallet"},
-     *         operationId="getWalletDetails",
-     *         summary="Get Wallet Details",
-     *         @SWG\Parameter(
-     *             name="Accept-Language",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user prefered language",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Authorization",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user access token",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Version",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="1.0.0",
-     *        ),
-     *        @SWG\Response(
-     *             response=200,
-     *             description="Successful"
-     *        ),
-     *     )
-     *
-     */
+ *
+ * @SWG\Get(
+ *         path="/~tvavisa/masafah/public/api/company/getWalletDetails",
+ *         tags={"Company Wallet"},
+ *         operationId="getWalletDetails",
+ *         summary="Get Wallet Details",
+ *         @SWG\Parameter(
+ *             name="Accept-Language",
+ *             in="header",
+ *             required=true,
+ *             type="string",
+ *             description="user prefered language",
+ *        ),
+ *        @SWG\Parameter(
+ *             name="Authorization",
+ *             in="header",
+ *             required=true,
+ *             type="string",
+ *             description="user access token",
+ *        ),
+ *        @SWG\Parameter(
+ *             name="Version",
+ *             in="header",
+ *             required=true,
+ *             type="string",
+ *             description="1.0.0",
+ *        ),
+ *        @SWG\Response(
+ *             response=200,
+ *             description="Successful"
+ *        ),
+ *     )
+ *
+ */
     public function getWalletDetails(Request $request)
     {
         $wallet = Wallet::where('company_id', $request->company_id)->get()->first();

@@ -245,6 +245,11 @@ class ShipmentController extends Controller
                         $pending[] = $shipment;
                         break;
                     case 2:
+                        $company = Company::find($shipment->company_id);
+                        $responseCompany["id"] = $company->id;
+                        $responseCompany["name"] = $company->name;
+                        $responseCompany["image"] = $company->image;
+                        $shipment["company"] = $responseCompany;
                         $accepted[] = $shipment;
                         break;
                 }
@@ -310,6 +315,15 @@ class ShipmentController extends Controller
             $shipment = $this->getShipmentDetailsResponse($shipment);
             $shipment["address_from"] = Address::find($shipment->address_from_id);
             $shipment["address_to"] = Address::find($shipment->address_to_id);
+
+            if ($shipment->status > 1) {
+                $company = Company::find($shipment->company_id);
+                $responseCompany["id"] = $company->id;
+                $responseCompany["name"] = $company->name;
+                $responseCompany["image"] = $company->image;
+                $shipment["company"] = $responseCompany;
+            }
+
             return collect($shipment);
         } else {
             return response()->json([
@@ -364,7 +378,7 @@ class ShipmentController extends Controller
      *     )
      *
      */
-    public function deleteShipmentById(Request $request,$shipment_id)
+    public function deleteShipmentById(Request $request, $shipment_id)
     {
         $shipment = Shipment::find($shipment_id);
 

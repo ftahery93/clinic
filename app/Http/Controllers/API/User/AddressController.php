@@ -134,9 +134,7 @@ class AddressController extends Controller
             'user_id' => $request->user_id,
         ]);
 
-        return response()->json([
-            'address_id' => $address->id,
-        ]);
+        return collect($address);
     }
 
     /**
