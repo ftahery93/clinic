@@ -40,6 +40,7 @@ Route::get('/user/getShipments', 'API\User\ShipmentController@getShipments');
 Route::get('/user/getShipmentDetails/{shipment_id}', 'API\User\ShipmentController@getShipmentDetails');
 Route::put('/user/editShipment', 'API\User\ShipmentController@editShipment');
 Route::get('/user/getCategories', 'API\User\ShipmentController@getCategories');
+Route::delete('/user/deleteShipmentById/{shipment_id}', 'API\User\ShipmentController@deleteShipmentById');
 
 /* Company Profile*/
 Route::post('/company/login', 'API\Company\CompanyEntryController@login');

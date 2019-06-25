@@ -300,7 +300,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Delete(
-     *         path="/~tvavisa/masafah/public/api/user/deleteShipmentById/{shipment_id}",
+     *         path="/masafah/public/api/user/deleteShipmentById/{shipment_id}",
      *         tags={"User Shipment"},
      *         operationId="deleteShipmentById",
      *         summary="Get User shipment by ID",
@@ -336,7 +336,7 @@ class ShipmentController extends Controller
      *     )
      *
      */
-    public function deleteShipmentById($shipment_id, Request $request)
+    public function deleteShipmentById(Request $request,$shipment_id)
     {
         $shipment = Shipment::find($shipment_id);
 

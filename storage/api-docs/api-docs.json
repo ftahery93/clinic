@@ -1344,7 +1344,7 @@
                 }
             }
         },
-        "/masafah/public/api/user/getCountries": {
+        "/~tvavisa/masafah/public/api/user/getCountries": {
             "get": {
                 "tags": [
                     "Countries"
@@ -1619,7 +1619,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/deleteShipmentById/{shipment_id}": {
+        "/masafah/public/api/user/deleteShipmentById/{shipment_id}": {
             "delete": {
                 "tags": [
                     "User Shipment"
