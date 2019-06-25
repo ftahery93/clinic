@@ -41,6 +41,13 @@ class AddressController extends Controller
      *             description="user access token",
      *        ),
      *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
      *             name="Name",
      *             in="body",
      *             required=true,
@@ -153,6 +160,13 @@ class AddressController extends Controller
      *             description="user access token",
      *        ),
      *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
      *             name="id",
      *             in="path",
      *             description="Address ID",
@@ -204,6 +218,13 @@ class AddressController extends Controller
      *             type="string",
      *             description="user access token",
      *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
      *        @SWG\Response(
      *             response=200,
      *             description="Successful"
@@ -237,6 +258,13 @@ class AddressController extends Controller
      *             required=true,
      *             type="string",
      *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Parameter(
      *             name="Name",

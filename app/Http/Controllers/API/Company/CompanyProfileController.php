@@ -41,6 +41,13 @@ class CompanyProfileController extends Controller
      *             type="string",
      *             description="user access token",
      *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
      *        @SWG\Response(
      *             response=200,
      *             description="Successful"
@@ -82,6 +89,13 @@ class CompanyProfileController extends Controller
      *             type="string",
      *             description="user access token",
      *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
      *        @SWG\Response(
      *             response=200,
      *             description="Successful"
@@ -118,6 +132,13 @@ class CompanyProfileController extends Controller
      *             required=true,
      *             type="string",
      *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Parameter(
      *             name="company_id",
@@ -171,6 +192,13 @@ class CompanyProfileController extends Controller
      *             type="string",
      *             description="user access token",
      *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
      *        @SWG\Response(
      *             response=200,
      *             description="Successful"
@@ -210,6 +238,13 @@ class CompanyProfileController extends Controller
      *             required=true,
      *             type="string",
      *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Parameter(
      *             name="Update profile body",
@@ -325,6 +360,13 @@ class CompanyProfileController extends Controller
      *             description="user access token",
      *        ),
      *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
      *             name="Change number body",
      *             in="body",
      *             required=true,
@@ -398,6 +440,13 @@ class CompanyProfileController extends Controller
      *             required=true,
      *             type="string",
      *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Parameter(
      *             name="Change number body",
@@ -496,6 +545,13 @@ class CompanyProfileController extends Controller
      *             required=true,
      *             type="string",
      *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Response(
      *             response=200,

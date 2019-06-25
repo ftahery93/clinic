@@ -48,6 +48,13 @@ class ShipmentController extends Controller
      *             description="user access token",
      *        ),
      *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
      *             name="Add Shipment Body",
      *             in="body",
      *             required=true,
@@ -207,6 +214,13 @@ class ShipmentController extends Controller
      *             type="string",
      *             description="user access token",
      *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
      *        @SWG\Response(
      *             response=200,
      *             description="Successful"
@@ -265,6 +279,13 @@ class ShipmentController extends Controller
      *             description="user access token",
      *        ),
      *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
      *             name="shipment_id",
      *             in="path",
      *             description="Shipment ID",
@@ -317,6 +338,13 @@ class ShipmentController extends Controller
      *             required=true,
      *             type="string",
      *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Parameter(
      *             name="shipment_id",
@@ -378,6 +406,13 @@ class ShipmentController extends Controller
      *             required=true,
      *             type="string",
      *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Parameter(
      *             name="Edit Shipment Body",
@@ -504,6 +539,13 @@ class ShipmentController extends Controller
      *             type="string",
      *             description="user access token",
      *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
      *        @SWG\Response(
      *             response=200,
      *             description="Successful"
@@ -541,6 +583,13 @@ class ShipmentController extends Controller
      *             required=true,
      *             type="string",
      *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Response(
      *             response=200,

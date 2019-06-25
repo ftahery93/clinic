@@ -267,7 +267,7 @@ class AuthController extends Controller
      *         path="/~tvavisa/masafah/public/api/user/logout",
      *         tags={"User Logout"},
      *         operationId="logout",
-     *         summary="Logout a user from the app",
+     *         summary="Logout the user from the app",
      *         @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
@@ -281,6 +281,13 @@ class AuthController extends Controller
      *             required=true,
      *             type="string",
      *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Response(
      *             response=200,
@@ -321,6 +328,13 @@ class AuthController extends Controller
      *             required=true,
      *             type="string",
      *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Parameter(
      *             name="Verify OTP Body",
@@ -408,6 +422,13 @@ class AuthController extends Controller
      *             required=true,
      *             type="string",
      *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Parameter(
      *             name="Mobile",

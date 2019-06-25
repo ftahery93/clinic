@@ -39,6 +39,13 @@ class NotificationController extends Controller
      *             type="string",
      *             description="user access token",
      *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
      *        @SWG\Response(
      *             response=200,
      *             description="Successful"

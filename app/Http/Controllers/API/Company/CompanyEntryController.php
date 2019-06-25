@@ -40,6 +40,13 @@ class CompanyEntryController extends Controller
      *             type="string",
      *             description="user prefered language",
      *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
      *         @SWG\Parameter(
      *             name="Registration Body",
      *             in="body",
@@ -175,6 +182,13 @@ class CompanyEntryController extends Controller
      *             type="string",
      *             description="user prefered language",
      *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
      *         @SWG\Parameter(
      *             name="Login Body",
      *             in="body",
@@ -284,10 +298,10 @@ class CompanyEntryController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/user/logout",
-     *         tags={"User Logout"},
+     *         path="/~tvavisa/masafah/public/api/company/logout",
+     *         tags={"Company Logout"},
      *         operationId="logout",
-     *         summary="Logout a user from the app",
+     *         summary="Logout a company from the app",
      *         @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
@@ -301,6 +315,13 @@ class CompanyEntryController extends Controller
      *             required=true,
      *             type="string",
      *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Response(
      *             response=200,
@@ -327,48 +348,4 @@ class CompanyEntryController extends Controller
             ], 404);
         }
     }
-
-    // public function verifyOTP(Request $request)
-    // {
-    //     $validator = [
-    //         'otp' => 'required',
-    //         'mobile' => 'required',
-    //     ];
-    //     $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
-    //     if ($checkForError) {
-    //         return $checkForError;
-    //     }
-
-    //     if (!Company::where('otp', '=', $request->input('otp'))->where('mobile', '=', $request->input('mobile'))->exists()) {
-    //         return response()->json(['error' => LanguageManagement::getLabel('text_wrongOTP', $this->language)], 417);
-    //     } else {
-    //         $registeredCompany = Company::where('mobile', $request->input('mobile'))->get()->first();
-    //         $registeredCompany->update(array('status' => 1));
-    //         $tokenResult = $registeredCompany->createToken($registeredCompany->mobile, ['*']);
-
-    //         return response()->json([
-    //             'access_token' => $tokenResult->accessToken,
-    //             'token_type' => 'Bearer',
-    //             'user' => $registeredCompany,
-    //         ]);
-    //     }
-    // }
-
-    // public function resendOTP(Request $request)
-    // {
-    //     $input = $request->all();
-
-    //     $validator = [
-    //         'mobile' => 'required|digits:8',
-    //     ];
-    //     $checkForError = $this->utility->checkForErrorMessages($request, $validator, 417);
-    //     if ($checkForError) {
-    //         return $checkForError;
-    //     }
-    //     $input['otp'] = substr(str_shuffle("0123456789"), 0, 5);
-    //     Company::where('mobile', '=', $request->input('mobile'))->update(array('otp' => $input['otp']));
-    //     return response()->json([
-    //         'otp' => $input['otp'],
-    //     ]);
-    // }
 }

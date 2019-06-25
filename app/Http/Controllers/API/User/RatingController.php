@@ -42,6 +42,13 @@ class RatingController extends Controller
      *             description="user access token",
      *        ),
      *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
      *             name="Body",
      *             in="body",
      *             required=true,
