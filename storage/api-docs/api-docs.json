@@ -1344,7 +1344,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/getCountries": {
+        "/masafah/public/api/user/getCountries": {
             "get": {
                 "tags": [
                     "Countries"

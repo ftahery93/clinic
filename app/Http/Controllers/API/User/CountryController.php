@@ -18,7 +18,7 @@ class CountryController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/user/getCountries",
+     *         path="/masafah/public/api/user/getCountries",
      *         tags={"Countries"},
      *         operationId="getCountries",
      *         summary="Get all available countries",
@@ -42,11 +42,13 @@ class CountryController extends Controller
         $response = [];
         if ($this->language == 'ar') {
             foreach ($countries as $country) {
-                $response[] = collect($country)->only('id', 'name_ar', 'country_code');
+                $country["name"] = $country["name_ar"];
+                $response[] = collect($country);
             }
         } else {
             foreach ($countries as $country) {
-                $response[] = collect($country)->only('id', 'name_en', 'country_code');
+                $country["name"] = $country["name_en"];
+                $response[] = collect($country);
             }
         }
         return $response;
