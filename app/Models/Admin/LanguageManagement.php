@@ -22,7 +22,7 @@ class LanguageManagement extends Model
         }
 
         if ($lang == 'ar') {
-            return $label->label_ar;
+            return $label["label_ar"];
         }
     }
 }
