@@ -58,6 +58,7 @@ class Kernel extends HttpKernel
         'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
         'localization' => \App\Http\Middleware\Localization::class,
         'checkAuth' => \App\Http\Middleware\CheckAuth::class,
+        'checkVersion' => \App\Http\Middleware\CheckVersion::class,
         'companyAuth' => \App\Http\Middleware\CheckCompanyAuth::class,
         //'passport-administrators' => \App\Http\Middleware\PassportCustomProvider::class,
     ];

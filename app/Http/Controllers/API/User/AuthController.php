@@ -33,6 +33,7 @@ class AuthController extends Controller
     private $accessToken;
     public function __construct(Request $request)
     {
+        //$this->middleware('checkVersion');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
         $this->accessToken = uniqid(base64_encode(str_random(50)));
@@ -121,12 +122,19 @@ class AuthController extends Controller
      *         tags={"User Login"},
      *         operationId="login",
      *         summary="Login a user to app",
-     *          @SWG\Parameter(
+     *         @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
      *             required=true,
      *             type="string",
      *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
      *        ),
      *         @SWG\Parameter(
      *             name="Mobile",

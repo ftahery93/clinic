@@ -28,12 +28,13 @@ class CheckAuth
                     $request->request->add(['company_id' => $authenticatedUser["user_id"]]);
                 }
 
-                return $next($request);
+                //return $next($request);
             } else {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('text_unauthorized', $language),
                 ], 403);
             }
+
         } else {
             return response()->json([
                 'error' => LanguageManagement::getLabel('invalid_api_request', $language),

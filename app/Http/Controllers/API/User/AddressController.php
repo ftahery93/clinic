@@ -14,7 +14,7 @@ class AddressController extends Controller
     public $language;
     public function __construct(Request $request)
     {
-        $this->middleware('checkAuth');
+        //$this->middleware('checkAuth');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
     }
@@ -76,6 +76,12 @@ class AddressController extends Controller
      *                  example="14, 13Z"
      *              ),
      *              @SWG\Property(
+     *                  property="details",
+     *                  type="string",
+     *                  description="Any other address details",
+     *                  example="Al-Kuwait, near Hamra"
+     *              ),
+     *              @SWG\Property(
      *                  property="notes",
      *                  type="string",
      *                  description="Extra user notes",
@@ -116,6 +122,7 @@ class AddressController extends Controller
             'area' => $request->area,
             'building' => $request->building,
             'notes' => $request->notes,
+            'details' => $request->details,
             'user_id' => $request->user_id,
         ]);
 
@@ -167,7 +174,7 @@ class AddressController extends Controller
     {
         $address = Address::find($address_id);
         if ($address != null) {
-            return collect($address)->only('id', 'name', 'street', 'block', 'area', 'notes');
+            return collect($address);
         } else {
             return response()->json([
                 'error' => LanguageManagement::getLabel('no_address_found', $this->language),
@@ -273,6 +280,12 @@ class AddressController extends Controller
      *                  example="14, 13Z"
      *              ),
      *              @SWG\Property(
+     *                  property="details",
+     *                  type="string",
+     *                   description="Any other address details",
+     *                  example="Al-Kuwait, near Hamra"
+     *              ),
+     *              @SWG\Property(
      *                  property="notes",
      *                  type="string",
      *                  description="Extra user notes",
@@ -300,6 +313,7 @@ class AddressController extends Controller
             'street' => 'required',
             'area' => 'required',
             'building' => 'required',
+            'details' => 'required',
             'notes' => 'required',
         ];
 
@@ -316,6 +330,7 @@ class AddressController extends Controller
                 'street' => $request->street,
                 'area' => $request->area,
                 'building' => $request->building,
+                'details' => $request->details,
                 'notes' => $request->notes,
             ]);
 

@@ -951,6 +951,11 @@
                                     "type": "string",
                                     "example": "14, 13Z"
                                 },
+                                "details": {
+                                    "description": "Any other address details",
+                                    "type": "string",
+                                    "example": "Al-Kuwait, near Hamra"
+                                },
                                 "notes": {
                                     "description": "Extra user notes",
                                     "type": "string",
@@ -1098,6 +1103,11 @@
                                     "type": "string",
                                     "example": "14, 13Z"
                                 },
+                                "details": {
+                                    "description": "Any other address details",
+                                    "type": "string",
+                                    "example": "Al-Kuwait, near Hamra"
+                                },
                                 "notes": {
                                     "description": "Extra user notes",
                                     "type": "string",
@@ -1162,7 +1172,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/login": {
+        "/masafah/public/api/user/login": {
             "post": {
                 "tags": [
                     "User Login"
@@ -1174,6 +1184,13 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     },
