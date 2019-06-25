@@ -26,6 +26,7 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     /* User Address */
     Route::post('/user/addAddress', 'API\User\AddressController@addAddress');
     Route::get('/user/getAddressById/{address_id}', 'API\User\AddressController@getAddressById');
+    Route::get('/user/getAddresses', 'API\User\AddressController@getAddresses');
     Route::put('/user/editAddress', 'API\User\AddressController@editAddress');
 
     /* User shipments  */
