@@ -300,7 +300,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Delete(
-     *         path="/masafah/public/api/user/deleteShipmentById/{shipment_id}",
+     *         path="/~tvavisa/masafah/public/api/user/deleteShipmentById/{shipment_id}",
      *         tags={"User Shipment"},
      *         operationId="deleteShipmentById",
      *         summary="Get User shipment by ID",
