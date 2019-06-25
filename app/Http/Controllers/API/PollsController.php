@@ -6,6 +6,7 @@ use DB;
 use App;
 use Auth;
 use File;
+use Helper;
 use App\Poll;
 use App\Option;
 use App\Country;
@@ -65,8 +66,16 @@ class PollsController extends Controller
             if ($visitor_country_code != "") {
                 $Country = Country::where('code', '=', $visitor_country_code)->first();
                 if (count($Country->polls) > 0) {
-                    return $Country->polls;
-                    return response()->json($Country->polls, $this->successStatus);
+                    //Check only available poll should be fetched
+                    $Polls = $Country->polls->where('end_datetime','>=',Carbon::now())->map(function ($value) {
+                        $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
+                        $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
+                        $Poll['name'] = $value->name;
+                        $Poll['timespan'] = Carbon::createFromTimeStamp(strtotime($value->end_datetime))->diffForHumans();
+                        $Poll['options'] = Poll::find($value->id)->options;
+                        return $Poll;
+                    });
+                    return response()->json($Polls, $this->successStatus);
                 } else {
                     return response()->json(['error' => trans('mobileLang.countryPollsNotFound')],404);
                 }
@@ -94,16 +103,20 @@ class PollsController extends Controller
             return response()->json(['error' => $validator->messages()->first()], 422);
         }
 
-        $category_id = $request->category_id;
-        if($category_id){
-            $Category = Category::find($category_id);
-            if (count($Category->polls) > 0) {
-                return response()->json($Category->polls, $this->successStatus);
-            } else {
-                return response()->json(['error' => trans('mobileLang.categoryPollsNotFound')], 404);
-            }
+        $Category = Category::find($request->category_id);
+        if (count($Category->polls) > 0) {
+            //Check only available poll should be fetched
+            $Polls = $Category->polls->where('end_datetime','>=',Carbon::now())->map(function ($value) {
+                $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
+                $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
+                $Poll['name'] = $value->name;
+                $Poll['timespan'] = Carbon::createFromTimeStamp(strtotime($value->end_datetime))->diffForHumans();
+                $Poll['options'] = Poll::find($value->id)->options;
+                return $Poll;
+            });
+            return response()->json($Polls, $this->successStatus);
         } else {
-            return response()->json(['error' => trans('mobileLang.categoryIsMissing')], 404);
+            return response()->json(['error' => trans('mobileLang.categoryPollsNotFound')], 404);
         }
     }
 
@@ -120,7 +133,8 @@ class PollsController extends Controller
         $validator = Validator::make($request->all(), [
             'photo' => 'mimes:png,jpeg,jpg,gif|max:3000',
             'poll_name' => 'required',
-            'category_id' => 'required',
+            'categories' => 'required|array|min:1',
+            'countries' => 'required|array|min:1',
             'options' => 'required|array|min:1',
             'duration_id' => 'required',
         ]);
@@ -142,29 +156,28 @@ class PollsController extends Controller
 
         // Get the Duration from request and set end time for poll 
         $end_datetime = '';
-        if($request->duration_id != ""){
-            $Duration = DB::table("poll_durations")
-                ->select('duration','is_hour')
-                ->where('id', '=', $request->duration_id)
-                ->get();
-            
-            foreach($Duration as $key => $value){
-                foreach($value as $k => $v){
-                    if($k == "duration") $duration = $v;
-                    if($k == "is_hour") $hour = $v;
-                }
-            }
-            
-            //if not hour, then calculate days in hour format
-            if(!$hour){
-                $duration = $duration * 24;
-                $end_datetime = date('Y-m-d H:i:s',strtotime('+'.$duration.'hours'));
-                return $end_datetime;
-            } else {
-                $end_datetime = date('Y-m-d H:i:s',strtotime('+'.$duration.'hours'));
-                return $end_datetime;
+        $Duration = DB::table("poll_durations")
+            ->select('duration','is_hour')
+            ->where('id', '=', $request->duration_id)
+            ->get();
+        
+        foreach($Duration as $key => $value){
+            foreach($value as $k => $v){
+                if($k == "duration") $duration = $v;
+                if($k == "is_hour") $hour = $v;
             }
         }
+        
+        //if not hour, then calculate days in hour format
+        if(!$hour){
+            $duration = $duration * 24;
+            $end_datetime = date('Y-m-d H:i:s',strtotime('+'.$duration.'hours'));
+            return $end_datetime;
+        } else {
+            $end_datetime = date('Y-m-d H:i:s',strtotime('+'.$duration.'hours'));
+            return $end_datetime;
+        }
+    
 
         $Poll = new Poll();
         $Poll->photo = $fileFinalName_ar;
@@ -183,43 +196,31 @@ class PollsController extends Controller
         $Poll->status = 1;
         $Poll->save();
 
-        // Get the Category ID
-        if($request->category_id != ""){
-            $Poll->categories()->attach($request->category_id ,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
+        // Get the Categories
+        foreach($request->categories as $val){
+            $Poll->categories()->attach($val ,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
         }
 
         // Get the Options
-        if($request->options != ""){
-            foreach($request->options as $val){
-                $Option = new Option();
-                $Option->name = $val;
-                $Option->created_by = Auth::user()->id;
-                $Option->created_at = date('Y-m-d H:i:s');
-                $Option->updated_by = Auth::user()->id;
-                $Option->updated_at = date('Y-m-d H:i:s');
-                $Option->save();
-                //Link the options with created poll record
-                $Option->polls()->attach($Poll,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
-            }
+        foreach($request->options as $val){
+            $Option = new Option();
+            $Option->name = $val;
+            $Option->created_by = Auth::user()->id;
+            $Option->created_at = date('Y-m-d H:i:s');
+            $Option->updated_by = Auth::user()->id;
+            $Option->updated_at = date('Y-m-d H:i:s');
+            $Option->save();
+            //Link the options with created poll record
+            $Option->polls()->attach($Poll,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
         }
 
-        // Get the Country
-        if($request->countries != ""){
-            foreach($request->countries as $val){
-                $Country = Country::where('code', '=', $val)->first();
-                $Country->polls()->attach($Poll,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
-            }
-        } else {
-            // Get the server IP Address from where request is coming
-            if(filter_var($this->ip_address, FILTER_VALIDATE_IP)){
-                $ip_details = json_decode(@file_get_contents("http://ipinfo.io/{$this->ip_address}/json"));
-                $visitor_country_code = @$ip_details->country;
-                if ($visitor_country_code != "") {
-                    $Country = Country::where('code', '=', $visitor_country_code)->first();
-                    $Country->polls()->attach($Poll,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
-                }
-            }
+        // Get the Countr
+        foreach($request->countries as $val){
+            $Country = Country::where('code', '=', $val)->first();
+            $Country->polls()->attach($Poll,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
         }
+
+        return response()->json(['message' => trans('mobileLang.pollSuccess')], $this->successStatus);
     }
 
     /**
@@ -266,6 +267,14 @@ class PollsController extends Controller
     {
         $ApplicationUser = ApplicationUsers::find(Auth::user()->id);
         if (count($ApplicationUser->favourites) > 0) {
+            $Polls = $ApplicationUser->favourites->map(function ($value) {
+                $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
+                $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
+                $Poll['name'] = $value->name;
+                $Poll['timespan'] = Carbon::createFromTimeStamp(strtotime($value->end_datetime))->diffForHumans();
+                $Poll['options'] = Poll::find($value->id)->options;
+                return $Poll;
+            });
             return response()->json($ApplicationUser->favourites, $this->successStatus);
         } else {
             return response()->json(['error' => trans('mobileLang.pollFavouriteNotFound')], 404);
@@ -281,6 +290,14 @@ class PollsController extends Controller
     {
         $Poll = Poll::where('created_by','=',Auth::user()->id)->get();
         if (count($Poll) > 0) {
+            $Polls = $Poll->map(function ($value) {
+                $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
+                $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
+                $Poll['name'] = $value->name;
+                $Poll['timespan'] = Carbon::createFromTimeStamp(strtotime($value->end_datetime))->diffForHumans();
+                $Poll['options'] = Poll::find($value->id)->options;
+                return $Poll;
+            });
             return response()->json($Poll, $this->successStatus);
         } else {
             return response()->json(['error' => trans('mobileLang.pollMyPollsNotFound')], 404);
@@ -346,7 +363,7 @@ class PollsController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'poll_id' => 'required',
-            'comment' => 'required',
+            'comments' => 'required',
         ]);
 
         if ($validator->fails()) {

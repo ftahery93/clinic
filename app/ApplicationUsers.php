@@ -48,6 +48,10 @@ class ApplicationUsers extends Authenticatable
         return $this->belongsToMany(Category::class);
     }
 
+    public function polls() {
+        return $this->belongsToMany(Poll::class);
+    }
+
     
     /**
      * The attributes that should be hidden for arrays.

@@ -110,6 +110,10 @@ class Helper
         return $response;
     }
 
+    static function getAttribute($obj){
+        return implode($obj->toArray());
+    }
+
 }
 
 

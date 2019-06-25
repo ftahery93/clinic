@@ -67,4 +67,8 @@ class Poll extends Model
         return $this->belongsToMany(Comment::class);
     }
 
+    public function application_user() {
+        return $this->belongsToMany(ApplicationUsers::class);
+    }
+
 }
