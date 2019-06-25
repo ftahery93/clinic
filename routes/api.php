@@ -15,7 +15,7 @@
 //    return $request->user();
 //})->middleware('auth:api');
 
-Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
+Route::group(['middleware' => 'checkAuth'], function () {
 
     /* User Profile */
     Route::get('/user/getProfile', 'API\User\UserProfileController@getProfile');
