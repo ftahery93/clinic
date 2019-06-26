@@ -40,23 +40,13 @@ class CategoryController extends Controller
        // Get List of Active Categories
        $Category = Category::where('status','=','1')->get();
        if(count($Category) > 0){ 
-            if($this->language == "ar"){
-                $Category = $Category->map(function ($category) {
-                    $Category['id'] = $category->id;
-                    $Category['name'] = $category->title_ar;
-                    $Category['photo'] = $category->photo;
-                    return $Category;
-                });
-                return response()->json($Category, $this->successStatus);
-            } else {
-                $Category = $Category->map(function ($category) {
-                    $Category['id'] = $category->id;
-                    $Category['name'] = $category->title_en;
-                    $Category['photo'] = $category->photo;
-                    return $Category;
-                });
-                return response()->json($Category, $this->successStatus);
-            }
+            $Category = Auth::user()->categories->map(function ($category) {
+                $Category['id'] = $category->id;
+                $Category['name'] = ($this->language == "ar") ? $category->title_ar : $category->title_en;
+                $Category['photo'] = $category->photo;
+                return $Category;
+            });
+            return response()->json($Category, $this->successStatus);
        } else {
             return response()->json(['error' => trans('mobileLang.categoryNotFound')], 404);
        }
@@ -79,17 +69,37 @@ class CategoryController extends Controller
             return response()->json(['error' => $validator->messages()->first()], 422);
         }
         
-        if($request->categories != ""){
-            foreach($request->categories as $val){
-                if (!Category::where('id','=',$val)->exists()) {
-                    return response()->json(['error' => trans('mobileLang.categoryInterestFailToAdd',[ 'id' => $val])], 404);
-                } 
-                Auth::user()->categories()->sync($val,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
-            }
-            return response()->json(['message' => trans('mobileLang.categoryInterestSuccess')], $this->successStatus);
-        } else {
-            return response()->json(['message' => trans('mobileLang.categoryInterestFail')], 404);
+        foreach($request->categories as $val){
+            if (!Category::where('id','=',$val)->exists()) {
+                return response()->json(['error' => trans('mobileLang.categoryInterestFailToAdd',[ 'id' => $val])], 404);
+            } 
+            Auth::user()->categories()->attach($val,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
         }
+
+        return response()->json(['message' => trans('mobileLang.categoryInterestSuccess')], $this->successStatus);
+    }
+
+
+    /**
+     * Delete selected saved category.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteUserCategory(Request $request)
+    {
+        json_decode($request->getContent(),true);
+
+        $validator = Validator::make($request->all(), [
+            'category_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->messages()->first()], 422);
+        }
+        
+        Auth::user()->categories()->detach($request->category_id,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
+
+        return response()->json(['message' => trans('mobileLang.categoryDeleteSuccess')], $this->successStatus);
     }
 
     /**
@@ -100,7 +110,13 @@ class CategoryController extends Controller
     public function getUserCategories()
     {
         if (Auth::user()->categories) {
-            return response()->json(Auth::user()->categories, $this->successStatus);
+            $Category = Auth::user()->categories->map(function ($category) {
+                $Category['id'] = $category->id;
+                $Category['name'] = ($this->language == "ar") ? $category->title_ar : $category->title_en;
+                $Category['photo'] = $category->photo;
+                return $Category;
+            });
+            return response()->json($Category, $this->successStatus);
         } else {
             return response()->json(['message' => trans('mobileLang.categoryNotFound')], 404);
         }
@@ -113,8 +129,17 @@ class CategoryController extends Controller
      */
     public function getUserFilteredCategories()
     {
+        // Get List of Active Categories
+       $Category = Category::where('status','=','1')->get();
+       return $Category;
         if (Auth::user()->categories) {
-            return response()->json(Auth::user()->categories, $this->successStatus);
+            $Category = Auth::user()->categories->map(function ($category) {
+                $Category['id'] = $category->id;
+                $Category['name'] = ($this->language == "ar") ? $category->title_ar : $category->title_en;
+                $Category['photo'] = $category->photo;
+                return $Category;
+            });
+            return response()->json($Category, $this->successStatus);
         } else {
             return response()->json(['message' => trans('mobileLang.categoryNotFound')], 404);
         }

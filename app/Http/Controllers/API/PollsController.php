@@ -21,7 +21,6 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-
 class PollsController extends Controller
 {
     public $language;

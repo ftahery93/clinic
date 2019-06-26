@@ -52,6 +52,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+     * The photo attrbute with URL
+     *
+     * @var array
+     */
     public function getPhotoAttribute($value){
         return $value ? url('/uploads/users/' . $value) : null;
     }

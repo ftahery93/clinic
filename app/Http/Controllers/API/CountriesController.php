@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Auth;
 use File;
+use Helper;
 use App\Country;
 use App\Http\Controllers\Controller;
 use Illuminate\Config;
@@ -31,30 +32,47 @@ class CountriesController extends Controller
     }
 
     /**
-     * Fetch the list of polls from storage.
+     * Fetch the list of countries.
      *
      * @return \Illuminate\Http\Response
      */
     public function getCountries()
     {
-       // Get List of Categories
+       // Get List of Categories, Just Id & Name
        $Country = Country::get();
        if(count($Country) > 0){
-            if($this->language == "ar"){
-                $Country = $Country->map(function ($country) {
-                    $Country['id'] = $country->id;
-                    $Country['name'] = $country->title_ar;
-                    return $Country;
-                });
-                return response()->json($Country, $this->successStatus);
-            } else {
-                $Country = $Country->map(function ($country) {
-                    $Country['id'] = $country->id;
-                    $Country['name'] = $country->title_en;
-                    return $Country;
-                });
-                return response()->json($Country, $this->successStatus);
-            }
+            $Country = $Country->map(function ($country) {
+                $Country['id'] = $country->id;
+                $Country['name'] = ($this->language == "ar") ? $country->title_ar : $country->title_en;
+                return $Country;
+            });
+            return response()->json($Country, $this->successStatus);
+       } else {
+            return response()->json(['error' => trans('mobileLang.countryNotFound')], 404);
+       }
+    }
+
+    /**
+     * Fetch the list of trend countries.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getTrendCountries()
+    {
+       // Get List of Trend Countries
+       $Country = Country::paginate();
+       $next_page = Helper::getParam($Country->nextPageUrl()); 
+       $total = $Country->total(); 
+       if(count($Country) > 0){
+            $Country = $Country->map(function ($country) {
+                $Country['id'] = $country->id;
+                $Country['name'] = ($this->language == "ar") ? $country->title_ar : $country->title_en;
+                $Country['photo'] = $country->photo;
+                return $Country;
+            });
+            $Country['next_page'] = $next_page;
+            $Country['total'] = $total;
+        return response()->json($Country, $this->successStatus);
        } else {
             return response()->json(['error' => trans('mobileLang.countryNotFound')], 404);
        }

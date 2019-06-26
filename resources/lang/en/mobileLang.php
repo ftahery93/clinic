@@ -28,6 +28,7 @@ return [
     'categoryPollsNotFound' => 'No polls available for selected category.',
     'categoryNotFound' => 'No category available.',
     'categoryInterestSuccess' => 'Category of your interest added successfully.',
+    'categoryDeleteSuccess' => 'Category unlinked successfully.',
     'categoryInterestFail' => 'Category failed to add',
     'categoryInterestFailToAdd' => 'Category ID :id failed to add',
     'pollCommentSuccess' => 'You have successfully added comment to this poll.',

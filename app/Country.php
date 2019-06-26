@@ -33,4 +33,13 @@ class Country extends Model
     {
         return $this->belongsToMany(Poll::class);
     }
+
+    /**
+     * The photo attrbute with URL
+     *
+     * @var array
+     */
+    public function getPhotoAttribute($value){
+        return $value ? url('/uploads/countries/' . $value) : null;
+    }
 }

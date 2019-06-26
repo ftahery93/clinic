@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers\API;
 
-
 use App\Page;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-
 class PagesController extends Controller
 {
     public $language;
     public $successStatus = 200;
-    private $uploadPath = "uploads/pages/";
 
     // Define Default Variables
 
@@ -47,21 +44,12 @@ class PagesController extends Controller
 
         $Page = Page::where('name','=',$request->name)->where('status','=','1')->get();
         if (count($Page) > 0) {
-            if($this->language == "ar"){
-                $Page = $Page->map(function ($page) {
-                    $Page['name'] = $page->title_ar;
-                    $Page['content'] = $page->details_ar;
-                    return $Page;
-                });
-                return response()->json($Page, $this->successStatus);
-            } else {
-                $Page = $Page->map(function ($page) {
-                    $Page['name'] = $page->title_en;
-                    $Page['content'] = $page->details_en;
-                    return $Page;
-                });
-                return response()->json($Page, $this->successStatus);
-            }
+            $Page = $Page->map(function ($page) {
+                $Page['name'] = ($this->language == "ar") ? $page->title_ar : $page->title_en;
+                $Page['content'] = ($this->language == "ar") ? $page->details_ar : $page->details_en;
+                return $Page;
+            });
+            return response()->json($Page, $this->successStatus);
         } else {
             return response()->json(['error' => trans('mobileLang.pageNotFound')], 404);
         }

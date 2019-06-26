@@ -70,4 +70,12 @@ class ApplicationUsers extends Authenticatable
         'notification'
     ];
 
+    /**
+     * The photo attrbute with URL
+     *
+     * @var array
+     */
+    public function getPhotoAttribute($value){
+        return $value ? url('/uploads/appusers/' . $value) : null;
+    }
 }

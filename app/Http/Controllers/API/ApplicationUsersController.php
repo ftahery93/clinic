@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-
 class ApplicationUsersController extends Controller
 {
 
@@ -175,25 +174,6 @@ class ApplicationUsersController extends Controller
     }
 
     /**
-     * Forgot password
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function forgot(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()->first()], 422);
-        }
-
-        return false;
-    }
-
-    /**
      * Update the specified resource.
      *
      * @param  int $id
@@ -312,26 +292,4 @@ class ApplicationUsersController extends Controller
             return response()->json(['error' => trans('mobileLang.userNotFound')], 404);
         }
     }
-
-    /**
-     * Delete account for the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function delete()
-    {
-        $ApplicationUser = ApplicationUsers::find(Auth::user()->id);
-        if (count($ApplicationUser) > 0) {
-            $ApplicationUser->deleted = 1;
-            $ApplicationUser->updated_by = Auth::user()->id;
-            $ApplicationUser->updated_at = date("Y-m-d H:i:s");
-            $ApplicationUser->save();
-            return response()->json(['message' => trans('mobileLang.userDeleteSuccess')], $this->successStatus);
-        } else {
-            return response()->json(['error' => trans('mobileLang.userNotFound')], 404);
-        }
-    }
-
 }
