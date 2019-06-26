@@ -40,7 +40,7 @@ class CategoryController extends Controller
        // Get List of Active Categories
        $Category = Category::where('status','=','1')->get();
        if(count($Category) > 0){ 
-            $Category = Auth::user()->categories->map(function ($category) {
+            $Category = $Category->map(function ($category) {
                 $Category['id'] = $category->id;
                 $Category['name'] = ($this->language == "ar") ? $category->title_ar : $category->title_en;
                 $Category['photo'] = $category->photo;
