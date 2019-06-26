@@ -118,7 +118,14 @@ class CategoryController extends Controller
             });
             return response()->json($Category, $this->successStatus);
         } else {
-            return response()->json(['message' => trans('mobileLang.categoryNotFound')], 404);
+            $Category = Category::where('status','=','1')->get();
+            $Category = $Category->map(function ($category) {
+                $Category['id'] = $category->id;
+                $Category['name'] = ($this->language == "ar") ? $category->title_ar : $category->title_en;
+                $Category['photo'] = $category->photo;
+                return $Category;
+            });
+            return response()->json($Category, $this->successStatus);
         }
     }
 

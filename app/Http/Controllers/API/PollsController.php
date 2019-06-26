@@ -41,7 +41,7 @@ class PollsController extends Controller
         $this->language = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : "en";  
 
         //get the language from the HTTP header
-        $this->ip_address = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "";  
+        $this->ip_address = isset($_SERVER['HTTP_IP']) ? $_SERVER['HTTP_IP'] : "";  
         
         //get the DB table prefix for raw queries
         $this->db_table_prefix = preg_replace("/&#?[a-z0-9]+;/i","",DB::getTablePrefix());
