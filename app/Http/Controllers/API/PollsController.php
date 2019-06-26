@@ -62,7 +62,7 @@ class PollsController extends Controller
         if(filter_var($this->ip_address, FILTER_VALIDATE_IP)){
             $ip_details = json_decode(@file_get_contents("http://ipinfo.io/{$this->ip_address}/json"));
             $visitor_country_code = @$ip_details->country;
-            return $visitor_country_code;
+            return $ip_details;
             if ($visitor_country_code != "") {
                 $Country = Country::where('code', '=', $visitor_country_code)->first();
                 if (count($Country->polls) > 0) {
