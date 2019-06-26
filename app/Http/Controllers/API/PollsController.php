@@ -41,7 +41,7 @@ class PollsController extends Controller
         $this->language = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : "en";  
 
         //get the language from the HTTP header
-        $this->ip_address = isset($_SERVER['HTTP_APP_IP']) ? $_SERVER['HTTP_APP_IP'] : "";  
+        $this->user_country = isset($_SERVER['HTTP_USER_COUNTRY']) ? $_SERVER['HTTP_USER_COUNTRY'] : "";  
         
         //get the DB table prefix for raw queries
         $this->db_table_prefix = preg_replace("/&#?[a-z0-9]+;/i","",DB::getTablePrefix());
@@ -55,37 +55,25 @@ class PollsController extends Controller
     public function getPolls(Request $request)
     {
         // Get the server IP Address from the incoming request
-        if(!$this->ip_address){
-            return response()->json(['error' => trans('mobileLang.ipNotFoundinHeader')], 404);
+        if(!$this->user_country){
+            return response()->json(['error' => trans('mobileLang.countryNotFound')], 404);
         }
         //  Validate IP Address format
-        if(filter_var($this->ip_address, FILTER_VALIDATE_IP)){
-            $ip_details = json_decode(@file_get_contents("http://ipinfo.io/{$this->ip_address}/json"));
-            $visitor_country_code = @$ip_details->country;
-            return $ip_details;
-            if ($visitor_country_code != "") {
-                $Country = Country::where('code', '=', $visitor_country_code)->first();
-                if (count($Country->polls) > 0) {
-                    //Check only available poll should be fetched
-                    $Polls = $Country->polls->where('end_datetime','>=',Carbon::now())->map(function ($value) {
-                        $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
-                        $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
-                        $Poll['name'] = $value->name;
-                        $Poll['timespan'] = Carbon::createFromTimeStamp(strtotime($value->end_datetime))->diffForHumans();
-                        $Poll['options'] = Poll::find($value->id)->options;
-                        return $Poll;
-                    });
-                    return response()->json($Polls, $this->successStatus);
-                } else {
-                    return response()->json(['error' => trans('mobileLang.countryPollsNotFound')],404);
-                }
-            } else {
-                return response()->json(['error' => trans('mobileLang.countryNotFound')], 404);
-            }
+        $Country = Country::where('code', '=', $this->user_country)->first();
+        if (count($Country->polls) > 0) {
+            //Check only available poll should be fetched
+            $Polls = $Country->polls->where('end_datetime','>=',Carbon::now())->map(function ($value) {
+                $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
+                $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
+                $Poll['name'] = $value->name;
+                $Poll['timespan'] = Carbon::createFromTimeStamp(strtotime($value->end_datetime))->diffForHumans();
+                $Poll['options'] = Poll::find($value->id)->options;
+                return $Poll;
+            });
+            return response()->json($Polls, $this->successStatus);
         } else {
-            return response()->json(['error' => trans('mobileLang.countryIPInvalid')], 404);
+            return response()->json(['error' => trans('mobileLang.countryPollsNotFound')],404);
         }
-
     }
 
     /**
