@@ -116,9 +116,14 @@ class Helper
 
     //Get Query Parameter from URL
     static function getParam($obj){
-        $query =  parse_url($obj)['query'];
-        parse_str($query,$output);
-        return $output['page'];
+        if(!empty($obj)){
+            $query =  parse_url($obj)['query'];
+            parse_str($query,$output);
+            return $output['page'];
+        } else {
+            return false;
+        }
+        
     }
 
 }

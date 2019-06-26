@@ -60,7 +60,7 @@ class CountriesController extends Controller
     public function getTrendCountries()
     {
        // Get List of Trend Countries
-       $Country = Country::paginate();
+       $Country = Country::paginate(20);
        $next_page = Helper::getParam($Country->nextPageUrl()); 
        $total = $Country->total(); 
        if(count($Country) > 0){

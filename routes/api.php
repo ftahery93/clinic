@@ -54,7 +54,10 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::get('/getpolls', 'API\PollsController@getPolls')->name('api_polls');  
 
     // Get Polls List based on Category ID
-    Route::post('/categories/getpolls', 'API\PollsController@getPollsByCategory')->name('api_category_polls');  
+    Route::post('/categories/getpolls', 'API\PollsController@getPollsByCategory')->name('api_category_polls'); 
+
+    // Get Polls List based on Country ID
+    Route::post('/countries/getpolls', 'API\PollsController@getPollsByCountry')->name('api_country_polls');  
 
     // Create Poll
     Route::post('/polls/create', 'API\PollsController@createPoll')->name('api_create_poll');  

@@ -40,7 +40,7 @@ class PollsController extends Controller
         //get the language from the HTTP header
         $this->language = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : "en";  
 
-        //get the language from the HTTP header
+        //get the country from the HTTP header
         $this->user_country = isset($_SERVER['HTTP_USER_COUNTRY']) ? $_SERVER['HTTP_USER_COUNTRY'] : "";  
         
         //get the DB table prefix for raw queries
@@ -54,15 +54,17 @@ class PollsController extends Controller
      */
     public function getPolls(Request $request)
     {
-        // Get the server IP Address from the incoming request
         if(!$this->user_country){
             return response()->json(['error' => trans('mobileLang.countryNotFound')], 404);
         }
-        //  Validate IP Address format
+
         $Country = Country::where('code', '=', $this->user_country)->first();
         if (count($Country->polls) > 0) {
             //Check only available poll should be fetched
-            $Polls = $Country->polls->where('end_datetime','>=',Carbon::now())->map(function ($value) {
+            $Polls = $Country->polls()->where('end_datetime','>=',Carbon::now())->paginate(20);
+            $next_page = Helper::getParam($Polls->nextPageUrl()); 
+            $total = $Polls->total(); 
+            $PollsResult = $Polls->map(function ($value) {
                 $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
                 $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
                 $Poll['name'] = $value->name;
@@ -70,7 +72,9 @@ class PollsController extends Controller
                 $Poll['options'] = Poll::find($value->id)->options;
                 return $Poll;
             });
-            return response()->json($Polls, $this->successStatus);
+            $PollsResult['next_page'] = !empty($next_page) ? $next_page : null;
+            $PollsResult['total'] = $total;
+            return response()->json($PollsResult, $this->successStatus);
         } else {
             return response()->json(['error' => trans('mobileLang.countryPollsNotFound')],404);
         }
@@ -93,8 +97,10 @@ class PollsController extends Controller
 
         $Category = Category::find($request->category_id);
         if (count($Category->polls) > 0) {
-            //Check only available poll should be fetched
-            $Polls = $Category->polls->where('end_datetime','>=',Carbon::now())->map(function ($value) {
+            $Polls = $Category->polls()->where('end_datetime','>=',Carbon::now())->paginate(20);
+            $next_page = Helper::getParam($Polls->nextPageUrl()); 
+            $total = $Polls->total(); 
+            $PollsResult = $Polls->map(function ($value) {
                 $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
                 $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
                 $Poll['name'] = $value->name;
@@ -102,9 +108,47 @@ class PollsController extends Controller
                 $Poll['options'] = Poll::find($value->id)->options;
                 return $Poll;
             });
-            return response()->json($Polls, $this->successStatus);
+            $PollsResult['next_page'] = !empty($next_page) ? $next_page : null;
+            $PollsResult['total'] = $total;
+            return response()->json($PollsResult, $this->successStatus);
         } else {
             return response()->json(['error' => trans('mobileLang.categoryPollsNotFound')], 404);
+        }
+    }
+
+    /**
+     * Fetch the list of polls from country ID
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getPollsByCountry(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'country_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->messages()->first()], 422);
+        }
+
+        $Country = Country::find($request->country_id);
+        if (count($Country->polls) > 0) {
+            $Polls = $Country->polls()->where('end_datetime','>=',Carbon::now())->paginate(20);
+            $next_page = Helper::getParam($Polls->nextPageUrl()); 
+            $total = $Polls->total(); 
+            $PollsResult = $Polls->map(function ($value) {
+                $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
+                $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
+                $Poll['name'] = $value->name;
+                $Poll['timespan'] = Carbon::createFromTimeStamp(strtotime($value->end_datetime))->diffForHumans();
+                $Poll['options'] = Poll::find($value->id)->options;
+                return $Poll;
+            });
+            $PollsResult['next_page'] = !empty($next_page) ? $next_page : null;
+            $PollsResult['total'] = $total;
+            return response()->json($PollsResult, $this->successStatus);
+        } else {
+            return response()->json(['error' => trans('mobileLang.countryPollsNotFound')], 404);
         }
     }
 
@@ -160,10 +204,8 @@ class PollsController extends Controller
         if(!$hour){
             $duration = $duration * 24;
             $end_datetime = date('Y-m-d H:i:s',strtotime('+'.$duration.'hours'));
-            return $end_datetime;
         } else {
             $end_datetime = date('Y-m-d H:i:s',strtotime('+'.$duration.'hours'));
-            return $end_datetime;
         }
     
 
@@ -202,7 +244,7 @@ class PollsController extends Controller
             $Option->polls()->attach($Poll,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
         }
 
-        // Get the Countr
+        // Get the Countries
         foreach($request->countries as $val){
             $Country = Country::where('code', '=', $val)->first();
             $Country->polls()->attach($Poll,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
