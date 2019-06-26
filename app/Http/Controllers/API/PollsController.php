@@ -54,6 +54,7 @@ class PollsController extends Controller
      */
     public function getPolls(Request $request)
     {
+        return $this->ip_address;
         // Get the server IP Address from the incoming request
         if(!$this->ip_address){
             return response()->json(['error' => trans('mobileLang.ipNotFoundinHeader')], 404);
