@@ -351,7 +351,7 @@ class AddressController extends Controller
 
         $address = Address::find($request->address_id);
         if ($address != null && $request->user_id == $address->user_id) {
-            $address = Address::create([
+            $address = Address::update([
                 'name' => $request->name,
                 'block' => $request->block,
                 'street' => $request->street,
