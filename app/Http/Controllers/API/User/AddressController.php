@@ -351,7 +351,7 @@ class AddressController extends Controller
 
         $address = Address::find($request->address_id);
         if ($address != null && $request->user_id == $address->user_id) {
-            $address = Address::update([
+            $address->update([
                 'name' => $request->name,
                 'block' => $request->block,
                 'street' => $request->street,
@@ -363,6 +363,7 @@ class AddressController extends Controller
 
             return response()->json([
                 'message' => LanguageMangement::getLabel('address_update_success', $this->language),
+                'address' => collect($address),
             ]);
         } else {
             return response()->json([
