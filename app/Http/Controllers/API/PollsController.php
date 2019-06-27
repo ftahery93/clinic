@@ -102,10 +102,10 @@ class PollsController extends Controller
 
         $Category = Category::find($request->category_id);
         if (count($Category->polls) > 0) {
-            $Polls = $Category->polls()->where('end_datetime','>=',Carbon::now())->paginate(20);
-            $next_page = Helper::getParam($Polls->nextPageUrl()); 
-            $total = $Polls->total(); 
-            $PollsResult = $Polls->map(function ($value) {
+            $Poll = $Category->polls()->where('end_datetime','>=',Carbon::now())->paginate(20);
+            $next_page = Helper::getParam($Poll->nextPageUrl()); 
+            $total = $Poll->total(); 
+            $Poll = $Poll->map(function ($value) {
                 $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
                 $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
                 $Poll['name'] = $value->name;
@@ -113,9 +113,10 @@ class PollsController extends Controller
                 $Poll['options'] = Poll::find($value->id)->options;
                 return $Poll;
             });
-            $PollsResult['next_page'] = !empty($next_page) ? $next_page : null;
-            $PollsResult['total'] = $total;
-            return response()->json($PollsResult, $this->successStatus);
+            $Polls['polls'] = $Poll;
+            $Polls['next_page'] = !empty($next_page) ? $next_page : "";
+            $Polls['total'] = $total;
+            return response()->json($Polls, $this->successStatus);
         } else {
             return response()->json(['error' => trans('mobileLang.categoryPollsNotFound')], 404);
         }
@@ -138,10 +139,10 @@ class PollsController extends Controller
 
         $Country = Country::find($request->country_id);
         if (count($Country->polls) > 0) {
-            $Polls = $Country->polls()->where('end_datetime','>=',Carbon::now())->paginate(20);
-            $next_page = Helper::getParam($Polls->nextPageUrl()); 
-            $total = $Polls->total(); 
-            $PollsResult = $Polls->map(function ($value) {
+            $Poll = $Country->polls()->where('end_datetime','>=',Carbon::now())->paginate(20);
+            $next_page = Helper::getParam($Poll->nextPageUrl()); 
+            $total = $Poll->total(); 
+            $Poll = $Poll->map(function ($value) {
                 $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
                 $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
                 $Poll['name'] = $value->name;
@@ -149,9 +150,10 @@ class PollsController extends Controller
                 $Poll['options'] = Poll::find($value->id)->options;
                 return $Poll;
             });
-            $PollsResult['next_page'] = !empty($next_page) ? $next_page : null;
-            $PollsResult['total'] = $total;
-            return response()->json($PollsResult, $this->successStatus);
+            $Polls['polls'] = $Poll;
+            $Polls['next_page'] = !empty($next_page) ? $next_page : "";
+            $Polls['total'] = $total;
+            return response()->json($Polls, $this->successStatus);
         } else {
             return response()->json(['error' => trans('mobileLang.countryPollsNotFound')], 404);
         }
@@ -173,6 +175,7 @@ class PollsController extends Controller
             'categories' => 'required|array|min:1',
             'countries' => 'required|array|min:1',
             'options' => 'required|array|min:1',
+            'options.*' => 'max:25',
             'duration_id' => 'required',
         ]);
 
@@ -307,10 +310,10 @@ class PollsController extends Controller
                 $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
                 $Poll['name'] = $value->name;
                 $Poll['timespan'] = Carbon::createFromTimeStamp(strtotime($value->end_datetime))->diffForHumans();
-                $Poll['options'] = Poll::find($value->id)->options;
+                $Poll['answers'] = $this->getPollAnswers($value->id);
                 return $Poll;
             });
-            return response()->json($ApplicationUser->favourites, $this->successStatus);
+            return response()->json($Polls, $this->successStatus);
         } else {
             return response()->json(['error' => trans('mobileLang.pollFavouriteNotFound')], 404);
         }
@@ -380,11 +383,7 @@ class PollsController extends Controller
         $Result->updated_at = date('Y-m-d H:i:s');
         $Result->save();
 
-        // Get the Poll Result 
-        $PollResultsExecute = DB::select("SELECT {$this->db_table_prefix}option_poll.option_id AS id, ROUND(COUNT({$this->db_table_prefix}poll_results.id) * 100 / (SELECT COUNT(*) FROM {$this->db_table_prefix}poll_results WHERE {$this->db_table_prefix}poll_results.poll_id= :poll1),2) AS percentage FROM {$this->db_table_prefix}option_poll LEFT JOIN {$this->db_table_prefix}poll_results ON {$this->db_table_prefix}option_poll.option_id = {$this->db_table_prefix}poll_results.option_id LEFT JOIN {$this->db_table_prefix}options ON {$this->db_table_prefix}option_poll.option_id = {$this->db_table_prefix}options.id WHERE {$this->db_table_prefix}option_poll.poll_id = :poll2 GROUP BY {$this->db_table_prefix}option_poll.option_id",[
-            'poll1' => $request->poll_id,
-            'poll2' => $request->poll_id,
-        ]);
+        $PollResultsExecute = $this->getPollAnswers($request->poll_id);
 
         return response()->json($PollResultsExecute, $this->successStatus);
     }
@@ -508,6 +507,24 @@ class PollsController extends Controller
             'gender' => $PollResultsGender,
             'age' => $PollResultsAge
         ], $this->successStatus);
+    }
+
+    /** 
+     * Get Poll answers by Poll Id
+     * 
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getPollAnswers($pollId){
+
+        // Get the Poll answers 
+        $pollAnswers = DB::select("SELECT {$this->db_table_prefix}option_poll.option_id AS id, ROUND(COUNT({$this->db_table_prefix}poll_results.id) * 100 / (SELECT COUNT(*) FROM {$this->db_table_prefix}poll_results WHERE {$this->db_table_prefix}poll_results.poll_id= :poll1),2) AS percentage FROM {$this->db_table_prefix}option_poll LEFT JOIN {$this->db_table_prefix}poll_results ON {$this->db_table_prefix}option_poll.option_id = {$this->db_table_prefix}poll_results.option_id LEFT JOIN {$this->db_table_prefix}options ON {$this->db_table_prefix}option_poll.option_id = {$this->db_table_prefix}options.id WHERE {$this->db_table_prefix}option_poll.poll_id = :poll2 GROUP BY {$this->db_table_prefix}option_poll.option_id",[
+            'poll1' => $pollId,
+            'poll2' => $pollId,
+        ]);
+
+        return $pollAnswers;
     }
 
     /**
