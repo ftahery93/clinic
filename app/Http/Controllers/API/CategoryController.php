@@ -110,23 +110,25 @@ class CategoryController extends Controller
     public function getUserCategories()
     {
         if (Auth::user()->categories) {
-            $Category = Auth::user()->categories->map(function ($category) {
-                $Category['id'] = $category->id;
-                $Category['name'] = ($this->language == "ar") ? $category->title_ar : $category->title_en;
-                $Category['photo'] = $category->photo;
-                return $Category;
-            });
-            return response()->json($Category, $this->successStatus);
-        } else {
-            $Category = Category::where('status','=','1')->get();
-            $Category = $Category->map(function ($category) {
-                $Category['id'] = $category->id;
-                $Category['name'] = ($this->language == "ar") ? $category->title_ar : $category->title_en;
-                $Category['photo'] = $category->photo;
-                return $Category;
-            });
-            return response()->json($Category, $this->successStatus);
-        }
+            if(count(Auth::user()->categories) > 0){   
+                $Category = Auth::user()->categories->map(function ($category) {
+                    $Category['id'] = $category->id;
+                    $Category['name'] = ($this->language == "ar") ? $category->title_ar : $category->title_en;
+                    $Category['photo'] = $category->photo;
+                    return $Category;
+                });
+                return response()->json($Category, $this->successStatus);
+            } else {
+                $Category = Category::where('status','=','1')->get();
+                $Category = $Category->map(function ($category) {
+                    $Category['id'] = $category->id;
+                    $Category['name'] = ($this->language == "ar") ? $category->title_ar : $category->title_en;
+                    $Category['photo'] = $category->photo;
+                    return $Category;
+                });
+                return response()->json($Category, $this->successStatus);
+            }
+        } 
     }
 
     /**
