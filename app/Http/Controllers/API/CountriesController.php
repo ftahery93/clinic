@@ -67,12 +67,13 @@ class CountriesController extends Controller
             $Country = $Country->map(function ($country) {
                 $Country['id'] = $country->id;
                 $Country['name'] = ($this->language == "ar") ? $country->title_ar : $country->title_en;
-                $Country['photo'] = $country->photo;
+                $Country['photo'] = !empty($country->photo) ? $country->photo : "";
                 return $Country;
             });
-            $Country['next_page'] = $next_page;
-            $Country['total'] = $total;
-        return response()->json($Country, $this->successStatus);
+            $Countries['countries'] = $Country;
+            $Countries['next_page'] = !empty($next_page) ? $next_page : "";
+            $Countries['total'] = $total;
+        return response()->json($Countries, $this->successStatus);
        } else {
             return response()->json(['error' => trans('mobileLang.countryNotFound')], 404);
        }

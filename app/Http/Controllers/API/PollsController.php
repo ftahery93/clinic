@@ -61,10 +61,10 @@ class PollsController extends Controller
         $Country = Country::where('code', '=', $this->user_country)->first();
         if (count($Country->polls) > 0) {
             //Check only available poll should be fetched
-            $Polls = $Country->polls()->where('end_datetime','>=',Carbon::now())->paginate(20);
-            $next_page = Helper::getParam($Polls->nextPageUrl()); 
-            $total = $Polls->total(); 
-            $PollsResult = $Polls->map(function ($value) {
+            $Poll = $Country->polls()->where('end_datetime','>=',Carbon::now())->paginate(20);
+            $next_page = Helper::getParam($Poll->nextPageUrl()); 
+            $total = $Poll->total(); 
+            $Poll = $Poll->map(function ($value) {
                 $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
                 $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
                 $Poll['name'] = $value->name;
@@ -72,9 +72,10 @@ class PollsController extends Controller
                 $Poll['options'] = Poll::find($value->id)->options;
                 return $Poll;
             });
-            $PollsResult['next_page'] = !empty($next_page) ? $next_page : null;
-            $PollsResult['total'] = $total;
-            return response()->json($PollsResult, $this->successStatus);
+            $Polls['polls'] = $Poll;
+            $Polls['next_page'] = !empty($next_page) ? $next_page : "";
+            $Polls['total'] = $total;
+            return response()->json($Polls, $this->successStatus);
         } else {
             return response()->json(['error' => trans('mobileLang.countryPollsNotFound')],404);
         }
