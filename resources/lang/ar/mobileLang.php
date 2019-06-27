@@ -15,6 +15,7 @@ return [
     'countryIPInvalid' => 'عنوان IP غير صالح.',
     'ipNotFoundinHeader' => 'عنوان IP غير موجود في الرأس.',
     'pollMyPollsNotFound' => 'لا استطلاعات الرأي المتاحة!',
+    'countryPollsNoRecord' => 'لا استطلاعات الرأي المتاحة!',
     'pollFavouriteNotFound' => 'لا استطلاعات الرأي المتاحة!',
     'pollUnFavourite' => 'استطلاع الرأي غير لائق',
     'pollFavourite' => 'استطلاع الرأي كمفضل',

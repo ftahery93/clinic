@@ -62,20 +62,24 @@ class PollsController extends Controller
         if (count($Country->polls) > 0) {
             //Check only available poll should be fetched
             $Poll = $Country->polls()->where('end_datetime','>=',Carbon::now())->paginate(20);
-            $next_page = Helper::getParam($Poll->nextPageUrl()); 
-            $total = $Poll->total(); 
-            $Poll = $Poll->map(function ($value) {
-                $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
-                $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
-                $Poll['name'] = $value->name;
-                $Poll['timespan'] = Carbon::createFromTimeStamp(strtotime($value->end_datetime))->diffForHumans();
-                $Poll['options'] = Poll::find($value->id)->options;
-                return $Poll;
-            });
-            $Polls['polls'] = $Poll;
-            $Polls['next_page'] = !empty($next_page) ? $next_page : "";
-            $Polls['total'] = $total;
-            return response()->json($Polls, $this->successStatus);
+            if(count($Poll) > 0){
+                $next_page = Helper::getParam($Poll->nextPageUrl()); 
+                $total = $Poll->total(); 
+                $Poll = $Poll->map(function ($value) {
+                    $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
+                    $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
+                    $Poll['name'] = $value->name;
+                    $Poll['timespan'] = Carbon::createFromTimeStamp(strtotime($value->end_datetime))->diffForHumans();
+                    $Poll['options'] = Poll::find($value->id)->options;
+                    return $Poll;
+                });
+                $Polls['polls'] = $Poll;
+                $Polls['next_page'] = !empty($next_page) ? $next_page : "";
+                $Polls['total'] = $total;
+                return response()->json($Polls, $this->successStatus);
+            } else {
+                return response()->json(['error' => trans('mobileLang.countryPollsNoRecord')],404);
+            }
         } else {
             return response()->json(['error' => trans('mobileLang.countryPollsNotFound')],404);
         }

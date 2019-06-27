@@ -15,6 +15,7 @@ return [
     'countryIPInvalid' => 'IP Address is invalid.',
     'ipNotFoundinHeader' => 'IP Address not found in header.',
     'pollMyPollsNotFound' => 'No polls found.',
+    'countryPollsNoRecord' => 'No polls found.',
     'pollFavouriteNotFound' => 'No saved polls available.',
     'pollUnFavourite' => 'Poll mark as unfavourite.',
     'pollFavourite' => 'Poll mark as favourite.',
