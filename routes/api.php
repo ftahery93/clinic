@@ -54,10 +54,10 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::get('/getpolls', 'API\PollsController@getPolls')->name('api_polls');  
 
     // Get Polls List based on Category ID
-    Route::post('/categories/getpolls', 'API\PollsController@getPollsByCategory')->name('api_category_polls'); 
+    Route::get('/categories/getpolls/{id}', 'API\PollsController@getPollsByCategory')->name('api_category_polls'); 
 
     // Get Polls List based on Country ID
-    Route::post('/countries/getpolls', 'API\PollsController@getPollsByCountry')->name('api_country_polls');  
+    Route::get('/countries/getpolls/{id}', 'API\PollsController@getPollsByCountry')->name('api_country_polls');  
 
     // Create Poll
     Route::post('/polls/create', 'API\PollsController@createPoll')->name('api_create_poll');  
@@ -69,7 +69,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('/polls/addcomment', 'API\PollsController@addComment')->name('api_add_comment');  
 
     // Fetch comments List
-    Route::post('/polls/getcomments/{id}', 'API\PollsController@getCommentsById')->name('api_poll_comments');  
+    Route::get('/polls/getcomments/{id}', 'API\PollsController@getCommentsById')->name('api_poll_comments');  
 
     // Fetch List of Categories 
     Route::get('/getcategories', 'API\CategoryController@getCategories')->name('api_categories');  
@@ -78,16 +78,19 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('/users/categories/save', 'API\CategoryController@saveUserCategories')->name('aoi_saved_categories');  
 
     // Delete Selected Category from Profile
-    Route::post('/users/categories/delete', 'API\CategoryController@deleteUserCategory')->name('api_delete_category');  
+    Route::delete('/users/categories/delete/{id}', 'API\CategoryController@deleteUserCategory')->name('api_delete_category');  
 
     // Get List of User interested Categories 
     Route::get('/users/categories/favourites', 'API\CategoryController@getUserCategories')->name('api_user_categories');  
 
-    // Fetch List of Categories 
+    // Fetch List of Countries 
     Route::get('/getcountries', 'API\CountriesController@getCountries')->name('api_countries');  
 
-    // Fetch List of Trends Categories 
+    // Fetch List of Trends Countries 
     Route::get('/getcountries/trends', 'API\CountriesController@getTrendCountries')->name('api_trend_countries');  
+
+    // Search List of Trends Countries 
+    Route::get('/getcountries/trends/search', 'API\CountriesController@search')->name('api_search_countries');  
 
     // Fetch List of Settings 
     Route::get('/getconfig', 'API\SettingsController@getConfiguration')->name('api_configuration');
@@ -102,13 +105,13 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::get('/poll/results/{id}', 'API\PollsController@getPollResults')->name('api_poll_results');  
 
     // Get page results
-    Route::post('/pages', 'API\PagesController@getPage')->name('api_pages'); 
+    Route::get('/pages/{name}', 'API\PagesController@getPage')->name('api_pages'); 
 
     // Get notifications
     Route::get('/users/notifications', 'API\NotificationsController@getNotifications')->name('api_notifications');  
 
     // Read notifications
-    Route::post('/users/notification/read', 'API\NotificationsController@read')->name('api_read_notification');  
+    Route::get('/users/notification/read/{id}', 'API\NotificationsController@read')->name('api_read_notification');  
 
 });
 

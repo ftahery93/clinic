@@ -170,7 +170,6 @@ class PollsController extends Controller
         json_decode($request->getContent(),true);
 
         $validator = Validator::make($request->all(), [
-            'photo' => 'mimes:png,jpeg,jpg,gif|max:3000',
             'poll_name' => 'required',
             'categories' => 'required|array|min:1',
             'countries' => 'required|array|min:1',
@@ -216,7 +215,6 @@ class PollsController extends Controller
             $end_datetime = date('Y-m-d H:i:s',strtotime('+'.$duration.'hours'));
         }
     
-
         $Poll = new Poll();
         $Poll->photo = $fileFinalName_ar;
         $Poll->name = $request->poll_name;
@@ -233,6 +231,9 @@ class PollsController extends Controller
         $Poll->updated_at = date('Y-m-d H:i:s');
         $Poll->status = 1;
         $Poll->save();
+
+        //Attach user
+        $Poll->application_user()->attach(Auth::user()->id ,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
 
         // Get the Categories
         foreach($request->categories as $val){
@@ -254,11 +255,10 @@ class PollsController extends Controller
 
         // Get the Countries
         foreach($request->countries as $val){
-            $Country = Country::where('code', '=', $val)->first();
-            $Country->polls()->attach($Poll,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
+            $Poll->countries()->attach($val,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
         }
-
-        return response()->json(['message' => trans('mobileLang.pollSuccess')], $this->successStatus);
+    
+        return response()->json(['message' => trans('mobileLang.pollCreateSuccess')], $this->successStatus);
     }
 
     /**

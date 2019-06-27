@@ -32,24 +32,13 @@ class PagesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getPage(Request $request)
+    public function getPage($name)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()->first()], 422);
-        }
-
-        $Page = Page::where('name','=',$request->name)->where('status','=','1')->get();
-        if (count($Page) > 0) {
-            $Page = $Page->map(function ($page) {
-                $Page['name'] = ($this->language == "ar") ? $page->title_ar : $page->title_en;
-                $Page['content'] = ($this->language == "ar") ? $page->details_ar : $page->details_en;
-                return $Page;
-            });
-            return response()->json($Page, $this->successStatus);
+        $Page = Page::where('name','=',$name)->where('status','=','1')->first();
+        if(!empty($Page)){
+            $Pages['name'] = ($this->language == "ar") ? $Page->title_ar : $Page->title_en;
+            $Pages['content'] = ($this->language == "ar") ? $Page->details_ar : $Page->details_en;
+            return response()->json($Pages, $this->successStatus);
         } else {
             return response()->json(['error' => trans('mobileLang.pageNotFound')], 404);
         }
