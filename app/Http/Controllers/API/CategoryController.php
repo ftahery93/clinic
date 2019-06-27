@@ -138,9 +138,8 @@ class CategoryController extends Controller
      */
     public function getUserFilteredCategories()
     {
-        // Get List of Active Categories
+        // Get List of Filtered Categories
        $Category = Category::where('status','=','1')->get();
-       return $Category;
         if (Auth::user()->categories) {
             $Category = Auth::user()->categories->map(function ($category) {
                 $Category['id'] = $category->id;

@@ -69,10 +69,10 @@ class PollsController extends Controller
         }
         
         if (count($Poll) > 0) {
-            // Delete a banner file
             if ($Poll->photo != "") {
                 File::delete($this->getUploadPath() . $Poll->photo);
             }
+
             $Poll->delete();
             return redirect()->action('PollsController@index')->with('doneMessage', trans('backLang.deleteDone'));
         } else {

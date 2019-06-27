@@ -13,10 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 // Login from Mobile device
 Route::post('/users/login', 'API\ApplicationUsersController@login')->name('api_login'); 
 
