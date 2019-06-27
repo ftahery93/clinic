@@ -65,6 +65,9 @@ Route::group(['middleware' => 'auth:api'], function(){
     // Delete Poll
     Route::delete('/polls/delete/{id}', 'API\PollsController@deletePoll')->name('api_delete_poll');  
 
+    // Search List of Trends Countries 
+    Route::get('/polls/search', 'API\PollsController@search')->name('api_search_polls');  
+
     // Add a comment
     Route::post('/polls/addcomment', 'API\PollsController@addComment')->name('api_add_comment');  
 
@@ -82,6 +85,9 @@ Route::group(['middleware' => 'auth:api'], function(){
 
     // Get List of User interested Categories 
     Route::get('/users/categories/favourites', 'API\CategoryController@getUserCategories')->name('api_user_categories');  
+
+    // Get List of User filtered Categories - List when adding new category
+    Route::get('/users/categories/getList', 'API\CategoryController@getUserFilteredCategories')->name('api_user_categories');  
 
     // Fetch List of Countries 
     Route::get('/getcountries', 'API\CountriesController@getCountries')->name('api_countries');  

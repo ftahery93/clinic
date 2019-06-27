@@ -90,17 +90,9 @@ class PollsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getPollsByCategory(Request $request)
+    public function getPollsByCategory($id)
     {
-        $validator = Validator::make($request->all(), [
-            'category_id' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()->first()], 422);
-        }
-
-        $Category = Category::find($request->category_id);
+        $Category = Category::find($id);
         if (count($Category->polls) > 0) {
             $Poll = $Category->polls()->where('end_datetime','>=',Carbon::now())->paginate(20);
             $next_page = Helper::getParam($Poll->nextPageUrl()); 
@@ -127,17 +119,9 @@ class PollsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getPollsByCountry(Request $request)
+    public function getPollsByCountry($id)
     {
-        $validator = Validator::make($request->all(), [
-            'country_id' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()->first()], 422);
-        }
-
-        $Country = Country::find($request->country_id);
+        $Country = Country::find($id);
         if (count($Country->polls) > 0) {
             $Poll = $Country->polls()->where('end_datetime','>=',Carbon::now())->paginate(20);
             $next_page = Helper::getParam($Poll->nextPageUrl()); 
@@ -333,12 +317,41 @@ class PollsController extends Controller
                 $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
                 $Poll['name'] = $value->name;
                 $Poll['timespan'] = Carbon::createFromTimeStamp(strtotime($value->end_datetime))->diffForHumans();
-                $Poll['options'] = Poll::find($value->id)->options;
+                $Poll['answers'] = $this->getPollAnswers($value->id);
                 return $Poll;
             });
             return response()->json($Poll, $this->successStatus);
         } else {
             return response()->json(['error' => trans('mobileLang.pollMyPollsNotFound')], 404);
+        }
+    }
+
+    /**
+     * Search the list of trend countries by query string.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request)
+    {
+        // Get List of Polls from Search Query 
+        $Poll = Poll::where('name','LIKE','%'.$request->get('search').'%')->where('end_datetime','>=',Carbon::now())->paginate(10);
+        if(count($Poll) > 0){
+            $next_page = Helper::getParam($Poll->nextPageUrl()); 
+            $total = $Poll->total(); 
+            $Poll = $Poll->map(function ($value) {
+                $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
+                $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
+                $Poll['name'] = $value->name;
+                $Poll['timespan'] = Carbon::createFromTimeStamp(strtotime($value->end_datetime))->diffForHumans();
+                $Poll['options'] = Poll::find($value->id)->options;
+                return $Poll;
+            });
+            $Polls['polls'] = $Poll;
+            $Polls['next_page'] = !empty($next_page) ? $next_page : "";
+            $Polls['total'] = $total;
+            return response()->json($Polls, $this->successStatus);
+        } else {
+            return response()->json(['error' => trans('mobileLang.countryPollsNoRecord')],404);
         }
     }
 
