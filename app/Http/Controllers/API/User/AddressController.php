@@ -375,7 +375,7 @@ class AddressController extends Controller
     /**
      *
      * @SWG\Delete(
-     *         path="/~tvavisa/masafah/public/api/user/deleteAddressById/{address_id}",
+     *         path="/masafah/public/api/user/deleteAddressById/{address_id}",
      *         tags={"User Address"},
      *         operationId="deleteAddressById",
      *         summary="Delete user address",

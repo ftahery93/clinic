@@ -136,6 +136,7 @@ Route::get('trainerLogActivity', 'Admin\LogActivityController@trainerLog');
 // languageManagement routes
 Route::resource('languageManagement', 'Admin\LanguageManagementController');
 Route::post('languageManagement/delete', 'Admin\LanguageManagementController@destroyMany');
+Route::get('languageManagement/updateLocale/{lang}', 'Admin\LanguageManagementController@updateLocale');
 
 // Category Servces routes
 Route::get('services/{category_id}', 'Admin\ServiceController@index');
@@ -145,15 +146,13 @@ Route::get('services/{id}/edit/{category_id}/', 'Admin\ServiceController@edit');
 Route::patch('services/{id}/{category_id}', 'Admin\ServiceController@update');
 Route::post('services/delete/{category_id}', 'Admin\ServiceController@destroyMany');
 
-
-
-//Cache Config , Route , View, Optimize 
+//Cache Config , Route , View, Optimize
 Route::get('configCache', 'Admin\CacheController@configCache');
 Route::get('routeCache', 'Admin\CacheController@routeCache');
 Route::get('viewCache', 'Admin\CacheController@viewCache');
 Route::get('optimize', 'Admin\CacheController@optimize');
 
-//Cache Clear Config , Route , View, Optimize 
+//Cache Clear Config , Route , View, Optimize
 Route::get('configCacheClear', 'Admin\CacheController@configCacheClear');
 Route::get('routeCacheClear', 'Admin\CacheController@routeCacheClear');
 Route::get('viewCacheClear', 'Admin\CacheController@viewCacheClear');
@@ -165,11 +164,10 @@ Route::get('cacheClear', 'Admin\CacheController@cacheClear');
 //     echo 'composer dump-autoload complete';
 // });
 
-// //Errors 
+// //Errors
 // Route::get('errors/401', function () {
 //     return view('errors.401');
 // });
 // Route::get('errors/505', function () {
 //     return view('errors.505');
 // });
-

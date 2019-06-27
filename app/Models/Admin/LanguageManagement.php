@@ -3,6 +3,7 @@
 namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
+use App;
 
 class LanguageManagement extends Model
 {
@@ -12,17 +13,12 @@ class LanguageManagement extends Model
     // Probably on the user model, but pick wherever the data is
     public static function getLabel($title, $lang)
     {
-        $label = LanguageManagement::select('label_en', 'label_ar')
-            ->where('status', 1)
-            ->where('title', $title)
-            ->first();
-
-        if ($lang == 'en') {
-            return $label["label_en"];
-        }
-
-        if ($lang == 'ar') {
-            return $label["label_ar"];
-        }
+        // $label = LanguageManagement::select('label_en', 'label_ar')
+        //     ->where('status', 1)
+        //     ->where('title', $title)
+        //     ->first();
+        App::setLocale($lang);
+        return trans('messages.'.$title);
     }
+    
 }
