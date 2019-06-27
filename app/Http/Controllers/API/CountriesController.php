@@ -75,7 +75,7 @@ class CountriesController extends Controller
             $Countries['total'] = $total;
         return response()->json($Countries, $this->successStatus);
        } else {
-            return response()->json(['error' => trans('mobileLang.countryNotFound')], 404);
+            return response()->json(['error' => trans('mobileLang.noCountryFound')], 404);
        }
     }
 

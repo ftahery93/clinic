@@ -40,6 +40,7 @@ return [
     'durationDaySingular' => 'يوم',
     'durationDayPlural' => 'أيام',
     'pageNotFound' => 'الصفحة المطلوبة غير موجودة.',
+    'noCountryFound' => 'لم يتم العثور على المزيد من سجلات الدول.',
 ];
 
 ?>

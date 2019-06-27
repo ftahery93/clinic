@@ -40,6 +40,7 @@ return [
     'durationDaySingular' => 'Day',
     'durationDayPlural' => 'Days',
     'pageNotFound' => 'Requested page not found.',
+    'noCountryFound' => 'No more countries record found.',
 ];
 
 ?>
