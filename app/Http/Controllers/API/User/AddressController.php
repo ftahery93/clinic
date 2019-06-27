@@ -367,9 +367,70 @@ class AddressController extends Controller
             ]);
         } else {
             return response()->json([
-                'error' => LanguageMangement::getLabel('no_address_found', $this->language),
+                'error' => LanguageManagement::getLabel('no_address_found', $this->language),
             ]);
         }
+    }
+
+    /**
+     *
+     * @SWG\Delete(
+     *         path="/~tvavisa/masafah/public/api/user/deleteAddressById/{address_id}",
+     *         tags={"User Address"},
+     *         operationId="deleteAddressById",
+     *         summary="Delete user address",
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="iOS-4",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="address_id",
+     *             in="path",
+     *             description="Address ID",
+     *             type="integer",
+     *             required=true
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=404,
+     *             description="Address not found"
+     *        ),
+     *     )
+     *
+     */
+    public function deleteAddressById(Request $request, $address_id)
+    {
+        $address = Address::find($address_id);
+
+        if ($address != null && $address->user_id == $request->user_id) {
+            $address->delete();
+            return response()->json([
+                'message' => LanguageManagement::getLabel('delete_address_success', $this->language),
+            ]);
+        }
+        return response()->json([
+            'error' => LanguageManagement::getLabel('no_address_found', $this->language),
+        ], 404);
     }
 
 }

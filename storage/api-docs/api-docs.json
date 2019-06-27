@@ -1349,6 +1349,53 @@
                 }
             }
         },
+        "/~tvavisa/masafah/public/api/user/deleteAddressById/{address_id}": {
+            "delete": {
+                "tags": [
+                    "User Address"
+                ],
+                "summary": "Delete user address",
+                "operationId": "deleteAddressById",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "iOS-4",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "address_id",
+                        "in": "path",
+                        "description": "Address ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "Address not found"
+                    }
+                }
+            }
+        },
         "/~tvavisa/masafah/public/api/user/register": {
             "post": {
                 "tags": [
