@@ -362,7 +362,7 @@ class AddressController extends Controller
             ]);
 
             return response()->json([
-                'message' => LanguageMangement::getLabel('address_update_success', $this->language),
+                'message' => LanguageManagement::getLabel('address_update_success', $this->language),
                 'address' => collect($address),
             ]);
         } else {
