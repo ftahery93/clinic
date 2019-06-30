@@ -424,7 +424,9 @@ class AddressController extends Controller
         $address = Address::find($address_id);
 
         if ($address != null && $address->user_id == $request->user_id) {
-            $address->status = 0;
+            $address->update([
+                'status' => 0,
+            ]);
             return response()->json([
                 'message' => LanguageManagement::getLabel('delete_address_success', $this->language),
             ]);
