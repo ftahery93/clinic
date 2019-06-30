@@ -162,11 +162,13 @@ class UserProfileController extends Controller
             ]);
         }
 
-        return response()->json([
-            'message' => LanguageManagement::getLabel('text_successUpdated', $this->language),
-            'user' => collect($user),
+        return collect($user);
 
-        ]);
+        // return response()->json([
+        //     'message' => LanguageManagement::getLabel('text_successUpdated', $this->language),
+        //     'user' => collect($user),
+
+        // ]);
     }
 
     /**

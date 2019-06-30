@@ -1748,6 +1748,43 @@
                 }
             }
         },
+        "/~tvavisa/masafah/public/api/user/getShipmentPrice": {
+            "get": {
+                "tags": [
+                    "User Shipment"
+                ],
+                "summary": "Get Shipment price",
+                "operationId": "getShipmentPrice",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
         "/~tvavisa/masafah/public/api/user/rateCompany": {
             "post": {
                 "tags": [
