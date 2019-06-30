@@ -40,7 +40,7 @@ class Utility
     {
         $language = $request->header('Accept-Language');
         $messages = $this->getErrorMessages($language);
-        $validator = Validator::make($request->all(), $validationMessages,$messages);
+        $validator = Validator::make($request->all(), $validationMessages, $messages);
 
         if ($validator->fails()) {
             $failedRules = $validator->failed();
