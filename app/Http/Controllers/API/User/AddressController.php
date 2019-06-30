@@ -132,6 +132,7 @@ class AddressController extends Controller
             'notes' => $request->notes,
             'details' => $request->details,
             'user_id' => $request->user_id,
+            'status' => 1,
         ]);
 
         return collect($address);
@@ -186,7 +187,7 @@ class AddressController extends Controller
     public function getAddressById($address_id)
     {
         $address = Address::find($address_id);
-        if ($address != null) {
+        if ($address != null && $address->status == 1) {
             return collect($address);
         } else {
             return response()->json([
@@ -233,7 +234,7 @@ class AddressController extends Controller
      */
     public function getAddresses(Request $request)
     {
-        $addresses = Address::where('user_id', $request->user_id)->get();
+        $addresses = Address::where('user_id', $request->user_id)->where('status', 1)->get();
         return collect($addresses);
     }
 
@@ -350,7 +351,7 @@ class AddressController extends Controller
         }
 
         $address = Address::find($request->address_id);
-        if ($address != null && $request->user_id == $address->user_id) {
+        if ($address != null && $request->user_id == $address->user_id && $address->status == 1) {
             $address->update([
                 'name' => $request->name,
                 'block' => $request->block,
@@ -423,7 +424,7 @@ class AddressController extends Controller
         $address = Address::find($address_id);
 
         if ($address != null && $address->user_id == $request->user_id) {
-            $address->delete();
+            $address->status = 0;
             return response()->json([
                 'message' => LanguageManagement::getLabel('delete_address_success', $this->language),
             ]);
