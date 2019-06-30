@@ -95,7 +95,7 @@ class ApplicationUsersController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'photo' => 'required|max:3000',
+            'photo' => 'required',
             'name' => 'required',
             'email' => 'required|email|unique:application_users',
             'password' => 'required',
@@ -183,8 +183,7 @@ class ApplicationUsersController extends Controller
         $ApplicationUser = ApplicationUsers::find(Auth::user()->id);
         if (count($ApplicationUser) > 0) {
 
-            $validator = Validator::make($request->all(), [
-                'photo' => 'max:3000',
+            $validator = Validator::make($request->all(), 
                 'email' => 'email|unique:application_users',
             ]);
 
