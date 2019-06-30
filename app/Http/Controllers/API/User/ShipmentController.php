@@ -91,13 +91,13 @@ class ShipmentController extends Controller
      *                  property="pickup_time_from",
      *                  type="string",
      *                  description="Parcel pickup time",
-     *                  example="1"
+     *                  example="10:00"
      *              ),
      *              @SWG\Property(
      *                  property="pickup_time_to",
      *                  type="string",
      *                  description="Parcel pickup time",
-     *                  example="1"
+     *                  example="18:00"
      *              ),
      *          ),
      *        ),

@@ -1872,10 +1872,15 @@
                                     "type": "integer",
                                     "example": 1
                                 },
-                                "pickup_time": {
+                                "pickup_time_from": {
                                     "description": "Parcel pickup time",
                                     "type": "string",
-                                    "example": "1"
+                                    "example": "10:00"
+                                },
+                                "pickup_time_to": {
+                                    "description": "Parcel pickup time",
+                                    "type": "string",
+                                    "example": "18:00"
                                 }
                             }
                         }
@@ -2087,10 +2092,15 @@
                                     "type": "integer",
                                     "example": 1
                                 },
-                                "pickup_time": {
+                                "pickup_time_from": {
                                     "description": "Parcel pickup time",
                                     "type": "string",
-                                    "example": "1"
+                                    "example": "10:00"
+                                },
+                                "pickup_time_to": {
+                                    "description": "Parcel pickup time",
+                                    "type": "string",
+                                    "example": "16:00"
                                 }
                             }
                         }
