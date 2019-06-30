@@ -183,8 +183,8 @@ class ApplicationUsersController extends Controller
         $ApplicationUser = ApplicationUsers::find(Auth::user()->id);
         if (count($ApplicationUser) > 0) {
 
-            $validator = Validator::make($request->all(), 
-                'email' => 'email|unique:application_users',
+            $validator = Validator::make($request->all(), [
+                'email' => 'email|unique:application_users'
             ]);
 
             if ($validator->fails()) {
