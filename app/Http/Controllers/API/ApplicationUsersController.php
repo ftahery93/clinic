@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Auth;
 use File;
+use Storage;
 use App\ApplicationUsers;
 use App\OneSignalApplicationUsers;
 use App\Http\Controllers\Controller;
@@ -94,7 +95,7 @@ class ApplicationUsersController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'photo' => 'mimes:png,jpeg,jpg,gif|max:3000',
+            'photo' => 'required|max:3000',
             'name' => 'required',
             'email' => 'required|email|unique:application_users',
             'password' => 'required',
@@ -111,10 +112,8 @@ class ApplicationUsersController extends Controller
         $formFileName = "photo";
         $fileFinalName_ar = "";
         if ($request->$formFileName != "") {
-            $fileFinalName_ar = time() . rand(1111,
-                    9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
-            $path = base_path() . "/public/" . $this->getUploadPath();
-            $request->file($formFileName)->move($path, $fileFinalName_ar);
+            $fileFinalName_ar = time() . '.png';
+            Storage::disk('public_upload'->put('appusers/' . $fileFinalName_ar, base64_encode($request->$formFileName)));
         }
         // End of Upload Files
 
@@ -185,7 +184,7 @@ class ApplicationUsersController extends Controller
         if (count($ApplicationUser) > 0) {
 
             $validator = Validator::make($request->all(), [
-                'photo' => 'mimes:png,jpeg,jpg,gif|max:3000',
+                'photo' => 'max:3000',
                 'email' => 'email|unique:application_users',
             ]);
 
@@ -197,9 +196,8 @@ class ApplicationUsersController extends Controller
             $formFileName = "photo";
             $fileFinalName_ar = "";
             if ($request->$formFileName != "") {
-                $fileFinalName_ar = time() . rand(1111,9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
-                $path = base_path() . "/public/" . $this->getUploadPath();
-                $request->file($formFileName)->move($path, $fileFinalName_ar);
+                $fileFinalName_ar = time() . '.png';
+                Storage::disk('public_upload'->put('appusers/' . $fileFinalName_ar, base64_encode($request->$formFileName)));
             }
             // End of Upload Files
 
