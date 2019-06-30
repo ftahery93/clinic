@@ -51,6 +51,6 @@ class Category extends Model
      * @var array
      */
     public function getPhotoAttribute($value){
-        return $value ? url('/uploads/categories/' . $value) : null;
+        return $value ? url('/uploads/categories/' . $value) : "";
     }
 }

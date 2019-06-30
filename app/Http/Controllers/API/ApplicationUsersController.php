@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Config;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facade\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ApplicationUsersController extends Controller
@@ -108,16 +107,14 @@ class ApplicationUsersController extends Controller
         }
 
         // Start of Upload Files
-        $formFileName = "photo";
-        $fileFinalName_ar = "";
-        if ($request->$formFileName != "") {
-            $fileFinalName_ar = time() . '.png';
-            Storage::disk('public_upload'->put('appusers/' . $fileFinalName_ar, base64_encode($request->$formFileName)));
-        }
+        // if ($request->photo != "") {
+        //     $file_name = time() . '.png';
+        //     File::put($this->getUploadPath() . $file_name,base64_decode($request->photo));
+        // }
         // End of Upload Files
 
         $ApplicationUser = ApplicationUsers::create([
-            'photo' => $fileFinalName_ar,
+            // 'photo' => $file_name,
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
@@ -183,7 +180,7 @@ class ApplicationUsersController extends Controller
         if (count($ApplicationUser) > 0) {
 
             $validator = Validator::make($request->all(), [
-                'email' => 'email|unique:application_users'
+                'email' => 'email'
             ]);
 
             if ($validator->fails()) {
@@ -194,6 +191,11 @@ class ApplicationUsersController extends Controller
             if ($request->photo != "") {
                 $file_name = time() . '.png';
                 File::put($this->getUploadPath() . $file_name,base64_decode($request->photo));
+                // Delete a existing photo
+                if ($ApplicationUser->photo != "") {
+                    File::delete($this->getUploadPath() . $ApplicationUser->photo);
+                }
+                $ApplicationUser->photo = $file_name;
             }
             // End of Upload Files
 
@@ -201,7 +203,12 @@ class ApplicationUsersController extends Controller
             
             //Email
             if ($request->email != "") {
-                $ApplicationUser->email = $request->email;
+                if($request->email != $ApplicationUser->email){
+                    if (ApplicationUsers::where('email', '=', $request->input('email'))->where('id','!=',Auth::user()->id)->exists()) {
+                        return response()->json(['error' => trans('auth.emailAlreadyExist')], 404);
+                    } 
+                    $ApplicationUser->email = $request->email;
+                }
             }
 
             //Password
@@ -222,23 +229,6 @@ class ApplicationUsersController extends Controller
             //Gender
             if ($request->gender != "") {
                 $ApplicationUser->gender = $request->gender;
-            }
-
-            //Delete Photo
-            if ($request->photo_delete == 1) {
-                // Delete a User file
-                if ($ApplicationUser->photo != "") {
-                    File::delete($this->getUploadPath() . $ApplicationUser->photo);
-                }
-                $ApplicationUser->photo = "";
-            }
-
-            if ($request->photo != "") {
-                // Delete a User file
-                if ($ApplicationUser->photo != "") {
-                    File::delete($this->getUploadPath() . $ApplicationUser->photo);
-                }
-                $ApplicationUser->photo = $file_name;
             }
 
             $ApplicationUser->updated_by = Auth::user()->id;

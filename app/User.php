@@ -58,6 +58,6 @@ class User extends Authenticatable
      * @var array
      */
     public function getPhotoAttribute($value){
-        return $value ? url('/uploads/users/' . $value) : null;
+        return $value ? url('/uploads/users/' . $value) : "";
     }
 }

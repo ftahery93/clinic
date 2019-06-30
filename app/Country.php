@@ -40,6 +40,6 @@ class Country extends Model
      * @var array
      */
     public function getPhotoAttribute($value){
-        return $value ? url('/uploads/countries/' . $value) : null;
+        return $value ? url('/uploads/countries/' . $value) : "";
     }
 }
