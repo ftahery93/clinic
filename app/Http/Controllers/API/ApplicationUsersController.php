@@ -95,7 +95,6 @@ class ApplicationUsersController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'photo' => 'required',
             'name' => 'required',
             'email' => 'required|email|unique:application_users',
             'password' => 'required',
