@@ -4,13 +4,13 @@ namespace App\Http\Controllers\API;
 
 use Auth;
 use File;
-use Storage;
 use App\ApplicationUsers;
 use App\OneSignalApplicationUsers;
 use App\Http\Controllers\Controller;
 use Illuminate\Config;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facade\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ApplicationUsersController extends Controller
@@ -191,11 +191,9 @@ class ApplicationUsersController extends Controller
             }
 
             // Start of Upload Files
-            $formFileName = "photo";
-            $fileFinalName_ar = "";
-            if ($request->$formFileName != "") {
-                $fileFinalName_ar = time() . '.png';
-                Storage::disk('public_upload'->put('appusers/' . $fileFinalName_ar, base64_encode($request->$formFileName)));
+            if ($request->photo != "") {
+                $file_name = time() . '.png';
+                File::put($this->getUploadPath() . $file_name,base64_decode($request->photo));
             }
             // End of Upload Files
 
@@ -235,13 +233,14 @@ class ApplicationUsersController extends Controller
                 $ApplicationUser->photo = "";
             }
 
-            if ($fileFinalName_ar != "") {
+            if ($request->photo != "") {
                 // Delete a User file
                 if ($ApplicationUser->photo != "") {
                     File::delete($this->getUploadPath() . $ApplicationUser->photo);
                 }
-                $ApplicationUser->photo = $fileFinalName_ar;
+                $ApplicationUser->photo = $file_name;
             }
+
             $ApplicationUser->updated_by = Auth::user()->id;
             $ApplicationUser->save();
             return response()->json(['message' => trans('mobileLang.profileEditSuccess')], $this->successStatus);
