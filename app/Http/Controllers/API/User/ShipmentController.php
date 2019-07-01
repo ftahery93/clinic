@@ -593,6 +593,52 @@ class ShipmentController extends Controller
         return response()->json($responseCategories);
     }
 
+    /**
+     *
+     * @SWG\Get(
+     *         path="/~tvavisa/masafah/public/api/user/getShipmentHistory",
+     *         tags={"User Shipment"},
+     *         operationId="getShipmentHistory",
+     *         summary="Get User shipment history",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
+    public function getShipmentHistory(Request $request)
+    {
+        $shipments = Shipment::where('user_id', $request->user_id)->where('status', 4)->get();
+        $response = [];
+        foreach ($shipments as $shipment) {
+            $shipment = $this->getShipmentDetailsResponse($shipment);
+            $response[] = collect($shipment);
+        }
+        return response()->json($response);
+    }
+
     private function getShipmentDetailsResponse($shipment)
     {
         $items = [];
