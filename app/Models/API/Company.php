@@ -29,7 +29,7 @@ class Company extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'created_at', 'updated_at', 'delete_at', 'otp', 'approved', 'country_id', 'status',
+        'password', 'remember_token', 'created_at', 'updated_at', 'delete_at', 'otp', 'approved', 'country_id', 'status', 'player_id',
     ];
 
 // Probably on the user model, but pick wherever the data is
