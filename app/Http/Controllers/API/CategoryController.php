@@ -37,8 +37,8 @@ class CategoryController extends Controller
      */
     public function getCategories()
     {
-       // Get List of Active Categories
-       $Category = Category::where('status','=','1')->get();
+       // Get List of Active Categories - Do not select the All Categories
+       $Category = Category::where('status','=','1')->where('is_all','!=','1')->get();
        if(count($Category) > 0){ 
             $Category = $Category->map(function ($category) {
                 $Category['id'] = $category->id;
@@ -117,9 +117,19 @@ class CategoryController extends Controller
                     $Category['photo'] = $category->photo;
                     return $Category;
                 });
-                return response()->json($Category, $this->successStatus);
+
+                //Return the all category as additional array to show the All option in the app as filter.
+                $Category_isAll = Category::where('is_all','=','1')->get();
+                $Category_All = $Category_isAll->map(function ($category){
+                    $Category['id'] = $category->id;
+                    $Category['name'] = ($this->language == "ar") ? $category->title_ar : $category->title_en;
+                    $Category['photo'] = $category->photo;
+                    return $Category;
+                });
+                
+                return response()->json(['categories' => $Category, 'all' => $Category_All ], $this->successStatus);
             } else {
-                $Category = Category::where('status','=','1')->get();
+                $Category = Category::where('status','=','1')->orderBy('is_all','DESC')->get();
                 $Category = $Category->map(function ($category) {
                     $Category['id'] = $category->id;
                     $Category['name'] = ($this->language == "ar") ? $category->title_ar : $category->title_en;

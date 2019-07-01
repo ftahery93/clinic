@@ -11,7 +11,6 @@ use App\ApplicationUsers;
 use Illuminate\Config;
 use Illuminate\Http\Request;
 
-
 class ApplicationUsersController extends Controller
 {
 
@@ -30,7 +29,7 @@ class ApplicationUsersController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the application users.
      *
      * @return \Illuminate\Http\Response
      */
@@ -43,18 +42,8 @@ class ApplicationUsersController extends Controller
         return view("backEnd.appusers", compact("ApplicationUsers", "Permissions"));
     }
 
-    public function getUploadPath()
-    {
-        return $this->uploadPath;
-    }
-
-    public function setUploadPath($uploadPath)
-    {
-        $this->uploadPath = Config::get('app.APP_URL') . $uploadPath;
-    }
-
     /**
-     * Remove the specified resource from storage.
+     * Delete the application user.
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
@@ -79,9 +68,8 @@ class ApplicationUsersController extends Controller
         }
     }
 
-
     /**
-     * Update all selected resources in storage.
+     * Update all selected application users.
      *
      * @param  \Illuminate\Http\Request $request
      * @param  buttonNames , array $ids[]
@@ -89,7 +77,11 @@ class ApplicationUsersController extends Controller
      */
     public function updateAll(Request $request)
     {
-        if ($request->action == "delete") {
+        if ($request->action == "activate") {
+            ApplicationUsers::wherein('id', $request->ids)->update(['status' => 1]);
+        } elseif ($request->action == "block") {
+            ApplicationUsers::wherein('id', $request->ids)->where('id', '!=', 1)->update(['status' => 0]);
+        } elseif ($request->action == "delete") {
             // Delete User photo
             $ApplicationUsers = ApplicationUsers::wherein('id', $request->ids)->where('id', '!=', 1)->get();
             foreach ($ApplicationUsers as $ApplicationUser) {
@@ -97,7 +89,6 @@ class ApplicationUsersController extends Controller
                     File::delete($this->getUploadPath() . $ApplicationUser->photo);
                 }
             }
-
             ApplicationUsers::wherein('id', $request->ids)->where('id', "!=", 1)->delete();
         }
         return redirect()->action('ApplicationUsersController@index')->with('doneMessage', trans('backLang.saveDone'));

@@ -11,7 +11,7 @@
                 </small>
             </div>
             @if($ApplicationUsers->total() > 0)
-                {{Form::open(['route'=>'usersUpdateAll','method'=>'post'])}}
+                {{Form::open(['route'=>'adminAppusersUpdateAll','method'=>'post'])}}
                 <div class="table-responsive">
                     <table class="table table-striped  b-t">
                         <thead>
@@ -30,7 +30,6 @@
                         </tr>
                         </thead>
                         <tbody>
-
                         @foreach($ApplicationUsers as $ApplicationUser)
                             <tr>
                                 <td><label class="ui-check m-a-0">
@@ -168,8 +167,8 @@
                                 <select name="action" id="action" class="input-sm form-control w-sm inline v-middle"
                                         required>
                                     <option value="">{{ trans('backLang.bulkAction') }}</option>
-                                    {{-- <option value="activate">{{ trans('backLang.activeSelected') }}</option>
-                                    <option value="block">{{ trans('backLang.blockSelected') }}</option> --}}
+                                    <option value="activate">{{ trans('backLang.activeSelected') }}</option>
+                                    <option value="block">{{ trans('backLang.blockSelected') }}</option>
                                     <option value="delete">{{ trans('backLang.deleteSelected') }}</option>
                                 </select>
                                 <button type="submit" id="submit_all"
@@ -181,7 +180,6 @@
                                 </button>
                             @endif
                         </div>
-
                         <div class="col-sm-3 text-center">
                             <small class="text-muted inline m-t-sm m-b-sm">{{ trans('backLang.showing') }} {{ $ApplicationUsers->firstItem() }}
                                 -{{ $ApplicationUsers->lastItem() }} {{ trans('backLang.of') }}
@@ -193,7 +191,6 @@
                     </div>
                 </footer>
                 {{Form::close()}}
-
                 <script type="text/javascript">
                     $("#checkAll").click(function () {
                         $('input:checkbox').not(this).prop('checked', this.checked);

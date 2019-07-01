@@ -42,10 +42,8 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
 
    // Application Users
    Route::get('/appusers', 'ApplicationUsersController@index')->name('adminAppusers');
-   Route::get('/appusers/{id}/edit', 'ApplicationUsersController@edit')->name('adminAppusersEdit');
-   Route::post('/appusers/{id}/update', 'ApplicationUsersController@update')->name('adminAppusersUpdate');
    Route::get('/appusers/destroy/{id}', 'ApplicationUsersController@destroy')->name('adminAppusersDestroy');
-   Route::post('/appusers/updateAll', 'ApplicationUsersController@updateAll')->name('adminAppusersUpdateAll');
+   Route::post('/appusers/updateAll', 'ApplicationUsersController@updateAll')->name('appuser_update_all');
 
     // Polls
     Route::get('/polls', 'PollsController@index')->name('adminPolls');
