@@ -111,7 +111,8 @@ class CategoryController extends Controller
     public function getUserCategories()
     {
         if (Auth::user()->categories) {
-            if(count(Auth::user()->categories) > 0){   
+            if(count(Auth::user()->categories) > 0) { 
+                  
                 $Category = Auth::user()->categories->map(function ($category) {
                     $Category['id'] = $category->id;
                     $Category['name'] = ($this->language == "ar") ? $category->title_ar : $category->title_en;
@@ -126,15 +127,24 @@ class CategoryController extends Controller
                 $Category_All['photo'] = $Category_isAll->photo;
 
                 return response()->json(['categories' => $Category, 'all' => $Category_All ], $this->successStatus);
+
             } else {
-                $Category = Category::where('status','=','1')->orderBy('is_all','DESC')->get();
+
+                $Category = Category::where('status','=','1')->where('is_all','!=','1')->get();
                 $Category = $Category->map(function ($category) {
                     $Category['id'] = $category->id;
                     $Category['name'] = ($this->language == "ar") ? $category->title_ar : $category->title_en;
                     $Category['photo'] = $category->photo;
                     return $Category;
                 });
-                return response()->json($Category, $this->successStatus);
+
+                //Return the all category as additional array to show the All option in the app as filter.
+                $Category_isAll = Category::where('is_all','=','1')->first();
+                $Category_All['id'] = $Category_isAll->id;
+                $Category_All['name'] = ($this->language == "ar") ? $Category_isAll->title_ar : $Category_isAll->title_en;
+                $Category_All['photo'] = $Category_isAll->photo;
+
+                return response()->json(['categories' => $Category, 'all' => $Category_All ], $this->successStatus);
             }
         } 
     }
@@ -148,10 +158,9 @@ class CategoryController extends Controller
     {
         // Get List of Filtered Categories
         if (Auth::user()->categories) {
-            // $selected_categories = Auth::user()->categories->pluck('id')->toArray();
-            // $Category = Category::where('is_all','!=','1')->get();
-            // return $Category;
-            $Category = Auth::user()->categories->map(function ($category) {
+            $selected_categories = Auth::user()->categories->pluck('id')->toArray();
+            $Categories = Category::where('is_all','!=','1')->whereNotIn('id',$selected_categories)->get();
+            $Category = $Categories->map(function ($category) {
                 $Category['id'] = $category->id;
                 $Category['name'] = ($this->language == "ar") ? $category->title_ar : $category->title_en;
                 $Category['photo'] = $category->photo;
