@@ -494,4 +494,6 @@ return array (
   'selectLanguage' => 'اختار اللغة',
   'languageKey' => 'معرف اللغة',
   'languageMessage' => 'رسالة اللغة',
+  'view' => 'رأي',
+  'appusersViewDetails' => 'تفاصيل التطبيق المستخدم',
 );

@@ -501,4 +501,6 @@ return array (
   'selectLanguage' => 'Select Language',
   'languageKey' => 'Language ID',
   'languageMessage' => 'Language Message',
+  'view' => 'View',
+  'appusersViewDetails' => 'Application User Details',
 );

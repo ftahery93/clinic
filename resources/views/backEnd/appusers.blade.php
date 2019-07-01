@@ -10,37 +10,6 @@
                     <a href="">{{ trans('backLang.appusers') }}</a>
                 </small>
             </div>
-            {{-- @if($ApplicationUsers->total() >0)
-                @if(@Auth::user()->permissionsGroup->webmaster_status)
-                    <div class="row p-a pull-right" style="margin-top: -70px;">
-                        <div class="col-sm-12">
-                            <a class="btn btn-fw primary" href="{{route("appusersCreate")}}">
-                                <i class="material-icons">&#xe7fe;</i>
-                                &nbsp; {{ trans('backLang.newUser') }}
-                            </a>
-                        </div>
-                    </div>
-                @endif
-            @endif
-
-            @if($ApplicationUsers->total() == 0)
-                <div class="row p-a">
-                    <div class="col-sm-12">
-                        <div class=" p-a text-center ">
-                            {{ trans('backLang.noData') }}
-                            <br>
-                            @if(@Auth::user()->permissionsGroup->webmaster_status)
-                                <br>
-                                <a class="btn btn-fw primary" href="{{route("usersCreate")}}">
-                                    <i class="material-icons">&#xe7fe;</i>
-                                    &nbsp; {{ trans('backLang.newUser') }}
-                                </a>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            @endif --}}
-
             @if($ApplicationUsers->total() > 0)
                 {{Form::open(['route'=>'usersUpdateAll','method'=>'post'])}}
                 <div class="table-responsive">
@@ -66,7 +35,7 @@
                             <tr>
                                 <td><label class="ui-check m-a-0">
                                         <input type="checkbox" name="ids[]" value="{{ $ApplicationUser->id }}"><i
-                                                class="dark-white"></i>
+                                            class="dark-white"></i>
                                         {!! Form::hidden('row_ids[]',$ApplicationUser->id, array('class' => 'form-control row_no')) !!}
                                     </label>
                                 </td>
@@ -82,18 +51,18 @@
                                 <td>
                                     <small>{!! $ApplicationUser->age   !!}</small>
                                 </td>
-                                {{-- <td>
-                                    <small>{{$ApplicationUser->permissionsGroup->name}}</small>
-                                </td> --}}
                                 <td class="text-center">
                                     <i class="fa {{ ($ApplicationUser->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
                                 </td>
                                 <td class="text-center">
-                                    <a class="btn btn-sm success"
-                                       href="{{ route("adminAppusersEdit",["id"=>$ApplicationUser->id]) }}">
-                                        <small><i class="material-icons">&#xe3c9;</i> {{ trans('backLang.edit') }}
-                                        </small>
-                                    </a>
+                                    @if(@Auth::user()->permissionsGroup->view_status)
+                                        <button class="btn btn-sm warning" data-toggle="modal"
+                                                data-target="#mv-{{ $ApplicationUser->id }}" ui-toggle-class="bounce"
+                                                ui-target="#animate">
+                                            <small><i class="material-icons">visibility</i> {{ trans('backLang.view') }}
+                                            </small>
+                                        </button>
+                                    @endif
                                     @if(@Auth::user()->permissionsGroup->webmaster_status)
                                         <button class="btn btn-sm warning" data-toggle="modal"
                                                 data-target="#m-{{ $ApplicationUser->id }}" ui-toggle-class="bounce"
@@ -104,6 +73,44 @@
                                     @endif
                                 </td>
                             </tr>
+                            <!-- .modal -->
+                            <div id="mv-{{ $ApplicationUser->id }}" class="modal fade" data-backdrop="true">
+                                    <div class="modal-dialog" id="animate">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">{{ trans('backLang.appusersViewDetails') }}</h5>
+                                            </div>
+                                            <div class="modal-body text-center p-lg">
+                                                <p class="text-center">
+                                                    @if(@$ApplicationUser->photo) 
+                                                     <img src="{{ $ApplicationUser->photo }}" name="aboutme" width="140" height="140" border="0" class="img-circle">
+                                                    @else
+                                                      <img src="{{ url('/uploads/appusers/appuser_thumb.png') }}" name="aboutme" width="140" height="140" border="0" class="img-circle">
+                                                    @endif
+                                                    <h3 class="media-heading">{{ $ApplicationUser->name }}</h3>
+                                                </p>
+                                                <p class="text-center"><strong>Email: </strong><br>{{ $ApplicationUser->email }}</p>
+                                                <p class="text-center"><strong>Gender: </strong><br>{{ $ApplicationUser->gender }}</p>
+                                                <p class="text-center"><strong>Age: </strong><br>{{ $ApplicationUser->age }}</p>
+                                                <p class="text-center"><strong>Status: </strong><br>
+                                                    <i class="fa {{ ($ApplicationUser->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
+                                                </p>
+                                                <p class="text-center"><strong>Notification: </strong><br>
+                                                    <i class="fa {{ ($ApplicationUser->notification==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
+                                                </p>
+                                                <p class="text-center"><strong>Terms and Conditions: </strong><br>
+                                                    <i class="fa {{ ($ApplicationUser->terms_conditions==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
+                                                </p>
+                                                <br>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn dark-white p-x-md"
+                                                        data-dismiss="modal">{{ trans('backLang.cancel') }}</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div>
+                                </div>
+                            <!-- / .modal -->
                             <!-- .modal -->
                             <div id="m-{{ $ApplicationUser->id }}" class="modal fade" data-backdrop="true">
                                 <div class="modal-dialog" id="animate">
@@ -129,10 +136,8 @@
                             </div>
                             <!-- / .modal -->
                         @endforeach
-
                         </tbody>
                     </table>
-
                 </div>
                 <footer class="dker p-a">
                     <div class="row">

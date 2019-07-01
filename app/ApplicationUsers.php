@@ -76,6 +76,6 @@ class ApplicationUsers extends Authenticatable
      * @var array
      */
     public function getPhotoAttribute($value){
-        return $value ? url('/uploads/appusers/' . $value) : "";
+        return $value ? url('/uploads/appusers/' . $value) :  "";
     }
 }

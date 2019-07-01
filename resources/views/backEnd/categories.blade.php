@@ -121,12 +121,12 @@
                                                 <strong>[ {{ $title }} ]</strong>
                                             </p>
                                         </div>
-                                        <div class="modal-footer">
+                                        {{-- <div class="modal-footer">
                                             <button type="button" class="btn dark-white p-x-md"
                                                     data-dismiss="modal">{{ trans('backLang.no') }}</button>
                                             <a href="{{ route("BannersDestroy",["id"=>$Category->id]) }}"
                                                class="btn danger p-x-md">{{ trans('backLang.yes') }}</a>
-                                        </div>
+                                        </div> --}}
                                     </div><!-- /.modal-content -->
                                 </div>
                             </div>
