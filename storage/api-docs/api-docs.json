@@ -1688,7 +1688,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/getCompanyDetailsById": {
+        "/~tvavisa/masafah/public/api/user/getCompanyDetailsById/{company_id}": {
             "get": {
                 "tags": [
                     "User Shipment"
@@ -1716,6 +1716,13 @@
                         "description": "1.0.0",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "description": "company ID",
+                        "required": true,
+                        "type": "integer"
                     }
                 ],
                 "responses": {

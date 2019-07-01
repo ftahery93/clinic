@@ -68,7 +68,7 @@ class CompanyController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/user/getCompanyDetailsById",
+     *         path="/~tvavisa/masafah/public/api/user/getCompanyDetailsById/{company_id}",
      *         tags={"User Shipment"},
      *         operationId="getCompanyDetails",
      *         summary="Get company details",
@@ -92,6 +92,13 @@ class CompanyController extends Controller
      *             required=true,
      *             type="string",
      *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="company_id",
+     *             in="path",
+     *             description="company ID",
+     *             type="integer",
+     *             required=true
      *        ),
      *        @SWG\Response(
      *             response=200,
