@@ -44,7 +44,6 @@ class SettingsController extends Controller
         } else {
           return response()->json(['error' => trans('mobileLang.configNotFound')], 404);
         }
-
     }
 
     /**

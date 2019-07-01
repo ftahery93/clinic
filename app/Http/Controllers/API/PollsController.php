@@ -558,7 +558,14 @@ class PollsController extends Controller
             'poll2' => $pollId,
         ]);
 
-        return $pollAnswers;
+        //map the result 
+        $results = collect($pollAnswers)->map(function($res){
+            $results['id'] = $res->id;
+            $results['percentage'] = !empty($res->percentage) ? $res->percentage : "";
+            return $results;
+        });
+
+        return $results;
     }
 
 }
