@@ -32,7 +32,7 @@ class Company extends Authenticatable
         'password', 'remember_token', 'created_at', 'updated_at', 'delete_at', 'otp', 'approved', 'country_id', 'status', 'player_id',
     ];
 
-// Probably on the user model, but pick wherever the data is
+    // Probably on the user model, but pick wherever the data is
     public static function tokenExpired($expires_at)
     {
         if (Carbon::parse($expires_at) < Carbon::now()) {

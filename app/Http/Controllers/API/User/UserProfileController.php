@@ -230,7 +230,7 @@ class UserProfileController extends Controller
     public function changeMobileNumber(Request $request)
     {
         $validator = [
-            'mobile' => 'required',
+            'mobile' => 'required|digits:8',
         ];
         $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForMessages) {
@@ -338,7 +338,7 @@ class UserProfileController extends Controller
     public function updateMobileNumber(Request $request)
     {
         $validator = [
-            'mobile' => 'required',
+            'mobile' => 'required|digits:8',
             'otp' => 'required',
         ];
 
