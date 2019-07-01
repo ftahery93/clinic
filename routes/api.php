@@ -66,7 +66,8 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     Route::get('/company/getWalletOffers', 'API\Company\WalletController@getWalletOffers');
 
     /* Additional APIs for development sake */
-    Route::get('/user/getCompanies', 'API\User\ShipmentController@getCompanies');
+    Route::get('/user/getCompanies', 'API\User\CompanyController@getCompanies');
+    Route::get('/user/getCompanyDetailsById/{company_id}', 'API\User\CompanyController@getCompanyDetailsById');
 
     /* Ratings */
     Route::post('/user/rateCompany', 'API\User\RatingController@rateCompany');

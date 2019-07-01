@@ -1,0 +1,116 @@
+<?php
+
+namespace App\Http\Controllers\API\User;
+
+use App\Http\Controllers\Controller;
+use App\Models\API\Company;
+use App\Utility;
+use Illuminate\Http\Request;
+
+class CompanyController extends Controller
+{
+    public $utility;
+    public $language;
+    public function __construct(Request $request)
+    {
+        $this->utility = new Utility();
+        $this->language = $request->header('Accept-Language');
+    }
+
+    /**
+     *
+     * @SWG\Get(
+     *         path="/~tvavisa/masafah/public/api/user/getCompanies",
+     *         tags={"User Shipment"},
+     *         operationId="getCompanies",
+     *         summary="Get all approved companies",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
+    public function getCompanies()
+    {
+        $companies = Company::all();
+
+        $companyList = [];
+        foreach ($companies as $company) {
+            if ($company->approved) {
+                $companyList[] = $company;
+            }
+        }
+        return $companyList;
+    }
+
+    /**
+     *
+     * @SWG\Get(
+     *         path="/~tvavisa/masafah/public/api/user/getCompanyDetailsById",
+     *         tags={"User Shipment"},
+     *         operationId="getCompanyDetails",
+     *         summary="Get company details",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
+    public function getCompanyDetailsById($company_id)
+    {
+        $company = Company::find($company_id);
+
+        if ($company) {
+            return collect($company);
+        } else {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_company_found', $this->language),
+            ], 404);
+        }
+    }
+
+}

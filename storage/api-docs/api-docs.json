@@ -1651,6 +1651,80 @@
                 }
             }
         },
+        "/~tvavisa/masafah/public/api/user/getCompanies": {
+            "get": {
+                "tags": [
+                    "User Shipment"
+                ],
+                "summary": "Get all approved companies",
+                "operationId": "getCompanies",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/~tvavisa/masafah/public/api/user/getCompanyDetailsById": {
+            "get": {
+                "tags": [
+                    "User Shipment"
+                ],
+                "summary": "Get company details",
+                "operationId": "getCompanyDetails",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
         "/~tvavisa/masafah/public/api/user/getCountries": {
             "get": {
                 "tags": [
@@ -2163,43 +2237,6 @@
                 ],
                 "summary": "Get Shipment Categories",
                 "operationId": "getCategories",
-                "parameters": [
-                    {
-                        "name": "Accept-Language",
-                        "in": "header",
-                        "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Version",
-                        "in": "header",
-                        "description": "1.0.0",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful"
-                    }
-                }
-            }
-        },
-        "/~tvavisa/masafah/public/api/user/getCompanies": {
-            "get": {
-                "tags": [
-                    "User Shipment"
-                ],
-                "summary": "Get all approved companies",
-                "operationId": "getCompanies",
                 "parameters": [
                     {
                         "name": "Accept-Language",
