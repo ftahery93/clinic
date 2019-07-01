@@ -25,7 +25,6 @@ class PollsController extends Controller
 {
     public $language;
     public $successStatus = 200;
-    private $uploadPath = "uploads/users/";
 
     // Define Default Variables
 
@@ -69,6 +68,7 @@ class PollsController extends Controller
                     $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
                     $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
                     $Poll['name'] = $value->name;
+                    $Poll['id'] = $value->id;
                     $Poll['timespan'] = Carbon::createFromTimeStamp(strtotime($value->end_datetime))->diffForHumans();
                     $Poll['options'] = Poll::find($value->id)->options;
                     return $Poll;
@@ -101,6 +101,7 @@ class PollsController extends Controller
                 $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
                 $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
                 $Poll['name'] = $value->name;
+                $Poll['id'] = $value->id;
                 $Poll['timespan'] = Carbon::createFromTimeStamp(strtotime($value->end_datetime))->diffForHumans();
                 $Poll['options'] = Poll::find($value->id)->options;
                 return $Poll;
@@ -130,6 +131,7 @@ class PollsController extends Controller
                 $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
                 $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
                 $Poll['name'] = $value->name;
+                $Poll['id'] = $value->id;
                 $Poll['timespan'] = Carbon::createFromTimeStamp(strtotime($value->end_datetime))->diffForHumans();
                 $Poll['options'] = Poll::find($value->id)->options;
                 return $Poll;
@@ -290,6 +292,7 @@ class PollsController extends Controller
         $ApplicationUser = ApplicationUsers::find(Auth::user()->id);
         if (count($ApplicationUser->favourites) > 0) {
             $Polls = $ApplicationUser->favourites->map(function ($value) {
+                $Poll['id'] = $value->id;
                 $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
                 $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
                 $Poll['name'] = $value->name;
@@ -313,6 +316,7 @@ class PollsController extends Controller
         $Poll = Poll::where('created_by','=',Auth::user()->id)->get();
         if (count($Poll) > 0) {
             $Polls = $Poll->map(function ($value) {
+                $Poll['id'] = $value->id;
                 $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
                 $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
                 $Poll['name'] = $value->name;
@@ -320,7 +324,7 @@ class PollsController extends Controller
                 $Poll['answers'] = $this->getPollAnswers($value->id);
                 return $Poll;
             });
-            return response()->json($Poll, $this->successStatus);
+            return response()->json($Polls, $this->successStatus);
         } else {
             return response()->json(['error' => trans('mobileLang.pollMyPollsNotFound')], 404);
         }
@@ -538,30 +542,6 @@ class PollsController extends Controller
         ]);
 
         return $pollAnswers;
-    }
-
-    /**
-     * Get Upload Path resource
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function getUploadPath()
-    {
-        return $this->uploadPath;
-    }
-
-    /**
-     * Set Upload Path resource
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function setUploadPath($uploadPath)
-    {
-        $this->uploadPath = Config::get('app.APP_URL') . $uploadPath;
     }
 
 }
