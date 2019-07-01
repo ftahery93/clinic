@@ -197,7 +197,7 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                             $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
                             ?>
                             <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
-                                <a href="{{ route('adminAppusers') }}">
+                                <a href="{{ route('appuser_list') }}">
                                     <span class="nav-icon">
                                         <i class="material-icons">account_circle</i>
                                     </span>

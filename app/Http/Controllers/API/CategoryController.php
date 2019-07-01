@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use Auth;
+use DB;
 use File;
 use App\Category;
 use App\Http\Controllers\Controller;
@@ -119,14 +120,11 @@ class CategoryController extends Controller
                 });
 
                 //Return the all category as additional array to show the All option in the app as filter.
-                $Category_isAll = Category::where('is_all','=','1')->get();
-                $Category_All = $Category_isAll->map(function ($category){
-                    $Category['id'] = $category->id;
-                    $Category['name'] = ($this->language == "ar") ? $category->title_ar : $category->title_en;
-                    $Category['photo'] = $category->photo;
-                    return $Category;
-                });
-                
+                $Category_isAll = Category::where('is_all','=','1')->first();
+                $Category_All['id'] = $Category_isAll->id;
+                $Category_All['name'] = ($this->language == "ar") ? $Category_isAll->title_ar : $Category_isAll->title_en;
+                $Category_All['photo'] = $Category_isAll->photo;
+
                 return response()->json(['categories' => $Category, 'all' => $Category_All ], $this->successStatus);
             } else {
                 $Category = Category::where('status','=','1')->orderBy('is_all','DESC')->get();
@@ -149,8 +147,10 @@ class CategoryController extends Controller
     public function getUserFilteredCategories()
     {
         // Get List of Filtered Categories
-       $Category = Category::where('status','=','1')->get();
         if (Auth::user()->categories) {
+            // $selected_categories = Auth::user()->categories->pluck('id')->toArray();
+            // $Category = Category::where('is_all','!=','1')->get();
+            // return $Category;
             $Category = Auth::user()->categories->map(function ($category) {
                 $Category['id'] = $category->id;
                 $Category['name'] = ($this->language == "ar") ? $category->title_ar : $category->title_en;

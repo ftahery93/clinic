@@ -41,8 +41,8 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::post('/find', 'HomeController@find')->name('adminFind');
 
    // Application Users
-   Route::get('/appusers', 'ApplicationUsersController@index')->name('adminAppusers');
-   Route::get('/appusers/destroy/{id}', 'ApplicationUsersController@destroy')->name('adminAppusersDestroy');
+   Route::get('/appusers', 'ApplicationUsersController@index')->name('appuser_list');
+   Route::get('/appusers/destroy/{id}', 'ApplicationUsersController@destroy')->name('appuser_delete');
    Route::post('/appusers/updateAll', 'ApplicationUsersController@updateAll')->name('appuser_update_all');
 
     // Polls

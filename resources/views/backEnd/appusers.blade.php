@@ -11,7 +11,7 @@
                 </small>
             </div>
             @if($ApplicationUsers->total() > 0)
-                {{Form::open(['route'=>'adminAppusersUpdateAll','method'=>'post'])}}
+                {{Form::open(['route'=>'appuser_update_all','method'=>'post'])}}
                 <div class="table-responsive">
                     <table class="table table-striped  b-t">
                         <thead>
@@ -127,7 +127,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn dark-white p-x-md"
                                                     data-dismiss="modal">{{ trans('backLang.no') }}</button>
-                                            <a href="{{ route("adminAppusersDestroy",["id"=>$ApplicationUser->id]) }}"
+                                            <a href="{{ route("appuser_delete",["id"=>$ApplicationUser->id]) }}"
                                                class="btn danger p-x-md">{{ trans('backLang.yes') }}</a>
                                         </div>
                                     </div><!-- /.modal-content -->
