@@ -42,6 +42,8 @@ return [
     'durationDayPlural' => 'أيام',
     'pageNotFound' => 'الصفحة المطلوبة غير موجودة.',
     'noCountryFound' => 'لم يتم العثور على المزيد من سجلات الدول.',
+    'countryNotExist' => 'البلد غير متوفر بمعرف مطلوب.',
+    'categoryNotExist' => 'الفئة غير متوفرة بالمعرف المطلوب.',
 ];
 
 ?>

@@ -92,24 +92,33 @@ class PollsController extends Controller
      */
     public function getPollsByCategory($id)
     {
+
+        if (!Category::where('id', '=', $id)->exists()) {
+            return response()->json(['error' => trans('mobileLang.categoryNotExist')], 404);
+        } 
+
         $Category = Category::find($id);
         if (count($Category->polls) > 0) {
             $Poll = $Category->polls()->where('end_datetime','>=',Carbon::now())->paginate(20);
-            $next_page = Helper::getParam($Poll->nextPageUrl()); 
-            $total = $Poll->total(); 
-            $Poll = $Poll->map(function ($value) {
-                $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
-                $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
-                $Poll['name'] = $value->name;
-                $Poll['id'] = $value->id;
-                $Poll['timespan'] = Carbon::createFromTimeStamp(strtotime($value->end_datetime))->diffForHumans();
-                $Poll['options'] = Poll::find($value->id)->options;
-                return $Poll;
-            });
-            $Polls['polls'] = $Poll;
-            $Polls['next_page'] = !empty($next_page) ? $next_page : "";
-            $Polls['total'] = $total;
-            return response()->json($Polls, $this->successStatus);
+            if(count($Poll) > 0){
+                $next_page = Helper::getParam($Poll->nextPageUrl()); 
+                $total = $Poll->total(); 
+                $Poll = $Poll->map(function ($value) {
+                    $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
+                    $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
+                    $Poll['name'] = $value->name;
+                    $Poll['id'] = $value->id;
+                    $Poll['timespan'] = Carbon::createFromTimeStamp(strtotime($value->end_datetime))->diffForHumans();
+                    $Poll['options'] = Poll::find($value->id)->options;
+                    return $Poll;
+                });
+                $Polls['polls'] = $Poll;
+                $Polls['next_page'] = !empty($next_page) ? $next_page : "";
+                $Polls['total'] = $total;
+                return response()->json($Polls, $this->successStatus);
+            } else {
+                return response()->json(['error' => trans('mobileLang.categoryPollsNotFound')], 404);
+            }
         } else {
             return response()->json(['error' => trans('mobileLang.categoryPollsNotFound')], 404);
         }
@@ -122,24 +131,32 @@ class PollsController extends Controller
      */
     public function getPollsByCountry($id)
     {
+        if (!Country::where('id', '=', $id)->exists()) {
+            return response()->json(['error' => trans('mobileLang.countryNotExist')], 404);
+        } 
+
         $Country = Country::find($id);
         if (count($Country->polls) > 0) {
             $Poll = $Country->polls()->where('end_datetime','>=',Carbon::now())->paginate(20);
-            $next_page = Helper::getParam($Poll->nextPageUrl()); 
-            $total = $Poll->total(); 
-            $Poll = $Poll->map(function ($value) {
-                $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
-                $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
-                $Poll['name'] = $value->name;
-                $Poll['id'] = $value->id;
-                $Poll['timespan'] = Carbon::createFromTimeStamp(strtotime($value->end_datetime))->diffForHumans();
-                $Poll['options'] = Poll::find($value->id)->options;
-                return $Poll;
-            });
-            $Polls['polls'] = $Poll;
-            $Polls['next_page'] = !empty($next_page) ? $next_page : "";
-            $Polls['total'] = $total;
-            return response()->json($Polls, $this->successStatus);
+            if(count($Poll) > 0){
+                $next_page = Helper::getParam($Poll->nextPageUrl()); 
+                $total = $Poll->total(); 
+                $Poll = $Poll->map(function ($value) {
+                    $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
+                    $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
+                    $Poll['name'] = $value->name;
+                    $Poll['id'] = $value->id;
+                    $Poll['timespan'] = Carbon::createFromTimeStamp(strtotime($value->end_datetime))->diffForHumans();
+                    $Poll['options'] = Poll::find($value->id)->options;
+                    return $Poll;
+                });
+                $Polls['polls'] = $Poll;
+                $Polls['next_page'] = !empty($next_page) ? $next_page : "";
+                $Polls['total'] = $total;
+                return response()->json($Polls, $this->successStatus);
+            } else {
+                return response()->json(['error' => trans('mobileLang.countryPollsNotFound')], 404);
+            }
         } else {
             return response()->json(['error' => trans('mobileLang.countryPollsNotFound')], 404);
         }

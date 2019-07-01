@@ -42,6 +42,8 @@ return [
     'durationDayPlural' => 'Days',
     'pageNotFound' => 'Requested page not found.',
     'noCountryFound' => 'No more countries record found.',
+    'countryNotExist' => 'Country not available with requested ID.',
+    'categoryNotExist' => 'Category not available with requested ID.',
 ];
 
 ?>
