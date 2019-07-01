@@ -38,4 +38,10 @@
 'shipment_accept_success'=> 'Shipment accepted successfully', 
 'shipment_accept_failed'=> 'Shipment not accepted', 
 'edit_shipment_success'=> 'Shipment edited successfully', 
+'rated_successfully'=> 'Successfully rated', 
+'address_update_success'=> 'Address updated successfully', 
+'no_country_found'=> 'Country not found', 
+'no_category_found'=> 'Category not found', 
+'invalid_api_request'=> 'Invalid API request', 
+'delete_address_success'=> 'Address deleted successfully', 
  ];

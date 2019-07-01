@@ -38,4 +38,11 @@
 'shipment_accept_success'=> 'شحنة مقبولة بنجاح', 
 'shipment_accept_failed'=> 'شحنة غير مقبولة', 
 'edit_shipment_success'=> 'تم تعديل الشحنة بنجاح', 
+'rated_successfully'=> 'تم التقييم بنجاح', 
+'address_update_success'=> 'تم تحديث العنوان بنجاح', 
+'no_country_found'=> 'البلد غير موجود', 
+'no_category_found'=> 'الفئة غير موجودة', 
+'invalid_api_request'=> 'طلب API غير صالح', 
+'delete_address_success'=> 'تم حذف العنوان بنجاح
+', 
  ];
