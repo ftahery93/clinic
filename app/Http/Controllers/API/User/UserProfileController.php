@@ -6,12 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
 use App\Models\Admin\User;
 use App\Models\API\Authentication;
+use App\Models\API\OneSignalUser;
 use App\Models\API\Otp;
 use App\Models\API\RegisteredUser;
 use App\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\Models\API\OneSignalUser;
 
 class UserProfileController extends Controller
 {
@@ -433,7 +433,7 @@ class UserProfileController extends Controller
      *                  type="string",
      *                  description="users one signal player id",
      *                  example="22eshlsaj-a98asdmha-asdjad"
-     *              ),  
+     *              ),
      *          ),
      *        ),
      *        @SWG\Response(

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
 use App\Models\API\Company;
 use App\Models\API\FreeDelivery;
+use App\Models\API\OneSignalCompanyUser;
 use App\Utility;
 use Illuminate\Http\Request;
 
@@ -573,5 +574,81 @@ class CompanyProfileController extends Controller
                 'count' => 0,
             ]);
         }
+    }
+
+    /**
+     *
+     * @SWG\Post(
+     *         path="/~tvavisa/masafah/public/api/company/logout",
+     *         tags={"Company Logout"},
+     *         operationId="logout",
+     *         summary="Logout a company from the app",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *         @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Body",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="player_id",
+     *                  type="string",
+     *                  description="company's one signal player id",
+     *                  example="22eshlsaj-a98asdmha-asdjad"
+     *              ),
+     *          ),
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=404,
+     *             description="User not found"
+     *        ),
+     *     )
+     *
+     */
+    public function logout(Request $request)
+    {
+        $authenticateEntry = Authentication::where('access_token', $request->header('Authorization'))->get()->first();
+        if ($authenticateEntry == null) {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_user_found', $this->language),
+            ], 404);
+        }
+
+        $oneSignalUser = OneSignalCompanyUser::where('company_id', $request->company_id)->where('player_id', $request->player_id)->get()->first();
+        if ($oneSignalUser == null) {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_user_found', $this->language),
+            ], 404);
+        }
+
+        $authenticateEntry->delete();
+        $oneSignalUser->delete();
+
+        return response()->json([
+            'message' => LanguageManagement::getLabel('text_successLoggout', $this->language),
+        ]);
     }
 }

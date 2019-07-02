@@ -24,7 +24,7 @@
                     {
                         "name": "Version",
                         "in": "header",
-                        "description": "1.0.0",
+                        "description": "Android-1",
                         "required": true,
                         "type": "string"
                     },
@@ -144,46 +144,6 @@
                     },
                     "401": {
                         "description": "Account deactivated or not approved"
-                    }
-                }
-            }
-        },
-        "/~tvavisa/masafah/public/api/company/logout": {
-            "get": {
-                "tags": [
-                    "Company Logout"
-                ],
-                "summary": "Logout a company from the app",
-                "operationId": "logout",
-                "parameters": [
-                    {
-                        "name": "Accept-Language",
-                        "in": "header",
-                        "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Version",
-                        "in": "header",
-                        "description": "1.0.0",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful"
-                    },
-                    "404": {
-                        "description": "User not found"
                     }
                 }
             }
@@ -573,6 +533,60 @@
                 "responses": {
                     "200": {
                         "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/~tvavisa/masafah/public/api/company/logout": {
+            "post": {
+                "tags": [
+                    "Company Logout"
+                ],
+                "summary": "Logout a company from the app",
+                "operationId": "logout",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "player_id": {
+                                    "description": "company's one signal player id",
+                                    "type": "string",
+                                    "example": "22eshlsaj-a98asdmha-asdjad"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "User not found"
                     }
                 }
             }

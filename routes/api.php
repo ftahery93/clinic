@@ -47,6 +47,7 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     Route::put('/company/updateProfile', 'API\Company\CompanyProfileController@updateProfile');
     Route::patch('/company/changeMobileNumber', 'API\Company\CompanyProfileController@changeMobileNumber');
     Route::patch('/company/updateMobileNumber', 'API\Company\CompanyProfileController@updateMobileNumber');
+    Route::post('/company/logout', 'API\Company\CompanyProfileController@logout');
 
     /* Company Details */
     Route::get('/company/getCompanies', 'API\Company\CompanyProfileController@getCompanies');

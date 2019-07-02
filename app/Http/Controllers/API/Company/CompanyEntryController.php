@@ -45,7 +45,7 @@ class CompanyEntryController extends Controller
      *             in="header",
      *             required=true,
      *             type="string",
-     *             description="1.0.0",
+     *             description="Android-1",
      *        ),
      *         @SWG\Parameter(
      *             name="Registration Body",
@@ -166,11 +166,6 @@ class CompanyEntryController extends Controller
     }
 
     /**
-     * register API
-     *
-     * @return \Illuminate\Http\Response
-     */
-    /**
      *
      * @SWG\Post(
      *         path="/~tvavisa/masafah/public/api/company/login",
@@ -290,60 +285,6 @@ class CompanyEntryController extends Controller
             return response()->json([
                 'error' => LanguageManagement::getLabel('invalid_credentials', $this->language),
             ], 401);
-        }
-    }
-
-    /**
-     *
-     * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/company/logout",
-     *         tags={"Company Logout"},
-     *         operationId="logout",
-     *         summary="Logout a company from the app",
-     *         @SWG\Parameter(
-     *             name="Accept-Language",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user prefered language",
-     *        ),
-     *         @SWG\Parameter(
-     *             name="Authorization",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user access token",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Version",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="1.0.0",
-     *        ),
-     *        @SWG\Response(
-     *             response=200,
-     *             description="Successful"
-     *        ),
-     *        @SWG\Response(
-     *             response=404,
-     *             description="User not found"
-     *        ),
-     *     )
-     *
-     */
-    public function logout(Request $request)
-    {
-        $authenticateEntry = Authentication::where('access_token', $request->header('Authorization'))->get()->first();
-        if ($authenticateEntry != null) {
-            $authenticateEntry->delete();
-            return response()->json([
-                'message' => LanguageManagement::getLabel('text_successLoggout', $this->language),
-            ]);
-        } else {
-            return response()->json([
-                'error' => LanguageManagement::getLabel('no_user_found', $this->language),
-            ], 404);
         }
     }
 }
