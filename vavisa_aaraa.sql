@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 27, 2019 at 06:19 PM
+-- Generation Time: Jul 02, 2019 at 10:28 AM
 -- Server version: 10.0.38-MariaDB-0ubuntu0.16.04.1
 -- PHP Version: 7.1.29-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -33,7 +33,7 @@ CREATE TABLE `aaraa_application_users` (
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `photo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `photo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT '',
   `gender` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Male, Female',
   `age` int(4) DEFAULT NULL,
   `terms_conditions` tinyint(1) NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE `aaraa_application_users` (
 --
 
 INSERT INTO `aaraa_application_users` (`id`, `name`, `email`, `password`, `photo`, `gender`, `age`, `terms_conditions`, `notification`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-('031d14b4-e222-4bde-a770-b44fcaeba49f', 'Mohammed Jhosawa', 'mjhosawa@vavisa-kw.com', '$2y$10$jQg45nn0SAHlFQsAanw/bOQWak/yIHvUO41ShjS41/AXqiTG35tEG', '', 'Male', 24, 1, 1, 1, NULL, '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-13 09:30:38', '2019-06-16 05:34:53'),
+('031d14b4-e222-4bde-a770-b44fcaeba49f', 'Mohammed Jhosawa', 'mjhosawa@vavisa-kw.com', '$2y$10$jQg45nn0SAHlFQsAanw/bOQWak/yIHvUO41ShjS41/AXqiTG35tEG', '', 'Male', 25, 1, 1, 1, NULL, '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-13 09:30:38', '2019-06-30 12:15:22'),
 ('335e6aeb-91c4-11e9-bb87-8cec4ba57079', 'Carla ', 'carla@vavisa-kw.com', '*89FA6EAF8B6264AC8D6E84759027252505A3EAEE', '', 'Female', 28, 1, 1, 1, NULL, '', '2019-06-13 09:30:38', '2019-06-16 05:34:53'),
 ('354db5ef-08a9-4024-870b-936013820508', 'Hashim Sagir', 'hashim@vavisa-kw.com', '$2y$10$VSVpGqcM24hsozVE1rOIMuNokvvfiEsJuanQ1NnUmqn7czypSp9T2', '', 'M', 33, 1, 1, 1, NULL, NULL, '2019-06-19 13:19:43', '2019-06-19 13:19:43');
 
@@ -128,6 +128,7 @@ CREATE TABLE `aaraa_categories` (
   `title_en` text COLLATE utf8mb4_unicode_ci,
   `photo` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` tinyint(4) NOT NULL,
+  `is_all` tinyint(1) NOT NULL DEFAULT '0',
   `created_by` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `updated_by` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -138,10 +139,11 @@ CREATE TABLE `aaraa_categories` (
 -- Dumping data for table `aaraa_categories`
 --
 
-INSERT INTO `aaraa_categories` (`id`, `title_ar`, `title_en`, `photo`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-('1', 'فنون', 'Arts', '14889022842486.jpg', 1, '27', '27', '2019-06-11 20:36:00', '2019-06-11 20:36:00'),
-('b448a332-9337-11e9-bb87-8cec4ba57079', 'يسافر', 'Travels', '14889022842486.jpg', 1, '27', '27', '2019-06-11 20:36:00', '2019-06-11 20:36:00'),
-('c5a31d68-9337-11e9-bb87-8cec4ba57079', 'اعمال', 'Business', '14889022842486.jpg', 1, '27', '27', '2019-06-11 20:36:00', '2019-06-11 20:36:00');
+INSERT INTO `aaraa_categories` (`id`, `title_ar`, `title_en`, `photo`, `status`, `is_all`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+('1', 'فنون', 'Arts', '14889022842486.jpg', 1, 0, '27', '27', '2019-06-11 20:36:00', '2019-06-11 20:36:00'),
+('984f4e88-9be3-11e9-9ff4-30d16bf2233d', 'الكل', 'All', '14889024974799.jpg', 1, 1, '27', '27', '2019-06-30 22:30:00', '2019-06-30 22:30:00'),
+('b448a332-9337-11e9-bb87-8cec4ba57079', 'يسافر', 'Travels', '14889022842486.jpg', 1, 0, '27', '27', '2019-06-11 20:36:00', '2019-06-11 20:36:00'),
+('c5a31d68-9337-11e9-bb87-8cec4ba57079', 'اعمال', 'Business', '14889022842486.jpg', 1, 0, '27', '27', '2019-06-11 20:36:00', '2019-06-11 20:36:00');
 
 -- --------------------------------------------------------
 
@@ -663,6 +665,7 @@ INSERT INTO `aaraa_oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `
 ('05bc56197abc1d1da2338ff34d92784de1b683c1c3c70960a9b8a801d303f26503a5b4cdc8bda39c', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Laravel', '[]', 0, '2019-06-13 09:30:38', '2019-06-13 09:30:38', '2019-12-13 12:30:38'),
 ('1c15f5a6bb762e12c4f168cf2105eca60087715f861657f728b80aecb945d58c5951108fbb0d24a4', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Aaraa', '[]', 0, '2019-06-27 12:40:29', '2019-06-27 12:40:29', '2019-12-27 15:40:28'),
 ('2b93bea531cb54fe61c35cfa05f047a24f093300e3a7f8fad574dc17cedb8a42891c508b37f92481', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Aaraa', '[]', 0, '2019-06-24 11:42:09', '2019-06-24 11:42:09', '2019-12-24 14:42:09'),
+('35b8d120037be3b2e417690620a34c4190e4828da8f87a115549a92215853920ca82662b7fc4f436', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Aaraa', '[]', 0, '2019-07-02 07:11:52', '2019-07-02 07:11:52', '2020-01-02 10:11:52'),
 ('35f3b0ace26a72931c98089b13f6431e5de49f93679501ad124632b9c7ae47aab105174894f2216f', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Laravel', '[]', 0, '2019-06-17 18:42:34', '2019-06-17 18:42:34', '2019-12-18 00:12:34'),
 ('60fcb45d2b455c58d5964edcf04d8521cb0309cf96cc0b161bb7423555489ef8c4ba4f9537081d46', '354db5ef-08a9-4024-870b-936013820508', 9, 'Aaraa', '[]', 0, '2019-06-19 13:19:43', '2019-06-19 13:19:43', '2019-12-19 16:19:43'),
 ('66227e6911ebd60d68e006c92680c237ff06e3a41a14c473467181fc0739b9b03607f50efb3cb97d', '031d14b4-e222-4bde-a770-b44fcaeba49f', 9, 'Laravel', '[]', 1, '2019-06-17 05:45:13', '2019-06-17 05:45:13', '2019-12-17 08:45:13'),
@@ -1014,27 +1017,27 @@ CREATE TABLE `aaraa_polls` (
 --
 
 INSERT INTO `aaraa_polls` (`id`, `name`, `status`, `start_datetime`, `end_datetime`, `enable_comments`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-('09ee6594-560b-460e-8c0b-2b63262acc32', 'Who is the best developer ?', 1, '2019-06-27 11:50:50', '2019-06-27 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 11:50:50', '2019-06-27 11:50:50'),
-('1', 'Who is the best football player in the world?', 1, '2019-06-11 20:36:00', '2019-06-27 21:00:00', 1, '1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-11 20:36:00', '2019-06-11 20:36:00'),
-('1306d1ba-f46f-46b5-9c16-ad2992699c2f', 'Who is the best developer ?', 1, '2019-06-27 11:46:59', '2019-06-27 12:46:59', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 11:46:59', '2019-06-27 11:46:59'),
-('2', 'Who is the worst football player in the world?', 1, '2019-06-11 20:36:00', '2019-06-27 21:00:00', 1, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-11 20:36:00', '2019-06-11 20:36:00'),
-('205a627b-3135-47b7-b924-41cadc02d7fb', 'test', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 17:30:15', '2019-06-16 17:30:15'),
-('3e7ddf75-ba52-4737-9fc7-9ae16dd8193a', 'Who is the best developer ?', 1, '2019-06-27 11:49:48', '2019-06-27 12:49:48', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 11:49:48', '2019-06-27 11:49:48'),
-('4e739e55-d0ec-4cd3-a0c9-6746515abc6c', 'Who is the best developer ?', 1, '2019-06-27 11:48:29', '2019-06-27 12:48:29', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 11:48:29', '2019-06-27 11:48:29'),
-('56fce4c7-9860-4ad3-a264-3f546a490da4', 'Test1', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 11:54:29', '2019-06-18 11:54:29'),
-('6c621270-0c59-493d-85ac-0d6b1a347c7c', 'Test1', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 12:25:22', '2019-06-18 12:25:22'),
-('7419f402-0820-449f-bc69-6fadc4dde07f', 'Who is the best developer in Kuwait?', 1, '2019-06-27 12:00:13', '2019-06-27 13:00:13', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 12:00:13', '2019-06-27 12:00:13'),
-('827f6a80-3464-4bdf-8d57-79f43fcf703b', 'Who is the best developer ?', 1, '2019-06-27 11:46:50', '2019-06-27 12:46:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 11:46:50', '2019-06-27 11:46:50'),
-('846489c3-37de-4a39-817f-86083cb3140e', 'Test', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 05:23:10', '2019-06-18 05:23:10'),
-('932c08db-3355-4a7c-87c9-489503b7ac7c', 'test', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 17:00:00', '2019-06-16 17:00:00'),
-('9356d484-8fd8-4f4d-a517-fd7bb4b46369', 'test', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:58:49', '2019-06-16 16:58:49'),
-('a2ff7e79-3d5e-4378-866e-262a2f3f51bc', 'Test', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 05:23:42', '2019-06-18 05:23:42'),
-('a93d2326-c1b8-4fbd-aff3-4294c62e34dd', 'Who is the best developer ?', 1, '2019-06-27 11:46:16', '2019-06-27 12:46:16', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 11:46:16', '2019-06-27 11:46:16'),
-('b6554e3a-5bc3-4764-9ef7-89217df6f798', 'Who is the best developer ?', 1, '2019-06-27 11:45:36', '2019-06-27 12:45:36', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 11:45:36', '2019-06-27 11:45:36'),
-('d21c70cf-4c4f-4e88-a12e-091829ca677e', 'Test1', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 05:58:24', '2019-06-18 05:58:24'),
-('d2ac42e9-7a25-4e3d-9931-f7def8c04634', 'test', 1, NULL, NULL, 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:58:29', '2019-06-16 16:58:29'),
-('d86aac66-c307-449c-af58-8aac2210a253', 'Who is the best developer ?', 1, '2019-06-27 11:45:16', '2019-06-27 12:45:16', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 11:45:16', '2019-06-27 11:45:16'),
-('ebe408cc-79f8-41ef-9f5d-e6ae6eac001e', 'Who is the best developer ?', 1, '2019-06-27 11:46:39', '2019-06-27 12:46:39', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 11:46:39', '2019-06-27 11:46:39');
+('09ee6594-560b-460e-8c0b-2b63262acc32', 'Who is the best developer ?', 1, '2019-06-27 11:50:50', '2019-07-31 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 11:50:50', '2019-06-27 11:50:50'),
+('1', 'Who is the best football player in the world?', 1, '2019-06-11 20:36:00', '2019-07-31 12:50:50', 1, '1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-11 20:36:00', '2019-06-11 20:36:00'),
+('1306d1ba-f46f-46b5-9c16-ad2992699c2f', 'Who is the best developer ?', 1, '2019-06-27 11:46:59', '2019-07-31 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 11:46:59', '2019-06-27 11:46:59'),
+('2', 'Who is the worst football player in the world?', 1, '2019-06-11 20:36:00', '2019-07-31 12:50:50', 1, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-11 20:36:00', '2019-06-11 20:36:00'),
+('205a627b-3135-47b7-b924-41cadc02d7fb', 'test', 1, NULL, '2019-07-31 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 17:30:15', '2019-06-16 17:30:15'),
+('3e7ddf75-ba52-4737-9fc7-9ae16dd8193a', 'Who is the best developer ?', 1, '2019-06-27 11:49:48', '2019-07-31 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 11:49:48', '2019-06-27 11:49:48'),
+('4e739e55-d0ec-4cd3-a0c9-6746515abc6c', 'Who is the best developer ?', 1, '2019-06-27 11:48:29', '2019-07-31 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 11:48:29', '2019-06-27 11:48:29'),
+('56fce4c7-9860-4ad3-a264-3f546a490da4', 'Test1', 1, NULL, '2019-07-31 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 11:54:29', '2019-06-18 11:54:29'),
+('6c621270-0c59-493d-85ac-0d6b1a347c7c', 'Test1', 1, NULL, '2019-07-31 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 12:25:22', '2019-06-18 12:25:22'),
+('7419f402-0820-449f-bc69-6fadc4dde07f', 'Who is the best developer in Kuwait?', 1, '2019-06-27 12:00:13', '2019-07-31 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 12:00:13', '2019-06-27 12:00:13'),
+('827f6a80-3464-4bdf-8d57-79f43fcf703b', 'Who is the best developer ?', 1, '2019-06-27 11:46:50', '2019-07-31 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 11:46:50', '2019-06-27 11:46:50'),
+('846489c3-37de-4a39-817f-86083cb3140e', 'Test', 1, NULL, '2019-07-31 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 05:23:10', '2019-06-18 05:23:10'),
+('932c08db-3355-4a7c-87c9-489503b7ac7c', 'test', 1, NULL, '2019-07-31 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 17:00:00', '2019-06-16 17:00:00'),
+('9356d484-8fd8-4f4d-a517-fd7bb4b46369', 'test', 1, NULL, '2019-07-31 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:58:49', '2019-06-16 16:58:49'),
+('a2ff7e79-3d5e-4378-866e-262a2f3f51bc', 'Test', 1, NULL, '2019-07-31 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 05:23:42', '2019-06-18 05:23:42'),
+('a93d2326-c1b8-4fbd-aff3-4294c62e34dd', 'Who is the best developer ?', 1, '2019-06-27 11:46:16', '2019-07-31 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 11:46:16', '2019-06-27 11:46:16'),
+('b6554e3a-5bc3-4764-9ef7-89217df6f798', 'Who is the best developer ?', 1, '2019-06-27 11:45:36', '2019-07-31 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 11:45:36', '2019-06-27 11:45:36'),
+('d21c70cf-4c4f-4e88-a12e-091829ca677e', 'Test1', 1, NULL, '2019-07-31 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 05:58:24', '2019-06-18 05:58:24'),
+('d2ac42e9-7a25-4e3d-9931-f7def8c04634', 'test', 1, NULL, '2019-07-31 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-16 16:58:29', '2019-06-16 16:58:29'),
+('d86aac66-c307-449c-af58-8aac2210a253', 'Who is the best developer ?', 1, '2019-06-27 11:45:16', '2019-07-31 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 11:45:16', '2019-06-27 11:45:16'),
+('ebe408cc-79f8-41ef-9f5d-e6ae6eac001e', 'Who is the best developer ?', 1, '2019-06-27 11:46:39', '2019-07-31 12:50:50', 0, '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 11:46:39', '2019-06-27 11:46:39');
 
 -- --------------------------------------------------------
 
@@ -1103,6 +1106,27 @@ INSERT INTO `aaraa_poll_results` (`id`, `user_id`, `poll_id`, `option_id`, `crea
 ('b9f13752-4284-4c3e-a19c-de7a25a8ad9a', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '38a723a2-69b3-4654-8960-cb510150b6ba', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-17 17:43:04', '2019-06-17 17:43:04'),
 ('e31b8830-b236-4d26-a29e-1637229958b0', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '38a723a2-69b3-4654-8960-cb510150b6ba', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-27 08:31:38', '2019-06-27 08:31:38'),
 ('fff14cff-ccdb-4be7-aa3f-e2ba58efec40', '031d14b4-e222-4bde-a770-b44fcaeba49f', '1', '38a723a2-69b3-4654-8960-cb510150b6ba', '031d14b4-e222-4bde-a770-b44fcaeba49f', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-06-18 05:17:02', '2019-06-18 05:17:02');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `aaraa_saved_polls`
+--
+
+CREATE TABLE `aaraa_saved_polls` (
+  `id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `poll_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `application_users_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `aaraa_saved_polls`
+--
+
+INSERT INTO `aaraa_saved_polls` (`id`, `poll_id`, `application_users_id`, `created_at`, `updated_at`) VALUES
+('a39301f3-19aa-4b77-97a1-cba2165ffaa1', '1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-07-02 07:23:07', '2019-07-02 07:23:07');
 
 -- --------------------------------------------------------
 
@@ -1385,6 +1409,14 @@ ALTER TABLE `aaraa_poll_results`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `aaraa_saved_polls`
+--
+ALTER TABLE `aaraa_saved_polls`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `aaraa_saved_polls_user_id_fk` (`application_users_id`),
+  ADD KEY `aaraa_saved_polls_poll_id_fk` (`poll_id`);
+
+--
 -- Indexes for table `aaraa_settings`
 --
 ALTER TABLE `aaraa_settings`
@@ -1441,7 +1473,7 @@ ALTER TABLE `aaraa_oauth_personal_access_clients`
 -- AUTO_INCREMENT for table `aaraa_permissions`
 --
 ALTER TABLE `aaraa_permissions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `aaraa_webmaster_settings`
@@ -1487,6 +1519,13 @@ ALTER TABLE `aaraa_country_poll`
 ALTER TABLE `aaraa_option_poll`
   ADD CONSTRAINT `aaraa_option_poll_option_id_fk` FOREIGN KEY (`option_id`) REFERENCES `aaraa_options` (`id`),
   ADD CONSTRAINT `aaraa_option_poll_poll_id_fk` FOREIGN KEY (`poll_id`) REFERENCES `aaraa_polls` (`id`);
+
+--
+-- Constraints for table `aaraa_saved_polls`
+--
+ALTER TABLE `aaraa_saved_polls`
+  ADD CONSTRAINT `aaraa_saved_polls_poll_id_fk` FOREIGN KEY (`poll_id`) REFERENCES `aaraa_polls` (`id`),
+  ADD CONSTRAINT `aaraa_saved_polls_user_id_fk` FOREIGN KEY (`application_users_id`) REFERENCES `aaraa_application_users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
