@@ -1152,6 +1152,11 @@
                                     "type": "string",
                                     "example": "14, 13Z"
                                 },
+                                "mobile": {
+                                    "description": "users mobile number",
+                                    "type": "string",
+                                    "example": "88553854"
+                                },
                                 "details": {
                                     "description": "Any other address details",
                                     "type": "string",
@@ -1324,6 +1329,11 @@
                                     "description": "Building number",
                                     "type": "string",
                                     "example": "14, 13Z"
+                                },
+                                "mobile": {
+                                    "description": "users mobile number",
+                                    "type": "string",
+                                    "example": "88553854"
                                 },
                                 "details": {
                                     "description": "Any other address details",
