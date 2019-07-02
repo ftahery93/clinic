@@ -38,7 +38,9 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     Route::get('/user/getCategories', 'API\User\ShipmentController@getCategories');
     Route::delete('/user/deleteShipmentById/{shipment_id}', 'API\User\ShipmentController@deleteShipmentById');
     Route::get('/user/getShipmentHistory', 'API\User\ShipmentController@getShipmentHistory');
-    Route::get('/user/getShipmentPrice', 'API\User\ShipmentController@getShipmentPrice');
+
+    /* Price API */
+    Route::get('/user/getShipmentPrice', 'API\User\PriceController@getShipmentPrice');
 
     Route::get('/company/getProfile', 'API\Company\CompanyProfileController@getProfile');
     Route::put('/company/updateProfile', 'API\Company\CompanyProfileController@updateProfile');
