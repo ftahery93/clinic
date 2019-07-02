@@ -633,6 +633,11 @@ class ShipmentController extends Controller
         $shipments = Shipment::where('user_id', $request->user_id)->where('status', 4)->get();
         $response = [];
         foreach ($shipments as $shipment) {
+            $company = Company::find($shipment->company_id);
+            $responseCompany["id"] = $company->id;
+            $responseCompany["name"] = $company->name;
+            $responseCompany["image"] = $company->image;
+            $shipment["company"] = $responseCompany;
             $shipment["address_from"] = Address::find($shipment->address_from_id);
             $shipment["address_to"] = Address::find($shipment->address_to_id);
             $shipment = $this->getShipmentDetailsResponse($shipment);
