@@ -8,6 +8,7 @@ use Auth;
 use File;
 use Helper;
 use App\Poll;
+use App\SavedPoll;
 use App\Option;
 use App\Country;
 use App\Category;
@@ -289,12 +290,17 @@ class PollsController extends Controller
      */
     public function savePollById($id)
     {
-        $Poll = Poll::find($id);
-        if(count($Poll->favourites) > 0){ 
-            $Poll->favourites()->detach(Auth::user()->id);
+        if (SavedPoll::where('poll_id', '=', $id)->exists()) {
+            SavedPoll::where('poll_id','=', $id)->where('application_users_id','=',Auth::user()->id)->delete();
             return response()->json(['message' => trans('mobileLang.pollUnFavourite')], $this->successStatus);
         } else {
-            $Poll->favourites()->attach(Auth::user()->id,["id" => Str::uuid(),"created_at" => date("Y-m-d H:i:s"),"updated_at" => date("Y-m-d H:i:s")]);
+            $SavedPoll = new SavedPoll();
+            $SavedPoll->id = Str::uuid();
+            $SavedPoll->poll_id = $id;
+            $SavedPoll->application_users_id = Auth::user()->id;
+            $SavedPoll->created_at = date("Y-m-d H:i:s");
+            $SavedPoll->updated_at = date("Y-m-d H:i:s");
+            $SavedPoll->save();
             return response()->json(['message' => trans('mobileLang.pollFavourite')], $this->successStatus);
         }
     }
@@ -306,9 +312,9 @@ class PollsController extends Controller
      */
     public function getSavedPolls()
     {
-        $ApplicationUser = ApplicationUsers::find(Auth::user()->id);
-        if (count($ApplicationUser->favourites) > 0) {
-            $Polls = $ApplicationUser->favourites->map(function ($value) {
+        $SavedPolls = SavedPoll::where('application_users_id','=',Auth::user()->id)->pluck('poll_id')->toArray();
+        if (count($SavedPolls) > 0) {
+            $Polls = Poll::whereIn('id',$SavedPolls)->get()->map(function ($value) {
                 $Poll['id'] = $value->id;
                 $Poll['user_name'] =  Helper::getAttribute(Poll::find($value->id)->application_user->pluck('name'));
                 $Poll['photo'] = Helper::getAttribute(Poll::find($value->id)->application_user->pluck('photo'));
