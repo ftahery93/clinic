@@ -84,6 +84,12 @@ class AddressController extends Controller
      *                  example="14, 13Z"
      *              ),
      *              @SWG\Property(
+     *                  property="mobile",
+     *                  type="string",
+     *                  description="users mobile number",
+     *                  example="88553854"
+     *              ),
+     *              @SWG\Property(
      *                  property="details",
      *                  type="string",
      *                  description="Any other address details",
@@ -116,6 +122,7 @@ class AddressController extends Controller
             'street' => 'required',
             'area' => 'required',
             'building' => 'required',
+            'mobile' => 'required|digits:8',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
@@ -129,6 +136,7 @@ class AddressController extends Controller
             'street' => $request->street,
             'area' => $request->area,
             'building' => $request->building,
+            'mobile' => $request->mobile,
             'notes' => $request->notes,
             'details' => $request->details,
             'user_id' => $request->user_id,
@@ -308,6 +316,12 @@ class AddressController extends Controller
      *                  example="14, 13Z"
      *              ),
      *              @SWG\Property(
+     *                  property="mobile",
+     *                  type="string",
+     *                  description="users mobile number",
+     *                  example="88553854"
+     *              ),
+     *              @SWG\Property(
      *                  property="details",
      *                  type="string",
      *                   description="Any other address details",
@@ -341,6 +355,7 @@ class AddressController extends Controller
             'street' => 'required',
             'area' => 'required',
             'building' => 'required',
+            'mobile' => 'required|digits:8',
             'details' => 'required',
             'notes' => 'required',
         ];
@@ -358,6 +373,7 @@ class AddressController extends Controller
                 'street' => $request->street,
                 'area' => $request->area,
                 'building' => $request->building,
+                'mobile' => $request->mobile,
                 'details' => $request->details,
                 'notes' => $request->notes,
             ]);
