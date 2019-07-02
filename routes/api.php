@@ -98,6 +98,7 @@ Route::group(['middleware' => 'checkVersion'], function () {
 
     /* Countries */
     Route::get('/user/getCountries', 'API\User\CountryController@getCountries');
+    Route::get('/company/getCountries', 'API\Company\CountryController@getCountries');
 });
 
 Route::post('/sendMail', 'API\User\AuthController@sendMail');

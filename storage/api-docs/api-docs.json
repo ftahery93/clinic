@@ -591,6 +591,36 @@
                 }
             }
         },
+        "/~tvavisa/masafah/public/api/company/getCountries": {
+            "get": {
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Get all available countries",
+                "operationId": "getCountries",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
         "/~tvavisa/masafah/public/api/company/getNotifications": {
             "get": {
                 "tags": [
