@@ -11,6 +11,7 @@ use App\Models\API\RegisteredUser;
 use App\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\API\OneSignalUser;
 
 class UserProfileController extends Controller
 {
