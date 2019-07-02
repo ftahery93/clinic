@@ -64,13 +64,14 @@
                                     <i class="fa {{ ($Poll->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
                                 </td>
                                 <td class="text-center">
-                                    {{-- @if(@Auth::user()->permissionsGroup->edit_status)
-                                        <a class="btn btn-sm success"
-                                           href="{{ route("adminPollsEdit",["id"=>$Poll->id]) }}">
-                                            <small><i class="material-icons">&#xe3c9;</i> {{ trans('backLang.edit') }}
+                                        @if(@Auth::user()->permissionsGroup->view_status)
+                                        <button class="btn btn-sm success" data-toggle="modal"
+                                                data-target="#m1-{{ $Poll->id }}" ui-toggle-class="bounce"
+                                                ui-target="#animate">
+                                            <small><i class="material-icons">visibility</i> {{ trans('backLang.view') }}
                                             </small>
-                                        </a>
-                                    @endif --}}
+                                        </button>
+                                        @endif
                                         @if(@Auth::user()->permissionsGroup->delete_status)
                                         <button class="btn btn-sm warning" data-toggle="modal"
                                                 data-target="#m-{{ $Poll->id }}" ui-toggle-class="bounce"
@@ -79,9 +80,30 @@
                                             </small>
                                         </button>
                                     @endif
-
                                 </td>
                             </tr>
+                            <!-- .modal -->
+                            <div id="m1-{{ $Poll->id }}" class="modal fade" data-backdrop="true">
+                                <div class="modal-dialog" id="animate">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">{{ trans('backLang.confirmation') }}</h5>
+                                        </div>
+                                        <div class="modal-body text-center p-lg">
+                                            <p>
+                                                {{ trans('backLang.confirmationDeleteMsg') }}
+                                                <br>
+                                                <strong>[ {{ $Poll->name }} ]</strong>
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn dark-white p-x-md" data-dismiss="modal">{{ trans('backLang.no') }}</button>
+                                            <a href="{{ route("adminPollsDestroy",["id"=>$Poll->id]) }}" class="btn danger p-x-md">{{ trans('backLang.yes') }}</a>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div>
+                            </div>
+                            <!-- / .modal -->
                             <!-- .modal -->
                             <div id="m-{{ $Poll->id }}" class="modal fade" data-backdrop="true">
                                 <div class="modal-dialog" id="animate">
@@ -135,10 +157,8 @@
                             <!-- / .modal -->
                             @if(@Auth::user()->permissionsGroup->edit_status)
                                 <select name="action" id="action" class="input-sm form-control w-sm inline v-middle" required>
-                                    <option value="">{{ trans('backLang.bulkAction') }}</option>
-                                    {{-- <option value="order">{{ trans('backLang.saveOrder') }}</option>
                                     <option value="activate">{{ trans('backLang.activeSelected') }}</option>
-                                    <option value="block">{{ trans('backLang.blockSelected') }}</option> --}}
+                                    <option value="block">{{ trans('backLang.blockSelected') }}</option>
                                     @if(@Auth::user()->permissionsGroup->delete_status)
                                         <option value="delete">{{ trans('backLang.deleteSelected') }}</option>
                                     @endif
@@ -161,7 +181,6 @@
                     </div>
                 </footer>
                 {{Form::close()}}
-
                 <script type="text/javascript">
                     $("#checkAll").click(function () {
                         $('input:checkbox').not(this).prop('checked', this.checked);
