@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 02, 2019 at 10:28 AM
+-- Generation Time: Jul 02, 2019 at 10:35 AM
 -- Server version: 10.0.38-MariaDB-0ubuntu0.16.04.1
 -- PHP Version: 7.1.29-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -1121,13 +1121,6 @@ CREATE TABLE `aaraa_saved_polls` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `aaraa_saved_polls`
---
-
-INSERT INTO `aaraa_saved_polls` (`id`, `poll_id`, `application_users_id`, `created_at`, `updated_at`) VALUES
-('a39301f3-19aa-4b77-97a1-cba2165ffaa1', '1', '031d14b4-e222-4bde-a770-b44fcaeba49f', '2019-07-02 07:23:07', '2019-07-02 07:23:07');
-
 -- --------------------------------------------------------
 
 --
@@ -1409,14 +1402,6 @@ ALTER TABLE `aaraa_poll_results`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `aaraa_saved_polls`
---
-ALTER TABLE `aaraa_saved_polls`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `aaraa_saved_polls_user_id_fk` (`application_users_id`),
-  ADD KEY `aaraa_saved_polls_poll_id_fk` (`poll_id`);
-
---
 -- Indexes for table `aaraa_settings`
 --
 ALTER TABLE `aaraa_settings`
@@ -1519,13 +1504,6 @@ ALTER TABLE `aaraa_country_poll`
 ALTER TABLE `aaraa_option_poll`
   ADD CONSTRAINT `aaraa_option_poll_option_id_fk` FOREIGN KEY (`option_id`) REFERENCES `aaraa_options` (`id`),
   ADD CONSTRAINT `aaraa_option_poll_poll_id_fk` FOREIGN KEY (`poll_id`) REFERENCES `aaraa_polls` (`id`);
-
---
--- Constraints for table `aaraa_saved_polls`
---
-ALTER TABLE `aaraa_saved_polls`
-  ADD CONSTRAINT `aaraa_saved_polls_poll_id_fk` FOREIGN KEY (`poll_id`) REFERENCES `aaraa_polls` (`id`),
-  ADD CONSTRAINT `aaraa_saved_polls_user_id_fk` FOREIGN KEY (`application_users_id`) REFERENCES `aaraa_application_users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
