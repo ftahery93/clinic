@@ -393,4 +393,82 @@ class UserProfileController extends Controller
             'access_token' => $token,
         ]);
     }
+
+    /**
+     *
+     * @SWG\Post(
+     *         path="/~tvavisa/masafah/public/api/user/logout",
+     *         tags={"User Logout"},
+     *         operationId="logout",
+     *         summary="Logout the user from the app",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *         @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Body",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="player_id",
+     *                  type="string",
+     *                  description="users one signal player id",
+     *                  example="22eshlsaj-a98asdmha-asdjad"
+     *              ),  
+     *          ),
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=404,
+     *             description="User not found"
+     *        ),
+     *     )
+     *
+     */
+    public function logout(Request $request)
+    {
+        $authenticateEntry = Authentication::where('access_token', $request->header('Authorization'))->get()->first();
+
+        if ($authenticateEntry == null) {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_user_found', $this->language),
+            ], 404);
+        }
+
+        $oneSignalUser = OneSignalUser::where('user_id', $request->user_id)->where('player_id', $request->player_id)->get()->first();
+        if ($oneSignalUser == null) {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_user_found', $this->language),
+            ], 404);
+        }
+
+        $authenticateEntry->delete();
+        $oneSignalUser->delete();
+
+        return response()->json([
+            'message' => LanguageManagement::getLabel('text_successLoggout', $this->language),
+        ]);
+
+    }
 }

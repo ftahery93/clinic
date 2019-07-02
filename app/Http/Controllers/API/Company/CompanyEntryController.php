@@ -146,6 +146,7 @@ class CompanyEntryController extends Controller
         Authentication::create([
             'access_token' => $token,
             'user_id' => $registeredCompany->id,
+            'type' => 2,
         ]);
 
         Wallet::create([
@@ -159,6 +160,7 @@ class CompanyEntryController extends Controller
 
         return response()->json([
             'message' => LanguageManagement::getLabel('text_successRegistered', $this->language),
+            'user' => collect($registeredCompany),
             'access_token' => $token,
         ]);
     }
@@ -275,13 +277,9 @@ class CompanyEntryController extends Controller
                     ]);
                 }
 
-                //TO-DO THis needs to be implemented once the app is integrated
-                // $registeredCompany->update([
-                //     'player_id' => $request->player_id,
-                // ]);
-
                 return response()->json([
                     'access_token' => $token,
+                    'user' => collect($registeredCompany),
                 ]);
             } else {
                 return response()->json([

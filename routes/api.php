@@ -22,6 +22,7 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     Route::put('/user/updateProfile', 'API\User\UserProfileController@updateProfile');
     Route::patch('/user/changeMobileNumber', 'API\User\UserProfileController@changeMobileNumber');
     Route::patch('/user/updateMobileNumber', 'API\User\UserProfileController@updateMobileNumber');
+    Route::post('/user/logout', 'API\User\UserProfileController@logout');
 
     /* User Address */
     Route::post('/user/addAddress', 'API\User\AddressController@addAddress');
@@ -83,7 +84,7 @@ Route::group(['middleware' => 'checkVersion'], function () {
     /* User */
     Route::post('/user/login', 'API\User\AuthController@login');
     Route::post('/user/register', 'API\User\AuthController@register');
-    Route::get('/user/logout', 'API\User\AuthController@logout');
+
     Route::post('/user/verifyOTP', 'API\User\AuthController@verifyOTP');
     Route::post('/user/resendOTP', 'API\User\AuthController@resendOTP');
 

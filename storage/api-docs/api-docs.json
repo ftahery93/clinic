@@ -1506,46 +1506,6 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/logout": {
-            "get": {
-                "tags": [
-                    "User Logout"
-                ],
-                "summary": "Logout the user from the app",
-                "operationId": "logout",
-                "parameters": [
-                    {
-                        "name": "Accept-Language",
-                        "in": "header",
-                        "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Version",
-                        "in": "header",
-                        "description": "1.0.0",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful"
-                    },
-                    "404": {
-                        "description": "User not found"
-                    }
-                }
-            }
-        },
         "/~tvavisa/masafah/public/api/user/verifyOTP": {
             "post": {
                 "tags": [
@@ -2535,6 +2495,60 @@
                     },
                     "409": {
                         "description": "Mobile number already registered"
+                    }
+                }
+            }
+        },
+        "/~tvavisa/masafah/public/api/user/logout": {
+            "post": {
+                "tags": [
+                    "User Logout"
+                ],
+                "summary": "Logout the user from the app",
+                "operationId": "logout",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "player_id": {
+                                    "description": "users one signal player id",
+                                    "type": "string",
+                                    "example": "22eshlsaj-a98asdmha-asdjad"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "User not found"
                     }
                 }
             }
