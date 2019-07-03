@@ -149,7 +149,6 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
         Barryvdh\Cors\ServiceProvider::class,
-        Laravel\Passport\PassportServiceProvider::class,
 
         /*
          * Package Service Providers...

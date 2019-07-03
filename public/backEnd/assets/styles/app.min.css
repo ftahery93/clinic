@@ -30,8 +30,8 @@ html {
 body {
     color: rgba(0, 0, 0, .87);
     font-size: .870rem;
+    -webkit-font-smoothing: antialiased;
     background-color: #f0f0f0;
-    -webkit-font-smoothing: antialiased
 }
 
 .label.no-bg, a, pre {
@@ -189,7 +189,7 @@ sup {
 
 .btn.b-primary:focus, .btn.b-primary:hover, .btn.primary:focus, .btn.primary:hover {
     color: rgba(255, 255, 255, .87) !important;
-    background-color: #de485d
+    background-color: #4293ff
 }
 
 .btn.accent:focus, .btn.accent:hover, .btn.b-accent:focus, .btn.b-accent:hover {
@@ -1108,7 +1108,7 @@ a.list-group-item.hover, a.list-group-item:focus, a.list-group-item:hover {
 }
 
 .navbar-brand img, .navbar-brand svg {
-    max-height: 100px;
+    max-height: 85px;
     vertical-align: -4px;
     display: inline-block
 }
@@ -1181,8 +1181,8 @@ a.list-group-item.hover, a.list-group-item:focus, a.list-group-item:hover {
 
 .pager .page-item.active, .pager > .active > a, .pager > .active > span, .pagination .page-item.active, .pagination > .active > a, .pagination > .active > span {
     color: #fff !important;
-    background-color: #de485d!important;
-    border-color: #de485d!important
+    background-color: #4293ff!important;
+    border-color: #4293ff!important
 }
 
 .pagination{
@@ -1856,7 +1856,7 @@ a.list-group-item.hover, a.list-group-item:focus, a.list-group-item:hover {
     top: 5px;
     width: 6px;
     height: 6px;
-    background-color: #de485d
+    background-color: #4293ff
 }
 
 .ui-check input:checked + span .active {
@@ -2301,7 +2301,7 @@ body {
 }
 
 .pace .pace-progress {
-    background: #de485d;
+    background: #4293ff;
     position: fixed;
     z-index: 2000;
     top: 0;
@@ -2319,8 +2319,8 @@ body {
     width: 14px;
     height: 14px;
     border: 2px solid transparent;
-    border-top-color: #de485d;
-    border-left-color: #de485d;
+    border-top-color: #4293ff;
+    border-left-color: #4293ff;
     border-radius: 10px;
     -webkit-animation: loading-bar-spinner .4s linear infinite;
     -moz-animation: loading-bar-spinner .4s linear infinite;
@@ -2802,7 +2802,7 @@ body {
 
 .nav-stacked .nav > li.active > a {
     color: rgba(255, 255, 255, .87);
-    background-color: #de485d
+    background-color: #4293ff
 }
 
 .nav-stacked .nav li a {
@@ -2864,7 +2864,7 @@ body {
 
 .nav-active-primary .nav-link.active, .nav-active-primary .nav > li.active > a {
     color: rgba(255, 255, 255, .87) !important;
-    background-color: #de485d!important
+    background-color: #4293ff!important
 }
 
 .nav-active-accent .nav-link.active, .nav-active-accent .nav > li.active > a {
@@ -3048,7 +3048,7 @@ body {
 }
 
 .ui-icon.primary:after {
-    background-color: #de485d
+    background-color: #4293ff
 }
 
 .ui-icon.success:after {
@@ -3727,7 +3727,7 @@ body {
 }
 
 .primary {
-    background-color: #de485d
+    background-color: #4293ff
 }
 
 .primary .lt {
@@ -3739,7 +3739,7 @@ body {
 }
 
 .primary .bg {
-    background-color: #de485d
+    background-color: #4293ff
 }
 
 .accent {
@@ -4143,23 +4143,23 @@ body {
 }
 
 .b-primary {
-    border-color: #de485d
+    border-color: #4293ff
 }
 
 .b-t-primary {
-    border-top-color: #de485d
+    border-top-color: #4293ff
 }
 
 .b-r-#e7f9f7 {
-    border-right-color: #de485d
+    border-right-color: #4293ff
 }
 
 .b-b-primary {
-    border-bottom-color: #de485d
+    border-bottom-color: #4293ff
 }
 
 .b-l-primary {
-    border-left-color: #de485d
+    border-left-color: #4293ff
 }
 
 .b-accent {
@@ -4775,7 +4775,7 @@ a.text-primary:hover {
 }
 
 .text-primary, .text-primary-hover a:hover {
-    color: #de485d!important
+    color: #4293ff!important
 }
 
 a.warn:hover {
@@ -6613,13 +6613,13 @@ a.text-blue:hover {
 }
 
 .md-input.focus, .md-input:focus {
-    border-color: #de485d;
+    border-color: #4293ff;
     border-bottom-width: 2px;
     padding-bottom: 1px
 }
 
 .md-input.focus ~ label, .md-input:focus ~ label {
-    color: #de485d;
+    color: #4293ff;
     opacity: 1;
     top: 0 !important;
     font-size: .85em !important

@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -11,109 +9,88 @@ use Illuminate\Http\Request;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
-// Login from Mobile device
-Route::post('/users/login', 'API\ApplicationUsersController@login')->name('api_login'); 
+//Route::get('/user', function (Request $request) {
+//    return $request->user();
+//})->middleware('auth:api');
 
-// Register from Mobile device
-Route::post('/users/register', 'API\ApplicationUsersController@register')->name('api_register'); 
+Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
 
-// Forgot Password Send Link to Email
-Route::post('/users/forgot', 'API\ForgotPasswordController@sendResetLinkEmail')->name('api_forgot'); 
+    /* User Profile */
+    Route::get('/user/getProfile', 'API\User\UserProfileController@getProfile');
+    Route::put('/user/updateProfile', 'API\User\UserProfileController@updateProfile');
+    Route::patch('/user/changeMobileNumber', 'API\User\UserProfileController@changeMobileNumber');
+    Route::patch('/user/updateMobileNumber', 'API\User\UserProfileController@updateMobileNumber');
 
-// Middleware auth:api 
-Route::group(['middleware' => 'auth:api'], function(){
+    /* User Address */
+    Route::post('/user/addAddress', 'API\User\AddressController@addAddress');
+    Route::get('/user/getAddressById/{address_id}', 'API\User\AddressController@getAddressById');
+    Route::get('/user/getAddresses', 'API\User\AddressController@getAddresses');
+    Route::put('/user/editAddress', 'API\User\AddressController@editAddress');
+    Route::delete('/user/deleteAddressById/{address_id}', 'API\User\AddressController@deleteAddressById');
 
-    // Logout from Mobile device
-    Route::post('/users/logout', 'API\ApplicationUsersController@logout')->name('api_logout');  
+    /* User shipments  */
+    Route::post('/user/addShipment', 'API\User\ShipmentController@addShipment');
+    Route::get('/user/getShipments', 'API\User\ShipmentController@getShipments');
+    Route::get('/user/getShipmentDetails/{shipment_id}', 'API\User\ShipmentController@getShipmentDetails');
+    Route::put('/user/editShipment', 'API\User\ShipmentController@editShipment');
+    Route::get('/user/getCategories', 'API\User\ShipmentController@getCategories');
+    Route::delete('/user/deleteShipmentById/{shipment_id}', 'API\User\ShipmentController@deleteShipmentById');
 
-   // Profile from Mobile device
-    Route::get('/users/profile', 'API\ApplicationUsersController@profile')->name('api_user_profile'); 
+    Route::get('/company/getProfile', 'API\Company\CompanyProfileController@getProfile');
+    Route::put('/company/updateProfile', 'API\Company\CompanyProfileController@updateProfile');
+    Route::patch('/company/changeMobileNumber', 'API\Company\CompanyProfileController@changeMobileNumber');
+    Route::patch('/company/updateMobileNumber', 'API\Company\CompanyProfileController@updateMobileNumber');
 
-    // Profile Edit from Mobile device
-    Route::post('/users/profile/edit', 'API\ApplicationUsersController@edit')->name('api_user_profile_edit'); 
+    /* Company Details */
+    Route::get('/company/getCompanies', 'API\Company\CompanyProfileController@getCompanies');
+    Route::get('/company/getCompanyDetails', 'API\Company\CompanyProfileController@getCompanyDetails');
+    Route::get('/company/getCompanyDetailsById/{company_id}', 'API\Company\CompanyProfileController@getCompanyDetailsById');
 
-    // Change Password for Account from Mobile device
-    Route::post('/users/password', 'API\ApplicationUsersController@changePassword')->name('api_user_change_password'); 
+    /* Company Shipments */
+    Route::get('/company/getPendingShipments', 'API\Company\ShipmentController@getPendingShipments');
+    Route::get('/company/getAcceptedShipments', 'API\Company\ShipmentController@getAcceptedShipments');
+    Route::post('/company/acceptShipments', 'API\Company\ShipmentController@acceptShipment');
+    Route::get('/company/getShipmentHistory', 'API\Company\ShipmentController@getShipmentHistory');
+    Route::get('/company/getShipmentById/{shipment_id}', 'API\Company\ShipmentController@getShipmentById');
+    Route::get('/company/markShipmentAsPicked/{shipment_id}', 'API\Company\ShipmentController@markShipmentAsPicked');
+    Route::get('/company/markShipmentAsDelivered/{shipment_id}', 'API\Company\ShipmentController@markShipmentAsDelivered');
 
-    // List of Saved Polls 
-    Route::get('/users/getfavourites', 'API\PollsController@getSavedPolls')->name('api_saved_polls'); 
+    /* Company Free deliveries */
+    Route::get('/company/getFreeDeliveriesCount', 'API\Company\CompanyProfileController@getFreeDeliveriesCount');
 
-    // List of My Polls
-    Route::get('/users/getmypolls', 'API\PollsController@getMyPolls')->name('api_my_polls');  
+    /* Company Wallet APIs */
+    Route::post('/company/addToWallet', 'API\Company\WalletController@addToWallet');
+    Route::post('/company/deductFromWallet', 'API\Company\WalletController@deductFromWallet');
+    Route::get('/company/getWalletOffers', 'API\Company\WalletController@getWalletOffers');
 
-    // Mark Poll as Favourite
-    Route::post('/users/markfavourite/{id}', 'API\PollsController@savePollById')->name('api_save_poll');  
+    /* Additional APIs for development sake */
+    Route::get('/user/getCompanies', 'API\User\ShipmentController@getCompanies');
 
-    // Fetch List of Polls 
-    Route::get('/getpolls', 'API\PollsController@getPolls')->name('api_polls');  
-
-    // Get Polls List based on Category ID
-    Route::get('/categories/getpolls/{id}', 'API\PollsController@getPollsByCategory')->name('api_category_polls'); 
-
-    // Get Polls List based on Country ID
-    Route::get('/countries/getpolls/{id}', 'API\PollsController@getPollsByCountry')->name('api_country_polls');  
-
-    // Create Poll
-    Route::post('/polls/create', 'API\PollsController@createPoll')->name('api_create_poll');  
-    
-    // Delete Poll
-    Route::delete('/polls/delete/{id}', 'API\PollsController@deletePoll')->name('api_delete_poll');  
-
-    // Search List of Trends Countries 
-    Route::get('/polls/search', 'API\PollsController@search')->name('api_search_polls');  
-
-    // Add a comment
-    Route::post('/polls/addcomment', 'API\PollsController@addComment')->name('api_add_comment');  
-
-    // Fetch comments List
-    Route::get('/polls/getcomments/{id}', 'API\PollsController@getCommentsById')->name('api_poll_comments');  
-
-    // Fetch List of Categories 
-    Route::get('/getcategories', 'API\CategoryController@getCategories')->name('api_categories');  
-
-    // Save List of User interested Categories 
-    Route::post('/users/categories/save', 'API\CategoryController@saveUserCategories')->name('aoi_saved_categories');  
-
-    // Delete Selected Category from Profile
-    Route::delete('/users/categories/delete/{id}', 'API\CategoryController@deleteUserCategory')->name('api_delete_category');  
-
-    // Get List of User interested Categories 
-    Route::get('/users/categories/favourites', 'API\CategoryController@getUserCategories')->name('api_user_categories');  
-
-    // Get List of User filtered Categories - List when adding new category
-    Route::get('/users/categories/getList', 'API\CategoryController@getUserFilteredCategories')->name('api_user_categories');  
-
-    // Fetch List of Countries 
-    Route::get('/getcountries', 'API\CountriesController@getCountries')->name('api_countries');  
-
-    // Fetch List of Trends Countries 
-    Route::get('/getcountries/trends', 'API\CountriesController@getTrendCountries')->name('api_trend_countries');  
-
-    // Search List of Trends Countries 
-    Route::get('/getcountries/trends/search', 'API\CountriesController@search')->name('api_search_countries');  
-
-    // Fetch List of Settings 
-    Route::get('/getconfig', 'API\SettingsController@getConfiguration')->name('api_configuration');
-
-    // Fetch List of Durations for Poll 
-    Route::get('/getdurations', 'API\SettingsController@getDurations')->name('api_poll_duration');  
-
-    // Make a poll request and fetch the poll result in percentage.
-    Route::post('/makepoll', 'API\PollsController@makePoll')->name('api_make_poll');  
-
-    // Get poll results
-    Route::get('/poll/results/{id}', 'API\PollsController@getPollResults')->name('api_poll_results');  
-
-    // Get page results
-    Route::get('/pages/{name}', 'API\PagesController@getPage')->name('api_pages'); 
-
-    // Get notifications
-    Route::get('/users/notifications', 'API\NotificationsController@getNotifications')->name('api_notifications');  
-
-    // Read notifications
-    Route::get('/users/notification/read/{id}', 'API\NotificationsController@read')->name('api_read_notification');  
+    /* Ratings */
+    Route::post('/user/rateCompany', 'API\User\RatingController@rateCompany');
 
 });
 
+Route::group(['middleware' => 'checkVersion'], function () {
+
+    /* User */
+    Route::post('/user/login', 'API\User\AuthController@login');
+    Route::post('/user/register', 'API\User\AuthController@register');
+    Route::get('/user/logout', 'API\User\AuthController@logout');
+    Route::post('/user/verifyOTP', 'API\User\AuthController@verifyOTP');
+    Route::post('/user/resendOTP', 'API\User\AuthController@resendOTP');
+
+    /* Company Profile*/
+    Route::post('/company/login', 'API\Company\CompanyEntryController@login');
+    Route::post('/company/register', 'API\Company\CompanyEntryController@register');
+
+    //Pages
+    Route::get('/user/getTermsAndConditions', 'API\User\PagesController@getTermsAndConditions');
+
+    /* Countries */
+    Route::get('/user/getCountries', 'API\User\CountryController@getCountries');
+});
+
+Route::post('/sendMail', 'API\User\AuthController@sendMail');

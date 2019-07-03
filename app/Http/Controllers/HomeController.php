@@ -2,15 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\AnalyticsPage;
-use App\AnalyticsVisitor;
+use Auth;
 use App\Contact;
 use App\Event;
 use App\Http\Requests;
-use App\Section;
-use App\Topic;
-use App\Notification;
-use Auth;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
