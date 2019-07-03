@@ -77,7 +77,7 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
 
     /* Ratings */
     Route::post('/user/rateCompany', 'API\User\RatingController@rateCompany');
-
+    Route::get('/user/getMyRatingByCompanyId/{company_id}', 'API\User\RatingController@getMyRatingByCompanyId');
 });
 
 Route::group(['middleware' => 'checkVersion'], function () {

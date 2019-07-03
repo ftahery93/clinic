@@ -1939,6 +1939,53 @@
                 }
             }
         },
+        "/~tvavisa/masafah/public/api/user/getMyRatingByCompanyId/{company_id}": {
+            "get": {
+                "tags": [
+                    "Rating"
+                ],
+                "summary": "Get my rating for a company",
+                "operationId": "getMyRatingByCompanyId",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "user access token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "description": "company_id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "Address not found"
+                    }
+                }
+            }
+        },
         "/~tvavisa/masafah/public/api/user/addShipment": {
             "post": {
                 "tags": [

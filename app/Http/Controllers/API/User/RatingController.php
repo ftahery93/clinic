@@ -123,4 +123,65 @@ class RatingController extends Controller
             'message' => LanguageManagement::getLabel('rated_successfully', $this->language),
         ]);
     }
+
+    /**
+     *
+     * @SWG\Get(
+     *         path="/~tvavisa/masafah/public/api/user/getMyRatingByCompanyId/{company_id}",
+     *         tags={"Rating"},
+     *         operationId="getMyRatingByCompanyId",
+     *         summary="Get my rating for a company",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *         @SWG\Parameter(
+     *             name="Authorization",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user access token",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="company_id",
+     *             in="path",
+     *             description="company_id",
+     *             type="integer",
+     *             required=true
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *         @SWG\Response(
+     *             response=404,
+     *             description="Address not found"
+     *        ),
+     *     )
+     *
+     */
+    public function getMyRatingByCompanyId(Request $request, $company_id)
+    {
+        $rating = Rating::where('user_id', $request->user_id)->where('company_id', $company_id)->get()->first();
+
+        if ($rating == null) {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_rating_found', $this->language),
+            ], 404);
+        } else {
+            return response()->json([
+                'rating' => $rating->rating,
+            ]);
+        }
+    }
 }
