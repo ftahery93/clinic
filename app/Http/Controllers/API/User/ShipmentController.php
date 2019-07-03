@@ -533,8 +533,10 @@ class ShipmentController extends Controller
                 'payment_type' => 1,
             ]);
 
+            $shipment->categories()->detach();
+
             foreach ($request->shipments as $eachShipment) {
-                $shipment->categories()->sync($eachShipment["category_id"], ['quantity' => $eachShipment["quantity"]]);
+                $shipment->categories()->attach($eachShipment["category_id"], ['quantity' => $eachShipment["quantity"]]);
             }
 
             return response()->json([
