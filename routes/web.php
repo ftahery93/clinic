@@ -70,6 +70,11 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('/notifications/destroy/{id}', 'NotificationsController@destroy')->name('webmailsDestroy');
     Route::post('/notifications/updateAll', 'NotificationsController@updateAll')->name('webmailsUpdateAll');
 
+    // // languageManagement routes
+    Route::get('/languageManagement/{id}/edit', 'LanguageManagementController@edit')->name('adminLanguagesEdit');
+    Route::post('/languageManagement/{id}/update', 'LanguageManagementController@update')->name('adminLanguageUpdate');
+    Route::get('/languageManagement', 'LanguageManagementController@index')->name('adminLanguages');
+
     // Users & Permissions
     Route::get('/users', 'UsersController@index')->name('users');
     Route::get('/users/create/', 'UsersController@create')->name('usersCreate');
@@ -85,8 +90,8 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('/users/permissions/destroy/{id}', 'UsersController@permissions_destroy')->name('permissionsDestroy');
 
     // Languages & Management
-    Route::get('/languages', 'LanguageController@getList')->name('languages');
-    Route::post('/languages/show', 'LanguageController@showLanguages')->name('adminLangIndex');
-    Route::post('/languages/edit', 'LanguageController@edit')->name('adminLanguagesEdit');
+    // Route::get('/languages', 'LanguageController@getList')->name('languages');
+    // Route::post('/languages/show', 'LanguageController@showLanguages')->name('adminLangIndex');
+    // Route::post('/languages/edit', 'LanguageController@edit')->name('adminLanguagesEdit');
 });
 // .. End of Backend Routes
