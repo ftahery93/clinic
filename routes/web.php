@@ -42,12 +42,10 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
 
     // Registered Users
     Route::get('/regular/users', 'RegisteredUsersController@index')->name('registered_users_list');
-    Route::get('/regular/user/destroy/{id}', 'RegisteredUsersController@destroy')->name('registered_users_delete');
     Route::post('/regular/users/updateAll', 'RegisteredUsersController@updateAll')->name('registered_users_update_all');
 
     // Company Users
     Route::get('/company/users/', 'CompanyUsersController@index')->name('company_users_list');
-    Route::get('/company/user/destroy/{id}', 'CompanyUsersController@destroy')->name('company_users_delete');
     Route::post('/company/users/updateAll', 'CompanyUsersController@updateAll')->name('company_users_update_all');
 
     // Categories

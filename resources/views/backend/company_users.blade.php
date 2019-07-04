@@ -119,12 +119,12 @@
                                                 <strong>[ {{ $CompanyUser->name }} ]</strong>
                                             </p>
                                         </div>
-                                        <div class="modal-footer">
+                                        {{-- <div class="modal-footer">
                                             <button type="button" class="btn dark-white p-x-md"
                                                     data-dismiss="modal">{{ trans('backend.no') }}</button>
                                             <a href="{{ route("company_users_delete",["id"=>$CompanyUser->id]) }}"
                                                class="btn danger p-x-md">{{ trans('backend.yes') }}</a>
-                                        </div>
+                                        </div> --}}
                                     </div><!-- /.modal-content -->
                                 </div>
                             </div>

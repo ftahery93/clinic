@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 03, 2019 at 05:56 PM
+-- Generation Time: Jul 04, 2019 at 01:25 PM
 -- Server version: 10.0.38-MariaDB-0ubuntu0.16.04.1
 -- PHP Version: 7.1.29-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -974,9 +974,9 @@ CREATE TABLE `permissions` (
   `analytics_status` tinyint(4) NOT NULL DEFAULT '0',
   `notifications_status` tinyint(4) NOT NULL DEFAULT '0',
   `countries_status` tinyint(4) NOT NULL DEFAULT '0',
-  `polls_status` tinyint(4) NOT NULL,
+  `companyusers_status` tinyint(4) NOT NULL,
   `categories_status` tinyint(4) NOT NULL,
-  `appusers_status` tinyint(4) NOT NULL,
+  `registeredusers_status` tinyint(4) NOT NULL,
   `settings_status` tinyint(4) NOT NULL DEFAULT '0',
   `webmaster_status` tinyint(4) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL,
@@ -990,7 +990,7 @@ CREATE TABLE `permissions` (
 -- Dumping data for table `permissions`
 --
 
-INSERT INTO `permissions` (`id`, `name`, `view_status`, `add_status`, `edit_status`, `delete_status`, `analytics_status`, `notifications_status`, `countries_status`, `polls_status`, `categories_status`, `appusers_status`, `settings_status`, `webmaster_status`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+INSERT INTO `permissions` (`id`, `name`, `view_status`, `add_status`, `edit_status`, `delete_status`, `analytics_status`, `notifications_status`, `countries_status`, `companyusers_status`, `categories_status`, `registeredusers_status`, `settings_status`, `webmaster_status`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
 (1, 'Webmaster', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
 (2, 'Website Manager', 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
 
@@ -1242,9 +1242,9 @@ CREATE TABLE `webmaster_settings` (
   `ar_box_status` tinyint(4) NOT NULL,
   `en_box_status` tinyint(4) NOT NULL,
   `analytics_status` tinyint(4) NOT NULL,
-  `polls_status` tinyint(4) NOT NULL,
+  `registeredusers_status` tinyint(4) NOT NULL,
   `categories_status` tinyint(4) NOT NULL,
-  `appusers_status` tinyint(4) NOT NULL,
+  `companyusers_status` tinyint(4) NOT NULL,
   `countries_status` tinyint(4) NOT NULL,
   `notifications_status` tinyint(4) NOT NULL,
   `settings_status` tinyint(4) NOT NULL,
@@ -1267,7 +1267,7 @@ CREATE TABLE `webmaster_settings` (
 -- Dumping data for table `webmaster_settings`
 --
 
-INSERT INTO `webmaster_settings` (`id`, `ar_box_status`, `en_box_status`, `analytics_status`, `polls_status`, `categories_status`, `appusers_status`, `countries_status`, `notifications_status`, `settings_status`, `default_currency_id`, `languages_count`, `header_menu_id`, `footer_menu_id`, `links_status`, `register_status`, `permission_group`, `api_status`, `api_key`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+INSERT INTO `webmaster_settings` (`id`, `ar_box_status`, `en_box_status`, `analytics_status`, `registeredusers_status`, `categories_status`, `companyusers_status`, `countries_status`, `notifications_status`, `settings_status`, `default_currency_id`, `languages_count`, `header_menu_id`, `footer_menu_id`, `links_status`, `register_status`, `permission_group`, `api_status`, `api_key`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 0, 0, 3, 1, '571775002564288', 1, 1, '2017-11-08 13:25:54', '2017-11-09 18:55:04');
 
 --
