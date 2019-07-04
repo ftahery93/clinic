@@ -27,7 +27,7 @@ class RegisteredUser extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'created_at', 'updated_at', 'delete_at', 'otp', 'original_password', 'country_id',
+        'password', 'remember_token', 'created_at', 'updated_at', 'delete_at', 'otp', 'original_password', 'country_id', 'address', 'location', 'phone', 'deleted_at',
     ];
 
 // Probably on the user model, but pick wherever the data is
