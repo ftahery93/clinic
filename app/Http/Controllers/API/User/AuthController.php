@@ -116,7 +116,7 @@ class AuthController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/masafah/public/api/user/login",
+     *         path="/~tvavisa/masafah/public/api/user/login",
      *         tags={"User Login"},
      *         operationId="login",
      *         summary="Login a user to app",

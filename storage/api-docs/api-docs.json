@@ -1495,7 +1495,7 @@
                 }
             }
         },
-        "/masafah/public/api/user/login": {
+        "/~tvavisa/masafah/public/api/user/login": {
             "post": {
                 "tags": [
                     "User Login"
