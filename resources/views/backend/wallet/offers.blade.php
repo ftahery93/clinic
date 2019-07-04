@@ -4,13 +4,13 @@
     <div class="padding">
         <div class="box">
             <div class="box-header dker">
-                <h3>{{ trans('backend.company_users') }}</h3>
+                <h3>{{ trans('backend.wallet_offers') }}</h3>
                 <small>
                     <a href="{{ route('adminHome') }}">{{ trans('backend.home') }}</a> /
-                    <a href="">{{ trans('backend.company_users') }}</a>
+                    <a href="">{{ trans('backend.wallet_offers') }}</a>
                 </small>
             </div>
-            @if($CompanyUsers->total() > 0)
+            @if($WalletOffers->total() > 0)
                 {{Form::open(['route'=>'company_users_update_all','method'=>'post'])}}
                 <div class="table-responsive">
                     <table class="table table-striped  b-t">
@@ -21,85 +21,40 @@
                                     <input id="checkAll" type="checkbox"><i></i>
                                 </label>
                             </th>
-                            <th>{{ trans('backend.fullName') }}</th>
-                            <th>{{ trans('backend.email') }}</th>
-                            <th>{{ trans('backend.mobile') }}</th>
-                            <th>{{ trans('backend.phone') }}</th>
-                            <th class="text-center" style="width:50px;">{{ trans('backend.status') }}</th>
+                            <th>{{ trans('backend.amount') }}</th>
+                            <th>{{ trans('backend.free_deliveries') }}</th>
                             <th class="text-center" style="width:200px;">{{ trans('backend.options') }}</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($CompanyUsers as $CompanyUser)
+                        @foreach($WalletOffers as $WalletOffer)
                             <tr>
                                 <td><label class="ui-check m-a-0">
-                                        <input type="checkbox" name="ids[]" value="{{ $CompanyUser->id }}"><i
+                                        <input type="checkbox" name="ids[]" value="{{ $WalletOffer->id }}"><i
                                             class="dark-white"></i>
-                                        {!! Form::hidden('row_ids[]',$CompanyUser->id, array('class' => 'form-control row_no')) !!}
+                                        {!! Form::hidden('row_ids[]',$WalletOffer->id, array('class' => 'form-control row_no')) !!}
                                     </label>
                                 </td>
-                                <td>{!! $CompanyUser->name   !!}</td>
-                                <td><small>{!! $CompanyUser->email !!}</small></td>
-                                <td><small>{!! $CompanyUser->mobile !!}</small></td>
-                                <td><small>{!! $CompanyUser->phone !!}</small></td>
-                                <td class="text-center">
-                                    <i class="fa {{ ($CompanyUser->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
-                                </td>
+                                <td>{!! $WalletOffer->amount   !!}</td>
+                                <td><small>{!! $WalletOffer->free_deliveries !!}</small></td>
                                 <td class="text-center">
                                     @if(@Auth::user()->permissionsGroup->edit_status)
                                         <a class="btn btn-sm success"
-                                        href="{{ route("company_users_edit",["id"=>$CompanyUser->id]) }}">
+                                        href="{{ route("company_users_edit",["id"=>$WalletOffer->id]) }}">
                                             <small><i class="material-icons">&#xe3c9;</i> {{ trans('backend.edit') }}
                                             </small>
                                         </a>
                                     @endif
-                                    @if(@Auth::user()->permissionsGroup->view_status)
+                                    @if(@Auth::user()->permissionsGroup->webmaster_status)
                                         <button class="btn btn-sm warning" data-toggle="modal"
-                                                data-target="#mv-{{ $CompanyUser->id }}" ui-toggle-class="bounce"
+                                                data-target="#m-{{ $WalletOffer->id }}" ui-toggle-class="bounce"
                                                 ui-target="#animate">
-                                            <small><i class="material-icons">visibility</i> {{ trans('backend.view') }}
+                                            <small><i class="material-icons">&#xe872;</i> {{ trans('backend.delete') }}
                                             </small>
                                         </button>
                                     @endif
                                 </td>
                             </tr>
-                            <!-- .modal -->
-                            <div id="mv-{{ $CompanyUser->id }}" class="modal fade" data-backdrop="true">
-                                    <div class="modal-dialog" id="animate">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">{{ trans('backend.company_users_details') }}</h5>
-                                            </div>
-                                            <div class="modal-body text-center p-lg">
-                                                <p class="text-center">
-                                                    @if(@$CompanyUser->image) 
-                                                     <img src="{{ $CompanyUser->image }}" name="aboutme" width="140" height="140" border="0" class="img-circle">
-                                                    @else
-                                                      <img src="{{ url('/uploads/appusers/appuser_thumb.png') }}" name="aboutme" width="140" height="140" border="0" class="img-circle">
-                                                    @endif
-                                                    <h3 class="media-heading">{{ $CompanyUser->name }}</h3>
-                                                </p>
-                                                <p class="text-center"><strong>Email: </strong><br>{{ $CompanyUser->email }}</p>
-                                                <p class="text-center"><strong>Mobile: </strong><br>{{ $CompanyUser->mobile }}</p>
-                                                <p class="text-center"><strong>Status: </strong><br>
-                                                    <i class="fa {{ ($CompanyUser->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
-                                                </p>
-                                                <p class="text-center"><strong>Approved: </strong><br>
-                                                    <i class="fa {{ ($CompanyUser->approved==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
-                                                </p>
-                                                <p class="text-center"><strong>Ratings: </strong><br>
-                                                    <i class="fa {{ ($CompanyUser->rating==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
-                                                </p>
-                                                <br>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn dark-white p-x-md"
-                                                        data-dismiss="modal">{{ trans('backend.cancel') }}</button>
-                                            </div>
-                                        </div><!-- /.modal-content -->
-                                    </div>
-                                </div>
-                            <!-- / .modal -->
                         @endforeach
                         </tbody>
                     </table>
@@ -133,8 +88,7 @@
                                 <select name="action" id="action" class="input-sm form-control w-sm inline v-middle"
                                         required>
                                     <option value="">{{ trans('backend.bulkAction') }}</option>
-                                    <option value="activate">{{ trans('backend.activeSelected') }}</option>
-                                    <option value="block">{{ trans('backend.blockSelected') }}</option>
+                                    <option value="delete">{{ trans('backend.deleteSelected') }}</option>
                                 </select>
                                 <button type="submit" id="submit_all"
                                         class="btn btn-sm white">{{ trans('backend.apply') }}</button>
@@ -146,12 +100,12 @@
                             @endif
                         </div>
                         <div class="col-sm-3 text-center">
-                            <small class="text-muted inline m-t-sm m-b-sm">{{ trans('backend.showing') }} {{ $CompanyUsers->firstItem() }}
-                                -{{ $CompanyUsers->lastItem() }} {{ trans('backend.of') }}
-                                <strong>{{ $CompanyUsers->total()  }}</strong> {{ trans('backend.records') }}</small>
+                            <small class="text-muted inline m-t-sm m-b-sm">{{ trans('backend.showing') }} {{ $WalletOffers->firstItem() }}
+                                -{{ $WalletOffers->lastItem() }} {{ trans('backend.of') }}
+                                <strong>{{ $WalletOffers->total()  }}</strong> {{ trans('backend.records') }}</small>
                         </div>
                         <div class="col-sm-6 text-right text-center-xs">
-                            {!! $CompanyUsers->links() !!}
+                            {!! $WalletOffers->links() !!}
                         </div>
                     </div>
                 </footer>

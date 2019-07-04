@@ -46,23 +46,7 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function search()
-    {
-        // General for all pages
-        $GeneralWebmasterSections = WebmasterSection::where('status', '=', '1')->orderby('row_no', 'asc')->get();
-        // General END
-        $search_word = "";
-        $active_tab = 0;
-        return view('backEnd.search', compact("GeneralWebmasterSections", "search_word", "active_tab"));
-    }
-
-
-    /**
-     * Search resource in storage.
+     * Search from the header.
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response

@@ -6,15 +6,14 @@ use Auth;
 use File;
 use Redirect;
 use App\Setting;
+use App\WalletOffer;
 use App\Http\Requests;
 use Illuminate\Http\Request;
-
 
 class SettingsController extends Controller
 {
     // Define Default Settings ID
     private $id = 1;
-    private $uploadPath = "uploads/settings/";
 
     public function __construct()
     {
@@ -31,7 +30,7 @@ class SettingsController extends Controller
         $id = $this->getId();
         $Setting = Setting::find($id);
         if (count($Setting) > 0) {
-            return view("backEnd.settings.settings", compact("Setting"));
+            return view("backend.settings.settings", compact("Setting"));
         } else {
             return redirect()->route('adminHome');
         }
@@ -66,30 +65,10 @@ class SettingsController extends Controller
             $Setting->updated_by = Auth::user()->id;
             $Setting->save();
             return redirect()->action('SettingsController@edit')
-                ->with('doneMessage', trans('backLang.saveDone'))
+                ->with('doneMessage', trans('backend.saveDone'))
                 ->with('infoTab', 'active');
         } else {
             return redirect()->route('adminHome');
         }
     }
-
-    public function updateSiteStatus(Request $request)
-    {
-        $id = $this->getId();
-        $Setting = Setting::find($id);
-        if (count($Setting) > 0) {
-            $Setting->ios_version = $request->ios_version;
-            $Setting->android_version = $request->android_version;
-            $Setting->maintenance_mode = $request->maintenance_mode;
-            $Setting->maintenance_message_en = $request->maintenance_message_en;
-            $Setting->maintenance_message_ar = $request->maintenance_message_ar;
-            $Setting->save();
-            return redirect()->action('SettingsController@edit')
-                ->with('doneMessage', trans('backLang.saveDone'))
-                ->with('statusTab', 'active');
-        } else {
-            return redirect()->route('adminHome');
-        }
-    }
-
 }

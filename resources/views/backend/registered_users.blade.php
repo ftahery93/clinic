@@ -1,17 +1,17 @@
-@extends('backEnd.layout')
+@extends('backend.layout')
 
 @section('content')
     <div class="padding">
         <div class="box">
             <div class="box-header dker">
-                <h3>{{ trans('backLang.appusers') }}</h3>
+                <h3>{{ trans('backend.registered_users') }}</h3>
                 <small>
-                    <a href="{{ route('adminHome') }}">{{ trans('backLang.home') }}</a> /
-                    <a href="">{{ trans('backLang.appusers') }}</a>
+                    <a href="{{ route('adminHome') }}">{{ trans('backend.home') }}</a> /
+                    <a href="">{{ trans('backend.registered_users') }}</a>
                 </small>
             </div>
-            @if($ApplicationUsers->total() > 0)
-                {{Form::open(['route'=>'appuser_update_all','method'=>'post'])}}
+            @if($RegisteredUsers->total() > 0)
+                {{Form::open(['route'=>'registered_users_update_all','method'=>'post'])}}
                 <div class="table-responsive">
                     <table class="table table-striped  b-t">
                         <thead>
@@ -21,118 +21,75 @@
                                     <input id="checkAll" type="checkbox"><i></i>
                                 </label>
                             </th>
-                            <th>{{ trans('backLang.fullName') }}</th>
-                            <th>{{ trans('backLang.loginEmail') }}</th>
-                            <th>{{ trans('backLang.gender') }}</th>
-                            <th>{{ trans('backLang.age') }}</th>
-                            <th class="text-center" style="width:50px;">{{ trans('backLang.status') }}</th>
-                            <th class="text-center" style="width:200px;">{{ trans('backLang.options') }}</th>
+                            <th>{{ trans('backend.fullName') }}</th>
+                            <th>{{ trans('backend.loginEmail') }}</th>
+                            <th>{{ trans('backend.mobile') }}</th>
+                            <th class="text-center" style="width:50px;">{{ trans('backend.status') }}</th>
+                            <th class="text-center" style="width:200px;">{{ trans('backend.options') }}</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($ApplicationUsers as $ApplicationUser)
+                        @foreach($RegisteredUsers as $RegisteredUser)
                             <tr>
                                 <td><label class="ui-check m-a-0">
-                                        <input type="checkbox" name="ids[]" value="{{ $ApplicationUser->id }}"><i
+                                        <input type="checkbox" name="ids[]" value="{{ $RegisteredUser->id }}"><i
                                             class="dark-white"></i>
-                                        {!! Form::hidden('row_ids[]',$ApplicationUser->id, array('class' => 'form-control row_no')) !!}
+                                        {!! Form::hidden('row_ids[]',$RegisteredUser->id, array('class' => 'form-control row_no')) !!}
                                     </label>
                                 </td>
                                 <td>
-                                    {!! $ApplicationUser->name   !!}
+                                    {!! $RegisteredUser->fullname   !!}
                                 </td>
                                 <td>
-                                    <small>{!! $ApplicationUser->email   !!}</small>
+                                    <small>{!! $RegisteredUser->email   !!}</small>
                                 </td>
                                 <td>
-                                    <small>{!! $ApplicationUser->gender   !!}</small>
-                                </td>
-                                <td>
-                                    <small>{!! $ApplicationUser->age   !!}</small>
+                                    <small>{!! $RegisteredUser->mobile   !!}</small>
                                 </td>
                                 <td class="text-center">
-                                    <i class="fa {{ ($ApplicationUser->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
+                                    <i class="fa {{ ($RegisteredUser->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
                                 </td>
                                 <td class="text-center">
                                     @if(@Auth::user()->permissionsGroup->view_status)
                                         <button class="btn btn-sm warning" data-toggle="modal"
-                                                data-target="#mv-{{ $ApplicationUser->id }}" ui-toggle-class="bounce"
+                                                data-target="#mv-{{ $RegisteredUser->id }}" ui-toggle-class="bounce"
                                                 ui-target="#animate">
-                                            <small><i class="material-icons">visibility</i> {{ trans('backLang.view') }}
-                                            </small>
-                                        </button>
-                                    @endif
-                                    @if(@Auth::user()->permissionsGroup->webmaster_status)
-                                        <button class="btn btn-sm warning" data-toggle="modal"
-                                                data-target="#m-{{ $ApplicationUser->id }}" ui-toggle-class="bounce"
-                                                ui-target="#animate">
-                                            <small><i class="material-icons">&#xe872;</i> {{ trans('backLang.delete') }}
+                                            <small><i class="material-icons">visibility</i> {{ trans('backend.view') }}
                                             </small>
                                         </button>
                                     @endif
                                 </td>
                             </tr>
                             <!-- .modal -->
-                            <div id="mv-{{ $ApplicationUser->id }}" class="modal fade" data-backdrop="true">
+                            <div id="mv-{{ $RegisteredUser->id }}" class="modal fade" data-backdrop="true">
                                     <div class="modal-dialog" id="animate">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title">{{ trans('backLang.appusersViewDetails') }}</h5>
+                                                <h5 class="modal-title">{{ trans('backend.registered_users_details') }}</h5>
                                             </div>
                                             <div class="modal-body text-center p-lg">
                                                 <p class="text-center">
-                                                    @if(@$ApplicationUser->photo) 
-                                                     <img src="{{ $ApplicationUser->photo }}" name="aboutme" width="140" height="140" border="0" class="img-circle">
+                                                    @if(@$RegisteredUser->image) 
+                                                     <img src="{{ $RegisteredUser->image }}" name="aboutme" width="140" height="140" border="0" class="img-circle">
                                                     @else
                                                       <img src="{{ url('/uploads/appusers/appuser_thumb.png') }}" name="aboutme" width="140" height="140" border="0" class="img-circle">
                                                     @endif
-                                                    <h3 class="media-heading">{{ $ApplicationUser->name }}</h3>
+                                                    <h3 class="media-heading">{{ $RegisteredUser->fullname }}</h3>
                                                 </p>
-                                                <p class="text-center"><strong>Email: </strong><br>{{ $ApplicationUser->email }}</p>
-                                                <p class="text-center"><strong>Gender: </strong><br>{{ $ApplicationUser->gender }}</p>
-                                                <p class="text-center"><strong>Age: </strong><br>{{ $ApplicationUser->age }}</p>
+                                                <p class="text-center"><strong>Email: </strong><br>{{ $RegisteredUser->email }}</p>
+                                                <p class="text-center"><strong>Mobile: </strong><br>{{ $RegisteredUser->mobile }}</p>
                                                 <p class="text-center"><strong>Status: </strong><br>
-                                                    <i class="fa {{ ($ApplicationUser->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
-                                                </p>
-                                                <p class="text-center"><strong>Notification: </strong><br>
-                                                    <i class="fa {{ ($ApplicationUser->notification==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
-                                                </p>
-                                                <p class="text-center"><strong>Terms and Conditions: </strong><br>
-                                                    <i class="fa {{ ($ApplicationUser->terms_conditions==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
+                                                    <i class="fa {{ ($RegisteredUser->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
                                                 </p>
                                                 <br>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn dark-white p-x-md"
-                                                        data-dismiss="modal">{{ trans('backLang.cancel') }}</button>
+                                                        data-dismiss="modal">{{ trans('backend.cancel') }}</button>
                                             </div>
                                         </div><!-- /.modal-content -->
                                     </div>
                                 </div>
-                            <!-- / .modal -->
-                            <!-- .modal -->
-                            <div id="m-{{ $ApplicationUser->id }}" class="modal fade" data-backdrop="true">
-                                <div class="modal-dialog" id="animate">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">{{ trans('backLang.confirmation') }}</h5>
-                                        </div>
-                                        <div class="modal-body text-center p-lg">
-                                            <p>
-                                                {{ trans('backLang.confirmationDeleteMsg') }}
-                                                <br>
-                                                <strong>[ {{ $ApplicationUser->name }} ]</strong>
-                                            </p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn dark-white p-x-md"
-                                                    data-dismiss="modal">{{ trans('backLang.no') }}</button>
-                                            <a href="{{ route("appuser_delete",["id"=>$ApplicationUser->id]) }}"
-                                               class="btn danger p-x-md">{{ trans('backLang.yes') }}</a>
-                                        </div>
-                                    </div><!-- /.modal-content -->
-                                </div>
-                            </div>
                             <!-- / .modal -->
                         @endforeach
                         </tbody>
@@ -146,18 +103,18 @@
                                 <div class="modal-dialog" id="animate">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">{{ trans('backLang.confirmation') }}</h5>
+                                            <h5 class="modal-title">{{ trans('backend.confirmation') }}</h5>
                                         </div>
                                         <div class="modal-body text-center p-lg">
                                             <p>
-                                                {{ trans('backLang.confirmationDeleteMsg') }}
+                                                {{ trans('backend.confirmationDeleteMsg') }}
                                             </p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn dark-white p-x-md"
-                                                    data-dismiss="modal">{{ trans('backLang.no') }}</button>
+                                                    data-dismiss="modal">{{ trans('backend.no') }}</button>
                                             <button type="submit"
-                                                    class="btn danger p-x-md">{{ trans('backLang.yes') }}</button>
+                                                    class="btn danger p-x-md">{{ trans('backend.yes') }}</button>
                                         </div>
                                     </div><!-- /.modal-content -->
                                 </div>
@@ -166,27 +123,26 @@
                             @if(@Auth::user()->permissionsGroup->webmaster_status)
                                 <select name="action" id="action" class="input-sm form-control w-sm inline v-middle"
                                         required>
-                                    <option value="">{{ trans('backLang.bulkAction') }}</option>
-                                    <option value="activate">{{ trans('backLang.activeSelected') }}</option>
-                                    <option value="block">{{ trans('backLang.blockSelected') }}</option>
-                                    <option value="delete">{{ trans('backLang.deleteSelected') }}</option>
+                                    <option value="">{{ trans('backend.bulkAction') }}</option>
+                                    <option value="activate">{{ trans('backend.activeSelected') }}</option>
+                                    <option value="block">{{ trans('backend.blockSelected') }}</option>
                                 </select>
                                 <button type="submit" id="submit_all"
-                                        class="btn btn-sm white">{{ trans('backLang.apply') }}</button>
+                                        class="btn btn-sm white">{{ trans('backend.apply') }}</button>
                                 <button id="submit_show_msg" class="btn btn-sm white" data-toggle="modal"
                                         style="display: none"
                                         data-target="#m-all" ui-toggle-class="bounce"
-                                        ui-target="#animate">{{ trans('backLang.apply') }}
+                                        ui-target="#animate">{{ trans('backend.apply') }}
                                 </button>
                             @endif
                         </div>
                         <div class="col-sm-3 text-center">
-                            <small class="text-muted inline m-t-sm m-b-sm">{{ trans('backLang.showing') }} {{ $ApplicationUsers->firstItem() }}
-                                -{{ $ApplicationUsers->lastItem() }} {{ trans('backLang.of') }}
-                                <strong>{{ $ApplicationUsers->total()  }}</strong> {{ trans('backLang.records') }}</small>
+                            <small class="text-muted inline m-t-sm m-b-sm">{{ trans('backend.showing') }} {{ $RegisteredUsers->firstItem() }}
+                                -{{ $RegisteredUsers->lastItem() }} {{ trans('backend.of') }}
+                                <strong>{{ $RegisteredUsers->total()  }}</strong> {{ trans('backend.records') }}</small>
                         </div>
                         <div class="col-sm-6 text-right text-center-xs">
-                            {!! $ApplicationUsers->links() !!}
+                            {!! $RegisteredUsers->links() !!}
                         </div>
                     </div>
                 </footer>
