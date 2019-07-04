@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
 use App\Models\Admin\User;
 use App\Models\API\Authentication;
+use App\Models\API\Country;
 use App\Models\API\OneSignalUser;
 use App\Models\API\Otp;
 use App\Models\API\RegisteredUser;
@@ -63,6 +64,9 @@ class UserProfileController extends Controller
     public function getProfile(Request $request)
     {
         $user = RegisteredUser::find($request->user_id);
+
+        $country = Country::find($user->country_id);
+        $user["country"] = collect($country);
         return collect($user);
     }
 
@@ -162,6 +166,9 @@ class UserProfileController extends Controller
                 'image' => $file_name,
             ]);
         }
+
+        $country = Country::find($user->country_id);
+        $user["country"] = collect($country);
 
         return collect($user);
 
@@ -322,6 +329,10 @@ class UserProfileController extends Controller
                 'country_id' => $request->country_id,
                 'mobile' => $request->mobile,
             ]);
+
+            $country = Country::find($user->country_id);
+            $user["country"] = collect($country);
+
             $accessToken = uniqid(base64_encode(str_random(50)));
 
             $token = '' . $user->id . '' . $user->mobile . '' . $accessToken;
