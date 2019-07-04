@@ -1495,7 +1495,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/login": {
+        "/masafah/public/api/user/login": {
             "post": {
                 "tags": [
                     "User Login"
@@ -1523,6 +1523,11 @@
                         "required": true,
                         "schema": {
                             "properties": {
+                                "idToken": {
+                                    "description": "user Firebase Sign-in token",
+                                    "type": "string",
+                                    "example": "eyjshddss/9as7asdjlaksjd8admsjdnlkloiasjdoiasduasldijad..."
+                                },
                                 "mobile": {
                                     "description": "users mobile number",
                                     "type": "integer",
@@ -1556,111 +1561,6 @@
                     },
                     "404": {
                         "description": "Mobile not found"
-                    }
-                }
-            }
-        },
-        "/~tvavisa/masafah/public/api/user/verifyOTP": {
-            "post": {
-                "tags": [
-                    "User OTP"
-                ],
-                "summary": "Verify User OTP",
-                "operationId": "verifyOTP",
-                "parameters": [
-                    {
-                        "name": "Accept-Language",
-                        "in": "header",
-                        "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Version",
-                        "in": "header",
-                        "description": "1.0.0",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Verify OTP Body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "properties": {
-                                "mobile": {
-                                    "description": "user's mobile number",
-                                    "type": "integer",
-                                    "example": 88663456
-                                },
-                                "otp": {
-                                    "description": "generated OTP",
-                                    "type": "integer",
-                                    "example": 46103
-                                }
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful"
-                    },
-                    "422": {
-                        "description": "Unprocessable entity"
-                    },
-                    "404": {
-                        "description": "Mobile not found"
-                    },
-                    "417": {
-                        "description": "Wrong OTP"
-                    }
-                }
-            }
-        },
-        "/~tvavisa/masafah/public/api/user/resendOTP": {
-            "post": {
-                "tags": [
-                    "User OTP"
-                ],
-                "summary": "Resend User OTP",
-                "operationId": "resendOTP",
-                "parameters": [
-                    {
-                        "name": "Accept-Language",
-                        "in": "header",
-                        "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Version",
-                        "in": "header",
-                        "description": "1.0.0",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Mobile",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "properties": {
-                                "mobile": {
-                                    "description": "users mobile number",
-                                    "type": "integer",
-                                    "example": 88663456
-                                }
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful"
-                    },
-                    "422": {
-                        "description": "Unprocessable entity"
                     }
                 }
             }
@@ -2473,65 +2373,8 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/changeMobileNumber": {
-            "patch": {
-                "tags": [
-                    "User Profile"
-                ],
-                "summary": "Change User's Mobile number",
-                "operationId": "changeMobileNumber",
-                "parameters": [
-                    {
-                        "name": "Accept-Language",
-                        "in": "header",
-                        "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Version",
-                        "in": "header",
-                        "description": "1.0.0",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Change number body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "properties": {
-                                "mobile": {
-                                    "description": "User Mobile number - *(Required)",
-                                    "type": "string",
-                                    "example": "66341897"
-                                }
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful"
-                    },
-                    "422": {
-                        "description": "Unprocessable entity"
-                    },
-                    "409": {
-                        "description": "Mobile number already registered"
-                    }
-                }
-            }
-        },
         "/~tvavisa/masafah/public/api/user/updateMobileNumber": {
-            "patch": {
+            "put": {
                 "tags": [
                     "User Profile"
                 ],
@@ -2565,20 +2408,15 @@
                         "required": true,
                         "schema": {
                             "properties": {
+                                "idToken": {
+                                    "description": "Firebase sign-in token",
+                                    "type": "string",
+                                    "example": "eyonasdn9nlaskjda/askh/askldhjoasjhdasd0asdasdhkas..."
+                                },
                                 "mobile": {
                                     "description": "User's Mobile number - *(Required)",
                                     "type": "string",
                                     "example": "99653421"
-                                },
-                                "otp": {
-                                    "description": "Received OTP - *(Required)",
-                                    "type": "string",
-                                    "example": "46137"
-                                },
-                                "type": {
-                                    "description": "1-iOS, 2-Android - *(Required)",
-                                    "type": "integer",
-                                    "example": "46137"
                                 }
                             }
                         }

@@ -20,8 +20,8 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     /* User Profile */
     Route::get('/user/getProfile', 'API\User\UserProfileController@getProfile');
     Route::put('/user/updateProfile', 'API\User\UserProfileController@updateProfile');
-    Route::patch('/user/changeMobileNumber', 'API\User\UserProfileController@changeMobileNumber');
-    Route::patch('/user/updateMobileNumber', 'API\User\UserProfileController@updateMobileNumber');
+    // Route::patch('/user/changeMobileNumber', 'API\User\UserProfileController@changeMobileNumber');
+    Route::put('/user/updateMobileNumber', 'API\User\UserProfileController@updateMobileNumber');
     Route::post('/user/logout', 'API\User\UserProfileController@logout');
 
     /* User Address */
@@ -85,9 +85,6 @@ Route::group(['middleware' => 'checkVersion'], function () {
     /* User */
     Route::post('/user/login', 'API\User\AuthController@login');
     Route::post('/user/register', 'API\User\AuthController@register');
-
-    Route::post('/user/verifyOTP', 'API\User\AuthController@verifyOTP');
-    Route::post('/user/resendOTP', 'API\User\AuthController@resendOTP');
 
     /* Company Profile*/
     Route::post('/company/login', 'API\Company\CompanyEntryController@login');

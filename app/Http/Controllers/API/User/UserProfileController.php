@@ -172,101 +172,45 @@ class UserProfileController extends Controller
         // ]);
     }
 
-    /**
-     *
-     * @SWG\Patch(
-     *         path="/~tvavisa/masafah/public/api/user/changeMobileNumber",
-     *         tags={"User Profile"},
-     *         operationId="changeMobileNumber",
-     *         summary="Change User's Mobile number",
-     *          @SWG\Parameter(
-     *             name="Accept-Language",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user prefered language",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Authorization",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user access token",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Version",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="1.0.0",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Change number body",
-     *             in="body",
-     *             required=true,
-     *          @SWG\Schema(
-     *              @SWG\Property(
-     *                  property="mobile",
-     *                  type="string",
-     *                  description="User Mobile number - *(Required)",
-     *                  example="66341897"
-     *              ),
-     *          ),
-     *        ),
-     *        @SWG\Response(
-     *             response=200,
-     *             description="Successful"
-     *        ),
-     *        @SWG\Response(
-     *             response=422,
-     *             description="Unprocessable entity"
-     *        ),
-     *        @SWG\Response(
-     *             response=409,
-     *             description="Mobile number already registered"
-     *        ),
-     *     )
-     *
-     */
-    public function changeMobileNumber(Request $request)
-    {
-        $validator = [
-            'mobile' => 'required|digits:8',
-        ];
-        $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
-        if ($checkForMessages) {
-            return $checkForMessages;
-        }
+    // public function changeMobileNumber(Request $request)
+    // {
+    //     $validator = [
+    //         'mobile' => 'required|digits:8',
+    //     ];
+    //     $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
+    //     if ($checkForMessages) {
+    //         return $checkForMessages;
+    //     }
 
-        $user = RegisteredUser::find($request->user_id);
+    //     $user = RegisteredUser::find($request->user_id);
 
-        if ($user->mobile != $request->mobile) {
-            $existingUser = RegisteredUser::where('mobile', $request->mobile)->get()->first();
-            if ($existingUser == null) {
+    //     if ($user->mobile != $request->mobile) {
+    //         $existingUser = RegisteredUser::where('mobile', $request->mobile)->get()->first();
+    //         if ($existingUser == null) {
 
-                //$existingOtp = Otp::where('mobile', $request->mobile)->get()->first();
-                $generatedOtp = substr(str_shuffle("0123456789"), 0, 5);
-                $otpUser = Otp::create([
-                    'mobile' => $request->mobile,
-                    'otp' => $generatedOtp,
-                ]);
+    //             //$existingOtp = Otp::where('mobile', $request->mobile)->get()->first();
+    //             $generatedOtp = substr(str_shuffle("0123456789"), 0, 5);
+    //             $otpUser = Otp::create([
+    //                 'mobile' => $request->mobile,
+    //                 'otp' => $generatedOtp,
+    //             ]);
 
-                return response()->json([
-                    'otp' => $otpUser->otp,
-                ]);
-            } else {
-                return response()->json([
-                    'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
-                ], 409);
-            }
-        } else {
-            return response()->json(['error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language)], 409);
-        }
-    }
+    //             return response()->json([
+    //                 'otp' => $otpUser->otp,
+    //             ]);
+    //         } else {
+    //             return response()->json([
+    //                 'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
+    //             ], 409);
+    //         }
+    //     } else {
+    //         return response()->json(['error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language)], 409);
+    //     }
+    // }
 
     /**
      *
-     * @SWG\Patch(
+     * @SWG\Put(
      *         path="/~tvavisa/masafah/public/api/user/updateMobileNumber",
      *         tags={"User Profile"},
      *         operationId="updateMobileNumber",
@@ -298,22 +242,16 @@ class UserProfileController extends Controller
      *             required=true,
      *          @SWG\Schema(
      *              @SWG\Property(
+     *                  property="idToken",
+     *                  type="string",
+     *                  description="Firebase sign-in token",
+     *                  example="eyonasdn9nlaskjda/askh/askldhjoasjhdasd0asdasdhkas..."
+     *              ),
+     *              @SWG\Property(
      *                  property="mobile",
      *                  type="string",
      *                  description="User's Mobile number - *(Required)",
      *                  example="99653421"
-     *              ),
-     *              @SWG\Property(
-     *                  property="otp",
-     *                  type="string",
-     *                  description="Received OTP - *(Required)",
-     *                  example="46137"
-     *              ),
-     *              @SWG\Property(
-     *                  property="type",
-     *                  type="integer",
-     *                  description="1-iOS, 2-Android - *(Required)",
-     *                  example="46137"
      *              ),
      *          ),
      *        ),
@@ -340,7 +278,8 @@ class UserProfileController extends Controller
     {
         $validator = [
             'mobile' => 'required|digits:8',
-            'otp' => 'required',
+            'idToken' => 'required',
+            'country_id' => 'required',
         ];
 
         $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
@@ -356,43 +295,50 @@ class UserProfileController extends Controller
                 'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
             ], 409);
         } else {
-            $existingUser = Otp::where('mobile', $request->mobile)->get()->first();
-            if ($existingUser == null) {
+
+            $response = $this->getFirebaseUser($request->iddToken);
+            $response = json_decode($response, true);
+
+            if (!array_key_exists('users', $response)) {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('mobile_not_found', $this->language),
                 ], 404);
-            } else {
-                if ($request->otp == $existingUser->otp) {
-                    $removeUser = Otp::where('mobile', $user->mobile)->get()->first();
-                    if ($removeUser != null) {
-                        $removeUser->delete();
-                    }
-                    $user->update([
-                        'mobile' => $request->mobile,
-                    ]);
-                } else {
-                    return response()->json([
-                        'error' => LanguageManagement::getLabel('text_wrongOTP', $this->language),
-                    ], 401);
-                }
             }
+
+            $country = Country::find($request->country_id);
+            if ($country == null) {
+                return response()->json([
+                    'error' => LanguageManagement::getLabel('mobile_not_found', $this->language),
+                ], 404);
+
+            }
+            if (strpos($response['users'][0]['phoneNumber'], $country->country_code . $request->mobile) === false) {
+                return response()->json([
+                    'error' => LanguageManagement::getLabel('mobile_not_found', $this->language),
+                ], 404);
+            }
+
+            $user->update([
+                'country_id' => $request->country_id,
+                'mobile' => $request->mobile,
+            ]);
+            $accessToken = uniqid(base64_encode(str_random(50)));
+
+            $token = '' . $user->id . '' . $user->mobile . '' . $accessToken;
+            $access_token = $request->header('Authorization');
+            $authenticatedUser = Authentication::where('access_token', $access_token)->get()->first();
+            $newAuthenticatedUser = Authentication::create([
+                'access_token' => $token,
+                'type' => $authenticatedUser->type,
+                'user_id' => $user->id,
+            ]);
+            return response()->json([
+                'message' => LanguageManagement::getLabel('text_successUpdated', $this->language),
+                'user' => collect($user),
+                'access_token' => $token,
+            ]);
         }
 
-        $accessToken = uniqid(base64_encode(str_random(50)));
-
-        $token = '' . $user->id . '' . $user->mobile . '' . $accessToken;
-        $access_token = $request->header('Authorization');
-        $authenticatedUser = Authentication::where('access_token', $access_token)->get()->first();
-        $newAuthenticatedUser = Authentication::create([
-            'access_token' => $token,
-            'type' => $authenticatedUser->type,
-            'user_id' => $user->id,
-        ]);
-        return response()->json([
-            'message' => LanguageManagement::getLabel('text_successUpdated', $this->language),
-            'user' => collect($user),
-            'access_token' => $token,
-        ]);
     }
 
     /**
@@ -471,5 +417,26 @@ class UserProfileController extends Controller
             'message' => LanguageManagement::getLabel('text_successLoggout', $this->language),
         ]);
 
+    }
+
+    private function getFirebaseUser($idToken)
+    {
+        $fields = array(
+            'idToken' => $idToken,
+        );
+
+        $fields = json_encode($fields);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=" . env('FIREBASE_API_KEY'));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        $response = curl_exec($ch);
+        return $response;
     }
 }
