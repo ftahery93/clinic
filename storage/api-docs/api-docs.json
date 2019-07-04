@@ -1922,7 +1922,7 @@
                         "schema": {
                             "properties": {
                                 "shipments": {
-                                    "description": "lost of shipments",
+                                    "description": "list of shipments",
                                     "type": "array",
                                     "items": {
                                         "properties": {
@@ -1950,6 +1950,11 @@
                                     "description": "User drop address id",
                                     "type": "integer",
                                     "example": 1
+                                },
+                                "is_today": {
+                                    "description": "Parcel should be delivered today?",
+                                    "type": "boolean",
+                                    "example": false
                                 },
                                 "pickup_time_from": {
                                     "description": "Parcel pickup time",

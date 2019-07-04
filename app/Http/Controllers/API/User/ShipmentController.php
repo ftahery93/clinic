@@ -62,7 +62,7 @@ class ShipmentController extends Controller
      *              @SWG\Property(
      *                  property="shipments",
      *                  type="array",
-     *                  description="lost of shipments",
+     *                  description="list of shipments",
      *                  @SWG\items(
      *                      type="object",
      *                      @SWG\Property(property="category_id", type="integer"),
@@ -86,6 +86,12 @@ class ShipmentController extends Controller
      *                  type="integer",
      *                  description="User drop address id",
      *                  example=1
+     *              ),
+     *              @SWG\Property(
+     *                  property="is_today",
+     *                  type="boolean",
+     *                  description="Parcel should be delivered today?",
+     *                  example=false
      *              ),
      *              @SWG\Property(
      *                  property="pickup_time_from",
@@ -123,8 +129,9 @@ class ShipmentController extends Controller
             'delivery_companies_id' => 'required|array|min:1',
             'address_from_id' => 'required',
             'address_to_id' => 'required',
-            'pickup_time_from' => 'required',
-            'pickup_time_to' => 'required',
+            'is_today' => 'required|boolean',
+            'pickup_time_from' => 'required_if:is_today,false',
+            'pickup_time_to' => 'required_if:is_today,false',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
@@ -151,8 +158,13 @@ class ShipmentController extends Controller
             ], 404);
         }
 
-        $shipment->pickup_time_from = $request->pickup_time_from;
-        $shipment->pickup_time_to = $request->pickup_time_to;
+        $shipment->is_today = $request->is_today;
+
+        if (!$shipment->is_today) {
+            $shipment->pickup_time_from = $request->pickup_time_from;
+            $shipment->pickup_time_to = $request->pickup_time_to;
+        }
+
         $shipment->user_id = $request->user_id;
         $shipment->status = 1;
         $shipment->payment_type = 1;
@@ -470,6 +482,12 @@ class ShipmentController extends Controller
      *                  example=1
      *              ),
      *              @SWG\Property(
+     *                  property="is_today",
+     *                  type="boolean",
+     *                  description="Parcel should be delivered today?",
+     *                  example=false
+     *              ),
+     *              @SWG\Property(
      *                  property="pickup_time_from",
      *                  type="string",
      *                  description="Parcel pickup time",
@@ -508,8 +526,9 @@ class ShipmentController extends Controller
             //'delivery_companies_id' => 'required|array|min:1',
             'address_from_id' => 'required',
             'address_to_id' => 'required',
-            'pickup_time_from' => 'required',
-            'pickup_time_to' => 'required',
+            'is_today' => 'required|boolean',
+            'pickup_time_from' => 'required_if:is_today,false',
+            'pickup_time_to' => 'required_if:is_today,false',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
@@ -526,6 +545,7 @@ class ShipmentController extends Controller
                 'price' => $price->price,
                 'address_from_id' => $request->address_from_id,
                 'address_to_id' => $request->address_to_id,
+                'is_today' => $request->is_today,
                 'pickup_time_from' => $request->pickup_time_from,
                 'pickup_time_to' => $request->pickup_time_to,
                 'user_id' => $request->user_id,
