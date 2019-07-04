@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 04, 2019 at 01:25 PM
+-- Generation Time: Jul 04, 2019 at 06:19 PM
 -- Server version: 10.0.38-MariaDB-0ubuntu0.16.04.1
 -- PHP Version: 7.1.29-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -274,7 +274,6 @@ CREATE TABLE `companies` (
   `description` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
   `rating` float DEFAULT '0',
   `image` varchar(512) COLLATE utf8_unicode_ci NOT NULL,
-  `player_id` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
   `otp` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `country_id` int(10) NOT NULL,
   `status` tinyint(1) NOT NULL,
@@ -287,9 +286,9 @@ CREATE TABLE `companies` (
 -- Dumping data for table `companies`
 --
 
-INSERT INTO `companies` (`id`, `name`, `email`, `password`, `mobile`, `phone`, `description`, `rating`, `image`, `player_id`, `otp`, `country_id`, `status`, `approved`, `created_at`, `updated_at`) VALUES
-(8, 'Fedex', 'fedex@gmail.com', '$2y$10$xTrFsSRfC0MPnTN3/l1rte.3GO85XBECj3HF2dEYpgaQMTLR8VjZO', '11443322', NULL, NULL, 0, 'company_image_1560331455.png', NULL, '62853', 1, 1, 1, '2019-06-12 09:24:15', '2019-06-27 12:54:44'),
-(9, 'DHL', 'info@dhl.com', 'qqqqqq', '88554433', NULL, NULL, 0, 'company_image_1557746290.png', NULL, NULL, 1, 1, 1, '2019-06-25 09:52:32', '2019-06-25 09:52:32');
+INSERT INTO `companies` (`id`, `name`, `email`, `password`, `mobile`, `phone`, `description`, `rating`, `image`, `otp`, `country_id`, `status`, `approved`, `created_at`, `updated_at`) VALUES
+(8, 'Fedex', 'fedex@gmail.com', '$2y$10$xTrFsSRfC0MPnTN3/l1rte.3GO85XBECj3HF2dEYpgaQMTLR8VjZO', '11443322', '11443322', '', 0, 'company_image_1560331455.png', '62853', 1, 1, 1, '2019-06-12 09:24:15', '2019-07-04 13:28:58'),
+(9, 'DHL', 'info@dhl.com', 'qqqqqq', '88554433', NULL, NULL, 0, 'company_image_1557746290.png', NULL, 1, 1, 1, '2019-06-25 09:52:32', '2019-06-25 09:52:32');
 
 -- --------------------------------------------------------
 
@@ -1049,7 +1048,6 @@ CREATE TABLE `registered_users` (
   `address` text COLLATE utf8_unicode_ci,
   `location` text COLLATE utf8_unicode_ci,
   `phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `player_id` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -1059,10 +1057,10 @@ CREATE TABLE `registered_users` (
 -- Dumping data for table `registered_users`
 --
 
-INSERT INTO `registered_users` (`id`, `fullname`, `email`, `password`, `original_password`, `mobile`, `image`, `status`, `remember_token`, `country_id`, `address`, `location`, `phone`, `player_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(47, 'Peter samuel', 'peter@tyu.com', '', '', '11334466', 'user_image_1561389671.png', 1, NULL, 1, NULL, NULL, NULL, NULL, '2019-06-25 00:58:40', '2019-06-25 01:22:24', NULL),
-(48, NULL, '', '', '', '88663456', NULL, 1, NULL, 4, NULL, NULL, NULL, NULL, '2019-06-25 00:59:02', '2019-06-25 00:59:02', NULL),
-(49, NULL, '', '', '', '77332211', NULL, 1, NULL, 4, NULL, NULL, NULL, NULL, '2019-06-25 17:40:24', '2019-06-25 17:40:24', NULL);
+INSERT INTO `registered_users` (`id`, `fullname`, `email`, `password`, `original_password`, `mobile`, `image`, `status`, `remember_token`, `country_id`, `address`, `location`, `phone`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(47, 'Peter samuel', 'peter@tyu.com', '', '', '11334466', 'user_image_1561389671.png', 1, NULL, 1, NULL, NULL, NULL, '2019-06-25 00:58:40', '2019-07-04 11:53:32', NULL),
+(48, NULL, '', '', '', '88663456', NULL, 1, NULL, 4, NULL, NULL, NULL, '2019-06-25 00:59:02', '2019-06-25 00:59:02', NULL),
+(49, NULL, '', '', '', '77332211', NULL, 1, NULL, 4, NULL, NULL, NULL, '2019-06-25 17:40:24', '2019-06-25 17:40:24', NULL);
 
 -- --------------------------------------------------------
 
@@ -1093,7 +1091,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `site_url`, `site_title_en`, `site_title_ar`, `min_options`, `max_options`, `ios_version`, `android_version`, `maintenance_mode`, `maintenance_message_en`, `maintenance_message_ar`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-('1', 'http://localhost/internal/aaraa/public', 'Poll Survey App', 'استطلاع التطبيق المسح', 2, 5, '1.4', '1.4', 0, 'الخدمة غير متوفرة في هذه اللحظة. أعود بعد وقت ما', 'Service unavailable at this moment. Come back after sometime', '1', '1', '2017-03-06 11:06:23', '2019-06-24 14:00:23');
+('1', 'http://localhost/internal/aaraa/public', 'Shipment and Delivery Provider', 'استطلاع التطبيق المسح', 2, 5, '1.4', '1.4', 0, 'الخدمة غير متوفرة في هذه اللحظة. أعود بعد وقت ما', 'Service unavailable at this moment. Come back after sometime', '1', '1', '2017-03-06 11:06:23', '2019-07-04 14:17:26');
 
 -- --------------------------------------------------------
 
