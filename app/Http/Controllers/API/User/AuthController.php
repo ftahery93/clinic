@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\User;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
 use App\Models\Admin\User;
+use App\Models\API\Authentication;
 use App\Models\API\Country;
 use App\Models\API\OneSignalUser;
 use App\Models\API\RegisteredUser;
