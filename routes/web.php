@@ -40,15 +40,15 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('/search', 'HomeController@search')->name('adminSearch');
     Route::post('/find', 'HomeController@find')->name('adminFind');
 
-   // Application Users
-   Route::get('/appusers', 'ApplicationUsersController@index')->name('appuser_list');
-   Route::get('/appusers/destroy/{id}', 'ApplicationUsersController@destroy')->name('appuser_delete');
-   Route::post('/appusers/updateAll', 'ApplicationUsersController@updateAll')->name('appuser_update_all');
+    // Registered Users
+    Route::get('/regular/users', 'RegisteredUsersController@index')->name('registered_users_list');
+    Route::get('/regular/user/destroy/{id}', 'RegisteredUsersController@destroy')->name('registered_users_delete');
+    Route::post('/regular/users/updateAll', 'RegisteredUsersController@updateAll')->name('registered_users_update_all');
 
-    // Polls
-    Route::get('/polls', 'PollsController@index')->name('adminPolls');
-    Route::post('/polls/updateAll', 'PollsController@updateAll')->name('adminPollsUpdateAll');
-    Route::get('/polls/destroy/{id}', 'PollsController@destroy')->name('adminPollsDestroy');
+    // Company Users
+    Route::get('/company/users/', 'CompanyUsersController@index')->name('company_users_list');
+    Route::get('/company/user/destroy/{id}', 'CompanyUsersController@destroy')->name('company_users_delete');
+    Route::post('/company/users/updateAll', 'CompanyUsersController@updateAll')->name('company_users_update_all');
 
     // Categories
     Route::get('/categories', 'CategoriesController@index')->name('adminCategories');
@@ -56,18 +56,12 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('/categories/{id}/edit', 'CategoriesController@edit')->name('adminCategoriesEdit');
     Route::get('/categories/destroy/{id}', 'CategoriesController@destroy')->name('adminCategoriesDestroy');
     Route::post('/categories/updateAll', 'CategoriesController@updateAll')->name('adminCategoriesUpdateAll');
-    
-    // Countries
-    Route::get('/countries', 'CountriesController@index')->name('countries');
-    Route::get('/countries/create', 'CountriesController@create')->name('adminCountriesCreate');
-    Route::post('/countries/store', 'CountriesController@store')->name('adminCountriesStore');
-    Route::get('/countries/{id}/edit', 'CountriesController@edit')->name('adminCountriesEdit');
-    Route::post('/countries/{id}/update','CountriesController@update')->name('adminCountriesUpdate');
 
     // Settings
     Route::get('/settings', 'SettingsController@edit')->name('settings');
     Route::post('/settings', 'SettingsController@updateSiteInfo')->name('settingsUpdateSiteInfo');
     Route::post('/settings/status', 'SettingsController@updateSiteStatus')->name('settingsUpdateSiteStatus');
+    Route::post('/settings/wallet/offers', 'SettingsController@walletOffers')->name('wallet_offers_setting');
 
     // Notifications
     Route::post('/notifications/store', 'NotificationsController@store')->name('webmailsStore');
@@ -77,13 +71,6 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::post('/notifications/{id}/update', 'NotificationsController@update')->name('webmailsUpdate');
     Route::get('/notifications/destroy/{id}', 'NotificationsController@destroy')->name('webmailsDestroy');
     Route::post('/notifications/updateAll', 'NotificationsController@updateAll')->name('webmailsUpdateAll');
-
-    // Analytics
-    Route::get('/ip/{ip_code?}', 'AnalyticsController@ip')->name('visitorsIP');
-    Route::post('/ip/search', 'AnalyticsController@search')->name('visitorsSearch');
-    Route::post('/analytics/{stat}', 'AnalyticsController@filter')->name('analyticsFilter');
-    Route::get('/analytics/{stat?}', 'AnalyticsController@index')->name('analytics');
-    Route::get('/visitors', 'AnalyticsController@visitors')->name('visitors');
 
     // Users & Permissions
     Route::get('/users', 'UsersController@index')->name('users');
@@ -99,19 +86,9 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::post('/users/permissions/{id}/update', 'UsersController@permissions_update')->name('permissionsUpdate');
     Route::get('/users/permissions/destroy/{id}', 'UsersController@permissions_destroy')->name('permissionsDestroy');
 
-     // Languages & Management
-     Route::get('/languages', 'LanguageController@getList')->name('languages');
-     Route::post('/languages/show', 'LanguageController@showLanguages')->name('adminLangIndex');
-     Route::post('/languages/edit', 'LanguageController@edit')->name('adminLanguagesEdit');
-
-    // Reset Password from Mobile device
-    // Route::get('/users/password/reset', 'API\ResetPasswordController@showResetForm')->name('apiusersReset'); 
-
+    // Languages & Management
+    Route::get('/languages', 'LanguageController@getList')->name('languages');
+    Route::post('/languages/show', 'LanguageController@showLanguages')->name('adminLangIndex');
+    Route::post('/languages/edit', 'LanguageController@edit')->name('adminLanguagesEdit');
 });
 // .. End of Backend Routes
-
-// RESTful API routes
-Route::Group(['prefix' => '/api/v1'], function () {
-    Route::get('/', 'APIsController@api');
-});
-// .. End of RESTful API routes

@@ -1,6 +1,11 @@
 <?php
-
-return array (
+ return [
+  'company_users' => 'مستخدمي الشركة',
+  'registered_users' => 'المستخدمون المسجلون',
+  'hi' => 'مرحبا',       
+  'welcome' => 'أهلا بك',
+  'wallet_offers' => 'عروض المحفظة',
+  'mobile' => 'التليفون المحمول',
   'direction' => 'rtl',
   'code' => 'ar',
   'lang' => 'AR',
@@ -496,4 +501,4 @@ return array (
   'languageMessage' => 'رسالة اللغة',
   'view' => 'رأي',
   'appusersViewDetails' => 'تفاصيل التطبيق المستخدم',
-);
+ ];

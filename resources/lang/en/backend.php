@@ -1,6 +1,11 @@
 <?php
-
-return array (
+return [
+  'company_users' => 'Company Users',
+  'registered_users' => 'Registered Users',
+  'hi' => 'Hi',       
+  'welcome' => 'Welcome',
+  'wallet_offers' => 'Wallet Offers',
+  'mobile' => 'Mobile',
   'direction' => 'ltr',
   'code' => 'en',
   'lang' => 'EN',
@@ -435,7 +440,7 @@ return array (
   'signIn' => 'Sign in',
   'keepMeSignedIn' => 'Keep me signed in',
   'signedInToControl' => 'Sign in',
-  'control' => 'Aaraa',
+  'control' => 'Masafah',
   'resetPassword' => 'Reset Password',
   'confirmPassword' => 'Confirm Password',
   'newPassword' => 'New Password',
@@ -503,4 +508,4 @@ return array (
   'languageMessage' => 'Language Message',
   'view' => 'View',
   'appusersViewDetails' => 'Application User Details',
-);
+ ];

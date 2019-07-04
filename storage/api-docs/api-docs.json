@@ -1441,7 +1441,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/login": {
+        "/projects/laravel/masafah/public/api/user/login": {
             "post": {
                 "tags": [
                     "User Login"

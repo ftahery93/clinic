@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use App\Contact;
-use App\Event;
+use App\Company;
+use App\RegisteredUser;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
@@ -29,178 +29,20 @@ class HomeController extends Controller
     public function index()
     {
         if (@Auth::user()->permissionsGroup->view_status) {
-            //List of all Notifications
-            $Notifications = Notification::where('created_by', '=', Auth::user()->id)->orderby('id', 'desc')->where('cat_id', '=', 0)->limit(4)->get();
-        } else {
-            //List of all Notifications
-            $Notifications = Notification::orderby('id', 'desc')->where('cat_id', '=', 0)->limit(4)->get();
-        }
-
-        // Analytics
-        $TodayVisitors = AnalyticsVisitor::where('date', date('Y-m-d'))->count();
-        $TodayPages = AnalyticsPage::where('date', date('Y-m-d'))->count();
-
-        // Last 7 Days
-        $daterangepicker_start = date('Y-m-d', strtotime('-6 day'));
-        $daterangepicker_end = date('Y-m-d');
-        $stat = "date";
-
-        $Last7DaysVisitors = array();
-
-        $AnalyticsVisitors = AnalyticsVisitor::where('date', '>=', $daterangepicker_start)
-            ->where('date', '<=', $daterangepicker_end)
-            ->groupBy($stat)
-            ->orderBy($stat, 'asc')
-            ->get();
-        $ix = 0;
-        foreach ($AnalyticsVisitors as $AnalyticsV) {
-
-            $TotalV = AnalyticsVisitor::where("$stat", $AnalyticsV->$stat)
-                ->where('date', '>=', $daterangepicker_start)
-                ->where('date', '<=', $daterangepicker_end)->count();
-
-            $AllVArray = AnalyticsVisitor::select('id')->where("$stat", $AnalyticsV->$stat)
-                ->where('date', '>=', $daterangepicker_start)
-                ->where('date', '<=', $daterangepicker_end)
-                ->get()
-                ->toArray();
-
-            $TotalP = AnalyticsPage::whereIn("visitor_id", $AllVArray)->count();
-
-            $newdata = array(
-                'name' => $AnalyticsV->$stat,
-                'visits' => $TotalV,
-                'pages' => $TotalP
-            );
-            array_push($Last7DaysVisitors, $newdata);
-            $ix++;
-        }
-
-        // Today By Country
-        $date_today = date('Y-m-d');
-        $stat = "country";
-
-        $TodayByCountry = array();
-
-        $AnalyticsVisitors = AnalyticsVisitor::where('date', $date_today)
-            ->groupBy($stat)
-            ->orderBy($stat, 'asc')
-            ->get();
-        $ix = 0;
-        foreach ($AnalyticsVisitors as $AnalyticsV) {
-
-            $TotalV = AnalyticsVisitor::where("$stat", $AnalyticsV->$stat)
-                ->where('date', $date_today)->count();
-
-            $AllVArray = AnalyticsVisitor::select('id')->where("$stat", $AnalyticsV->$stat)
-                ->where('date', $date_today)
-                ->get()
-                ->toArray();
-
-            $TotalP = AnalyticsPage::whereIn("visitor_id", $AllVArray)->count();
-
-            $newdata = array(
-                'name' => $AnalyticsV->$stat,
-                'code' => substr($AnalyticsV->country_code, 0, 2),
-                'visits' => $TotalV,
-                'pages' => $TotalP
-            );
-            array_push($TodayByCountry, $newdata);
-            $ix++;
-        }
-        usort($TodayByCountry, function ($a, $b) {
-            return $b['visits'] - $a['visits'];
-        });
-
-        // Today By Browser
-        $date_today = date('Y-m-d');
-        $stat = "browser";
-
-        $TodayByBrowsers = array();
-
-        $AnalyticsVisitors = AnalyticsVisitor::where('date', '>=', $daterangepicker_start)
-            ->where('date', '<=', $daterangepicker_end)
-            ->groupBy($stat)
-            ->orderBy($stat, 'asc')
-            ->get();
-        $ix = 0;
-        foreach ($AnalyticsVisitors as $AnalyticsV) {
-
-            $TotalV = AnalyticsVisitor::where("$stat", $AnalyticsV->$stat)
-                ->where('date', '>=', $daterangepicker_start)
-                ->where('date', '<=', $daterangepicker_end)->count();
-
-            $newdata = array(
-                'name' => $AnalyticsV->$stat,
-                'visits' => $TotalV
-            );
-            array_push($TodayByBrowsers, $newdata);
-            $ix++;
-        }
-        usort($TodayByBrowsers, function ($a, $b) {
-            return $b['visits'] - $a['visits'];
-        });
-        $TodayByBrowser1 = "";
-        $TodayByBrowser1_val = 0;
-        $TodayByBrowser2 = "Other Browsers";
-        $TodayByBrowser2_val = 0;
-        $ix = 0;
-        $emptyB = 0;
-        foreach ($TodayByBrowsers as $TodayByBrowser) {
-            $emptyBi = 0;
-            if ($emptyB == 0) {
-                $emptyBi = $ix;
+            //Get the Number of Company Users
+            $Company = Company::where('status', '=', '1')->get();
+            if(count($Company) > 0){
+                $NumberofCompanyUsers = count($Company);
             }
-            if ($ix == $emptyBi) {
-                $ix2 = 0;
-                foreach ($TodayByBrowser as $key => $val) {
-                    if ($ix2 == 0) {
-                        $TodayByBrowser1 = $val;
-                        if ($TodayByBrowser1 != "") {
-                            $emptyB = 1;
-                        }
-                    }
-                    if ($ix2 == 1) {
-                        $TodayByBrowser1_val = $val;
-                    }
-                    $ix2++;
-                }
-            } else {
-                $ixx2 = 0;
-                foreach ($TodayByBrowser as $key => $val) {
-                    if ($ixx2 == 1) {
-                        $TodayByBrowser2_val += $val;
-                    }
-                    $ixx2++;
-                }
-            }
-            $ix++;
-        }
 
-        // Visitor Rate today
-        $day_date = date('Y-m-d');
-        $TodayVisitorsRate = "";
-        $fsla = "";
-        for ($ii = 0; $ii < 24; $ii = $ii + 2) {
-            if ($ii != 0) {
-                $fsla = ", ";
+            //Get the Number of Registered Users
+            $RegisteredUser = RegisteredUser::where('status', '=', '1')->get();
+            if(count($RegisteredUser) > 0){
+                $NumberofRegisteredUsers = count($RegisteredUser);
             }
-            $stepis = $ii + 2;
-            $timeis1 = "$ii:00:00<br>";
-            $timeis2 = "$stepis:00:00";
-            $TotalV = AnalyticsVisitor::where('date', $day_date)
-                ->where('time', '>=', $timeis1)
-                ->where('time', '<', $timeis2)
-                ->count();
-            if($TotalV==0){
-                $TotalV = 1;
-            }
-            $TodayVisitorsRate = $TodayVisitorsRate . $fsla . "[$ii,$TotalV]";
-        }
-        return view('backEnd.home',
-            compact("Notifications", "TodayVisitors", "TodayPages",
-                "Last7DaysVisitors", "TodayByCountry", "TodayByBrowser1", "TodayByBrowser1_val", "TodayByBrowser2",
-                "TodayByBrowser2_val", "TodayVisitorsRate"));
+            
+            return view('backend.home',compact("NumberofCompanyUsers","NumberofRegisteredUsers"));
+        } 
     }
 
     /**
