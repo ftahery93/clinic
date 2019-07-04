@@ -229,9 +229,14 @@ class AuthController extends Controller
             ]);
         }
 
-        if ($registeredUser != null) {
-            return response()->json($registeredUser);
-        } else {
+        $token = '' . $registeredUser->id . '' . $registeredUser->mobile . '' . $this->accessToken;
+        Authentication::create([
+            'user_id' => $registeredUser->id,
+            'access_token' => $token,
+            'type' => 1,
+        ]);
+
+        if ($registeredUser == null) {
             if ($country == null) {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('no_country_found', $this->language),
@@ -248,9 +253,13 @@ class AuthController extends Controller
                 'player_id' => $request->player_id,
                 'device_type' => $request->device_type,
             ]);
-
-            return response()->json($registeredUser);
         }
+
+        return response()->json([
+            'access_token' => $token,
+            'user' => $registeredUser,
+        ]);
+
     }
 
     private function getFirebaseUser($idToken)
