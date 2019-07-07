@@ -260,6 +260,12 @@ class UserProfileController extends Controller
      *                  description="User's Mobile number - *(Required)",
      *                  example="99653421"
      *              ),
+     *              @SWG\Property(
+     *                  property="country_id",
+     *                  type="integer",
+     *                  description="User's Country ID - *(Required)",
+     *                  example=5
+     *              ),
      *          ),
      *        ),
      *        @SWG\Response(
@@ -303,7 +309,7 @@ class UserProfileController extends Controller
             ], 409);
         } else {
 
-            $response = $this->getFirebaseUser($request->iddToken);
+            $response = $this->getFirebaseUser($request->idToken);
             $response = json_decode($response, true);
 
             if (!array_key_exists('users', $response)) {
