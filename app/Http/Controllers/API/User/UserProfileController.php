@@ -136,17 +136,27 @@ class UserProfileController extends Controller
      */
     public function updateProfile(Request $request)
     {
-        $validator = [
-            'fullname' => 'required',
-            'email' => 'required',
-        ];
+        // $validator = [
+        //     'fullname' => 'required',
+        //     'email' => 'required',
+        // ];
 
-        $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
-        if ($checkForMessages) {
-            return $checkForMessages;
-        }
+        // $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
+        // if ($checkForMessages) {
+        //     return $checkForMessages;
+        // }
 
         $user = RegisteredUser::find($request->user_id);
+
+        if (!empty($request->email)) {
+            $user = RegisteredUser::where('email', $request->email)->get();
+            if ($user != null) {
+                return response()->json([
+                    'error' => LanguageMangement::getLabel('email_exist', $this->language),
+                ]);
+            }
+        }
+
         $user->update([
             'fullname' => $request->fullname,
             'email' => $request->email,
