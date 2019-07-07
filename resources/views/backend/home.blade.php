@@ -18,7 +18,7 @@
                     </div>
                     <div class="clear">
                         <h6 class="text-muted">{{ trans('backend.company_users') }}</h6>
-                        <h3 class="m-a-0 text-lg"><a href>{{ $NumberofCompanyUsers }}</a></h3>
+                        <h3 class="m-a-0 text-lg"><a href="{{ route("company_users_list") }}">{{ $NumberofCompanyUsers }}</a></h3>
                     </div>
                 </div>
                 <div class="box-color p-a-3 success">
@@ -29,7 +29,7 @@
                     </div>
                     <div class="clear">
                         <h6 class="text-muted">{{ trans('backend.registered_users') }}</h6>
-                        <h3 class="m-a-0 text-lg"><a href>{{ $NumberofRegisteredUsers }}</a></h3>
+                        <h3 class="m-a-0 text-lg"><a href="{{ route("registered_users_list") }}">{{ $NumberofRegisteredUsers }}</a></h3>
                     </div>
                 </div>
             </div>

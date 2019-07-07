@@ -46,15 +46,25 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
 
     // Company Users
     Route::get('/company/users/', 'CompanyUsersController@index')->name('company_users_list');
+    Route::get('/company/user/edit/{id}', 'CompanyUsersController@edit')->name('company_users_edit');
+    Route::post('/company/user/update/{id}', 'CompanyUsersController@update')->name('company_users_update');
     Route::post('/company/users/updateAll', 'CompanyUsersController@updateAll')->name('company_users_update_all');
+
 
     //API Company Reset Password
     Route::get('/password/resetApiUser/{token}', 'Auth\ResetApiUserPasswordController@showResetForm');
     Route::post('/password/resetApiUser', 'Auth\ResetApiUserPasswordController@reset');
 
 
+    // Shipments
+    Route::get('/users/shipments', 'ShipmentsController@index')->name('shipments_list');
+
+    // Transactions
+    Route::get('/users/transactions', 'TranscationsController@index')->name('transactions_list');
+
+
     // Categories
-    Route::get('/categories', 'CategoriesController@index')->name('adminCategories');
+    Route::get('/categories', 'CategoriesController@index')->name('categories_list');
     Route::get('/categories/create', 'CategoriesController@create')->name('adminCategoriesCreate');
     Route::get('/categories/{id}/edit', 'CategoriesController@edit')->name('adminCategoriesEdit');
     Route::get('/categories/destroy/{id}', 'CategoriesController@destroy')->name('adminCategoriesDestroy');
@@ -62,9 +72,12 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
 
     // Settings
     Route::get('/settings', 'SettingsController@edit')->name('settings');
-    Route::post('/settings', 'SettingsController@updateSiteInfo')->name('settingsUpdateSiteInfo');
-    Route::post('/settings/status', 'SettingsController@updateSiteStatus')->name('settingsUpdateSiteStatus');
-    Route::post('/settings/wallet/offers', 'SettingsController@walletOffers')->name('wallet_offers_setting');
+    Route::post('/settings', 'SettingsController@updateSiteInfo')->name('site_settings_update');
+
+    // Wallet Offers
+    Route::get('/settings/wallet/offers', 'WalletOffersController@index')->name('wallet_offers_list');
+    Route::post('/settings/wallet/offers/{id}', 'WalletOffersController@edit')->name('wallet_offers_edit');
+    Route::post('/settings/wallet/offers/updateAll', 'WalletOffersController@updateAll')->name('wallet_offers_update_all');
 
     // Notifications
     Route::post('/notifications/store', 'NotificationsController@store')->name('webmailsStore');
@@ -95,9 +108,5 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::post('/users/permissions/{id}/update', 'UsersController@permissions_update')->name('permissionsUpdate');
     Route::get('/users/permissions/destroy/{id}', 'UsersController@permissions_destroy')->name('permissionsDestroy');
 
-    // Languages & Management
-    // Route::get('/languages', 'LanguageController@getList')->name('languages');
-    // Route::post('/languages/show', 'LanguageController@showLanguages')->name('adminLangIndex');
-    // Route::post('/languages/edit', 'LanguageController@edit')->name('adminLanguagesEdit');
 });
 // .. End of Backend Routes

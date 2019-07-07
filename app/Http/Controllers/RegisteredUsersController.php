@@ -39,7 +39,7 @@ class RegisteredUsersController extends Controller
             $RegisteredUsers = RegisteredUser::orderby('id', 'asc')->paginate(env('BACKEND_PAGINATION'));
             $Permissions = Permissions::orderby('id', 'asc')->get();
         }
-        return view("backEnd.registered_users", compact("RegisteredUsers", "Permissions"));
+        return view("backend.registered_users", compact("RegisteredUsers", "Permissions"));
     }
 
     /**

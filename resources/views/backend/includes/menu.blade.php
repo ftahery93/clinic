@@ -35,6 +35,42 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                         <small class="text-muted">{{ trans('backend.siteData') }}</small>
                     </li>
 
+                    {{-- Shipments --}}
+                    @if(Helper::GeneralWebmasterSettings("shipments_status"))
+                        @if(@Auth::user()->permissionsGroup->categories_status)
+                            <?php
+                            $currentFolder = "shipments"; // Put folder name here
+                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                            ?>
+                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }} >
+                                <a href="{{ route('shipments_list') }}">
+                                    <span class="nav-icon">
+                                    <i class="material-icons">list</i>
+                                    </span>
+                                    <span class="nav-text">{{ trans('backend.categories') }}</span>
+                                </a>
+                            </li>
+                        @endif
+                    @endif
+
+                    {{-- Transactions --}}
+                    @if(Helper::GeneralWebmasterSettings("transactions_status"))
+                        @if(@Auth::user()->permissionsGroup->categories_status)
+                            <?php
+                            $currentFolder = "categories"; // Put folder name here
+                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                            ?>
+                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }} >
+                                <a href="{{ route('transactions_list') }}">
+                                    <span class="nav-icon">
+                                    <i class="material-icons">list</i>
+                                    </span>
+                                    <span class="nav-text">{{ trans('backend.transactions') }}</span>
+                                </a>
+                            </li>
+                        @endif
+                    @endif
+
                     {{-- Categories --}}
                     @if(Helper::GeneralWebmasterSettings("categories_status"))
                         @if(@Auth::user()->permissionsGroup->categories_status)
@@ -43,7 +79,7 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                             $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
                             ?>
                             <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }} >
-                                <a href="{{ route('adminCategories') }}">
+                                <a href="{{ route('categories_list') }}">
                                     <span class="nav-icon">
                                     <i class="material-icons">list</i>
                                     </span>
@@ -96,18 +132,14 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                             $currentFolder = "notifications"; // Put folder name here
                             $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
                             ?>
-                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
-                                <a href="{{ route('adminNotifications') }}">
+                            {{-- <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
+                                <a href="{{ route('notifications_list') }}">
                                     <span class="nav-icon">
                                         <i class="material-icons">notifications</i>
                                         </span>
-                                    <span class="nav-text">{{ trans('backend.siteInbox') }}
-                                        {{-- @if( Helper::webmailsNewCount() >0)
-                                            <badge class="label warn m-l-xs">{{ Helper::webmailsNewCount() }}</badge>
-                                        @endif --}}
-                                    </span>
+                                    <span class="nav-text">{{ trans('backend.siteInbox') }}</span>
                                 </a>
-                            </li>
+                            </li> --}}
                         @endif
                     @endif
 
@@ -139,11 +171,9 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                             <li class="nav-header hidden-folded">
                                 <small class="text-muted">{{ trans('backend.settings') }}</small>
                             </li>
-
                             <?php
                             $currentFolder = "settings"; // Put folder name here
                             $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-
                             $currentFolder2 = "users"; // Put folder name here
                             $PathCurrentFolder2 = substr($urlAfterRoot, 0, strlen($currentFolder2));
                             ?>
@@ -181,12 +211,14 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                                     </li> 
                                     <?php */ ?>
                                     <?php
+
+
                                     $currentFolder = "wallets"; // Put folder name here
                                     $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
                                     ?>
                                     <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
-                                        <a href="{{ route('wallet_offers_setting') }}"
-                                           onclick="location.href='{{ route('wallet_offers_setting') }}'">
+                                        <a href="{{ route('wallet_offers_list') }}"
+                                           onclick="location.href='{{ route('wallet_offers_list') }}'">
                                             <span class="nav-text">{{ trans('backend.wallet_offers') }}</span>
                                         </a>
                                     </li>
