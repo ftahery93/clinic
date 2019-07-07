@@ -262,6 +262,7 @@ class CompanyEntryController extends Controller
                 Authentication::create([
                     'access_token' => $token,
                     'user_id' => $registeredCompany->id,
+                    'type' => 2,
                 ]);
 
                 if ($player_id == null) {
