@@ -518,4 +518,8 @@
   'languageMessage' => 'رسالة اللغة',
   'view' => 'رأي',
   'appusersViewDetails' => 'تفاصيل التطبيق المستخدم',
+  'languageManagement' => 'إدارة اللغة',
+  'name' => 'اسم',
+  'label' => 'ضع الكلمة المناسبة',
+  'langButton' => 'تحديث ملف اللغة',
  ];

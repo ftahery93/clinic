@@ -525,4 +525,9 @@ return [
   'languageMessage' => 'Language Message',
   'view' => 'View',
   'appusersViewDetails' => 'Application User Details',
+  'languageManagement' => 'Language Management',
+  'name' => 'Name',
+  'label' => 'label',
+  'langButton' => 'Update language file',
+  
  ];

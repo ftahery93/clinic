@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+
 use App;
 use Closure;
 use App\LanguageManagement;
@@ -19,10 +20,12 @@ class CheckAuth
      */
     public function handle($request, Closure $next)
     {
+       
         $language = $request->header('Accept-Language');
         if ($request->header('Authorization')) {
-            $token = $request->header('Authorization');
+            $token = $request->header('Authorization');          
             $authenticatedUser = Authentication::where('access_token', $token)->get()->first();
+           
             if ($authenticatedUser != null) {
                 echo $authenticatedUser->type;die;
                 if ($authenticatedUser->type == 1) {

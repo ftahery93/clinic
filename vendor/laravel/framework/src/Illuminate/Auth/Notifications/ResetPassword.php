@@ -5,6 +5,8 @@ namespace Illuminate\Auth\Notifications;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Session;
+
 
 class ResetPassword extends Notification
 {
@@ -52,6 +54,15 @@ class ResetPassword extends Notification
      */
     public function toMail($notifiable)
     {
+        if (Session::has('forgotPasswordWebLink')) {
+            $action='password/reset';  //For Web Users           
+        }
+        else{            
+            $action='admin/password/resetApiUser';  //For App Users
+        }         
+       
+        Session::forget('forgotPasswordWebLink');
+        
         if (static::$toMailCallback) {
             return call_user_func(static::$toMailCallback, $notifiable, $this->token);
         }
@@ -59,7 +70,8 @@ class ResetPassword extends Notification
         return (new MailMessage)
             ->subject(Lang::getFromJson('Reset Password Notification'))
             ->line(Lang::getFromJson('You are receiving this email because we received a password reset request for your account.'))
-            ->action(Lang::getFromJson('Reset Password'), url(config('app.url').route('password.reset', ['token' => $this->token, 'email' => $notifiable->getEmailForPasswordReset()], false)))
+            //->action(Lang::getFromJson('Reset Password'), url(config('app.url').route('password.reset', ['token' => $this->token], false)))
+            ->action('Reset Password', url($action, $this->token))
             ->line(Lang::getFromJson('This password reset link will expire in :count minutes.', ['count' => config('auth.passwords.users.expire')]))
             ->line(Lang::getFromJson('If you did not request a password reset, no further action is required.'));
     }
