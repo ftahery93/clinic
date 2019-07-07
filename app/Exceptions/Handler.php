@@ -52,7 +52,8 @@ class Handler extends ExceptionHandler
         //use of the * character as a wildcard when utilizing this method.
         if( $request->is('api/*')){
             // return JSON-formatted response
-            return response()->json(['error' => 'You\'re not authorised to access this page',], 401);
+            //return response()->json(['error' => 'You\'re not authorised to access this page',], 401);
+            return parent::render($request, $exception);
         } else {
             // return HTML response
             return parent::render($request, $exception);

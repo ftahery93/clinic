@@ -20,7 +20,7 @@
             <div class="m-b">
                 {{ trans('backLang.resetPassword') }}
             </div>
-            <form name="reset" method="POST" action="{{ url('/password/reset') }}">
+            <form name="reset" method="POST" action="{{ url('/admin/password/resetApiUser') }}">
             {{ csrf_field() }}
 
               <input type="hidden" name="token" value="{{ $token }}">

@@ -8,6 +8,7 @@ use App;
 class LanguageManagement extends Model
 {
     protected $table = 'language_management';
+
     protected $guarded = [];
 
     // Probably on the user model, but pick wherever the data is

@@ -50,11 +50,18 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::post('/company/user/update/{id}', 'CompanyUsersController@update')->name('company_users_update');
     Route::post('/company/users/updateAll', 'CompanyUsersController@updateAll')->name('company_users_update_all');
 
+
+    //API Company Reset Password
+    Route::get('/password/resetApiUser/{token}', 'Auth\ResetApiUserPasswordController@showResetForm');
+    Route::post('/password/resetApiUser', 'Auth\ResetApiUserPasswordController@reset');
+
+
     // Shipments
     Route::get('/users/shipments', 'ShipmentsController@index')->name('shipments_list');
 
     // Transactions
     Route::get('/users/transactions', 'TranscationsController@index')->name('transactions_list');
+
 
     // Categories
     Route::get('/categories', 'CategoriesController@index')->name('categories_list');
@@ -81,6 +88,12 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('/notifications/destroy/{id}', 'NotificationsController@destroy')->name('webmailsDestroy');
     Route::post('/notifications/updateAll', 'NotificationsController@updateAll')->name('webmailsUpdateAll');
 
+    // // languageManagement routes
+    Route::get('/languageManagement/{id}/edit', 'LanguageManagementController@edit')->name('adminLanguagesEdit');
+    Route::post('/languageManagement/{id}/update', 'LanguageManagementController@update')->name('adminLanguageUpdate');
+    Route::get('/languageManagement', 'LanguageManagementController@index')->name('adminLanguages');
+    Route::get('/languageManagement/{lang}/updateLocale', 'LanguageManagementController@updateLocale')->name('adminLanguageUpdateVariable');
+
     // Users & Permissions
     Route::get('/users', 'UsersController@index')->name('users');
     Route::get('/users/create/', 'UsersController@create')->name('usersCreate');
@@ -94,5 +107,6 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('/users/permissions/{id}/edit', 'UsersController@permissions_edit')->name('permissionsEdit');
     Route::post('/users/permissions/{id}/update', 'UsersController@permissions_update')->name('permissionsUpdate');
     Route::get('/users/permissions/destroy/{id}', 'UsersController@permissions_destroy')->name('permissionsDestroy');
+
 });
 // .. End of Backend Routes

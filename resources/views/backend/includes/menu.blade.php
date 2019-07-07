@@ -143,6 +143,28 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                         @endif
                     @endif
 
+                    {{-- Language Management --}}
+                    @if(Helper::GeneralWebmasterSettings("notifications_status"))
+                        @if(@Auth::user()->permissionsGroup->notifications_status)
+                            <?php
+                            $currentFolder = "languageManagement"; // Put folder name here
+                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                            ?>
+                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
+                                <a href="{{ route('adminLanguages') }}">
+                                    <span class="nav-icon">
+                                        <i class="material-icons">language</i>
+                                        </span>
+                                    <span class="nav-text">{{ trans('backend.languageManagement') }}
+                                        {{-- @if( Helper::webmailsNewCount() >0)
+                                            <badge class="label warn m-l-xs">{{ Helper::webmailsNewCount() }}</badge>
+                                        @endif --}}
+                                    </span>
+                                </a>
+                            </li>
+                        @endif
+                    @endif
+
                     {{-- Settings --}}
                     @if(Helper::GeneralWebmasterSettings("settings_status"))
                         @if(@Auth::user()->permissionsGroup->settings_status)
@@ -177,6 +199,20 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                                         </a>
                                     </li>
                                     <?php
+                                    // $currentFolder = "languages"; // Put folder name here
+                                    // $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                                    ?>
+                                    <?php /*?>
+                                    <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
+                                        <a href="{{ route('languages') }}"
+                                           onclick="location.href='{{ route('languages') }}'">
+                                            <span class="nav-text">{{ trans('backend.languages') }}</span>
+                                        </a>
+                                    </li> 
+                                    <?php */ ?>
+                                    <?php
+
+
                                     $currentFolder = "wallets"; // Put folder name here
                                     $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
                                     ?>

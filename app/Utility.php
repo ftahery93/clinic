@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Models\Admin\LanguageManagement;
+use App\LanguageManagement;
 use Illuminate\Support\Facades\Validator;
 
 class Utility
@@ -40,10 +40,10 @@ class Utility
     {
         $language = $request->header('Accept-Language');
         $messages = $this->getErrorMessages($language);
+       
         $validator = Validator::make($request->all(), $validationMessages,$messages);
 
-        if ($validator->fails()) {
-            $failedRules = $validator->failed();
+        if ($validator->fails()) {           
             return response()->json([
                 'error' => $validator->messages()->first(),
             ], $errorcode);

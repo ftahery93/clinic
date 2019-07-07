@@ -3,12 +3,12 @@
 namespace App;
 
 use Carbon\Carbon;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Company extends Authenticatable
 {
-    protected $guard = 'company';
-
+    use Notifiable;
     /**
      * The attributes that are mass assignable.
      *
