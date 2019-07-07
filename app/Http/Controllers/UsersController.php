@@ -44,7 +44,7 @@ class UsersController extends Controller
             $Users = User::orderby('id', 'asc')->paginate(env('BACKEND_PAGINATION'));
             $Permissions = Permissions::orderby('id', 'asc')->get();
         }
-        return view("backEnd.users", compact("Users", "Permissions"));
+        return view("backend.users", compact("Users", "Permissions"));
     }
 
     /**
@@ -56,7 +56,7 @@ class UsersController extends Controller
     {
         $Permissions = Permissions::orderby('id', 'asc')->get();
 
-        return view("backEnd.users.create", compact("Permissions"));
+        return view("backend.users.create", compact("Permissions"));
     }
 
     /**
@@ -127,7 +127,7 @@ class UsersController extends Controller
             $Permissions = Permissions::orderby('id', 'asc')->get();
         }
         if (count($Users) > 0) {
-            return view("backEnd.users.edit", compact("Users", "Permissions"));
+            return view("backend.users.edit", compact("Users", "Permissions"));
         } else {
             return redirect()->action('UsersController@index');
         }
@@ -264,7 +264,7 @@ class UsersController extends Controller
      */
     public function permissions_create()
     {
-        return view("backEnd.users.permissions.create");
+        return view("backend.users.permissions.create");
     }
 
     /**
@@ -322,7 +322,7 @@ class UsersController extends Controller
             $Permissions = Permissions::find($id);
         }
         if (count($Permissions) > 0) {
-            return view("backEnd.users.permissions.edit", compact("Permissions"));
+            return view("backend.users.permissions.edit", compact("Permissions"));
         } else {
             return redirect()->action('UsersController@index');
         }

@@ -1,4 +1,4 @@
-@extends('backEnd.layout')
+@extends('backend.layout')
 
 @section('headerInclude')
     <link href="{{ URL::to("backEnd/libs/js/iconpicker/fontawesome-iconpicker.min.css") }}" rel="stylesheet">

@@ -40,7 +40,7 @@
                                 <td class="text-center">
                                     @if(@Auth::user()->permissionsGroup->edit_status)
                                         <a class="btn btn-sm success"
-                                        href="{{ route("company_users_edit",["id"=>$WalletOffer->id]) }}">
+                                        href="{{ route("wallet_offers_edit",["id"=>$WalletOffer->id]) }}">
                                             <small><i class="material-icons">&#xe3c9;</i> {{ trans('backend.edit') }}
                                             </small>
                                         </a>
@@ -55,6 +55,30 @@
                                     @endif
                                 </td>
                             </tr>
+                            <!-- .modal -->
+                            <div id="m-{{ $WalletOffer->id }}" class="modal fade" data-backdrop="true">
+                                <div class="modal-dialog" id="animate">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">{{ trans('backend.confirmation') }}</h5>
+                                        </div>
+                                        <div class="modal-body text-center p-lg">
+                                            <p>
+                                                {{ trans('backend.confirmationDeleteMsg') }}
+                                                <br>
+                                                <strong>[ {{ $WalletOffer->amount }} ]</strong>
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn dark-white p-x-md"
+                                                    data-dismiss="modal">{{ trans('backend.no') }}</button>
+                                            <a href="{{ route("wallet_offers_destroy",["id"=>$WalletOffer->id]) }}"
+                                               class="btn danger p-x-md">{{ trans('backend.yes') }}</a>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div>
+                            </div>
+                            <!-- / .modal -->
                         @endforeach
                         </tbody>
                     </table>

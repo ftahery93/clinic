@@ -37,7 +37,7 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
 
                     {{-- Shipments --}}
                     @if(Helper::GeneralWebmasterSettings("shipments_status"))
-                        @if(@Auth::user()->permissionsGroup->categories_status)
+                        @if(@Auth::user()->permissionsGroup->shipments_status)
                             <?php
                             $currentFolder = "shipments"; // Put folder name here
                             $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
@@ -45,45 +45,9 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                             <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }} >
                                 <a href="{{ route('shipments_list') }}">
                                     <span class="nav-icon">
-                                    <i class="material-icons">list</i>
+                                    <i class="material-icons">local_shipping</i>
                                     </span>
-                                    <span class="nav-text">{{ trans('backend.categories') }}</span>
-                                </a>
-                            </li>
-                        @endif
-                    @endif
-
-                    {{-- Transactions --}}
-                    @if(Helper::GeneralWebmasterSettings("transactions_status"))
-                        @if(@Auth::user()->permissionsGroup->categories_status)
-                            <?php
-                            $currentFolder = "categories"; // Put folder name here
-                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-                            ?>
-                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }} >
-                                <a href="{{ route('transactions_list') }}">
-                                    <span class="nav-icon">
-                                    <i class="material-icons">list</i>
-                                    </span>
-                                    <span class="nav-text">{{ trans('backend.transactions') }}</span>
-                                </a>
-                            </li>
-                        @endif
-                    @endif
-
-                    {{-- Categories --}}
-                    @if(Helper::GeneralWebmasterSettings("categories_status"))
-                        @if(@Auth::user()->permissionsGroup->categories_status)
-                            <?php
-                            $currentFolder = "categories"; // Put folder name here
-                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-                            ?>
-                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }} >
-                                <a href="{{ route('categories_list') }}">
-                                    <span class="nav-icon">
-                                    <i class="material-icons">list</i>
-                                    </span>
-                                    <span class="nav-text">{{ trans('backend.categories') }}</span>
+                                    <span class="nav-text">{{ trans('backend.shipments') }}</span>
                                 </a>
                             </li>
                         @endif
@@ -125,6 +89,24 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                         @endif
                     @endif
 
+                    {{-- Categories --}}
+                    @if(Helper::GeneralWebmasterSettings("categories_status"))
+                        @if(@Auth::user()->permissionsGroup->categories_status)
+                            <?php
+                            $currentFolder = "categories"; // Put folder name here
+                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                            ?>
+                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }} >
+                                <a href="{{ route('categories_list') }}">
+                                    <span class="nav-icon">
+                                    <i class="material-icons">list</i>
+                                    </span>
+                                    <span class="nav-text">{{ trans('backend.categories') }}</span>
+                                </a>
+                            </li>
+                        @endif
+                    @endif
+
                     {{-- Notifications --}}
                     @if(Helper::GeneralWebmasterSettings("notifications_status"))
                         @if(@Auth::user()->permissionsGroup->notifications_status)
@@ -132,14 +114,14 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                             $currentFolder = "notifications"; // Put folder name here
                             $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
                             ?>
-                            {{-- <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
+                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
                                 <a href="{{ route('notifications_list') }}">
                                     <span class="nav-icon">
                                         <i class="material-icons">notifications</i>
                                         </span>
                                     <span class="nav-text">{{ trans('backend.siteInbox') }}</span>
                                 </a>
-                            </li> --}}
+                            </li>
                         @endif
                     @endif
 

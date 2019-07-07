@@ -111,7 +111,7 @@ sup {
 .label {
     padding: .25em .5em;
     font-weight: 700;
-    background-color: #b8b8b8
+    /* background-color: #b8b8b8 */
 }
 
 .btn-outline, .label.no-bg {

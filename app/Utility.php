@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Models\Admin\LanguageManagement;
+use App\LanguageManagement;
 use Illuminate\Support\Facades\Validator;
 
 class Utility

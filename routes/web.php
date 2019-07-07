@@ -50,18 +50,20 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::post('/company/user/update/{id}', 'CompanyUsersController@update')->name('company_users_update');
     Route::post('/company/users/updateAll', 'CompanyUsersController@updateAll')->name('company_users_update_all');
 
-    // Shipments
-    Route::get('/users/shipments', 'ShipmentsController@index')->name('shipments_list');
-
-    // Transactions
-    Route::get('/users/transactions', 'TranscationsController@index')->name('transactions_list');
-
     // Categories
     Route::get('/categories', 'CategoriesController@index')->name('categories_list');
     Route::get('/categories/create', 'CategoriesController@create')->name('adminCategoriesCreate');
     Route::get('/categories/{id}/edit', 'CategoriesController@edit')->name('adminCategoriesEdit');
     Route::get('/categories/destroy/{id}', 'CategoriesController@destroy')->name('adminCategoriesDestroy');
     Route::post('/categories/updateAll', 'CategoriesController@updateAll')->name('adminCategoriesUpdateAll');
+
+    // Shipments
+    Route::get('/users/shipments', 'ShipmentsController@index')->name('shipments_list');
+    Route::get('/users/shipments/show/{id}', 'ShipmentsController@show')->name('shipments_show');
+
+    // Transactions
+    Route::get('/users/transactions', 'TransactionsController@index')->name('transactions_list');
+    Route::get('/users/transactions/show/{id}', 'TransactionsController@show')->name('transactions_show');
 
     // Settings
     Route::get('/settings', 'SettingsController@edit')->name('settings');
@@ -70,10 +72,11 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     // Wallet Offers
     Route::get('/settings/wallet/offers', 'WalletOffersController@index')->name('wallet_offers_list');
     Route::post('/settings/wallet/offers/{id}', 'WalletOffersController@edit')->name('wallet_offers_edit');
+    Route::post('/settings/wallet/offers/destory/{id}', 'WalletOffersController@destroy')->name('wallet_offers_destroy');
     Route::post('/settings/wallet/offers/updateAll', 'WalletOffersController@updateAll')->name('wallet_offers_update_all');
 
     // Notifications
-    Route::post('/notifications/store', 'NotificationsController@store')->name('webmailsStore');
+    Route::post('/notifications', 'NotificationsController@index')->name('notifications_list');
     Route::post('/notifications/search', 'NotificationsController@search')->name('webmailsSearch');
     Route::get('/notifications/{id}/edit', 'NotificationsController@edit')->name('webmailsEdit');
     Route::get('/notifications/{group_id?}/{wid?}/{stat?}/{contact_email?}', 'NotificationsController@index')->name('adminNotifications');

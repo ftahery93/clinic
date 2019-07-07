@@ -30,7 +30,7 @@
 </div>
 
 
-@include('backEnd.includes.foot')
+@include('backend.includes.foot')
 @yield('footerInclude')
 </body>
 </html>

@@ -40,7 +40,7 @@ class CategoriesController extends Controller
         if (@Auth::user()->permissionsGroup->view_status) {
             $Categories = Category::orderby('created_at','asc')->paginate(env('BACKEND_PAGINATION'));
         }
-       return view("backEnd.categories", compact("Categories"));
+       return view("backend.categories", compact("Categories"));
     }
     
     /**

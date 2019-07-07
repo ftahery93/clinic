@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Models\Admin\Category;
+use App\Category;
 use Illuminate\Database\Eloquent\Model;
 
 class Shipment extends Model

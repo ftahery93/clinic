@@ -1,13 +1,13 @@
-@extends('backEnd.layout')
+@extends('backend.layout')
 
 @section('content')
     <div class="padding">
         <div class="box">
             <div class="box-header dker">
-                <h3>{{ trans('backLang.categories') }}</h3>
+                <h3>{{ trans('backend.categories') }}</h3>
                 <small>
-                    <a href="{{ route('adminHome') }}">{{ trans('backLang.home') }}</a> /
-                    <a href="">{{ trans('backLang.categories') }}</a>
+                    <a href="{{ route('adminHome') }}">{{ trans('backend.home') }}</a> /
+                    <a href="">{{ trans('backend.categories') }}</a>
                 </small>
             </div>
             @if($Categories->total() >0)
@@ -16,7 +16,7 @@
                         <div class="col-sm-12">
                             {{-- @foreach($Categories as $Category) --}}
                                 <a class="btn btn-fw primary marginBottom5" href="{{route("adminCategoriesCreate")}}">
-                                    <i class="material-icons">&#xe02e;</i> &nbsp; {!! trans('backLang.createCategory') !!}
+                                    <i class="material-icons">&#xe02e;</i> &nbsp; {!! trans('backend.createCategory') !!}
                                 </a>
                             {{-- @endforeach --}}
                         </div>
@@ -27,7 +27,7 @@
                 <div class="row p-a">
                     <div class="col-sm-12">
                         <div class=" p-a text-center ">
-                            {{ trans('backLang.noData') }}
+                            {{ trans('backend.noData') }}
                             <br>
                             <br>
                             @if(@Auth::user()->permissionsGroup->add_status)
@@ -35,7 +35,7 @@
                                     <a class="btn btn-fw primary marginBottom5"
                                        href="{{route("BannersCreate",$WebmasterBanner->id)}}">
                                         <i class="material-icons">&#xe02e;</i>
-                                        &nbsp; {!! trans('backLang.'.$WebmasterBanner->name) !!}</a>
+                                        &nbsp; {!! trans('backend.'.$WebmasterBanner->name) !!}</a>
                                 @endforeach --}}
                             @endif
                         </div>
@@ -54,15 +54,15 @@
                                     <input id="checkAll" type="checkbox"><i></i>
                                 </label>
                             </th>
-                            <th>{{ trans('backLang.categoryName') }}</th>
-                            <th class="text-center width50">{{ trans('backLang.status') }}</th>
-                            <th class="text-center width200">{{ trans('backLang.options') }}</th>
+                            <th>{{ trans('backend.categoryName') }}</th>
+                            <th class="text-center width50">{{ trans('backend.status') }}</th>
+                            <th class="text-center width200">{{ trans('backend.options') }}</th>
                         </tr>
                         </thead>
                         <tbody>
                         <?php
-                        $title_var = "title_" . trans('backLang.boxCode');
-                        $title_var2 = "title_" . trans('backLang.boxCodeOther');
+                        $title_var = "title_" . trans('backend.boxCode');
+                        $title_var2 = "title_" . trans('backend.boxCodeOther');
                         ?>
                         @foreach($Categories as $Category)
                             <?php
@@ -83,7 +83,7 @@
                                     {!! $title !!}
                                 </td>
                                 {{-- <td>
-                                    {!! trans('backLang.'.$Category->name)   !!}
+                                    {!! trans('backend.'.$Category->name)   !!}
                                 </td> --}}
                                 <td class="text-center">
                                     <i class="fa {{ ($Category->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
@@ -92,7 +92,7 @@
                                     @if(@Auth::user()->permissionsGroup->edit_status)
                                         <a class="btn btn-sm success"
                                            href="{{ route("adminCategoriesEdit",["id"=>$Category->id]) }}">
-                                            <small><i class="material-icons">&#xe3c9;</i> {{ trans('backLang.edit') }}
+                                            <small><i class="material-icons">&#xe3c9;</i> {{ trans('backend.edit') }}
                                             </small>
                                         </a>
                                     @endif
@@ -100,7 +100,7 @@
                                         <button class="btn btn-sm warning" data-toggle="modal"
                                                 data-target="#m-{{ $Category->id }}" ui-toggle-class="bounce"
                                                 ui-target="#animate">
-                                            <small><i class="material-icons">&#xe872;</i> {{ trans('backLang.delete') }}
+                                            <small><i class="material-icons">&#xe872;</i> {{ trans('backend.delete') }}
                                             </small>
                                         </button>
                                     @endif
@@ -112,20 +112,20 @@
                                 <div class="modal-dialog" id="animate">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">{{ trans('backLang.confirmation') }}</h5>
+                                            <h5 class="modal-title">{{ trans('backend.confirmation') }}</h5>
                                         </div>
                                         <div class="modal-body text-center p-lg">
                                             <p>
-                                                {{ trans('backLang.confirmationDeleteMsg') }}
+                                                {{ trans('backend.confirmationDeleteMsg') }}
                                                 <br>
                                                 <strong>[ {{ $title }} ]</strong>
                                             </p>
                                         </div>
                                         {{-- <div class="modal-footer">
                                             <button type="button" class="btn dark-white p-x-md"
-                                                    data-dismiss="modal">{{ trans('backLang.no') }}</button>
+                                                    data-dismiss="modal">{{ trans('backend.no') }}</button>
                                             <a href="{{ route("BannersDestroy",["id"=>$Category->id]) }}"
-                                               class="btn danger p-x-md">{{ trans('backLang.yes') }}</a>
+                                               class="btn danger p-x-md">{{ trans('backend.yes') }}</a>
                                         </div> --}}
                                     </div><!-- /.modal-content -->
                                 </div>
@@ -145,18 +145,18 @@
                                 <div class="modal-dialog" id="animate">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">{{ trans('backLang.confirmation') }}</h5>
+                                            <h5 class="modal-title">{{ trans('backend.confirmation') }}</h5>
                                         </div>
                                         <div class="modal-body text-center p-lg">
                                             <p>
-                                                {{ trans('backLang.confirmationDeleteMsg') }}
+                                                {{ trans('backend.confirmationDeleteMsg') }}
                                             </p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn dark-white p-x-md"
-                                                    data-dismiss="modal">{{ trans('backLang.no') }}</button>
+                                                    data-dismiss="modal">{{ trans('backend.no') }}</button>
                                             <button type="submit"
-                                                    class="btn danger p-x-md">{{ trans('backLang.yes') }}</button>
+                                                    class="btn danger p-x-md">{{ trans('backend.yes') }}</button>
                                         </div>
                                     </div><!-- /.modal-content -->
                                 </div>
@@ -165,27 +165,27 @@
                             @if(@Auth::user()->permissionsGroup->edit_status)
                                 <select name="action" id="action" class="input-sm form-control w-sm inline v-middle"
                                         required>
-                                    <option value="">{{ trans('backLang.bulkAction') }}</option>
-                                    {{-- <option value="order">{{ trans('backLang.saveOrder') }}</option>
-                                    <option value="activate">{{ trans('backLang.activeSelected') }}</option>
-                                    <option value="block">{{ trans('backLang.blockSelected') }}</option> --}}
+                                    <option value="">{{ trans('backend.bulkAction') }}</option>
+                                    {{-- <option value="order">{{ trans('backend.saveOrder') }}</option>
+                                    <option value="activate">{{ trans('backend.activeSelected') }}</option>
+                                    <option value="block">{{ trans('backend.blockSelected') }}</option> --}}
                                     @if(@Auth::user()->permissionsGroup->delete_status)
-                                        <option value="delete">{{ trans('backLang.deleteSelected') }}</option>
+                                        <option value="delete">{{ trans('backend.deleteSelected') }}</option>
                                     @endif
                                 </select>
                                 <button type="submit" id="submit_all"
-                                        class="btn btn-sm white">{{ trans('backLang.apply') }}</button>
+                                        class="btn btn-sm white">{{ trans('backend.apply') }}</button>
                                 <button id="submit_show_msg" class="btn btn-sm white displayNone" data-toggle="modal"
                                         data-target="#m-all" ui-toggle-class="bounce"
-                                        ui-target="#animate">{{ trans('backLang.apply') }}
+                                        ui-target="#animate">{{ trans('backend.apply') }}
                                 </button>
                             @endif
                         </div>
 
                         <div class="col-sm-3 text-center">
-                            <small class="text-muted inline m-t-sm m-b-sm">{{ trans('backLang.showing') }} {{ $Categories->firstItem() }}
-                                -{{ $Categories->lastItem() }} {{ trans('backLang.of') }}
-                                <strong>{{ $Categories->total()  }}</strong> {{ trans('backLang.records') }}</small>
+                            <small class="text-muted inline m-t-sm m-b-sm">{{ trans('backend.showing') }} {{ $Categories->firstItem() }}
+                                -{{ $Categories->lastItem() }} {{ trans('backend.of') }}
+                                <strong>{{ $Categories->total()  }}</strong> {{ trans('backend.records') }}</small>
                         </div>
                         <div class="col-sm-6 text-right text-center-xs">
                             {!! $Categories->links() !!}

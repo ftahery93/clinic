@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Admin\LanguageManagement;
-use App\Models\API\Authentication;
+use App;
 use Closure;
+use App\LanguageManagement;
+use App\Authentication;
+
 
 class CheckAuth
 {
@@ -22,12 +24,13 @@ class CheckAuth
             $token = $request->header('Authorization');
             $authenticatedUser = Authentication::where('access_token', $token)->get()->first();
             if ($authenticatedUser != null) {
+                echo $authenticatedUser->type;die;
                 if ($authenticatedUser->type == 1) {
                     $request->request->add(['user_id' => $authenticatedUser["user_id"]]);
                 } else {
                     $request->request->add(['company_id' => $authenticatedUser["user_id"]]);
                 }
-
+               
                 return $next($request);
             } else {
                 return response()->json([
