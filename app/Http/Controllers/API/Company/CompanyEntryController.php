@@ -267,7 +267,7 @@ class CompanyEntryController extends Controller
 
                 if ($player_id == null) {
                     OneSignalCompanyUser::create([
-                        'user_id' => $registeredCompany->id,
+                        'company_id' => $registeredCompany->id,
                         'player_id' => $request->player_id,
                         'device_type' => $request->device_type,
                     ]);
