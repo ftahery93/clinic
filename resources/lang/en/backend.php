@@ -511,4 +511,6 @@ return [
   'languageManagement' => 'Language Management',
   'name' => 'Name',
   'label' => 'label',
+  'langButton' => 'Update language file',
+  
  ];

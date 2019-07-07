@@ -10,6 +10,19 @@
                     <a href="">{{ trans('backend.languages') }}</a>
                 </small>
             </div>
+            <div class="row p-a">
+                        <div class="col-sm-12">
+            <a href="{{ route("adminLanguageUpdateVariable",["en"]) }}" class="btn btn-fw primary marginBottom5">                            
+                                {{ trans('backend.langButton') }} (EN)
+                                <i class="entypo-cw padding10"></i>                            
+                        </a>
+
+                        <a href="{{ route("adminLanguageUpdateVariable",["ar"])  }}" class="btn btn-fw primary marginBottom5">                            
+                        {{ trans('backend.langButton') }} (AR)
+                                <i class="entypo-cw padding10"></i>                            
+                        </a>
+                        </div>
+                    </div>
             <div class="table-responsive">
                 <table class="table table-striped  b-t">
                     <thead>

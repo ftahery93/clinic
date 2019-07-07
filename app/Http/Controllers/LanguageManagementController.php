@@ -90,14 +90,54 @@ class LanguageManagementController extends Controller
                 'label_ar' => 'required',
             ]);
 
-          
-            $Languages = $request->all();         
-            $Languages->save();
+           
+            $input = $request->only(['name', 'label_en', 'label_ar']);
+            //$input['title'] =  snake_case($input['name']);
 
+            $Languages->fill($input)->save();
+          
             return redirect()->action('LanguageManagementController@edit', $id)->with('doneMessage', trans('backend.saveDone'));
         // } else {
         //     return redirect()->action('UsersController@index');
         // }
     }
+
+     /**
+     * Update Localisation file.
+     *
+     * @param  int  $ids
+     * @return \Illuminate\Http\Response
+     */
+    public function updateLocale(Request $request) {  //Write update data into locale file
+        $lang = ($request->lang)?$request->lang:'en';
+  
+        $LanguageManagement = LanguageManagement::
+            select('title','label_en','label_ar')
+            ->get();
+
+            $langstr ="<?php";
+            $langstr .= "\n return [";
+            $langstr .= "\n";
+            $langstr .=" ";
+            $myfile = fopen("resources/lang/".$lang."/messages.php", "w") or die("Unable to open file!");
+            foreach ($LanguageManagement as $row) {
+                $label=($lang=='en')?$row->label_en:$row->label_ar;
+               //$langstr .= "'".$row->title . "'=> '" .$label. "', \n";
+                 $langstr .= '"'.$row->title . '"=>';
+                 $langstr .= '"'.$label. '"';
+                 $langstr .=", \n";
+           }
+
+           $langstr.= " ";
+           $langstr .=  "];";
+
+   
+        fwrite($myfile, $langstr);
+        fclose($myfile);
+
+        return redirect()->action('LanguageManagementController@index')->with('doneMessage', trans('backend.saveDone'));
+    }
+
+
 
 }

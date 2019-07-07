@@ -85,6 +85,7 @@ Route::group(['middleware' => 'checkVersion'], function () {
     /* Company Profile*/
     Route::post('/company/login', 'API\Company\CompanyEntryController@login');
     Route::post('/company/register', 'API\Company\CompanyEntryController@register');
+    Route::post('/company/forgotPassword', 'API\Company\ForgotPasswordController@sendResetLinkEmail');
 
     //Pages
     Route::get('/user/getTermsAndConditions', 'API\User\PagesController@getTermsAndConditions');

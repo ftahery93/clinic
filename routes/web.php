@@ -48,6 +48,11 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('/company/users/', 'CompanyUsersController@index')->name('company_users_list');
     Route::post('/company/users/updateAll', 'CompanyUsersController@updateAll')->name('company_users_update_all');
 
+    //API Company Reset Password
+    Route::get('/password/resetApiUser/{token}', 'Auth\ResetApiUserPasswordController@showResetForm');
+    Route::post('/password/resetApiUser', 'Auth\ResetApiUserPasswordController@reset');
+
+
     // Categories
     Route::get('/categories', 'CategoriesController@index')->name('adminCategories');
     Route::get('/categories/create', 'CategoriesController@create')->name('adminCategoriesCreate');
@@ -74,6 +79,7 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('/languageManagement/{id}/edit', 'LanguageManagementController@edit')->name('adminLanguagesEdit');
     Route::post('/languageManagement/{id}/update', 'LanguageManagementController@update')->name('adminLanguageUpdate');
     Route::get('/languageManagement', 'LanguageManagementController@index')->name('adminLanguages');
+    Route::get('/languageManagement/{lang}/updateLocale', 'LanguageManagementController@updateLocale')->name('adminLanguageUpdateVariable');
 
     // Users & Permissions
     Route::get('/users', 'UsersController@index')->name('users');
