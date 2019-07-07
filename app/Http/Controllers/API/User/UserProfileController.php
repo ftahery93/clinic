@@ -149,7 +149,7 @@ class UserProfileController extends Controller
         $user = RegisteredUser::find($request->user_id);
 
         if (!empty($request->email)) {
-            $user = RegisteredUser::where('email', $request->email)->get();
+            $user = RegisteredUser::where('email', $request->email)->get()->first();
             if ($user != null) {
                 return response()->json([
                     'error' => LanguageMangement::getLabel('email_exist', $this->language),
