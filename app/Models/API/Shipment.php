@@ -15,4 +15,9 @@ class Shipment extends Model
     {
         return $this->belongsToMany(Category::class)->withPivot('quantity');
     }
+
+    public function getIsTodayAttribute($value)
+    {
+        return $value ? true : false;
+    }
 }
