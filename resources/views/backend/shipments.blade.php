@@ -15,18 +15,20 @@
                     <table class="table table-striped  b-t">
                         <thead>
                         <tr>
-                            <th>{{ trans('backend.name') }}</th>
+                            <th>{{ trans('backend.shipment_identifier') }}</th>
                             <th>{{ trans('backend.price') }}</th>
-                            <th class="text-center" style="width:50px;">{{ trans('backend.status') }}</th>
+                            <th>{{ trans('backend.date_created') }}</th>
+                            <th>{{ trans('backend.status') }}</th>
                             <th class="text-center" style="width:250px;">{{ trans('backend.options') }}</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($Shipments as $Shipment)
                             <tr>
-                                <td> {!! $Shipment->name !!}</td>
-                                <td><small>{!! $Shipment->price !!}</small></td>
-                                <td class="text-center">
+                                <td> {!! $Shipment->id !!}</td>
+                                <td>{!! $Shipment->price !!} {{ trans('backend.currency') }}</td>
+                                <td>{!! date("d-m-Y", strtotime($Shipment->created_at)) !!}</td>
+                                <td>
                                     @if ($Shipment->status == 1 )
                                         <span class="label label-default inline">{{ trans('backend.pending') }}</span>
                                     @elseif ($Shipment->status == 2)
@@ -39,21 +41,116 @@
                                 </td>
                                 <td class="text-center">
                                     @if(@Auth::user()->permissionsGroup->view_status)
-                                        <a class="btn btn-sm success"
-                                        href="{{ route("shipments_show",["id"=>$Shipment->id]) }}">
-                                        <small><i class="material-icons">visibility</i> {{ trans('backend.view') }}
-                                        </small>
-                                        </a>
+                                        <button class="btn btn-sm success" data-toggle="modal"
+                                        data-target="#ms-{{ $Shipment->id }}" ui-toggle-class="bounce"
+                                        ui-target="#animate">
+                                            <small><i class="material-icons">visibility</i> {{ trans('backend.view') }}
+                                            </small>
+                                        </button>
                                     @endif
                                     @if ($Shipment->status != 1 )
-                                        <a class="btn btn-sm primary"
-                                        href="{{ route("shipments_show",["id"=>$Shipment->id]) }}">
-                                        <small><i class="material-icons">local_atm</i> {{ trans('backend.transactions') }}
-                                        </small>
-                                        </a>
+                                        <button class="btn btn-sm primary" data-toggle="modal"
+                                        data-target="#mt-{{ $Shipment->id }}" ui-toggle-class="bounce"
+                                        ui-target="#animate">
+                                            <small><i class="material-icons">local_atm</i> {{ trans('backend.transactions') }}
+                                            </small>
+                                        </button>
                                     @endif
                                 </td>
                             </tr>
+                            <!-- .modal -->
+                            <div id="ms-{{ $Shipment->id }}" class="modal fade" data-backdrop="true">
+                                <div class="modal-dialog" id="animate">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            @if ($Shipment->status == 1 )
+                                            <div class="corner-ribbon top-left sticky black shadow">  {{ trans('backend.pending') }} </div>
+                                            @elseif ($Shipment->status == 2)
+                                            <div class="corner-ribbon top-left sticky blue shadow">  {{ trans('backend.approved') }} </div>
+                                            @elseif ($Shipment->status == 3)
+                                            <div class="corner-ribbon top-left sticky orange shadow">  {{ trans('backend.picked_up') }} </div>  
+                                            @elseif ($Shipment->status == 4)
+                                            <div class="corner-ribbon top-left sticky green shadow">  {{ trans('backend.delivered') }} </div> 
+                                            @endif 
+                                            <h5 class="modal-title text-center">{{ trans('backend.shipment_id',[ 'id' => $Shipment->id]) }}</h5>
+                                        </div>
+                                        <div class="modal-body text-center p-lg">                                               
+                                            @if(!empty($ShipmentDetails))
+                                                @foreach($ShipmentDetails as $ShipmentID => $ShipmentDetail)
+                                                    @if($ShipmentID == $Shipment->id)
+                                                        <?php 
+                                                            $categories = $ShipmentDetail['categories']; 
+                                                            $toAddress = $ShipmentDetail['toAddress']; 
+                                                            $fromAddress = $ShipmentDetail['fromAddress']; 
+                                                            $company = $ShipmentDetail['company']; 
+                                                            $user = $ShipmentDetail['registered_user']; 
+                                                        ?>
+                                                        <p class="text-center"><strong>{{ trans('backend.shipment_from') }}  </strong><br><br>{{ $user->fullname }} <br> {{ $fromAddress->address }}</p>
+                                                        <p class="text-center"><strong>{{ trans('backend.shipment_to') }}  </strong><br><br>{{ $toAddress->name }}<br>{{ $toAddress->mobile }}<br>{{ $toAddress->address }}</p>
+                                                        @if(count($categories) > 0)
+                                                            <p class="text-center"><strong>{{ trans('backend.categories') }} <?php echo "(".count($categories).")"; ?> </strong><br></p>
+                                                            @foreach($categories as $category)
+                                                                @if(!empty($category->name))
+                                                                    <p class="text-center"><strong>{{ trans('backend.category_name') }}  </strong><br><br>{{ $category->name }}</p>
+                                                                @endif
+                                                                @if(!empty($category->quantity))
+                                                                    <p class="text-center"><strong>{{ trans('backend.quantity') }}  </strong><br><br>{{ $category->quantity }}</p>
+                                                                @endif
+                                                            @endforeach
+                                                        @endif 
+                                                        <p class="text-center"><strong>{{ trans('backend.price') }}  </strong><br><br>{{ $Shipment->price }} {{ trans('backend.currency') }}</p>
+                                                        @if ($Shipment->status != 1 )
+                                                        <span class="label label-warning inline"><strong>{{ trans('backend.approved_by_company',['company_name' => $company->name]) }}  </strong><br></span>
+                                                        @endif
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            <br>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn dark-white p-x-md"
+                                                    data-dismiss="modal">{{ trans('backend.cancel') }}</button>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div>
+                            </div>
+                            <!-- / .modal -->
+                            <!-- .modal -->
+                            <div id="mt-{{ $Shipment->id }}" class="modal fade" data-backdrop="true">
+                                <div class="modal-dialog" id="animate">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">{{ trans('backend.transaction_id',[ 'id' => $Shipment->id]) }}</h5>
+                                        </div>
+                                        <div class="modal-body text-center p-lg">
+                                            @if(!empty($ShipmentDetails))
+                                                @foreach($ShipmentDetails as $ShipmentID => $ShipmentDetail)
+                                                    @if($ShipmentID == $Shipment->id)
+                                                        <?php 
+                                                            $transaction = $ShipmentDetail['transactions']; 
+                                                            $commission = ($Shipment->price/100)*$Commission->percentage;
+                                                        ?>
+                                                        @if ($Shipment->status != 1 )
+                                                        <span class="label label-warning inline"><strong>{{ trans('backend.approved_by_company',['company_name' => $company->name]) }}  </strong><br></span>
+                                                        @endif
+                                                        <p class="text-center"><strong>{{ trans('backend.wallet_amount') }}  </strong><br><br>{{ $transaction->wallet_amount }} {{ trans('backend.currency') }}</p>
+                                                        <p class="text-center"><strong>{{ trans('backend.commission') }}  </strong><br><br>{{ $commission }} {{ trans('backend.currency') }}</p>
+                                                        <p class="text-center"><strong>{{ trans('backend.card_amount') }}  </strong><br><br>{{ $transaction->card_amount }} {{ trans('backend.currency') }}</p>
+                                                        <p class="text-center"><strong>{{ trans('backend.free_deliveries') }}  </strong><br><br>{{ $transaction->free_deliveries }} </p>
+                                                        <p class="text-center"><strong>{{ trans('backend.price') }}  </strong><br><br>{{ $Shipment->price }} {{ trans('backend.currency') }}</p>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            <br>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn dark-white p-x-md"
+                                                    data-dismiss="modal">{{ trans('backend.cancel') }}</button>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div>
+                            </div>
+                            <!-- / .modal -->
                         @endforeach
                         </tbody>
                     </table>

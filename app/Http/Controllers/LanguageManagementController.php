@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\LanguageManagement;
 use Auth;
 use File;
@@ -12,12 +11,10 @@ use App\Http\Requests;
 use Illuminate\Config;
 use Illuminate\Http\Request;
 
-
 class LanguageManagementController extends Controller
 {
    
     // Define Default Variables
-
     public function __construct()
     {
         $this->middleware('auth');
@@ -28,7 +25,7 @@ class LanguageManagementController extends Controller
         }
     }
 
-      /**
+    /**
      * Display a listing of the Language message list.
      *
      * @return \Illuminate\Http\Response
@@ -39,9 +36,8 @@ class LanguageManagementController extends Controller
             $Languages = LanguageManagement::orderby('id', 'asc')->paginate(env('BACKEND_PAGINATION'));
             $Permissions = Permissions::orderby('id', 'asc')->get();
         }
-        return view("backend.languageManagement.list", compact("Languages", "Permissions"));
+        return view("backend.languages.list", compact("Languages", "Permissions"));
     }
-
 
 
     /**
@@ -52,7 +48,6 @@ class LanguageManagementController extends Controller
      */
     public function edit($id)
     {
-    
         // Check Permissions
         if (!@Auth::user()->permissionsGroup->edit_status) {
             return Redirect::to(route('NoPermission'))->send();
@@ -65,7 +60,7 @@ class LanguageManagementController extends Controller
         }
        
         if (count($Languages) > 0) {
-            return view("backend.languageManagement.edit", compact("Languages"));
+            return view("backend.languages.edit", compact("Languages"));
        } else {
            return redirect()->action('languageManagementController@index');
        }
@@ -81,19 +76,14 @@ class LanguageManagementController extends Controller
     public function update(Request $request, $id)
     {
         $Languages = LanguageManagement::find($id);
-       if (count($Languages) > 0) {
-
+        if(count($Languages) > 0) {
             $this->validate($request, [
                 'name' => 'required',
                 'label_en' => 'required',
                 'label_ar' => 'required',
             ]);
-
             $input = $request->only(['name', 'label_en', 'label_ar']);
-            //$input['title'] =  snake_case($input['name']);
-
             $Languages->fill($input)->save();
-          
             return redirect()->action('LanguageManagementController@edit', $id)->with('doneMessage', trans('backend.saveDone'));
         } else {
             return redirect()->action('UsersController@index');
@@ -106,13 +96,12 @@ class LanguageManagementController extends Controller
      * @param  int  $ids
      * @return \Illuminate\Http\Response
      */
-    public function updateLocale(Request $request) {  //Write update data into locale file
+    public function updateLocale(Request $request) {  
+        //Write update data into locale file
         $lang = ($request->lang)?$request->lang:'en';
-  
         $LanguageManagement = LanguageManagement::
             select('title','label_en','label_ar')
             ->get();
-
             $langstr ="<?php";
             $langstr .= "\n return [";
             $langstr .= "\n";
@@ -120,21 +109,16 @@ class LanguageManagementController extends Controller
             $myfile = fopen("resources/lang/".$lang."/messages.php", "w") or die("Unable to open file!");
             foreach ($LanguageManagement as $row) {
                 $label=($lang=='en')?$row->label_en:$row->label_ar;
-               //$langstr .= "'".$row->title . "'=> '" .$label. "', \n";
                  $langstr .= '"'.$row->title . '"=>';
                  $langstr .= '"'.$label. '"';
                  $langstr .=", \n";
            }
-
            $langstr.= " ";
            $langstr .=  "];";
-
         fwrite($myfile, $langstr);
         fclose($myfile);
 
         return redirect()->action('LanguageManagementController@index')->with('doneMessage', trans('backend.saveDone'));
     }
-
-
 
 }

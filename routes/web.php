@@ -61,13 +61,8 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('/categories/destroy/{id}', 'CategoriesController@destroy')->name('adminCategoriesDestroy');
     Route::post('/categories/updateAll', 'CategoriesController@updateAll')->name('adminCategoriesUpdateAll');
 
-    // Shipments
+    // Shipments and Transactions
     Route::get('/users/shipments', 'ShipmentsController@index')->name('shipments_list');
-    Route::get('/users/shipments/show/{id}', 'ShipmentsController@show')->name('shipments_show');
-
-    // Transactions
-    Route::get('/users/transactions', 'TransactionsController@index')->name('transactions_list');
-    Route::get('/users/transactions/show/{id}', 'TransactionsController@show')->name('transactions_show');
 
     // Settings
     Route::get('/settings', 'SettingsController@edit')->name('settings');
@@ -88,11 +83,11 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('/notifications/destroy/{id}', 'NotificationsController@destroy')->name('webmailsDestroy');
     Route::post('/notifications/updateAll', 'NotificationsController@updateAll')->name('webmailsUpdateAll');
 
-    // // languageManagement routes
-    Route::get('/languageManagement/{id}/edit', 'LanguageManagementController@edit')->name('adminLanguagesEdit');
-    Route::post('/languageManagement/{id}/update', 'LanguageManagementController@update')->name('adminLanguageUpdate');
-    Route::get('/languageManagement', 'LanguageManagementController@index')->name('adminLanguages');
-    Route::get('/languageManagement/{lang}/updateLocale', 'LanguageManagementController@updateLocale')->name('adminLanguageUpdateVariable');
+    // Language Managment
+    Route::get('/languages/{id}/edit', 'LanguageManagementController@edit')->name('adminLanguagesEdit');
+    Route::post('/languages/{id}/update', 'LanguageManagementController@update')->name('adminLanguageUpdate');
+    Route::get('/languages', 'LanguageManagementController@index')->name('adminLanguages');
+    Route::get('/languages/{lang}/updateLocale', 'LanguageManagementController@updateLocale')->name('adminLanguageUpdateVariable');
 
     // Users & Permissions
     Route::get('/users', 'UsersController@index')->name('users');
