@@ -43,7 +43,6 @@ class LanguageManagementController extends Controller
     }
 
 
-   
 
     /**
      * Show the form for editing the specified resource.
@@ -90,7 +89,6 @@ class LanguageManagementController extends Controller
                 'label_ar' => 'required',
             ]);
 
-           
             $input = $request->only(['name', 'label_en', 'label_ar']);
             //$input['title'] =  snake_case($input['name']);
 
@@ -131,7 +129,6 @@ class LanguageManagementController extends Controller
            $langstr.= " ";
            $langstr .=  "];";
 
-   
         fwrite($myfile, $langstr);
         fclose($myfile);
 

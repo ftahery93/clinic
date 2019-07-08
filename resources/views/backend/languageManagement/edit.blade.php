@@ -1,4 +1,4 @@
-@extends('backEnd.layout')
+@extends('backend.layout')
 @section('content')
     <div class="padding">
         <div class="box">

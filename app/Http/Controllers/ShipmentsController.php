@@ -48,6 +48,7 @@ class ShipmentsController extends Controller
 
     public function show($id)
     {
+        
         //List of groups
         if (@Auth::user()->permissionsGroup->view_status) {
             $Shipment = Shipment::find($id)->first();
@@ -65,6 +66,8 @@ class ShipmentsController extends Controller
             ->first();
             
         } 
+
+        return $Shipment;
 
         return view("backend.shipments.view",compact("Shipment","ToAddress","FromAddress"));
     }

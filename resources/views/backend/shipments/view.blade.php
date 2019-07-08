@@ -63,12 +63,19 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="box p-a">
-                        <h4>{!! $Shipment->name !!}</h4>
-                        <small><i class="fa fa-calendar"></i> {{$dtformated}}</small>
-                            <hr>
-                            <p></p>
-                            {!! nl2br($Shipment->name) !!}
-                            </p>
+                        @if ($Shipment->status == 1 )
+                            <span class="label label-default inline">{{ trans('backend.pending') }}</span>
+                        @elseif ($Shipment->status == 2)
+                            <span class="label label-primary inline">{{ trans('backend.approved') }}</span>
+                        @elseif ($Shipment->status == 3)
+                            <span class="label label-info inline">{{ trans('backend.picked_up') }}</span>
+                        @elseif ($Shipment->status == 4)
+                            <span class="label label-success inline">{{ trans('backend.delivered') }}</span>
+                        @endif 
+                        <hr>
+                        <p></p>
+                        {!! nl2br($Shipment->name) !!}
+                        </p>
                     </div>
                 </div>
             </div>
