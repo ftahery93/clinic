@@ -111,7 +111,7 @@ class WalletController extends Controller
                     $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->get()->first();
                     if ($freeDeliveries != null) {
                         $quantity = $freeDeliveries->quantity;
-                        $quantity += $walletOffers->free_deliveries;
+                        $quantity = $quantity + $walletOffers->free_deliveries;
                         $freeDeliveries->update([
                             'quantity' => $quantity,
                         ]);
