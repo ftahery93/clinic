@@ -27,19 +27,13 @@ class RatingController extends Controller
      *         tags={"Rating"},
      *         operationId="rateCompany",
      *         summary="User rating Company",
+     *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
      *             required=true,
      *             type="string",
      *             description="user prefered language",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Authorization",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user access token",
      *        ),
      *        @SWG\Parameter(
      *             name="Version",
@@ -131,19 +125,13 @@ class RatingController extends Controller
      *         tags={"Rating"},
      *         operationId="getMyRatingByCompanyId",
      *         summary="Get my rating for a company",
+     *         security={{"ApiAuthentication":{}}},
      *         @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
      *             required=true,
      *             type="string",
      *             description="user prefered language",
-     *        ),
-     *         @SWG\Parameter(
-     *             name="Authorization",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user access token",
      *        ),
      *        @SWG\Parameter(
      *             name="Version",

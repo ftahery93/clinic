@@ -28,19 +28,13 @@ class WalletController extends Controller
      *         tags={"Company Wallet"},
      *         operationId="addToWallet",
      *         summary="Add to company's wallet",
+     *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
      *             required=true,
      *             type="string",
      *             description="user prefered language",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Authorization",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user access token",
      *        ),
      *        @SWG\Parameter(
      *             name="Version",
@@ -164,19 +158,13 @@ class WalletController extends Controller
      *         tags={"Company Wallet"},
      *         operationId="getWalletOffers",
      *         summary="Get Wallet offers",
+     *         security={{"ApiAuthentication":{}}},
      *         @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
      *             required=true,
      *             type="string",
      *             description="user prefered language",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Authorization",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user access token",
      *        ),
      *        @SWG\Parameter(
      *             name="Version",
@@ -205,19 +193,13 @@ class WalletController extends Controller
  *         tags={"Company Wallet"},
  *         operationId="getWalletDetails",
  *         summary="Get Wallet Details",
+ *         security={{"ApiAuthentication":{}}},
  *         @SWG\Parameter(
  *             name="Accept-Language",
  *             in="header",
  *             required=true,
  *             type="string",
  *             description="user prefered language",
- *        ),
- *        @SWG\Parameter(
- *             name="Authorization",
- *             in="header",
- *             required=true,
- *             type="string",
- *             description="user access token",
  *        ),
  *        @SWG\Parameter(
  *             name="Version",

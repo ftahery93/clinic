@@ -25,19 +25,13 @@ class NotificationController extends Controller
      *         tags={"User Notification"},
      *         operationId="getNotifications",
      *         summary="Get User Notifications",
+     *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
      *             required=true,
      *             type="string",
      *             description="user prefered language",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Authorization",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user access token",
      *        ),
      *        @SWG\Parameter(
      *             name="Version",

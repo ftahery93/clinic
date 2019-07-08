@@ -19,6 +19,15 @@ use Illuminate\Http\Request;
  *         description="Api description...",
  *     )
  */
+
+/**
+ * @SWG\SecurityScheme(
+ *   securityDefinition="ApiAuthentication",
+ *   type="apiKey",
+ *   in="header",
+ *   name="Authorization"
+ * )
+ */
 class AuthController extends Controller
 {
 

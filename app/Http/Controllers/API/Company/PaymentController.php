@@ -29,19 +29,13 @@ class PaymentController extends Controller
      *         tags={"Company Payment"},
      *         operationId="getPaymentOptions",
      *         summary="Get payment options",
+     *         security={{"ApiAuthentication":{}}},
      *         @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
      *             required=true,
      *             type="string",
      *             description="user prefered language",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Authorization",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user access token",
      *        ),
      *        @SWG\Parameter(
      *             name="Version",

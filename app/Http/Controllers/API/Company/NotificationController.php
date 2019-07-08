@@ -25,6 +25,7 @@ class NotificationController extends Controller
      *         tags={"Company Notification"},
      *         operationId="getNotifications",
      *         summary="Get Company Notifications",
+     *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",

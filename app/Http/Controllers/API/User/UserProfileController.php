@@ -33,19 +33,13 @@ class UserProfileController extends Controller
      *         tags={"User Profile"},
      *         operationId="getUserProfile",
      *         summary="Get User Profile",
+     *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
      *             required=true,
      *             type="string",
      *             description="user prefered language",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Authorization",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user access token",
      *        ),
      *        @SWG\Parameter(
      *             name="Version",
@@ -77,19 +71,13 @@ class UserProfileController extends Controller
      *         tags={"User Profile"},
      *         operationId="updateProfile",
      *         summary="Update User profile",
+     *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
      *             required=true,
      *             type="string",
      *             description="user prefered language",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Authorization",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user access token",
      *        ),
      *        @SWG\Parameter(
      *             name="Version",
@@ -232,19 +220,13 @@ class UserProfileController extends Controller
      *         tags={"User Profile"},
      *         operationId="updateMobileNumber",
      *         summary="Update User's Mobile number",
+     *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
      *             required=true,
      *             type="string",
      *             description="user prefered language",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Authorization",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user access token",
      *        ),
      *        @SWG\Parameter(
      *             name="Version",
@@ -375,19 +357,13 @@ class UserProfileController extends Controller
      *         tags={"User Logout"},
      *         operationId="logout",
      *         summary="Logout the user from the app",
+     *         security={{"ApiAuthentication":{}}},
      *         @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
      *             required=true,
      *             type="string",
      *             description="user prefered language",
-     *        ),
-     *         @SWG\Parameter(
-     *             name="Authorization",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user access token",
      *        ),
      *        @SWG\Parameter(
      *             name="Version",

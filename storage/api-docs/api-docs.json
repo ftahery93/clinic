@@ -5,7 +5,7 @@
         "description": "Api description...",
         "version": "1.0.0"
     },
-    "basePath": "/~tvavisa/masafah/public/api",
+    "basePath": "/masafah/public/api",
     "paths": {
         "/company/register": {
             "post": {
@@ -165,13 +165,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -183,7 +176,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/getCompanyDetails": {
@@ -202,13 +200,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -220,7 +211,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/getCompanyDetailsById/{company_id}": {
@@ -235,13 +231,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -267,7 +256,12 @@
                     "404": {
                         "description": "Company not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/getProfile": {
@@ -286,13 +280,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -307,7 +294,12 @@
                     "404": {
                         "description": "Shipment not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/updateProfile": {
@@ -322,13 +314,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -376,7 +361,12 @@
                     "422": {
                         "description": "Unprocessable entity"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/changeMobileNumber": {
@@ -391,13 +381,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -433,7 +416,12 @@
                     "409": {
                         "description": "Mobile number already registered"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/updateMobileNumber": {
@@ -448,13 +436,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -498,7 +479,12 @@
                     "409": {
                         "description": "Mobile number already registered"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/getFreeDeliveriesCount": {
@@ -517,13 +503,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -535,7 +514,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/logout": {
@@ -550,13 +534,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -589,7 +566,12 @@
                     "404": {
                         "description": "User not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/getCountries": {
@@ -656,7 +638,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/getPaymentOptions": {
@@ -675,13 +662,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -693,7 +673,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/getPendingShipments": {
@@ -712,13 +697,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -730,7 +708,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/getAcceptedShipments": {
@@ -749,13 +732,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -767,7 +743,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/getShipmentById/{shipment_id}": {
@@ -782,13 +763,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -814,7 +788,12 @@
                     "404": {
                         "description": "Shipment not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/acceptShipments": {
@@ -829,13 +808,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -871,7 +843,12 @@
                     "422": {
                         "description": "Unprocessable entity"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/markShipmentAsPicked/{shipment_id}": {
@@ -890,13 +867,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -915,7 +885,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/markShipmentAsDelivered/{shipment_id}": {
@@ -934,13 +909,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -959,7 +927,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/getShipmentHistory": {
@@ -978,13 +951,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -996,7 +962,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/addToWallet": {
@@ -1011,13 +982,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -1060,7 +1024,12 @@
                     "422": {
                         "description": "Unprocessable entity"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/getWalletOffers": {
@@ -1079,13 +1048,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -1097,7 +1059,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/company/getWalletDetails": {
@@ -1116,13 +1083,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -1134,7 +1094,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/addAddress": {
@@ -1149,13 +1114,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -1223,7 +1181,12 @@
                     "422": {
                         "description": "Unprocessable entity"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/getAddressById/{id}": {
@@ -1238,13 +1201,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -1270,7 +1226,12 @@
                     "404": {
                         "description": "Address not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/getAddresses": {
@@ -1289,13 +1250,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -1307,7 +1261,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/editAddress": {
@@ -1322,13 +1281,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -1401,7 +1353,12 @@
                     "422": {
                         "description": "Unprocessable entity"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/deleteAddressById/{address_id}": {
@@ -1416,13 +1373,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -1448,7 +1398,12 @@
                     "404": {
                         "description": "Address not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/register": {
@@ -1582,13 +1537,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -1600,7 +1548,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/getCompanyDetailsById/{company_id}": {
@@ -1615,13 +1568,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -1644,7 +1590,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/getCountries": {
@@ -1693,13 +1644,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -1711,7 +1655,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/getTermsAndConditions": {
@@ -1765,20 +1714,18 @@
                         "description": "1.0.0",
                         "required": true,
                         "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/rateCompany": {
@@ -1793,13 +1740,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -1837,7 +1777,12 @@
                     "422": {
                         "description": "Unprocessable entity"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/getMyRatingByCompanyId/{company_id}": {
@@ -1852,13 +1797,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -1884,7 +1822,12 @@
                     "404": {
                         "description": "Address not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/addShipment": {
@@ -1899,13 +1842,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -1978,7 +1914,12 @@
                     "422": {
                         "description": "Unprocessable entity"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/getShipments": {
@@ -1997,13 +1938,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -2015,7 +1949,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/getShipmentDetails/{shipment_id}": {
@@ -2034,13 +1973,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -2062,7 +1994,12 @@
                     "404": {
                         "description": "Shipment not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/deleteShipmentById/{shipment_id}": {
@@ -2081,13 +2018,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -2109,7 +2039,12 @@
                     "404": {
                         "description": "Shipment not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/editShipment": {
@@ -2124,13 +2059,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -2206,7 +2134,12 @@
                     "409": {
                         "description": "Shipment already accepted"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/getCategories": {
@@ -2225,13 +2158,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -2243,7 +2169,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/getShipmentHistory": {
@@ -2262,13 +2193,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -2280,7 +2204,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/getProfile": {
@@ -2299,13 +2228,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",
@@ -2317,7 +2239,12 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/updateProfile": {
@@ -2332,13 +2259,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -2381,7 +2301,12 @@
                     "422": {
                         "description": "Unprocessable entity"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/updateMobileNumber": {
@@ -2396,13 +2321,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -2451,7 +2369,12 @@
                     "409": {
                         "description": "Mobile number already registered"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/logout": {
@@ -2466,13 +2389,6 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
                         "required": true,
                         "type": "string"
                     },
@@ -2505,11 +2421,23 @@
                     "404": {
                         "description": "User not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         }
     },
     "definitions": {
         "User": {}
+    },
+    "securityDefinitions": {
+        "ApiAuthentication": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }

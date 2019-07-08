@@ -24,6 +24,7 @@ class PriceController extends Controller
      *         tags={"User Shipment"},
      *         operationId="getShipmentPrice",
      *         summary="Get Shipment price",
+     *         security={{"ApiAuthentication":{}}},
      *         @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
@@ -37,13 +38,6 @@ class PriceController extends Controller
      *             required=true,
      *             type="string",
      *             description="1.0.0",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Authorization",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user access token",
      *        ),
      *        @SWG\Response(
      *             response=200,
