@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Company;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
+use App\Models\API\Authentication;
 use App\Models\API\Company;
 use App\Models\API\FreeDelivery;
 use App\Models\API\OneSignalCompanyUser;
@@ -24,7 +25,7 @@ class CompanyProfileController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/company/getCompanies",
+     *         path="/company/getCompanies",
      *         tags={"Company Details"},
      *         operationId="getCompanies",
      *         summary="Get all approved companies",
@@ -72,7 +73,7 @@ class CompanyProfileController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/company/getCompanyDetails",
+     *         path="/company/getCompanyDetails",
      *         tags={"Company Details"},
      *         operationId="getCompanyDetails",
      *         summary="Get company details",
@@ -116,7 +117,7 @@ class CompanyProfileController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/company/getCompanyDetailsById/{company_id}",
+     *         path="/company/getCompanyDetailsById/{company_id}",
      *         tags={"Company Details"},
      *         operationId="getCompanyDetailsById",
      *         summary="Get company details",
@@ -175,7 +176,7 @@ class CompanyProfileController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/company/getProfile",
+     *         path="/company/getProfile",
      *         tags={"Company Profile"},
      *         operationId="getProfile",
      *         summary="Get Company Profile",
@@ -222,7 +223,7 @@ class CompanyProfileController extends Controller
     /**
      *
      * @SWG\Put(
-     *         path="/~tvavisa/masafah/public/api/company/updateProfile",
+     *         path="/company/updateProfile",
      *         tags={"Company Profile"},
      *         operationId="updateProfile",
      *         summary="Update Company profile",
@@ -342,7 +343,7 @@ class CompanyProfileController extends Controller
     /**
      *
      * @SWG\Patch(
-     *         path="/~tvavisa/masafah/public/api/company/changeMobileNumber",
+     *         path="/company/changeMobileNumber",
      *         tags={"Company Profile"},
      *         operationId="changeMobileNumber",
      *         summary="Change Company's Mobile number",
@@ -424,7 +425,7 @@ class CompanyProfileController extends Controller
     /**
      *
      * @SWG\Patch(
-     *         path="/~tvavisa/masafah/public/api/company/updateMobileNumber",
+     *         path="/company/updateMobileNumber",
      *         tags={"Company Profile"},
      *         operationId="updateMobileNumber",
      *         summary="Update Company's Mobile number",
@@ -529,7 +530,7 @@ class CompanyProfileController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/company/getFreeDeliveriesCount",
+     *         path="/company/getFreeDeliveriesCount",
      *         tags={"Company Free Deliveries"},
      *         operationId="getFreeDeliveriesCount",
      *         summary="Get the free deliveries count for a company",
@@ -579,7 +580,7 @@ class CompanyProfileController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/~tvavisa/masafah/public/api/company/logout",
+     *         path="/company/logout",
      *         tags={"Company Logout"},
      *         operationId="logout",
      *         summary="Logout a company from the app",

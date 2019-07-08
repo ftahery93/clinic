@@ -23,7 +23,7 @@ class RatingController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/~tvavisa/masafah/public/api/user/rateCompany",
+     *         path="/user/rateCompany",
      *         tags={"Rating"},
      *         operationId="rateCompany",
      *         summary="User rating Company",
@@ -127,7 +127,7 @@ class RatingController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/user/getMyRatingByCompanyId/{company_id}",
+     *         path="/user/getMyRatingByCompanyId/{company_id}",
      *         tags={"Rating"},
      *         operationId="getMyRatingByCompanyId",
      *         summary="Get my rating for a company",

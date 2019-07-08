@@ -20,7 +20,7 @@ class CompanyController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/user/getCompanies",
+     *         path="/user/getCompanies",
      *         tags={"User Shipment"},
      *         operationId="getCompanies",
      *         summary="Get all approved companies",
@@ -68,7 +68,7 @@ class CompanyController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/user/getCompanyDetailsById/{company_id}",
+     *         path="/user/getCompanyDetailsById/{company_id}",
      *         tags={"User Shipment"},
      *         operationId="getCompanyDetails",
      *         summary="Get company details",

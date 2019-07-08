@@ -18,7 +18,7 @@ class CountryController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/user/getCountries",
+     *         path="/user/getCountries",
      *         tags={"Countries"},
      *         operationId="getCountries",
      *         summary="Get all available countries",

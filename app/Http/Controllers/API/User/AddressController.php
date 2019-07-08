@@ -23,7 +23,7 @@ class AddressController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/~tvavisa/masafah/public/api/user/addAddress",
+     *         path="/user/addAddress",
      *         tags={"User Address"},
      *         operationId="addAddress",
      *         summary="Add User address",
@@ -149,7 +149,7 @@ class AddressController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/user/getAddressById/{id}",
+     *         path="/user/getAddressById/{id}",
      *         tags={"User Address"},
      *         operationId="getAddress",
      *         summary="Get User address by ID",
@@ -208,7 +208,7 @@ class AddressController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/user/getAddresses",
+     *         path="/user/getAddresses",
      *         tags={"User Address"},
      *         operationId="getAddresses",
      *         summary="Get all addresses of a user",
@@ -249,7 +249,7 @@ class AddressController extends Controller
     /**
      *
      * @SWG\Put(
-     *         path="/~tvavisa/masafah/public/api/user/editAddress",
+     *         path="/user/editAddress",
      *         tags={"User Address"},
      *         operationId="editAddress",
      *         summary="Edit Address",
@@ -392,7 +392,7 @@ class AddressController extends Controller
     /**
      *
      * @SWG\Delete(
-     *         path="/~tvavisa/masafah/public/api/user/deleteAddressById/{address_id}",
+     *         path="/user/deleteAddressById/{address_id}",
      *         tags={"User Address"},
      *         operationId="deleteAddressById",
      *         summary="Delete user address",

@@ -20,7 +20,7 @@ class PriceController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/user/getShipmentPrice",
+     *         path="/user/getShipmentPrice",
      *         tags={"User Shipment"},
      *         operationId="getShipmentPrice",
      *         summary="Get Shipment price",

@@ -5,8 +5,9 @@
         "description": "Api description...",
         "version": "1.0.0"
     },
+    "basePath": "/~tvavisa/masafah/public/api",
     "paths": {
-        "/~tvavisa/masafah/public/api/company/register": {
+        "/company/register": {
             "post": {
                 "tags": [
                     "Company Register"
@@ -83,7 +84,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/login": {
+        "/company/login": {
             "post": {
                 "tags": [
                     "Company Login"
@@ -148,7 +149,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/getCompanies": {
+        "/company/getCompanies": {
             "get": {
                 "tags": [
                     "Company Details"
@@ -185,7 +186,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/getCompanyDetails": {
+        "/company/getCompanyDetails": {
             "get": {
                 "tags": [
                     "Company Details"
@@ -222,7 +223,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/getCompanyDetailsById/{company_id}": {
+        "/company/getCompanyDetailsById/{company_id}": {
             "get": {
                 "tags": [
                     "Company Details"
@@ -269,7 +270,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/getProfile": {
+        "/company/getProfile": {
             "get": {
                 "tags": [
                     "Company Profile"
@@ -309,7 +310,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/updateProfile": {
+        "/company/updateProfile": {
             "put": {
                 "tags": [
                     "Company Profile"
@@ -378,7 +379,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/changeMobileNumber": {
+        "/company/changeMobileNumber": {
             "patch": {
                 "tags": [
                     "Company Profile"
@@ -435,7 +436,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/updateMobileNumber": {
+        "/company/updateMobileNumber": {
             "patch": {
                 "tags": [
                     "Company Profile"
@@ -500,7 +501,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/getFreeDeliveriesCount": {
+        "/company/getFreeDeliveriesCount": {
             "get": {
                 "tags": [
                     "Company Free Deliveries"
@@ -537,7 +538,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/logout": {
+        "/company/logout": {
             "post": {
                 "tags": [
                     "Company Logout"
@@ -591,7 +592,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/getCountries": {
+        "/company/getCountries": {
             "get": {
                 "tags": [
                     "Countries"
@@ -621,7 +622,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/getNotifications": {
+        "/company/getNotifications": {
             "get": {
                 "tags": [
                     "Company Notification"
@@ -658,7 +659,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/getPaymentOptions": {
+        "/company/getPaymentOptions": {
             "get": {
                 "tags": [
                     "Company Payment"
@@ -695,7 +696,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/getPendingShipments": {
+        "/company/getPendingShipments": {
             "get": {
                 "tags": [
                     "Company Shipments"
@@ -732,7 +733,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/getAcceptedShipments": {
+        "/company/getAcceptedShipments": {
             "get": {
                 "tags": [
                     "Company Shipments"
@@ -769,7 +770,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/getShipmentById/{shipment_id}": {
+        "/company/getShipmentById/{shipment_id}": {
             "get": {
                 "tags": [
                     "Company Shipments"
@@ -816,7 +817,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/acceptShipments": {
+        "/company/acceptShipments": {
             "post": {
                 "tags": [
                     "Company Shipments"
@@ -873,7 +874,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/markShipmentAsPicked/{shipment_id}": {
+        "/company/markShipmentAsPicked/{shipment_id}": {
             "get": {
                 "tags": [
                     "Company Shipments"
@@ -917,7 +918,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/markShipmentAsDelivered/{shipment_id}": {
+        "/company/markShipmentAsDelivered/{shipment_id}": {
             "get": {
                 "tags": [
                     "Company Shipments"
@@ -961,7 +962,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/getShipmentHistory": {
+        "/company/getShipmentHistory": {
             "get": {
                 "tags": [
                     "Company Shipments"
@@ -998,7 +999,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/addToWallet": {
+        "/company/addToWallet": {
             "post": {
                 "tags": [
                     "Company Wallet"
@@ -1062,7 +1063,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/getWalletOffers": {
+        "/company/getWalletOffers": {
             "get": {
                 "tags": [
                     "Company Wallet"
@@ -1099,7 +1100,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/getWalletDetails": {
+        "/company/getWalletDetails": {
             "get": {
                 "tags": [
                     "Company Wallet"
@@ -1136,7 +1137,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/addAddress": {
+        "/user/addAddress": {
             "post": {
                 "tags": [
                     "User Address"
@@ -1225,7 +1226,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/getAddressById/{id}": {
+        "/user/getAddressById/{id}": {
             "get": {
                 "tags": [
                     "User Address"
@@ -1272,7 +1273,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/getAddresses": {
+        "/user/getAddresses": {
             "get": {
                 "tags": [
                     "User Address"
@@ -1309,7 +1310,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/editAddress": {
+        "/user/editAddress": {
             "put": {
                 "tags": [
                     "User Address"
@@ -1403,7 +1404,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/deleteAddressById/{address_id}": {
+        "/user/deleteAddressById/{address_id}": {
             "delete": {
                 "tags": [
                     "User Address"
@@ -1450,7 +1451,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/register": {
+        "/user/register": {
             "post": {
                 "tags": [
                     "User Register"
@@ -1495,7 +1496,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/login": {
+        "/user/login": {
             "post": {
                 "tags": [
                     "User Login"
@@ -1565,7 +1566,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/getCompanies": {
+        "/user/getCompanies": {
             "get": {
                 "tags": [
                     "User Shipment"
@@ -1602,7 +1603,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/getCompanyDetailsById/{company_id}": {
+        "/user/getCompanyDetailsById/{company_id}": {
             "get": {
                 "tags": [
                     "User Shipment"
@@ -1646,7 +1647,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/getCountries": {
+        "/user/getCountries": {
             "get": {
                 "tags": [
                     "Countries"
@@ -1676,7 +1677,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/getNotifications": {
+        "/user/getNotifications": {
             "get": {
                 "tags": [
                     "User Notification"
@@ -1713,7 +1714,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/getTermsAndConditions": {
+        "/user/getTermsAndConditions": {
             "get": {
                 "tags": [
                     "User Pages"
@@ -1743,7 +1744,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/getShipmentPrice": {
+        "/user/getShipmentPrice": {
             "get": {
                 "tags": [
                     "User Shipment"
@@ -1780,7 +1781,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/rateCompany": {
+        "/user/rateCompany": {
             "post": {
                 "tags": [
                     "Rating"
@@ -1839,7 +1840,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/getMyRatingByCompanyId/{company_id}": {
+        "/user/getMyRatingByCompanyId/{company_id}": {
             "get": {
                 "tags": [
                     "Rating"
@@ -1886,7 +1887,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/addShipment": {
+        "/user/addShipment": {
             "post": {
                 "tags": [
                     "User Shipment"
@@ -1980,7 +1981,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/getShipments": {
+        "/user/getShipments": {
             "get": {
                 "tags": [
                     "User Shipment"
@@ -2017,7 +2018,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/getShipmentDetails/{shipment_id}": {
+        "/user/getShipmentDetails/{shipment_id}": {
             "get": {
                 "tags": [
                     "User Shipment"
@@ -2064,7 +2065,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/deleteShipmentById/{shipment_id}": {
+        "/user/deleteShipmentById/{shipment_id}": {
             "delete": {
                 "tags": [
                     "User Shipment"
@@ -2111,7 +2112,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/editShipment": {
+        "/user/editShipment": {
             "put": {
                 "tags": [
                     "User Shipment"
@@ -2208,7 +2209,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/getCategories": {
+        "/user/getCategories": {
             "get": {
                 "tags": [
                     "User Shipment"
@@ -2245,7 +2246,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/getShipmentHistory": {
+        "/user/getShipmentHistory": {
             "get": {
                 "tags": [
                     "User Shipment"
@@ -2282,7 +2283,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/getProfile": {
+        "/user/getProfile": {
             "get": {
                 "tags": [
                     "User Profile"
@@ -2319,7 +2320,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/updateProfile": {
+        "/user/updateProfile": {
             "put": {
                 "tags": [
                     "User Profile"
@@ -2383,7 +2384,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/updateMobileNumber": {
+        "/user/updateMobileNumber": {
             "put": {
                 "tags": [
                     "User Profile"
@@ -2427,6 +2428,11 @@
                                     "description": "User's Mobile number - *(Required)",
                                     "type": "string",
                                     "example": "99653421"
+                                },
+                                "country_id": {
+                                    "description": "User's Country ID - *(Required)",
+                                    "type": "integer",
+                                    "example": 5
                                 }
                             }
                         }
@@ -2448,7 +2454,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/logout": {
+        "/user/logout": {
             "post": {
                 "tags": [
                     "User Logout"

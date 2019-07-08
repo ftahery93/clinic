@@ -21,7 +21,7 @@ class NotificationController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/company/getNotifications",
+     *         path="/company/getNotifications",
      *         tags={"Company Notification"},
      *         operationId="getNotifications",
      *         summary="Get Company Notifications",

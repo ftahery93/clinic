@@ -29,7 +29,7 @@ class UserProfileController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/user/getProfile",
+     *         path="/user/getProfile",
      *         tags={"User Profile"},
      *         operationId="getUserProfile",
      *         summary="Get User Profile",
@@ -73,7 +73,7 @@ class UserProfileController extends Controller
     /**
      *
      * @SWG\Put(
-     *         path="/~tvavisa/masafah/public/api/user/updateProfile",
+     *         path="/user/updateProfile",
      *         tags={"User Profile"},
      *         operationId="updateProfile",
      *         summary="Update User profile",
@@ -228,7 +228,7 @@ class UserProfileController extends Controller
     /**
      *
      * @SWG\Put(
-     *         path="/~tvavisa/masafah/public/api/user/updateMobileNumber",
+     *         path="/user/updateMobileNumber",
      *         tags={"User Profile"},
      *         operationId="updateMobileNumber",
      *         summary="Update User's Mobile number",
@@ -371,7 +371,7 @@ class UserProfileController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/~tvavisa/masafah/public/api/user/logout",
+     *         path="/user/logout",
      *         tags={"User Logout"},
      *         operationId="logout",
      *         summary="Logout the user from the app",

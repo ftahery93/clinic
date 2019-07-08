@@ -32,7 +32,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/company/getPendingShipments",
+     *         path="/company/getPendingShipments",
      *         tags={"Company Shipments"},
      *         operationId="getPendingShipments",
      *         summary="Get Company pending shipments",
@@ -78,7 +78,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/company/getAcceptedShipments",
+     *         path="/company/getAcceptedShipments",
      *         tags={"Company Shipments"},
      *         operationId="getAcceptedShipments",
      *         summary="Get Company accepted shipments",
@@ -124,7 +124,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/company/getShipmentById/{shipment_id}",
+     *         path="/company/getShipmentById/{shipment_id}",
      *         tags={"Company Shipments"},
      *         operationId="getShipmentById",
      *         summary="Get Company shipment by ID",
@@ -183,7 +183,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/~tvavisa/masafah/public/api/company/acceptShipments",
+     *         path="/company/acceptShipments",
      *         tags={"Company Shipments"},
      *         operationId="acceptShipments",
      *         summary="Accept shipments by Company",
@@ -368,7 +368,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/company/markShipmentAsPicked/{shipment_id}",
+     *         path="/company/markShipmentAsPicked/{shipment_id}",
      *         tags={"Company Shipments"},
      *         operationId="markShipmentAsPicked",
      *         summary="Picked up shipment by ID",
@@ -437,7 +437,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/company/markShipmentAsDelivered/{shipment_id}",
+     *         path="/company/markShipmentAsDelivered/{shipment_id}",
      *         tags={"Company Shipments"},
      *         operationId="markShipmentAsDelivered",
      *         summary="Delivered shipment by ID",
@@ -506,7 +506,7 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/company/getShipmentHistory",
+     *         path="/company/getShipmentHistory",
      *         tags={"Company Shipments"},
      *         operationId="getShipmentHistory",
      *         summary="Get Company shipment history",

@@ -25,7 +25,7 @@ class PaymentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/company/getPaymentOptions",
+     *         path="/company/getPaymentOptions",
      *         tags={"Company Payment"},
      *         operationId="getPaymentOptions",
      *         summary="Get payment options",

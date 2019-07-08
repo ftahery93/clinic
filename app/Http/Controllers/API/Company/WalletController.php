@@ -24,7 +24,7 @@ class WalletController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/~tvavisa/masafah/public/api/company/addToWallet",
+     *         path="/company/addToWallet",
      *         tags={"Company Wallet"},
      *         operationId="addToWallet",
      *         summary="Add to company's wallet",
@@ -160,7 +160,7 @@ class WalletController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/company/getWalletOffers",
+     *         path="/company/getWalletOffers",
      *         tags={"Company Wallet"},
      *         operationId="getWalletOffers",
      *         summary="Get Wallet offers",
@@ -201,7 +201,7 @@ class WalletController extends Controller
 /**
  *
  * @SWG\Get(
- *         path="/~tvavisa/masafah/public/api/company/getWalletDetails",
+ *         path="/company/getWalletDetails",
  *         tags={"Company Wallet"},
  *         operationId="getWalletDetails",
  *         summary="Get Wallet Details",
