@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 08, 2019 at 10:04 AM
+-- Generation Time: Jul 08, 2019 at 05:31 PM
 -- Server version: 10.0.38-MariaDB-0ubuntu0.16.04.1
 -- PHP Version: 7.1.29-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -668,7 +668,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `company_id`, `free_deliveries`, `wallet_amount`, `card_amount`, `status`, `created_at`, `updated_at`) VALUES
-(1, 8, 0, 0, 0, 1, '2019-06-25 07:30:40', '2019-06-25 07:30:40');
+(1, 8, 1, 0, 0, 1, '2019-06-25 07:30:40', '2019-07-08 13:49:56');
 
 -- --------------------------------------------------------
 
@@ -682,6 +682,13 @@ CREATE TABLE `order_shipment` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `order_shipment`
+--
+
+INSERT INTO `order_shipment` (`order_id`, `shipment_id`, `created_at`, `updated_at`) VALUES
+(1, 29, '2019-07-08 13:51:15', '2019-07-08 13:51:15');
 
 -- --------------------------------------------------------
 

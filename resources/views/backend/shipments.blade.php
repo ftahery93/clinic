@@ -127,9 +127,26 @@
                                                 @foreach($ShipmentDetails as $ShipmentID => $ShipmentDetail)
                                                     @if($ShipmentID == $Shipment->id)
                                                         <?php 
+                                                            $categories = $ShipmentDetail['categories']; 
+                                                            $toAddress = $ShipmentDetail['toAddress']; 
+                                                            $fromAddress = $ShipmentDetail['fromAddress']; 
+                                                            $company = $ShipmentDetail['company']; 
                                                             $transaction = $ShipmentDetail['transactions']; 
                                                             $commission = ($Shipment->price/100)*$Commission->percentage;
                                                         ?>
+                                                        <p class="text-center"><strong>{{ trans('backend.shipment_from') }}  </strong><br><br>{{ $user->fullname }} <br> {{ $fromAddress->address }}</p>
+                                                        <p class="text-center"><strong>{{ trans('backend.shipment_to') }}  </strong><br><br>{{ $toAddress->name }}<br>{{ $toAddress->mobile }}<br>{{ $toAddress->address }}</p>
+                                                        @if(count($categories) > 0)
+                                                            <p class="text-center"><strong>{{ trans('backend.categories') }} <?php echo "(".count($categories).")"; ?> </strong><br></p>
+                                                            @foreach($categories as $category)
+                                                                @if(!empty($category->name))
+                                                                    <p class="text-center"><strong>{{ trans('backend.category_name') }}  </strong><br><br>{{ $category->name }}</p>
+                                                                @endif
+                                                                @if(!empty($category->quantity))
+                                                                    <p class="text-center"><strong>{{ trans('backend.quantity') }}  </strong><br><br>{{ $category->quantity }}</p>
+                                                                @endif
+                                                            @endforeach
+                                                        @endif 
                                                         @if ($Shipment->status != 1 )
                                                         <span class="label label-warning inline"><strong>{{ trans('backend.approved_by_company',['company_name' => $company->name]) }}  </strong><br></span>
                                                         @endif
