@@ -164,9 +164,6 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                                     ?>
                                     <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
                                         <a href="{{ route('adminLanguages') }}">
-                                            <span class="nav-icon">
-                                                <i class="material-icons">language</i>
-                                                </span>
                                             <span class="nav-text">{{ trans('backend.languageManagement') }}
                                             </span>
                                         </a>
