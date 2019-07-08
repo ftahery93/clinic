@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
+use App\Permissions;
 use Auth;
 use File;
-use Redirect;
-use App\Permissions;
-use App\Company;
-use App\Http\Requests;
-use Illuminate\Config;
 use Illuminate\Http\Request;
+use Redirect;
 
 class CompanyUsersController extends Controller
 {
@@ -36,12 +34,16 @@ class CompanyUsersController extends Controller
     public function index()
     {
         if (@Auth::user()->permissionsGroup->view_status) {
-            $CompanyUsers = Company::orderby('id', 'asc')->paginate(env('BACKEND_PAGINATION'));
+            $CompanyUsers = Company::
+                 select('companies.id', 'companies.name', 'companies.email', 'companies.mobile', 'companies.phone', 'companies.status',
+                  'companies.rating', 'companies.approved', 'companies.image', 'wallet.balance')
+                ->orderby('id', 'asc')
+                ->leftJoin('wallet', 'wallet.company_id', '=', 'companies.id')
+                ->paginate(env('BACKEND_PAGINATION'));
             $Permissions = Permissions::orderby('id', 'asc')->get();
         }
         return view("backend.company_users", compact("CompanyUsers", "Permissions"));
     }
-
 
     /**
      * Show the form for editing the specified company user.
