@@ -242,6 +242,12 @@ class CompanyProfileController extends Controller
      *                  example=4
      *              ),
      *              @SWG\Property(
+     *                  property="mobile",
+     *                  type="string",
+     *                  description="Company Mobile number",
+     *                  example="98765643"
+     *              ),
+     *              @SWG\Property(
      *                  property="image",
      *                  type="string",
      *                  description="Profile image base64",
@@ -266,6 +272,7 @@ class CompanyProfileController extends Controller
             'name' => 'required',
             'country_id' => 'required|numeric',
             'email' => 'required|email',
+            'mobile' => 'required',
         ];
 
         $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
@@ -282,6 +289,7 @@ class CompanyProfileController extends Controller
                     'email' => $request->email,
                     'name' => $request->name,
                     'country_id' => $request->country_id,
+                    'mobile' => $request->mobile,
                 ]);
             } else {
                 return response()->json([
@@ -307,181 +315,6 @@ class CompanyProfileController extends Controller
             'message' => LanguageManagement::getLabel('text_successUpdated', $this->language),
             'user' => collect($registeredCompany),
 
-        ]);
-    }
-
-    /**
-     *
-     * @SWG\Patch(
-     *         path="/company/changeMobileNumber",
-     *         tags={"Company Profile"},
-     *         operationId="changeMobileNumber",
-     *         summary="Change Company's Mobile number",
-     *         security={{"ApiAuthentication":{}}},
-     *          @SWG\Parameter(
-     *             name="Accept-Language",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user prefered language",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Version",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="1.0.0",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Change number body",
-     *             in="body",
-     *             required=true,
-     *          @SWG\Schema(
-     *              @SWG\Property(
-     *                  property="mobile",
-     *                  type="string",
-     *                  description="Company Mobile number - *(Required)",
-     *                  example="66341897"
-     *              ),
-     *          ),
-     *        ),
-     *        @SWG\Response(
-     *             response=200,
-     *             description="Successful"
-     *        ),
-     *        @SWG\Response(
-     *             response=422,
-     *             description="Unprocessable entity"
-     *        ),
-     *        @SWG\Response(
-     *             response=409,
-     *             description="Mobile number already registered"
-     *        ),
-     *     )
-     *
-     */
-    public function changeMobileNumber(Request $request)
-    {
-        $validator = [
-            'mobile' => 'required',
-        ];
-        $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
-        if ($checkForMessages) {
-            return $checkForMessages;
-        }
-
-        $registeredCompany = Company::find($request->company_id);
-
-        if ($registeredCompany->mobile != $request->mobile) {
-            $existingUser = RegisteredUser::where('mobile', $registeredCompany->mobile)->get();
-            if ($existingUser != null) {
-                return response()->json([
-                    'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
-                ], 409);
-            } else {
-                $registeredCompany->update([
-                    'otp' => substr(str_shuffle("0123456789"), 0, 5),
-                ]);
-            }
-        }
-    }
-
-    /**
-     *
-     * @SWG\Patch(
-     *         path="/company/updateMobileNumber",
-     *         tags={"Company Profile"},
-     *         operationId="updateMobileNumber",
-     *         summary="Update Company's Mobile number",
-     *         security={{"ApiAuthentication":{}}},
-     *          @SWG\Parameter(
-     *             name="Accept-Language",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user prefered language",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Version",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="1.0.0",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Change number body",
-     *             in="body",
-     *             required=true,
-     *          @SWG\Schema(
-     *              @SWG\Property(
-     *                  property="mobile",
-     *                  type="string",
-     *                  description="Company Mobile number - *(Required)",
-     *                  example="66341897"
-     *              ),
-     *              @SWG\Property(
-     *                  property="otp",
-     *                  type="string",
-     *                  description="Received OTP - *(Required)",
-     *                  example="46137"
-     *              ),
-     *          ),
-     *        ),
-     *        @SWG\Response(
-     *             response=200,
-     *             description="Successful"
-     *        ),
-     *        @SWG\Response(
-     *             response=422,
-     *             description="Unprocessable entity"
-     *        ),
-     *        @SWG\Response(
-     *             response=401,
-     *             description="Invalid OTP. Unauthorized"
-     *        ),
-     *        @SWG\Response(
-     *             response=409,
-     *             description="Mobile number already registered"
-     *        ),
-     *     )
-     *
-     */
-    public function updateMobileNumber(Request $request)
-    {
-        $validator = [
-            'mobile' => 'required',
-            'otp' => 'required',
-        ];
-
-        $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
-        if ($checkForMessages) {
-            return $checkForMessages;
-        }
-
-        $registeredCompany = Company::find($request->company_id);
-
-        if ($registeredCompany->mobile != $request->mobile) {
-            $existingUser = RegisteredUser::where('mobile', $registeredCompany->mobile)->get();
-            if ($existingUser != null) {
-                return response()->json([
-                    'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
-                ], 409);
-            }
-        }
-
-        if ($request->otp == $registeredCompany->otp) {
-            $registeredCompany->update([
-                'mobile' => $request->mobile,
-            ]);
-        } else {
-            return response()->json([
-                'error' => LanguageManagement::getLabel('text_wrongOTP', $this->language),
-            ], 401);
-        }
-
-        return response()->json([
-            'message' => LanguageManagement::getLabel('text_successUpdated', $this->language),
-            'user' => collect($registeredCompany),
         ]);
     }
 

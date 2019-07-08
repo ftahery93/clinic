@@ -345,6 +345,11 @@
                                     "type": "integer",
                                     "example": 4
                                 },
+                                "mobile": {
+                                    "description": "Company Mobile number",
+                                    "type": "string",
+                                    "example": "98765643"
+                                },
                                 "image": {
                                     "description": "Profile image base64",
                                     "type": "string",
@@ -360,124 +365,6 @@
                     },
                     "422": {
                         "description": "Unprocessable entity"
-                    }
-                },
-                "security": [
-                    {
-                        "ApiAuthentication": []
-                    }
-                ]
-            }
-        },
-        "/company/changeMobileNumber": {
-            "patch": {
-                "tags": [
-                    "Company Profile"
-                ],
-                "summary": "Change Company's Mobile number",
-                "operationId": "changeMobileNumber",
-                "parameters": [
-                    {
-                        "name": "Accept-Language",
-                        "in": "header",
-                        "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Version",
-                        "in": "header",
-                        "description": "1.0.0",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Change number body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "properties": {
-                                "mobile": {
-                                    "description": "Company Mobile number - *(Required)",
-                                    "type": "string",
-                                    "example": "66341897"
-                                }
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful"
-                    },
-                    "422": {
-                        "description": "Unprocessable entity"
-                    },
-                    "409": {
-                        "description": "Mobile number already registered"
-                    }
-                },
-                "security": [
-                    {
-                        "ApiAuthentication": []
-                    }
-                ]
-            }
-        },
-        "/company/updateMobileNumber": {
-            "patch": {
-                "tags": [
-                    "Company Profile"
-                ],
-                "summary": "Update Company's Mobile number",
-                "operationId": "updateMobileNumber",
-                "parameters": [
-                    {
-                        "name": "Accept-Language",
-                        "in": "header",
-                        "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Version",
-                        "in": "header",
-                        "description": "1.0.0",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Change number body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "properties": {
-                                "mobile": {
-                                    "description": "Company Mobile number - *(Required)",
-                                    "type": "string",
-                                    "example": "66341897"
-                                },
-                                "otp": {
-                                    "description": "Received OTP - *(Required)",
-                                    "type": "string",
-                                    "example": "46137"
-                                }
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful"
-                    },
-                    "422": {
-                        "description": "Unprocessable entity"
-                    },
-                    "401": {
-                        "description": "Invalid OTP. Unauthorized"
-                    },
-                    "409": {
-                        "description": "Mobile number already registered"
                     }
                 },
                 "security": [

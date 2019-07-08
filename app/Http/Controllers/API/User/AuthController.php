@@ -28,6 +28,7 @@ use Illuminate\Http\Request;
  *   name="Authorization"
  * )
  */
+
 class AuthController extends Controller
 {
 

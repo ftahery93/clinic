@@ -70,6 +70,7 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     Route::post('/company/addToWallet', 'API\Company\WalletController@addToWallet');
     Route::post('/company/deductFromWallet', 'API\Company\WalletController@deductFromWallet');
     Route::get('/company/getWalletOffers', 'API\Company\WalletController@getWalletOffers');
+    Route::get('/company/getWalletDetails', 'API\Company\WalletController@getWalletDetails');
 
     /* Additional APIs for development sake */
     Route::get('/user/getCompanies', 'API\User\CompanyController@getCompanies');
