@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 04, 2019 at 06:19 PM
+-- Generation Time: Jul 08, 2019 at 10:04 AM
 -- Server version: 10.0.38-MariaDB-0ubuntu0.16.04.1
 -- PHP Version: 7.1.29-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -35,6 +35,7 @@ CREATE TABLE `addresses` (
   `street` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `area` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `building` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `mobile` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `details` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
   `notes` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
@@ -47,14 +48,19 @@ CREATE TABLE `addresses` (
 -- Dumping data for table `addresses`
 --
 
-INSERT INTO `addresses` (`id`, `name`, `block`, `street`, `area`, `building`, `details`, `notes`, `user_id`, `status`, `created_at`, `updated_at`) VALUES
-(5, 'Home, office', '12, 13B', '12, 14A', 'Salmiya, Sharq', '14, 13Z', '', 'Do not park vehicle infront of the gate', 48, 1, '2019-06-25 17:22:31', '2019-06-25 17:22:31'),
-(6, 'Work, office', '12, 13B', '12, 14A', 'Salmiya, Sharq', '14, 13Z', '', 'Do not park vehicle infront of the gate', 48, 1, '2019-06-25 17:22:49', '2019-06-25 17:22:49'),
-(9, 'Peter Samuel', 'Sharq', '12', '12sh', '14, 13Z', 'Al-Kuwait, near Hamra', 'Do not park vehicle infront of the gate', 47, 1, '2019-06-26 01:02:01', '2019-06-28 01:01:59'),
-(14, 'Fvvv', 'Sharq', 'Gg', 'Jaber Al-Mubarak Street', 'Jaber Al-Mubarak Street', 'Al Kuwayt', '', 47, 1, '2019-06-30 16:55:21', '2019-06-30 16:55:21'),
-(15, 'Gdg', 'Sharq', 'Dg', 'Omar Ben Al Khattab Street', 'Al-Rayah Tower', 'Al Kuwayt', '', 47, 1, '2019-06-30 16:56:05', '2019-06-30 16:56:05'),
-(17, 'Home-Peter', '12, 13B', '12, 14A', 'Salmiya, Sharq', '14, 13Z', 'Al-Kuwait, near Hamra', 'Do not park vehicle infront of the gate', 47, 1, '2019-06-30 17:30:04', '2019-06-30 17:30:04'),
-(18, 'Office-Peter', '12B', '13A', 'Salmiya', '14, 13Z', 'Near Marina Mall', 'No Notes', 47, 1, '2019-06-30 17:30:37', '2019-06-30 17:30:37');
+INSERT INTO `addresses` (`id`, `name`, `block`, `street`, `area`, `building`, `mobile`, `details`, `notes`, `user_id`, `status`, `created_at`, `updated_at`) VALUES
+(5, 'Home, office', '12, 13B', '12, 14A', 'Salmiya, Sharq', '14, 13Z', '12345678', '', 'Do not park vehicle infront of the gate', 48, 1, '2019-06-25 17:22:31', '2019-07-02 08:02:13'),
+(6, 'Work, office', '12, 13B', '12, 14A', 'Salmiya, Sharq', '14, 13Z', '12345678', '', 'Do not park vehicle infront of the gate', 48, 1, '2019-06-25 17:22:49', '2019-07-02 08:02:20'),
+(9, 'Peter Samuel', '12sh', 'Sharq', '12', '14, 13Z', '87654321', 'Al-Kuwait, near Hamra', 'Do not park vehicle infront of the gate', 47, 1, '2019-06-26 01:02:01', '2019-07-02 19:20:29'),
+(14, 'Fvvv', 'Sharq', 'Gg', 'Jaber Al-Mubarak Street', 'Jaber Al-Mubarak Street', '12345678', 'Al Kuwayt', '', 47, 0, '2019-06-30 16:55:21', '2019-07-02 08:02:25'),
+(15, 'Gdg', 'Sharq', 'Dg', 'Omar Ben Al Khattab Street', 'Al-Rayah Tower', '12345678', 'Al Kuwayt', '', 47, 0, '2019-06-30 16:56:05', '2019-07-02 08:02:28'),
+(17, 'Home-Peter', '12, 13B', '12, 14A', 'Salmiya, Sharq', '14, 13Z', '12345678', 'Al-Kuwait, near Hamra', 'Do not park vehicle infront of the gate', 47, 1, '2019-06-30 17:30:04', '2019-07-02 08:02:30'),
+(18, 'Office-Peter', '12B', '13A', 'Salmiya', '14, 13Z', '12345678', 'Near Marina Mall', 'No Notes', 47, 1, '2019-06-30 17:30:37', '2019-07-02 08:02:33'),
+(19, 'Test address', 'Dasman', '4', 'Jasim Mohamad Al Bahar Street', 'Jawahar Palace', '12345678', 'Al Kuwayt', 'no notes for now', 47, 0, '2019-07-02 16:37:13', '2019-07-02 08:02:35'),
+(20, 'new name', '12, 13B', '12, 14A', 'Salmiya, Sharq', '14, 13Z', '88432123', 'Al-Kuwait, near Hamra', 'Do not park vehicle infront of the gate', 47, 1, '2019-07-02 18:06:09', '2019-07-02 18:07:58'),
+(21, 'Mobile', 'Sharq', 'V', 'Omar Ben Al Khattab Street', 'Al-Rayah Tower', '12365478', 'Al Kuwayt', '', 47, 1, '2019-07-02 19:23:44', '2019-07-02 19:23:44'),
+(22, 'test1', 'Sharq', 'g', 'Al-Shuhada Street', 'AL Ghawali Tower', '85565563', 'Al Kuwayt', '', 51, 1, '2019-07-07 18:07:31', '2019-07-07 18:07:31'),
+(23, 'test4', 'Sharq', '7', 'Jaber Al-Mubarak Street', 'Shorouq Tower', '85296314', 'Al Kuwayt', '', 51, 1, '2019-07-07 18:07:54', '2019-07-07 18:07:54');
 
 -- --------------------------------------------------------
 
@@ -101,7 +107,6 @@ INSERT INTO `authentication` (`id`, `access_token`, `user_id`, `type`, `created_
 (35, '4888663456dG5tTlhDUnBwTmRTcUd6dldVR0duODZrak1NOHROM01RTmVWMzRKQzJFM0FtVEhTYm4=5d11d2c6aa08d', 48, 1, '2019-06-25 17:52:38', '2019-06-25 17:52:38'),
 (36, '4711334466YWliSXBRNzNEb2g1cWtGZUlrYk11T2FhN0RZaWRUNTY0V0VLVmI2Z25jUm4zZGRlM1Y=5d11d3236895b', 47, 1, '2019-06-25 17:54:11', '2019-06-25 17:54:11'),
 (37, '4888663456aFZObHNHNmVtVWM4UWdYbjVvUUZOZlV1UkNBU1dCYzd1ZmhwMU91R3hQNFBiWElDeE0=5d11ddf50ae93', 48, 1, '2019-06-25 18:40:21', '2019-06-25 18:40:21'),
-(38, '4711334466SWNHb3VpdkxXT1Zwc09hQVlBbTdSam1iY0FjclJoSkFJaGVmeUZlY3Yza1NHMkQxUjE=5d11e76430606', 47, 1, '2019-06-25 19:20:36', '2019-06-25 19:20:36'),
 (39, '4888663456bW5NNjcyVXozWWxtUEJrS2xjeXFYTkFXM2h0ZVZ5QUdnWTBEWE9Vbm44SXhWVVkxeUE=5d11ec0aaec21', 48, 1, '2019-06-25 19:40:26', '2019-06-25 19:40:26'),
 (40, '4888663456cjJXejlBQTVSZ3hFSWFFRmd3YkphdGlSZk5XUXF2MEpYNnlQMEU1UDAyQUJVZldKM0k=5d1205f3c3475', 48, 1, '2019-06-25 21:30:59', '2019-06-25 21:30:59'),
 (41, '4888663456aXl0ZzNoWXRuRVNITDlWUWhaZkxjWm5Jc1cza2Q0c2pXYngzdFJqanJkYng1aFljYkI=5d120855a5df8', 48, 1, '2019-06-25 21:41:09', '2019-06-25 21:41:09'),
@@ -146,7 +151,70 @@ INSERT INTO `authentication` (`id`, `access_token`, `user_id`, `type`, `created_
 (80, '4888663456S1ViNmIyMkJpZ0tQbUN2ZExDTEZSSzdlVkNKSUZ1MTQ0YkdSaHh1OHFDOEdoQWhCZ0Q=5d18601c2c7c5', 48, 1, '2019-06-30 17:09:16', '2019-06-30 17:09:16'),
 (81, '4888663456bWlXTjh5MUF2VG1CWlA3ZGl4WGlEQlJ1SlNWUEhaanY5RUVYWnlyNkNwUVA5ZUdROTA=5d186067a37f8', 48, 1, '2019-06-30 17:10:31', '2019-06-30 17:10:31'),
 (82, '4888663456QlJENHd5V1pMYWV2b2dKZkVnR2lzR2FhT2VLMUN1OEZEa2I2UHdVS0VpbmV2Q1VLcDg=5d18684c9c03b', 48, 1, '2019-06-30 17:44:12', '2019-06-30 17:44:12'),
-(83, '4888663456ejE4aklzYWpndmplZEZiT05Va2RsUHJ6MDl6eWdPTFNyRzRPQVdJck9VYkRsaEltVjc=5d18689c1114e', 48, 1, '2019-06-30 17:45:32', '2019-06-30 17:45:32');
+(83, '4888663456ejE4aklzYWpndmplZEZiT05Va2RsUHJ6MDl6eWdPTFNyRzRPQVdJck9VYkRsaEltVjc=5d18689c1114e', 48, 1, '2019-06-30 17:45:32', '2019-06-30 17:45:32'),
+(84, '4888663456TzluV05zbVFIOGdxVkFRQ2tIMkNzcVRzS3NTcU1sQzIxazR0QXluMERjemVOaG9qWTg=5d186c391fdc9', 48, 1, '2019-06-30 18:00:57', '2019-06-30 18:00:57'),
+(85, '4888663456ekh5dGVFSGIydlNrQXVRcWxHMGxETlFoWmljbW05TGE0OHJnUGtFUjhNNGllNzVmR1I=5d186d3b6f0c4', 48, 1, '2019-06-30 18:05:15', '2019-06-30 18:05:15'),
+(86, '4888663456aXBsZnVWS243RHM0YkpKZ21xbEdtaVlRTHVGN2JiRDdSUFcxVjN5bXVya0xxZEd2VUQ=5d186e6a5426d', 48, 1, '2019-06-30 18:10:18', '2019-06-30 18:10:18'),
+(87, '4888663456MTQzN0x3eUR4ZkRQbmRzRWk4SXVUMVBORkdOb3N1eXQ1bUVMV2RjYkRmODNXT3BQOEM=5d186e990f653', 48, 1, '2019-06-30 18:11:05', '2019-06-30 18:11:05'),
+(88, '4888663456MnIycVFsTEdTZ2IweHFpdHpSTkk3UmdXbmJkbmVacXpJd2swVVhVakVta0U0UEtZQ2c=5d1878af611d5', 48, 1, '2019-06-30 18:54:07', '2019-06-30 18:54:07'),
+(89, '4888663456ZzJMSFZ1S1lFbTBqeHZxWFJnT1pFYm05NWQ1ZzY3WUNyZFE4a1J3V3I4RXNvblpvVzA=5d1878ec32235', 48, 1, '2019-06-30 18:55:08', '2019-06-30 18:55:08'),
+(90, '4888663456aEQ5SWhuZmVrZ3NyRTdXdXZEUkNRYks3VEpiV3ZBRTBhYURac0U3aGRTUDU2VGM1cTU=5d1879b99d23c', 48, 1, '2019-06-30 18:58:33', '2019-06-30 18:58:33'),
+(91, '4888663456QkI3cXpwcVhhSWFkbERmZ1lEM0ZlU0RYTllSV3AwTUVHWjBYNFFpZm13NXJUQ3ZHa2I=5d1879ec9875b', 48, 1, '2019-06-30 18:59:24', '2019-06-30 18:59:24'),
+(92, '4888663456eWRXVlR3RnhEUEJqQk5pRVdhSW5MQmR4Wk1Oa2dMTExiUUdldERRN1lScmo0YkpQOXE=5d187c3fbbe22', 48, 1, '2019-06-30 19:09:19', '2019-06-30 19:09:19'),
+(93, '4888663456UnZMNmNkMWRhWTZ0NWZ4UGFyN0VmdGkyUWVPWGVFaWx2VXhGU1QzT0QwVzIzQTFqRng=5d187f436d19a', 48, 1, '2019-06-30 19:22:11', '2019-06-30 19:22:11'),
+(94, '4888663456aVhsTFRUaWF0UHJNNHlwVlRJRU1WbVFKOG9KV1hTTW9EOUFQbzhKWXAzZjd0UTJXSm0=5d187f767f6f8', 48, 1, '2019-06-30 19:23:02', '2019-06-30 19:23:02'),
+(95, '4888663456YjZhMk81cVQ4R1Zibm4xNXQ2cGVvdFc5eHR2c0swVUFudUdLaHZXMjhmdEhFRTZKR24=5d1882c2b5ee6', 48, 1, '2019-06-30 19:37:06', '2019-06-30 19:37:06'),
+(96, '4888663456RzNQMHlHQTF2cWRjV29OcGhVdlc3S0dJa21Mck9NQmZOM3hWYXJFSVNMb2kwMXBoTlM=5d1883388f731', 48, 1, '2019-06-30 19:39:04', '2019-06-30 19:39:04'),
+(97, '4888663456b1d5S2xvY0xLYWRXcUpKejBrdk1KQnNlcFQwcTE5SGVvQkJPWGROUkJaM09KalQ4dTI=5d1883b2c82db', 48, 1, '2019-06-30 19:41:06', '2019-06-30 19:41:06'),
+(98, '4888663456eTF2a2EyNzVNcUh2NW50Rk5xUXhvMUJ0YmVTRXRibmQ0Vm84WTBwQzFCMlFaS2RMN2I=5d18840d13136', 48, 1, '2019-06-30 19:42:37', '2019-06-30 19:42:37'),
+(99, '4888663456MVQ1M21GZHg2T0p0dnp6RG5WTDFOTlZ0TlE4dk1iOTBBeGllbldqTU5ITHVaSTFDRGg=5d1884d9b6815', 48, 1, '2019-06-30 19:46:01', '2019-06-30 19:46:01'),
+(100, '4888663456QmFLYUYyZm5lb0dzaHJvYWpzR1k1UGlYR1p5QWlLY0ROZ0FROVlUNDZoQzFqU2ZuZTI=5d188523b08bd', 48, 1, '2019-06-30 19:47:15', '2019-06-30 19:47:15'),
+(101, '4888663456bEJ5bWE4ZlpKU1g3SUh1Q2pzaGdVbm1FVHowRWZQNFF3OUQ0TWRZbVhRb0ttQklPVDY=5d18854f950dd', 48, 1, '2019-06-30 19:47:59', '2019-06-30 19:47:59'),
+(102, '4888663456THZ0YXlOZUd0MUpHbnVuZkNLbWRldXk0MzV6YmIzS290UEZDREd5dVFQak9ZTXRQQkE=5d1885a78c6c8', 48, 1, '2019-06-30 19:49:27', '2019-06-30 19:49:27'),
+(103, '4888663456ZjdPRWtidU1NYnVRWWFHbW5uRjJudTRpRlU0ME9pazVidEU4MlYzRjB4T1YweGdUckw=5d1885bbb1839', 48, 1, '2019-06-30 19:49:47', '2019-06-30 19:49:47'),
+(104, '4888663456WVZCa0pyVGYzVzVNTW5mSHJXS3pOdkJjek4weHBLSjdKTFdXSGFNSzJzR0VSTDdIWm4=5d18873883747', 48, 1, '2019-06-30 19:56:08', '2019-06-30 19:56:08'),
+(105, '4888663456V0RCbFZOTUN2MGF4b2s1d3p6ZGxrWW0wTmxTQnhEUUp2SGdtZnNTdXNxOHJrVVlObEY=5d1889d61644c', 48, 1, '2019-06-30 20:07:18', '2019-06-30 20:07:18'),
+(106, '4888663456UnlicFEzQ0JSMGxZbnpaWWl4ZEx1Ym9vNm9TNUM2WWdTYTRBYnNtejVLWEVKYXJCM1Y=5d188adb2f117', 48, 1, '2019-06-30 20:11:39', '2019-06-30 20:11:39'),
+(107, '4888663456R3ZoZk9DUFNUTzFZRG1MVENVbFA3WW1FRFU2MENnWFFMMVJaWm9Iamd4NFlaTHY4cno=5d188b085ec0a', 48, 1, '2019-06-30 20:12:24', '2019-06-30 20:12:24'),
+(108, '4888663456cWZPOVB0bjhLWlFzelFDMGplQmduRWpnR2JmRFh1SEw1bm5iMkxpaGpObDNBTTFLWWY=5d19c02dd2047', 48, 1, '2019-07-01 18:11:25', '2019-07-01 18:11:25'),
+(109, '4711223366YjhCTFJhRXJQMENSa2xqWWxsaUIwS2Z2TEplRnFqZnR6MXFSSzRxbkpoNHpwTlBYQkY=5d19ced2dd992', 47, 1, '2019-07-01 19:13:54', '2019-07-01 19:13:54'),
+(111, '4888663456Tms2OEFZb21hVHh0blE3a1FiblNqWEQ5ODRXeFJ4MDhhZ1JudmJ4WnRNRFhaNzVQVnk=5d19d7d47f0d7', 48, 1, '2019-07-01 19:52:20', '2019-07-01 19:52:20'),
+(112, '48886634555M3lremJvZ05jb25VOThlQnM2Mk1WUURDWHJsWUJkT2JqOWg0UUN2NEJKdW5aQ2JyMjE=5d19db316f5b2', 48, 1, '2019-07-01 20:06:41', '2019-07-01 20:06:41'),
+(113, '48886634333QTNZampXa2g0REJmRnhGS20ybkN4RjQ3YkJPd21yS3BJZzJ0TnpZeEhid09kYVdUMTI=5d19dce428de1', 48, 1, '2019-07-01 20:13:56', '2019-07-01 20:13:56'),
+(114, '5088663456ZWNKVFVWRTV1Y3pHSmRKRlBqWjJmcHdGOXUwNnByWHVxemhwaTdkSGVJd0JndnhORko=5d19f8afecf47', 50, 1, '2019-07-01 22:12:32', '2019-07-01 22:12:32'),
+(115, '5088663456OE5kQUlNdFZobUUwQjdFcHRXT0pZTGZlZWFsNEUzenBVam9taWQxOWJLUVZuNnI5MUw=5d19f9ac4c1e9', 50, 1, '2019-07-01 22:16:44', '2019-07-01 22:16:44'),
+(116, '5088663456NEFtRVJwRDZNSEJmZkgxWDBDdTZCOUJjaTE2NjVHbTlWVm9wajJ5c2hZN2tzMVl1a0U=5d19f9eb17555', 50, 1, '2019-07-01 22:17:47', '2019-07-01 22:17:47'),
+(117, '4888663456bXRma3hiSHpCaXpJbG01VGkxVmhEek9pZVh6THRsUnE3TURGWThvSDYwb0lrNERkUmg=5d19fab132977', 48, 1, '2019-07-01 22:21:05', '2019-07-01 22:21:05'),
+(118, '4888663456SmMxaGpOanpBOHVhNWh2d254M1QwR013aFlnV2xscXdhTWNQNGswM3NqT0xrWDE3VDA=5d19fb6366786', 48, 1, '2019-07-01 22:24:03', '2019-07-01 22:24:03'),
+(119, '4888663456dFA4cGRGSlZETVFPTjNPeEFNcUtPaTZqeUszOFIzcnEzNkNFaEY2RXN4alZNS2x2ODg=5d19fef10b381', 48, 1, '2019-07-01 22:39:13', '2019-07-01 22:39:13'),
+(120, '4888663456alVuanVZcUlnYzZ4c3dqNmFhbVp4elFvbVJkRmdMRWtjWEU3cUpZcUo0dGxRenM3bkI=5d19ff2c133f8', 48, 1, '2019-07-01 22:40:12', '2019-07-01 22:40:12'),
+(121, '4888663456dmJacm5pVWpOb0xxdTEyalpEcVh3TEUxclFCeUlacld6TjM1blpZbVJ6cXg3MjZIaW0=5d19ff858a103', 48, 1, '2019-07-01 22:41:41', '2019-07-01 22:41:41'),
+(122, '4888663456TTJ4TVRTNFllTW9HWWlCMlZ3VVN6cnZLN3IzamhDMGhsM2JJNmpyb1RBRlc3RjZna0U=5d19ffc1d4c37', 48, 1, '2019-07-01 22:42:41', '2019-07-01 22:42:41'),
+(123, '4888663456Y2hJOGsyc1d6aU9LeUh4T2Ixa3J1ZmhDbUVEeElLczJVeGEzZTl4R2J6OGxacjBvbWo=5d19fff5dde9c', 48, 1, '2019-07-01 22:43:33', '2019-07-01 22:43:33'),
+(124, '4888663456NGhPRTNQdms1aHpqVVZ2eWc2UFJWNjVuUzNZWnhQVHRtbTUwMExKWnFSc21iRGtCd20=5d1a00098cb9f', 48, 1, '2019-07-01 22:43:53', '2019-07-01 22:43:53'),
+(125, '4888663456Q2dRNVp3M2J2SDZUUUJwejZpNGd4TUh5ejA2a0liWjZ3MzlEVXlySFNsN0xVUTF3Tko=5d1a0027ddef8', 48, 1, '2019-07-01 22:44:23', '2019-07-01 22:44:23'),
+(126, '4888663456Sk1FNkdrWjZuUlB1UVBLU2VOVU9nWkhjYW1lOFlLZXhvME51UEF0VE0zcHBMNVRuRUk=5d1a00a26b685', 48, 1, '2019-07-01 22:46:26', '2019-07-01 22:46:26'),
+(127, '4888663456c0E4OGthUzNrazJxOFJDZEVXTTBPNTdVUzZMNzRuQVo4SUp3UGlOaHc0TEV0TTVpVDg=5d1a00ab1a288', 48, 1, '2019-07-01 22:46:35', '2019-07-01 22:46:35'),
+(128, '4888663456a1l1cXBEMmpMTEY5TkpEUlhsSXRGVzg5NnlGaVhtbkRqU2hoV2U1MTRxUVBHYlBubFA=5d1a0118a2744', 48, 1, '2019-07-01 22:48:24', '2019-07-01 22:48:24'),
+(129, '4888663456akxGWWlkSndQS1hOblNSdjd2QWQ1MWtoMnhLNzhZZEVSMUp4d1c2Y3dQaUIwWFZLamc=5d1a0200d3606', 48, 1, '2019-07-01 22:52:16', '2019-07-01 22:52:16'),
+(130, '4888663456Z3FkTnFKMUV6ejRxOFFENmNvb0NQZ2Y5MnF4Y1NNem1hRXJtMUpxTm40bXdURWMxeEY=5d1a15d0dc49c', 48, 1, '2019-07-02 00:16:48', '2019-07-02 00:16:48'),
+(131, '4888663456bGIzaDZZVm1tTm5rcHZLbU9LenhwNUYzcVRoWGhQODhrVFVwVVlwUHZYQldZdDFEMlM=5d1a2075f106d', 48, 1, '2019-07-02 01:02:14', '2019-07-02 01:02:14'),
+(132, '4888663456S3B2RXVvMW5xdnVybWF0Vk4xRWlacjNiZTUxemo0RkczM212ZHNkeWpHbWVQSDYzUlE=5d1b2e518b8c0', 48, 1, '2019-07-02 20:13:37', '2019-07-02 20:13:37'),
+(135, '4888663456emZ4UGZCZVVpSHNJY2RJYTdQdXAxVEMyY3RsSTg0VzQxd2ZHeW5YMXZiU0N1Q1pWN20=5d1b4c1a80635', 48, 1, '2019-07-02 22:20:42', '2019-07-02 22:20:42'),
+(136, '4888663456TUQ5SmtXbllXZW1ybWdRalNTZ0J0U1FEbnFBa3h0ajdNZjBMbUIxY2c1cFo1clVVcUM=5d1b4d2e14c1c', 48, 1, '2019-07-02 22:25:18', '2019-07-02 22:25:18'),
+(137, '10AramexZU9zVEZnbG1sdXdlaDNyc2lNbE05aTNoMmtxTUE2Z2JIS2ZBVmY2bE9BSFdoeTZjcXg=5d1b530400913', 10, 2, '2019-07-02 22:50:13', '2019-07-02 22:50:13'),
+(138, '4888663456a3hCSDF1WExHZXdMVERwUndQeXJrSmpnSm9SUzZwb1IwRkd6ODI0eXVXQmpyVTFrcXk=5d1c6abe72e2a', 48, 1, '2019-07-03 18:43:42', '2019-07-03 18:43:42'),
+(139, '4888663456NzNDaEc4VmlOaWFwZ2x4ZUlNRjhXWnNjTHRpQU42QmFYSFZNNmcyRGZQQmRjSnJhano=5d1c76c50f618', 48, 1, '2019-07-03 19:35:01', '2019-07-03 19:35:01'),
+(140, '4888663456cGZvTEhuWHFyRlhWMUxwWjhPdGRBcHR4dk01YkFaMkNUblVUWDIydnJDbmNGWnBGdjU=5d1c7849f1090', 48, 1, '2019-07-03 19:41:30', '2019-07-03 19:41:30'),
+(141, '5155756071a05xSFNxUHRpRGw4UHVGbW5BS1BDb1Q1cWsxVEk1YVp0NmNXOXVQTjNEQTVVaktJMFA=5d1df008a1eb2', 51, 1, '2019-07-04 22:24:41', '2019-07-04 22:24:41'),
+(142, '5155756071M21uMTJDVW4wN2taUkFvZHUwNk52T25oQk9ZeEpmT3ViNUF1VUJmaWdrajltMmZQczc=5d1df067bfd1c', 51, 1, '2019-07-04 22:26:16', '2019-07-04 22:26:16'),
+(143, '5198539080ZHdWU2lOZHlJOXRQN1EzdHlnaDgxaUxSa2RCMk9lOWRWd0F1WWtoc01CUkRQMHdxNms=5d21a3d3cbb2d', 51, 1, '2019-07-07 17:48:35', '2019-07-07 17:48:35'),
+(144, '5198539080TlU3VFd6djFQN1NQTWJpNzQxZnhvQnNrRUxPcWNSUnc4anFIdXVtd0hDTWpDTFFYWk0=5d21b8e4c5720', 51, 1, '2019-07-07 19:18:29', '2019-07-07 19:18:29'),
+(145, '11peterUXV5ZjR4R2lmYVlOWmhwUmk0R2tWQ3kySWRFTm1FaFVHb010dGxrZGlQdVZXQUZXd3E=5d21c25f4e434', 11, 2, '2019-07-07 19:58:55', '2019-07-07 19:58:55'),
+(146, '11peterM2VTc2wwSElDSTNMb3FaeDRIaXN4YU5rYXd2Z0F0eVBDVHpsZ09DUDZHTDF5c204clI=5d21e8d2d5f3f', 11, 2, '2019-07-07 22:42:58', '2019-07-07 22:42:58'),
+(147, '11peterSkVGRWhrVFZFV3Z5RTlPZnFGSVJ4VGtUdkQzN2ExdmZaUVBRbFN6U2psS3lmQ0hEaGw=5d21e9324ec9e', 11, 2, '2019-07-07 22:44:34', '2019-07-07 22:44:34'),
+(148, '11peterN2M4RDE2VkN3ZUpIczBqQlRQR1YyMk5lRGM2Z2hLZ2JPUDR4amluRTlxOVNwYnNNdFQ=5d21e98b2d57a', 11, 2, '2019-07-07 22:46:03', '2019-07-07 22:46:03'),
+(149, '11peterM0Q2c01QVmg5eHE5anN3TXNhTEs4bmFnakU2bDB2UlNqeHphMUNyM1FhaGFMNUZUdWs=5d21e9ab980c6', 11, 2, '2019-07-07 22:46:35', '2019-07-07 22:46:35');
 
 -- --------------------------------------------------------
 
@@ -212,7 +280,30 @@ INSERT INTO `category_shipment` (`id`, `shipment_id`, `category_id`, `quantity`,
 (29, 39, 1, 4, '2019-06-30 07:31:28', '2019-06-30 07:31:28'),
 (30, 39, 3, 1, '2019-06-30 07:31:28', '2019-06-30 07:31:28'),
 (31, 40, 3, 4, '2019-06-30 07:31:39', '2019-06-30 07:31:39'),
-(32, 40, 2, 1, '2019-06-30 07:31:39', '2019-06-30 07:31:39');
+(32, 40, 2, 1, '2019-06-30 07:31:39', '2019-06-30 07:31:39'),
+(33, 42, 2, 2, '2019-06-30 14:14:28', '2019-06-30 14:14:28'),
+(34, 43, 2, 3, '2019-06-30 14:19:14', '2019-06-30 14:19:14'),
+(35, 43, 3, 5, '2019-06-30 14:19:14', '2019-06-30 14:19:14'),
+(36, 43, 1, 2, '2019-06-30 14:19:14', '2019-06-30 14:19:14'),
+(37, 44, 3, 3, '2019-07-01 14:24:16', '2019-07-01 14:24:16'),
+(38, 44, 1, 2, '2019-07-01 14:24:16', '2019-07-01 14:24:16'),
+(39, 45, 3, 3, '2019-07-02 06:38:02', '2019-07-02 06:38:02'),
+(40, 45, 2, 3, '2019-07-02 06:38:02', '2019-07-02 06:38:02'),
+(41, 46, 3, 1, '2019-07-02 09:24:34', '2019-07-02 09:24:34'),
+(46, 47, 2, 2, '2019-07-03 09:10:29', '2019-07-03 09:10:29'),
+(43, 48, 2, 1, '2019-07-03 06:55:20', '2019-07-03 06:55:20'),
+(44, 48, 3, 4, '2019-07-03 06:55:20', '2019-07-03 06:55:20'),
+(47, 47, 3, 3, '2019-07-03 09:10:29', '2019-07-03 09:10:29'),
+(48, 50, 1, 1, '2019-07-07 08:20:45', '2019-07-07 08:20:45'),
+(49, 51, 2, 2, '2019-07-07 08:21:04', '2019-07-07 08:21:04'),
+(50, 52, 3, 2, '2019-07-07 08:27:34', '2019-07-07 08:27:34'),
+(51, 56, 1, 2, '2019-07-07 08:56:52', '2019-07-07 08:56:52'),
+(52, 56, 2, 2, '2019-07-07 08:56:52', '2019-07-07 08:56:52'),
+(53, 56, 3, 4, '2019-07-07 08:56:52', '2019-07-07 08:56:52'),
+(54, 57, 2, 8, '2019-07-07 09:10:52', '2019-07-07 09:10:52'),
+(55, 58, 2, 2, '2019-07-07 09:29:18', '2019-07-07 09:29:18'),
+(56, 59, 2, 6, '2019-07-07 13:09:21', '2019-07-07 13:09:21'),
+(57, 59, 3, 5, '2019-07-07 13:09:21', '2019-07-07 13:09:21');
 
 -- --------------------------------------------------------
 
@@ -274,9 +365,9 @@ CREATE TABLE `companies` (
   `description` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
   `rating` float DEFAULT '0',
   `image` varchar(512) COLLATE utf8_unicode_ci NOT NULL,
-  `otp` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `country_id` int(10) NOT NULL,
   `status` tinyint(1) NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `approved` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -286,9 +377,11 @@ CREATE TABLE `companies` (
 -- Dumping data for table `companies`
 --
 
-INSERT INTO `companies` (`id`, `name`, `email`, `password`, `mobile`, `phone`, `description`, `rating`, `image`, `otp`, `country_id`, `status`, `approved`, `created_at`, `updated_at`) VALUES
-(8, 'Fedex', 'fedex@gmail.com', '$2y$10$xTrFsSRfC0MPnTN3/l1rte.3GO85XBECj3HF2dEYpgaQMTLR8VjZO', '11443322', '11443322', '', 0, 'company_image_1560331455.png', '62853', 1, 1, 1, '2019-06-12 09:24:15', '2019-07-04 13:28:58'),
-(9, 'DHL', 'info@dhl.com', 'qqqqqq', '88554433', NULL, NULL, 0, 'company_image_1557746290.png', NULL, 1, 1, 1, '2019-06-25 09:52:32', '2019-06-25 09:52:32');
+INSERT INTO `companies` (`id`, `name`, `email`, `password`, `mobile`, `phone`, `description`, `rating`, `image`, `country_id`, `status`, `remember_token`, `approved`, `created_at`, `updated_at`) VALUES
+(8, 'Fedex', 'fedex@gmail.com', '$2y$10$xTrFsSRfC0MPnTN3/l1rte.3GO85XBECj3HF2dEYpgaQMTLR8VjZO', '11443322', NULL, NULL, 3, 'company_image_1560331455.png', 1, 1, NULL, 1, '2019-06-12 09:24:15', '2019-07-03 19:35:31'),
+(9, 'DHL', 'info@dhl.com', 'qqqqqq', '88554433', NULL, NULL, 3, 'company_image_1557746290.png', 1, 1, NULL, 1, '2019-06-25 09:52:32', '2019-07-03 19:36:51'),
+(10, 'Aramex', 'in@vas.com', '$2y$10$nAAXJ6F1mb.SgCMJVh2HDOnguIZjQPMLZRLFOAGhh9dMYnq97TFa2', '88663456', NULL, NULL, 0, 'company_image_1562071812.png', 4, 0, NULL, 0, '2019-07-02 22:50:12', '2019-07-02 22:50:12'),
+(11, 'peter', 'peter@gmail.com', '$2y$10$TFl7OrBvX580nf0zQv1OdeE9Wpgg98MuDiddT3Dl3AJ3lB7NiV2/e', '66778899', NULL, NULL, 0, 'company_image_1562493535.png', 1, 1, NULL, 1, '2019-07-07 19:58:55', '2019-07-07 12:45:51');
 
 -- --------------------------------------------------------
 
@@ -331,6 +424,14 @@ CREATE TABLE `free_deliveries` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `free_deliveries`
+--
+
+INSERT INTO `free_deliveries` (`id`, `company_id`, `quantity`, `created_at`, `updated_at`) VALUES
+(2, 10, 0, '2019-07-02 22:50:13', '2019-07-02 22:50:13'),
+(3, 11, 0, '2019-07-07 19:58:55', '2019-07-07 19:58:55');
 
 -- --------------------------------------------------------
 
@@ -417,337 +518,8 @@ INSERT INTO `language_management` (`id`, `name`, `title`, `label_en`, `label_ar`
 (41, 'Country not found', 'no_country_found', 'Country not found', 'البلد غير موجود', 1, NULL, NULL),
 (42, 'Category not found', 'no_category_found', 'Category not found', 'الفئة غير موجودة', 1, NULL, NULL),
 (43, 'Invalid API request', 'invalid_api_request', 'Invalid API request', 'طلب API غير صالح', 1, NULL, NULL),
-(44, 'Address deleted successfully', 'delete_address_success', 'Address deleted successfully', 'تم حذف العنوان بنجاح\r\n', 1, NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `log_activities`
---
-
-CREATE TABLE `log_activities` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `subject` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `url` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `method` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `ip` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `agent` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `user_type` tinyint(1) DEFAULT NULL COMMENT 'Admin:0,Vendor:1,Trainer:2',
-  `vendor_id` int(11) DEFAULT NULL,
-  `trainer_id` int(11) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `log_activities`
---
-
-INSERT INTO `log_activities` (`id`, `subject`, `url`, `method`, `ip`, `agent`, `user_id`, `user_type`, `vendor_id`, `trainer_id`, `created_at`, `updated_at`) VALUES
-(1, 'User - afreen has been created by admin', 'http://localhost/quickapp/admin/users', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-25 12:59:20', '2018-06-25 12:59:20'),
-(2, 'Package - Free Package has been created by admin', 'http://localhost/quickapp/admin/packages', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-25 13:13:29', '2018-06-25 13:13:29'),
-(3, 'Package - Free Package has been updated by admin', 'http://localhost/quickapp/admin/packages/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-25 13:17:31', '2018-06-25 13:17:31'),
-(4, 'Package - Free Package has been updated by admin', 'http://localhost/quickapp/admin/packages/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-25 13:18:27', '2018-06-25 13:18:27'),
-(5, 'Package - Free Package has been updated by admin', 'http://localhost/quickapp/admin/packages/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-25 13:18:49', '2018-06-25 13:18:49'),
-(6, 'Package - Free Package has been updated by admin', 'http://localhost/quickapp/admin/packages/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-25 13:19:02', '2018-06-25 13:19:02'),
-(7, 'CmsPage - about has been created by admin', 'http://localhost/quickapp/admin/cmsPages', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-25 13:21:14', '2018-06-25 13:21:14'),
-(8, 'Notification - General has been created by admin', 'http://localhost/quickapp/admin/notifications', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-25 13:36:23', '2018-06-25 13:36:23'),
-(9, 'Country - KUWAITt has been updated by admin', 'http://localhost/quickapp/admin/countries/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-25 14:19:45', '2018-06-25 14:19:45'),
-(10, 'Country - Kuwaitiii has been created by admin', 'http://localhost/quickapp/admin/countries', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-25 14:23:11', '2018-06-25 14:23:11'),
-(11, 'Country - [\"Kuwaitiii\"] has been deleted by admin', 'http://localhost/quickapp/admin/masters/countries/delete', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-25 14:23:21', '2018-06-25 14:23:21'),
-(12, 'Category - construction has been created by admin', 'http://localhost/quickapp/admin/categories', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 06:20:08', '2018-06-26 06:20:08'),
-(13, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 06:30:03', '2018-06-26 06:30:03'),
-(14, 'Category - Sub Const has been created by admin', 'http://localhost/quickapp/admin/categories', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 07:38:37', '2018-06-26 07:38:37'),
-(15, 'Category - Sub Sub Constr has been created by admin', 'http://localhost/quickapp/admin/categories', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 07:39:44', '2018-06-26 07:39:44'),
-(16, 'Category - Sub Const has been updated by admin', 'http://localhost/quickapp/admin/categories/2', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 09:35:52', '2018-06-26 09:35:52'),
-(17, 'Category - Sub Const has been updated by admin', 'http://localhost/quickapp/admin/categories/2', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 09:36:36', '2018-06-26 09:36:36'),
-(18, 'Category - Sub Sub Constr has been updated by admin', 'http://localhost/quickapp/admin/categories/3', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 09:53:51', '2018-06-26 09:53:51'),
-(19, 'Category - Sub Sub Constr has been updated by admin', 'http://localhost/quickapp/admin/categories/3', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 09:55:57', '2018-06-26 09:55:57'),
-(20, 'Category - Sub Sub Constr has been updated by admin', 'http://localhost/quickapp/admin/categories/3', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 09:56:15', '2018-06-26 09:56:15'),
-(21, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 10:45:38', '2018-06-26 10:45:38'),
-(22, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 10:46:49', '2018-06-26 10:46:49'),
-(23, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 10:49:42', '2018-06-26 10:49:42'),
-(24, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 10:52:18', '2018-06-26 10:52:18'),
-(25, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 10:53:53', '2018-06-26 10:53:53'),
-(26, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 10:57:04', '2018-06-26 10:57:04'),
-(27, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 11:01:22', '2018-06-26 11:01:22'),
-(28, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 11:02:08', '2018-06-26 11:02:08'),
-(29, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 11:05:03', '2018-06-26 11:05:03'),
-(30, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 11:09:44', '2018-06-26 11:09:44'),
-(31, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 11:10:07', '2018-06-26 11:10:07'),
-(32, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 11:10:31', '2018-06-26 11:10:31'),
-(33, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 11:10:55', '2018-06-26 11:10:55'),
-(34, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 11:11:43', '2018-06-26 11:11:43'),
-(35, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 11:12:51', '2018-06-26 11:12:51'),
-(36, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 11:13:50', '2018-06-26 11:13:50'),
-(37, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 11:14:12', '2018-06-26 11:14:12'),
-(38, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 11:15:37', '2018-06-26 11:15:37'),
-(39, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 11:54:26', '2018-06-26 11:54:26'),
-(40, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 12:02:54', '2018-06-26 12:02:54'),
-(41, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 12:06:04', '2018-06-26 12:06:04'),
-(42, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 12:07:27', '2018-06-26 12:07:27'),
-(43, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 12:07:56', '2018-06-26 12:07:56'),
-(44, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 12:12:16', '2018-06-26 12:12:16'),
-(45, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 12:13:45', '2018-06-26 12:13:45'),
-(46, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 12:22:33', '2018-06-26 12:22:33'),
-(47, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 12:22:55', '2018-06-26 12:22:55'),
-(48, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 12:30:51', '2018-06-26 12:30:51'),
-(49, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 13:04:11', '2018-06-26 13:04:11'),
-(50, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 13:11:25', '2018-06-26 13:11:25'),
-(51, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 13:16:36', '2018-06-26 13:16:36'),
-(52, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 13:23:50', '2018-06-26 13:23:50'),
-(53, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 13:26:43', '2018-06-26 13:26:43'),
-(54, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 13:28:54', '2018-06-26 13:28:54'),
-(55, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 13:36:07', '2018-06-26 13:36:07'),
-(56, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 13:36:29', '2018-06-26 13:36:29'),
-(57, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 13:41:55', '2018-06-26 13:41:55'),
-(58, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 13:42:45', '2018-06-26 13:42:45'),
-(59, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 13:46:24', '2018-06-26 13:46:24'),
-(60, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 13:48:01', '2018-06-26 13:48:01'),
-(61, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-26 13:48:23', '2018-06-26 13:48:23'),
-(62, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 06:50:56', '2018-06-27 06:50:56'),
-(63, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 06:53:35', '2018-06-27 06:53:35'),
-(64, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 06:53:59', '2018-06-27 06:53:59'),
-(65, 'Category - construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 06:54:19', '2018-06-27 06:54:19'),
-(66, 'Category - Furniture and Wood Work has been created by admin', 'http://localhost/quickapp/admin/categories', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:00:16', '2018-06-27 07:00:16'),
-(67, 'Category - Furniture and Wood Work has been updated by admin', 'http://localhost/quickapp/admin/categories/4', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:00:53', '2018-06-27 07:00:53'),
-(68, 'Category - Eng and Co. has been updated by admin', 'http://localhost/quickapp/admin/categories/2', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:01:28', '2018-06-27 07:01:28'),
-(69, 'Category - Furniture and Wood Work has been updated by admin', 'http://localhost/quickapp/admin/categories/4', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:02:21', '2018-06-27 07:02:21'),
-(70, 'Category - Painters has been updated by admin', 'http://localhost/quickapp/admin/categories/3', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:02:45', '2018-06-27 07:02:45'),
-(71, 'Category - Plumber Work has been created by admin', 'http://localhost/quickapp/admin/categories', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:04:27', '2018-06-27 07:04:27'),
-(72, 'Category - Plumber Work has been created by admin', 'http://localhost/quickapp/admin/categories', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:05:00', '2018-06-27 07:05:00'),
-(73, 'Category - Plumber Work has been created by admin', 'http://localhost/quickapp/admin/categories', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:06:11', '2018-06-27 07:06:11'),
-(74, 'Category - Plumber Work has been created by admin', 'http://localhost/quickapp/admin/categories', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:06:39', '2018-06-27 07:06:39'),
-(75, 'Category - Sanitary has been updated by admin', 'http://localhost/quickapp/admin/categories/6', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:07:18', '2018-06-27 07:07:18'),
-(76, 'Category - Sanitary has been updated by admin', 'http://localhost/quickapp/admin/categories/6', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:07:34', '2018-06-27 07:07:34'),
-(77, 'Category - Air Conditioning has been updated by admin', 'http://localhost/quickapp/admin/categories/7', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:08:03', '2018-06-27 07:08:03'),
-(78, 'Category - Air Conditioning has been updated by admin', 'http://localhost/quickapp/admin/categories/7', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:08:19', '2018-06-27 07:08:19'),
-(79, 'Category - Ready Mix concrete has been updated by admin', 'http://localhost/quickapp/admin/categories/8', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:08:49', '2018-06-27 07:08:49'),
-(80, 'Category - Ready Mix concrete has been updated by admin', 'http://localhost/quickapp/admin/categories/8', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:09:03', '2018-06-27 07:09:03'),
-(81, 'Category - Plumber Work has been updated by admin', 'http://localhost/quickapp/admin/categories/5', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:09:29', '2018-06-27 07:09:29'),
-(82, 'Category - Sanitary has been updated by admin', 'http://localhost/quickapp/admin/categories/6', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:09:42', '2018-06-27 07:09:42'),
-(83, 'Category - Painters has been updated by admin', 'http://localhost/quickapp/admin/categories/3', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:20:58', '2018-06-27 07:20:58'),
-(84, 'Category - Construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:24:51', '2018-06-27 07:24:51'),
-(85, 'Banner Images has been uploaded by admin', 'http://localhost/quickapp/admin/bannerImages/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:58:45', '2018-06-27 07:58:45'),
-(86, 'Banner Images has been deleted by admin', 'http://localhost/quickapp/admin/bannerImages/deleteImage/1', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:59:38', '2018-06-27 07:59:38'),
-(87, 'Banner Images has been uploaded by admin', 'http://localhost/quickapp/admin/bannerImages/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 07:59:54', '2018-06-27 07:59:54'),
-(88, 'Banner Images has been deleted by admin', 'http://localhost/quickapp/admin/bannerImages/deleteImage/2', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:01:12', '2018-06-27 08:01:12'),
-(89, 'Banner Images has been uploaded by admin', 'http://localhost/quickapp/admin/bannerImages/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:01:18', '2018-06-27 08:01:18'),
-(90, 'Banner Images has been deleted by admin', 'http://localhost/quickapp/admin/bannerImages/deleteImage/3', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:01:52', '2018-06-27 08:01:52'),
-(91, 'Banner Images has been uploaded by admin', 'http://localhost/quickapp/admin/bannerImages/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:02:04', '2018-06-27 08:02:04'),
-(92, 'Banner Images has been deleted by admin', 'http://localhost/quickapp/admin/bannerImages/deleteImage/4', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:02:17', '2018-06-27 08:02:17'),
-(93, 'Banner Images has been uploaded by admin', 'http://localhost/quickapp/admin/bannerImages/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:02:26', '2018-06-27 08:02:26'),
-(94, 'Banner Images has been deleted by admin', 'http://localhost/quickapp/admin/bannerImages/deleteImage/5', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:02:55', '2018-06-27 08:02:55'),
-(95, 'Banner Images has been uploaded by admin', 'http://localhost/quickapp/admin/bannerImages/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:04:24', '2018-06-27 08:04:24'),
-(96, 'Banner Images has been uploaded by admin', 'http://localhost/quickapp/admin/bannerImages/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:04:43', '2018-06-27 08:04:43'),
-(97, 'Banner Images has been uploaded by admin', 'http://localhost/quickapp/admin/bannerImages/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:05:03', '2018-06-27 08:05:03'),
-(98, 'Banner Images has been deleted by admin', 'http://localhost/quickapp/admin/bannerImages/deleteImage/8', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:06:46', '2018-06-27 08:06:46'),
-(99, 'Banner Images has been deleted by admin', 'http://localhost/quickapp/admin/bannerImages/deleteImage/7', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:06:48', '2018-06-27 08:06:48'),
-(100, 'Banner Images has been deleted by admin', 'http://localhost/quickapp/admin/bannerImages/deleteImage/6', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:07:10', '2018-06-27 08:07:10'),
-(101, 'Banner Images has been uploaded by admin', 'http://localhost/quickapp/admin/bannerImages/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:07:21', '2018-06-27 08:07:21'),
-(102, 'Banner Images has been uploaded by admin', 'http://localhost/quickapp/admin/bannerImages/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:08:07', '2018-06-27 08:08:07'),
-(103, 'Banner Images has been uploaded by admin', 'http://localhost/quickapp/admin/bannerImages/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:09:19', '2018-06-27 08:09:19'),
-(104, 'Banner Images has been uploaded by admin', 'http://localhost/quickapp/admin/bannerImages/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:09:37', '2018-06-27 08:09:37'),
-(105, 'Banner Images has been uploaded by admin', 'http://localhost/quickapp/admin/bannerImages/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:18:07', '2018-06-27 08:18:07'),
-(106, 'Banner Images has been uploaded by admin', 'http://localhost/quickapp/admin/bannerImages/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:18:52', '2018-06-27 08:18:52'),
-(107, 'Banner Images has been uploaded by admin', 'http://localhost/quickapp/admin/bannerImages/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:19:10', '2018-06-27 08:19:10'),
-(108, 'Banner Images has been uploaded by admin', 'http://localhost/quickapp/admin/bannerImages/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:31:08', '2018-06-27 08:31:08'),
-(109, 'Banner Images has been uploaded by admin', 'http://localhost/quickapp/admin/bannerImages/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 08:31:27', '2018-06-27 08:31:27'),
-(110, 'RegisteredUser -  has been created by admin', 'http://localhost/quickapp/admin/registeredUsers', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 09:38:59', '2018-06-27 09:38:59'),
-(111, 'RegisteredUser -  has been updated by admin', 'http://localhost/quickapp/admin/registeredUsers/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 09:49:33', '2018-06-27 09:49:33'),
-(112, 'RegisteredUser -  has been updated by admin', 'http://localhost/quickapp/admin/registeredUsers/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 09:50:06', '2018-06-27 09:50:06'),
-(113, 'RegisteredUser -  has been updated by admin', 'http://localhost/quickapp/admin/registeredUsers/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 09:58:18', '2018-06-27 09:58:18'),
-(114, 'RegisteredUser -  has been created by admin', 'http://localhost/quickapp/admin/serviceProviders', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 14:00:45', '2018-06-27 14:00:45'),
-(115, 'RegisteredUser - Shams has been updated by admin', 'http://localhost/quickapp/admin/serviceProviders/2', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 14:39:12', '2018-06-27 14:39:12'),
-(116, 'RegisteredUser - Shams has been updated by admin', 'http://localhost/quickapp/admin/serviceProviders/2', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 14:40:17', '2018-06-27 14:40:17'),
-(117, 'RegisteredUser - Shams has been updated by admin', 'http://localhost/quickapp/admin/serviceProviders/2', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 14:40:54', '2018-06-27 14:40:54'),
-(118, 'RegisteredUser - [null] has been trashed by admin', 'http://localhost/quickapp/admin/serviceProviders/delete', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 14:41:57', '2018-06-27 14:41:57'),
-(119, 'RegisteredUser -  has been restore by admin', 'http://localhost/quickapp/admin/registeredUsers/trashed/2/restore', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-27 14:42:14', '2018-06-27 14:42:14'),
-(120, 'RegisteredUser - Mintra has been created by admin', 'http://localhost/quickapp/admin/serviceProviders', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-28 07:10:21', '2018-06-28 07:10:21'),
-(121, 'RegisteredUser -  has been created by admin', 'http://localhost/quickapp/admin/registeredUsers', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-28 07:35:24', '2018-06-28 07:35:24'),
-(122, 'Service Provider -Mintra Image has been uploaded by admin', 'http://localhost/quickapp/admin/serviceProviders/3/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-28 09:08:07', '2018-06-28 09:08:07'),
-(123, 'Service Provider -Mintra Image has been uploaded by admin', 'http://localhost/quickapp/admin/serviceProviders/3/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-28 09:10:20', '2018-06-28 09:10:20'),
-(124, 'Service Provider -Mintra Image has been uploaded by admin', 'http://localhost/quickapp/admin/serviceProviders/3/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-28 09:12:50', '2018-06-28 09:12:50'),
-(125, 'Service Provider -Mintra Image has been uploaded by admin', 'http://localhost/quickapp/admin/serviceProviders/3/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-28 09:13:40', '2018-06-28 09:13:40'),
-(126, 'Service Provider -Mintra Image has been deleted by admin', 'http://localhost/quickapp/admin/serviceProviders/deleteImage/3', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-28 09:13:59', '2018-06-28 09:13:59'),
-(127, 'Service Provider -Mintra Image has been uploaded by admin', 'http://localhost/quickapp/admin/serviceProviders/3/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-28 09:14:53', '2018-06-28 09:14:53'),
-(128, 'Service Provider -Mintra Image has been deleted by admin', 'http://localhost/quickapp/admin/serviceProviders/deleteImage/4', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-28 09:15:54', '2018-06-28 09:15:54'),
-(129, 'Service Provider -Mintra Image has been uploaded by admin', 'http://localhost/quickapp/admin/serviceProviders/3/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-28 09:16:11', '2018-06-28 09:16:11'),
-(130, 'Service Provider -Mintra Image has been deleted by admin', 'http://localhost/quickapp/admin/serviceProviders/deleteImage/5', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-06-28 09:16:24', '2018-06-28 09:16:24'),
-(131, 'RegisteredUser -  has been created by admin', 'http://localhost/quickapp/admin/registeredUsers', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-02 09:08:21', '2018-07-02 09:08:21'),
-(132, 'Category - Construction has been updated by admin', 'http://localhost/quickapp/admin/categories/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-03 13:11:07', '2018-07-03 13:11:07'),
-(133, 'RegisteredUser - Mintra has been updated by admin', 'http://localhost/quickapp/admin/serviceProviders/3', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-03 13:14:28', '2018-07-03 13:14:28'),
-(134, 'RegisteredUser - Mintra has been updated by admin', 'http://localhost/quickapp/admin/serviceProviders/3', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-03 13:15:08', '2018-07-03 13:15:08'),
-(135, 'RegisteredUser - Mintra has been updated by admin', 'http://localhost/quickapp/admin/serviceProviders/3', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-03 13:19:53', '2018-07-03 13:19:53'),
-(136, 'RegisteredUser - Shams has been updated by admin', 'http://localhost/quickapp/admin/serviceProviders/2', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-03 13:20:06', '2018-07-03 13:20:06'),
-(137, 'RegisteredUser - Makaan has been created by admin', 'http://localhost/quickapp/admin/serviceProviders', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-03 13:38:30', '2018-07-03 13:38:30'),
-(138, 'RegisteredUser - fda has been created by admin', 'http://localhost/quickapp/admin/serviceProviders', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-03 13:44:19', '2018-07-03 13:44:19'),
-(139, 'RegisteredUser - [null] has been trashed by admin', 'http://localhost/quickapp/admin/serviceProviders/delete', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-03 13:44:30', '2018-07-03 13:44:30'),
-(140, 'RegisteredUser - [\"Arshad\"] has been trashed by admin', 'http://localhost/quickapp/admin/registeredUsers/delete', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-03 13:51:26', '2018-07-03 13:51:26'),
-(141, 'RegisteredUser - Arshad has been restore by admin', 'http://localhost/quickapp/admin/registeredUsers/trashed/1/restore', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-03 13:53:25', '2018-07-03 13:53:25'),
-(142, 'Service Provider -Shams Image has been uploaded by admin', 'http://localhost/benabase/admin/serviceProviders/2/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-04 12:19:29', '2018-07-04 12:19:29'),
-(143, 'Service Provider -Shams Image has been uploaded by admin', 'http://localhost/benabase/admin/serviceProviders/2/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-04 12:19:31', '2018-07-04 12:19:31'),
-(144, 'Service Provider -Shams Image has been uploaded by admin', 'http://localhost/benabase/admin/serviceProviders/2/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-04 12:19:33', '2018-07-04 12:19:33'),
-(145, 'Information - Building Contract has been updated by admin', 'http://localhost/benabase/admin/information/1', 'PATCH', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-17 08:29:39', '2018-07-17 08:29:39'),
-(146, 'Service - Service1 has been created by admin', 'http://localhost/benabase/admin/services/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-17 12:13:43', '2018-07-17 12:13:43'),
-(147, 'Service - service has been created by admin', 'http://localhost/benabase/admin/services/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-17 12:18:19', '2018-07-17 12:18:19'),
-(148, 'Service - Service2 has been created by admin', 'http://localhost/benabase/admin/services/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-17 12:20:45', '2018-07-17 12:20:45'),
-(149, 'Service - Service21 has been updated by admin', 'http://localhost/benabase/admin/services/1', 'PATCH', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-17 12:29:28', '2018-07-17 12:29:28'),
-(150, 'Service - Service2 has been updated by admin', 'http://localhost/benabase/admin/services/1/1', 'PATCH', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-17 12:31:38', '2018-07-17 12:31:38'),
-(151, 'Service - [\"Service2\"] has been deleted by admin', 'http://localhost/benabase/admin/services/delete/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-17 12:36:10', '2018-07-17 12:36:10'),
-(152, 'Service - service3 has been created by admin', 'http://localhost/benabase/admin/services/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-17 12:36:39', '2018-07-17 12:36:39'),
-(153, 'Service - [\"service3\"] has been deleted by admin', 'http://localhost/benabase/admin/services/delete/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-17 12:36:59', '2018-07-17 12:36:59'),
-(154, 'Service - Materials Supply has been created by admin', 'http://localhost/benabase/admin/services/1', 'POST', '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-17 14:01:50', '2018-07-17 14:01:50'),
-(155, 'Service - Bricks has been created by admin', 'http://localhost/benabase/admin/services/2', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 06:35:43', '2018-07-18 06:35:43'),
-(156, 'RegisteredUser - Makaan has been updated by admin', 'http://localhost/benabase/admin/serviceProviders/6', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 09:39:34', '2018-07-18 09:39:34'),
-(157, 'RegisteredUser - Mintra has been updated by admin', 'http://localhost/benabase/admin/serviceProviders/3', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 09:40:03', '2018-07-18 09:40:03'),
-(158, 'RegisteredUser - Makaan has been updated by admin', 'http://localhost/benabase/admin/serviceProviders/6', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 09:40:28', '2018-07-18 09:40:28'),
-(159, 'RegisteredUser - Shams has been updated by admin', 'http://localhost/benabase/admin/serviceProviders/2', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 09:42:36', '2018-07-18 09:42:36'),
-(160, 'Service Provider -Shams Service - Bricks has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 11:51:43', '2018-07-18 11:51:43'),
-(161, 'Service Provider -Shams Service - Bricks has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 11:56:08', '2018-07-18 11:56:08'),
-(162, 'Service Provider -Shams Service - Brick has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:11:00', '2018-07-18 12:11:00'),
-(163, 'Service Provider -Shams Service - Brick has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:13:52', '2018-07-18 12:13:52'),
-(164, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:14:46', '2018-07-18 12:14:46'),
-(165, 'Service Provider -Shams Service - Bricks has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:15:02', '2018-07-18 12:15:02'),
-(166, 'Service Provider -Shams Service - Bricks has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:15:03', '2018-07-18 12:15:03'),
-(167, 'Service Provider -Shams Service - Bricksdd has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:15:17', '2018-07-18 12:15:17'),
-(168, 'Service Provider -Shams Service - Bricksdd has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:15:17', '2018-07-18 12:15:17'),
-(169, 'Service Provider -Shams Service - Bricksdd has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:15:17', '2018-07-18 12:15:17'),
-(170, 'Service Provider -Shams Service - Bricks has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:15:59', '2018-07-18 12:15:59'),
-(171, 'Service Provider -Shams Service - Bricks has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:15:59', '2018-07-18 12:15:59'),
-(172, 'Service Provider -Shams Service - Bricks has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:15:59', '2018-07-18 12:15:59'),
-(173, 'Service Provider -Shams Service - Bricks has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:15:59', '2018-07-18 12:15:59'),
-(174, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:16:31', '2018-07-18 12:16:31'),
-(175, 'Service Provider -Shams Service - Bricks has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:17:17', '2018-07-18 12:17:17'),
-(176, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:17:29', '2018-07-18 12:17:29'),
-(177, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:17:29', '2018-07-18 12:17:29'),
-(178, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:20:40', '2018-07-18 12:20:40'),
-(179, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:21:42', '2018-07-18 12:21:42'),
-(180, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:25:42', '2018-07-18 12:25:42'),
-(181, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:25:54', '2018-07-18 12:25:54'),
-(182, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:25:54', '2018-07-18 12:25:54'),
-(183, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:26:06', '2018-07-18 12:26:06'),
-(184, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:26:06', '2018-07-18 12:26:06'),
-(185, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:26:06', '2018-07-18 12:26:06'),
-(186, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:28:02', '2018-07-18 12:28:02');
-INSERT INTO `log_activities` (`id`, `subject`, `url`, `method`, `ip`, `agent`, `user_id`, `user_type`, `vendor_id`, `trainer_id`, `created_at`, `updated_at`) VALUES
-(187, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:28:09', '2018-07-18 12:28:09'),
-(188, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:28:10', '2018-07-18 12:28:10'),
-(189, 'Service Provider -Shams Service - Cement has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:31:30', '2018-07-18 12:31:30'),
-(190, 'Service Provider -Shams Service - Tools has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:37:41', '2018-07-18 12:37:41'),
-(191, 'Service Provider -Shams Service - Tools has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:40:31', '2018-07-18 12:40:31'),
-(192, 'Service Provider -Shams Service - Tools has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:40:31', '2018-07-18 12:40:31'),
-(193, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:42:30', '2018-07-18 12:42:30'),
-(194, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:44:28', '2018-07-18 12:44:28'),
-(195, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:45:28', '2018-07-18 12:45:28'),
-(196, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:46:11', '2018-07-18 12:46:11'),
-(197, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:46:20', '2018-07-18 12:46:20'),
-(198, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:46:20', '2018-07-18 12:46:20'),
-(199, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:46:28', '2018-07-18 12:46:28'),
-(200, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:46:28', '2018-07-18 12:46:28'),
-(201, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:46:28', '2018-07-18 12:46:28'),
-(202, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:51:45', '2018-07-18 12:51:45'),
-(203, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:51:54', '2018-07-18 12:51:54'),
-(204, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:52:01', '2018-07-18 12:52:01'),
-(205, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:52:41', '2018-07-18 12:52:41'),
-(206, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:53:10', '2018-07-18 12:53:10'),
-(207, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:53:31', '2018-07-18 12:53:31'),
-(208, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:53:39', '2018-07-18 12:53:39'),
-(209, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:55:01', '2018-07-18 12:55:01'),
-(210, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:57:38', '2018-07-18 12:57:38'),
-(211, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 12:58:19', '2018-07-18 12:58:19'),
-(212, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 13:01:01', '2018-07-18 13:01:01'),
-(213, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 13:02:49', '2018-07-18 13:02:49'),
-(214, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 13:02:56', '2018-07-18 13:02:56'),
-(215, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 13:04:45', '2018-07-18 13:04:45'),
-(216, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 13:07:47', '2018-07-18 13:07:47'),
-(217, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 13:08:32', '2018-07-18 13:08:32'),
-(218, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 13:11:44', '2018-07-18 13:11:44'),
-(219, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 13:14:08', '2018-07-18 13:14:08'),
-(220, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 13:14:48', '2018-07-18 13:14:48'),
-(221, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 13:15:11', '2018-07-18 13:15:11'),
-(222, 'Service Provider -Shams Service - Brickss has been created by admin', 'http://localhost/benabase/admin/serviceProviders/2/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 13:15:23', '2018-07-18 13:15:23'),
-(223, 'Service Provider -Shams Services - Shams has been deleted by admin', 'http://localhost/benabase/admin/serviceProviders/2/service/delete', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 13:32:58', '2018-07-18 13:32:58'),
-(224, 'Service Provider -Makaan Service - Tools has been created by admin', 'http://localhost/benabase/admin/serviceProviders/6/addService', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 13:33:53', '2018-07-18 13:33:53'),
-(225, 'Service Provider -Makaan Services - Makaan has been deleted by admin', 'http://localhost/benabase/admin/serviceProviders/6/service/delete', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 13:34:04', '2018-07-18 13:34:04'),
-(226, 'RegisteredUser - Shams has been updated by admin', 'http://localhost/benabase/admin/serviceProviders/2', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 14:14:34', '2018-07-18 14:14:34'),
-(227, 'RegisteredUser - Shams has been updated by admin', 'http://localhost/benabase/admin/serviceProviders/2', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 14:15:35', '2018-07-18 14:15:35'),
-(228, 'RegisteredUser - Makaan has been updated by admin', 'http://localhost/benabase/admin/serviceProviders/6', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-07-18 14:19:31', '2018-07-18 14:19:31'),
-(229, 'Banner Images has been uploaded by admin', 'http://localhost/benabase/admin/bannerImages/images', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0', 1, 0, 0, 0, '2018-07-23 12:17:10', '2018-07-23 12:17:10'),
-(230, 'RegisteredUser - Makaan has been updated by admin', 'http://localhost/benabase/admin/serviceProviders/6', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0', 1, 0, 0, 0, '2018-07-29 12:18:34', '2018-07-29 12:18:34'),
-(231, 'RegisteredUser - Makaan has been updated by admin', 'http://localhost/benabase/admin/serviceProviders/6', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0', 1, 0, 0, 0, '2018-07-29 12:19:50', '2018-07-29 12:19:50'),
-(232, 'User - afreen has been updated by admin', 'http://localhost/benabase/admin/users/5', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-08-04 10:28:53', '2018-08-04 10:28:53'),
-(233, 'User - sheikh has been updated by admin', 'http://localhost/benabase/admin/users/4', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-08-04 11:46:50', '2018-08-04 11:46:50'),
-(234, 'User - salman has been updated by admin', 'http://localhost/benabase/admin/users/3', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-08-04 11:47:37', '2018-08-04 11:47:37'),
-(235, 'User - admin has been updated profile by admin', 'http://localhost/benabase/admin/user/profile', 'PUT', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-08-04 11:59:22', '2018-08-04 11:59:22'),
-(236, 'Permission - Supervisor has been updated by admin', 'http://localhost/benabase/admin/permissions/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-08-04 12:22:11', '2018-08-04 12:22:11'),
-(237, 'Permission - Supervisor has been updated by admin', 'http://localhost/benabase/admin/permissions/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-08-04 12:29:29', '2018-08-04 12:29:29'),
-(238, 'Permission - Supervisor has been updated by admin', 'http://localhost/benabase/admin/permissions/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-08-04 12:46:19', '2018-08-04 12:46:19'),
-(239, 'Permission - Supervisor has been updated by admin', 'http://localhost/benabase/admin/permissions/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-08-04 12:46:37', '2018-08-04 12:46:37'),
-(240, 'Permission - Supervisor has been updated by admin', 'http://localhost/benabase/admin/permissions/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-08-04 12:50:11', '2018-08-04 12:50:11'),
-(241, 'Permission - Supervisor has been updated by admin', 'http://localhost/benabase/admin/permissions/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-08-04 12:50:27', '2018-08-04 12:50:27'),
-(242, 'Permission - Supervisor has been updated by admin', 'http://localhost/benabase/admin/permissions/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-08-04 12:50:45', '2018-08-04 12:50:45'),
-(243, 'Permission - Supervisor has been updated by admin', 'http://localhost/benabase/admin/permissions/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-08-04 12:53:22', '2018-08-04 12:53:22'),
-(244, 'Permission - Supervisor has been updated by admin', 'http://localhost/benabase/admin/permissions/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-08-04 12:54:22', '2018-08-04 12:54:22'),
-(245, 'Permission - Supervisor has been updated by admin', 'http://localhost/benabase/admin/permissions/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-08-04 12:57:46', '2018-08-04 12:57:46'),
-(246, 'Information - [\"Building Contract\"] has been deleted by admin', 'http://localhost/benabase/admin/information/delete', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0', 1, 0, 0, 0, '2018-08-04 13:07:16', '2018-08-04 13:07:16'),
-(247, 'User - [\"afreen\",\"narendra\",\"salman\",\"sheikh\"] has been deleted by admin', 'http://localhost/events/admin/users/delete', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0', 1, 0, 0, 0, '2018-12-26 09:13:51', '2018-12-26 09:13:51'),
-(248, 'User - hashim has been created by admin', 'http://localhost/events/admin/users', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0', 1, 0, 0, 0, '2018-12-26 09:14:40', '2018-12-26 09:14:40'),
-(249, 'User - hashim has been updated by admin', 'http://localhost/events/admin/users/6', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0', 1, 0, 0, 0, '2018-12-26 09:14:50', '2018-12-26 09:14:50'),
-(250, 'User - hashim has been updated by admin', 'http://localhost/events/admin/users/6', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0', 1, 0, 0, 0, '2018-12-26 09:14:58', '2018-12-26 09:14:58'),
-(251, 'User - admin has been change password by admin', 'http://localhost/events/admin/user/changepassword', 'PUT', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0', 1, 0, 0, 0, '2018-12-26 09:16:31', '2018-12-26 09:16:31'),
-(252, 'RegisteredUser -  has been updated by admin', 'http://localhost/masafah/admin/registeredUsers/5', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 07:53:30', '2019-04-08 07:53:30'),
-(253, 'RegisteredUser -  has been created by admin', 'http://localhost/masafah/admin/registeredUsers', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 08:01:18', '2019-04-08 08:01:18'),
-(254, 'RegisteredUser -  has been updated by admin', 'http://localhost/masafah/admin/registeredUsers/8', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 08:52:01', '2019-04-08 08:52:01'),
-(255, 'RegisteredUser -  has been created by admin', 'http://localhost/masafah/admin/registeredUsers', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 08:55:05', '2019-04-08 08:55:05'),
-(256, 'RegisteredUser - [null,null,null,\"dfasf\"] has been trashed by admin', 'http://localhost/masafah/admin/registeredUsers/delete', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 08:55:15', '2019-04-08 08:55:15'),
-(257, 'RegisteredUser -  has been updated by admin', 'http://localhost/masafah/admin/registeredUsers/8', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 09:38:21', '2019-04-08 09:38:21'),
-(258, 'RegisteredUser -  has been updated by admin', 'http://localhost/masafah/admin/registeredUsers/8', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 09:38:49', '2019-04-08 09:38:49'),
-(259, 'RegisteredUser -  has been updated by admin', 'http://localhost/masafah/admin/registeredUsers/8', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 09:46:09', '2019-04-08 09:46:09'),
-(260, 'RegisteredUser -  has been updated by admin', 'http://localhost/masafah/admin/registeredUsers/8', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 09:46:35', '2019-04-08 09:46:35'),
-(261, 'RegisteredUser -  has been updated by admin', 'http://localhost/masafah/admin/registeredUsers/5', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 09:46:53', '2019-04-08 09:46:53'),
-(262, 'RegisteredUser -  has been updated by admin', 'http://localhost/masafah/admin/registeredUsers/5', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 09:47:09', '2019-04-08 09:47:09'),
-(263, 'RegisteredUser -  has been created by admin', 'http://localhost/masafah/admin/registeredUsers', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 09:54:34', '2019-04-08 09:54:34'),
-(264, 'RegisteredUser -  has been updated by admin', 'http://localhost/masafah/admin/registeredUsers/10', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 09:55:10', '2019-04-08 09:55:10'),
-(265, 'RegisteredUser - [\"taher\"] has been trashed by admin', 'http://localhost/masafah/admin/registeredUsers/delete', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 09:58:42', '2019-04-08 09:58:42'),
-(266, 'RegisteredUser -  has been created by admin', 'http://localhost/masafah/admin/registeredUsers', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 09:59:48', '2019-04-08 09:59:48'),
-(267, 'RegisteredUser -  has been updated by admin', 'http://localhost/masafah/admin/registeredUsers/11', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 10:00:14', '2019-04-08 10:00:14'),
-(268, 'RegisteredUser -  has been created by admin', 'http://localhost/masafah/admin/registeredUsers', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 10:01:01', '2019-04-08 10:01:01'),
-(269, 'RegisteredUser -  has been updated by admin', 'http://localhost/masafah/admin/registeredUsers/12', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 10:01:20', '2019-04-08 10:01:20'),
-(270, 'RegisteredUser - [\"teatea\",\"tagee\"] has been trashed by admin', 'http://localhost/masafah/admin/registeredUsers/delete', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-08 10:01:42', '2019-04-08 10:01:42'),
-(271, 'LanguageManagement - Successfully registered ! has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:36:47', '2019-04-14 12:36:47'),
-(272, 'LanguageManagement - Your have enter wrong mobile number has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:37:16', '2019-04-14 12:37:16'),
-(273, 'LanguageManagement - Your account has been deactivated, Kindly contact Administrator. has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:37:41', '2019-04-14 12:37:41'),
-(274, 'LanguageManagement - Successfully logged out has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:38:00', '2019-04-14 12:38:00'),
-(275, 'LanguageManagement - Token Mismatch has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:38:39', '2019-04-14 12:38:39'),
-(276, 'LanguageManagement - OTP required has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:39:09', '2019-04-14 12:39:09'),
-(277, 'LanguageManagement - Your have enter wrong OTP! has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:39:42', '2019-04-14 12:39:42'),
-(278, 'LanguageManagement - Your have enter wrong OTP! has been updated by admin', 'http://localhost/masafah/admin/languageManagement/7', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:52:06', '2019-04-14 12:52:06'),
-(279, 'LanguageManagement - Your have enter wrong OTP! has been updated by admin', 'http://localhost/masafah/admin/languageManagement/7', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:52:29', '2019-04-14 12:52:29'),
-(280, 'LanguageManagement - Your have enter wrong OTP! has been updated by admin', 'http://localhost/masafah/admin/languageManagement/7', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:54:00', '2019-04-14 12:54:00'),
-(281, 'LanguageManagement - Your have enter wrong OTP! has been updated by admin', 'http://localhost/masafah/admin/languageManagement/7', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:54:10', '2019-04-14 12:54:10'),
-(282, 'LanguageManagement - OTP required has been updated by admin', 'http://localhost/masafah/admin/languageManagement/6', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:55:06', '2019-04-14 12:55:06'),
-(283, 'LanguageManagement - Token Mismatch has been updated by admin', 'http://localhost/masafah/admin/languageManagement/5', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:55:28', '2019-04-14 12:55:28'),
-(284, 'LanguageManagement - Successfully logged out has been updated by admin', 'http://localhost/masafah/admin/languageManagement/4', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:55:45', '2019-04-14 12:55:45'),
-(285, 'LanguageManagement - Your account has been deactivated, Kindly contact Administrator. has been updated by admin', 'http://localhost/masafah/admin/languageManagement/3', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:56:15', '2019-04-14 12:56:15'),
-(286, 'LanguageManagement - Your have enter wrong mobile number has been updated by admin', 'http://localhost/masafah/admin/languageManagement/2', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:56:28', '2019-04-14 12:56:28'),
-(287, 'LanguageManagement - Successfully registered ! has been updated by admin', 'http://localhost/masafah/admin/languageManagement/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 12:56:40', '2019-04-14 12:56:40'),
-(288, 'LanguageManagement - Language parameter required has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 14:22:16', '2019-04-14 14:22:16'),
-(289, 'LanguageManagement - Language parameter required has been updated by admin', 'http://localhost/masafah/admin/languageManagement/8', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-14 14:22:42', '2019-04-14 14:22:42'),
-(290, 'LanguageManagement - Either you have enter wrong mobile number or number not equal to 8 digits has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 07:40:23', '2019-04-15 07:40:23'),
-(291, 'LanguageManagement - Unauthorized has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:01:11', '2019-04-15 08:01:11'),
-(292, 'LanguageManagement - Name is required has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:08:54', '2019-04-15 08:08:54'),
-(293, 'LanguageManagement - Country is required has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:10:01', '2019-04-15 08:10:01'),
-(294, 'LanguageManagement - The name field is required. has been updated by admin', 'http://localhost/masafah/admin/languageManagement/11', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:13:51', '2019-04-15 08:13:51'),
-(295, 'LanguageManagement - The country id field is required. has been updated by admin', 'http://localhost/masafah/admin/languageManagement/12', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:14:14', '2019-04-15 08:14:14'),
-(296, 'LanguageManagement - The email field is required. has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:14:40', '2019-04-15 08:14:40'),
-(297, 'LanguageManagement - Either email address already exist or invalid. has been updated by admin', 'http://localhost/masafah/admin/languageManagement/13', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:19:10', '2019-04-15 08:19:10'),
-(298, 'LanguageManagement - The country field is required. has been updated by admin', 'http://localhost/masafah/admin/languageManagement/12', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:19:59', '2019-04-15 08:19:59'),
-(299, 'LanguageManagement - Profile Successfully Updated has been created by admin', 'http://localhost/masafah/admin/languageManagement', 'POST', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:25:28', '2019-04-15 08:25:28'),
-(300, 'Country - KUWAIT has been updated by admin', 'http://localhost/masafah/admin/countries/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:34:17', '2019-04-15 08:34:17'),
-(301, 'RegisteredUser -  has been updated by admin', 'http://localhost/masafah/admin/registeredUsers/26', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:34:28', '2019-04-15 08:34:28'),
-(302, 'RegisteredUser -  has been updated by admin', 'http://localhost/masafah/admin/registeredUsers/26', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:66.0) Gecko/20100101 Firefox/66.0', 1, 0, 0, 0, '2019-04-15 08:39:25', '2019-04-15 08:39:25');
+(44, 'Address deleted successfully', 'address_deleted_successfully', 'Address deleted successfully', 'تم حذف العنوان بنجاح', 1, NULL, '2019-07-01 18:20:20'),
+(45, 'Rating not found', 'no_rating_found', 'Rating not found', 'التقييم غير موجود', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -828,6 +600,14 @@ CREATE TABLE `one_signal_company_users` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `one_signal_company_users`
+--
+
+INSERT INTO `one_signal_company_users` (`id`, `company_id`, `player_id`, `device_type`, `created_at`, `updated_at`) VALUES
+(1, 11, '965789765456', 2, '2019-07-07 22:44:34', '2019-07-07 22:44:34'),
+(2, 11, 'e8c0b418-106f-4ca4-994c-e0b0a4c2e830', 2, '2019-07-07 22:46:35', '2019-07-07 22:46:35');
+
 -- --------------------------------------------------------
 
 --
@@ -860,9 +640,11 @@ INSERT INTO `one_signal_users` (`id`, `user_id`, `player_id`, `device_type`, `cr
 (11, 48, '124987655838376490473s', 1, '2019-06-25 00:59:02', '2019-06-25 00:59:02'),
 (12, 47, '78cd6d7f-1789-48fc-af73-d07aa0b00d69', 2, '2019-06-25 16:19:24', '2019-06-25 16:19:24'),
 (13, 47, '7282b17c-3e61-48bf-b01d-015bf8d142ce', 2, '2019-06-25 16:25:18', '2019-06-25 16:25:18'),
-(14, 47, 'f6f91bfb-e63a-4854-a900-db8de31d08ac', 2, '2019-06-25 17:23:42', '2019-06-25 17:23:42'),
+(20, 51, '124987655838376490473s', 2, '2019-07-03 23:30:00', '2019-07-03 23:30:00'),
 (15, 49, '124987655838376490473s', 2, '2019-06-25 17:40:24', '2019-06-25 17:40:24'),
-(16, 47, '0752b6b8-6db5-49a7-9ef2-aec6e31b681c', 2, '2019-06-25 19:20:07', '2019-06-25 19:20:07');
+(22, 51, '0752b6b8-6db5-49a7-9ef2-aec6e31b681c', 2, '2019-07-04 18:35:06', '2019-07-04 18:35:06'),
+(17, 50, '124987655838376490473s', 1, '2019-07-01 22:12:29', '2019-07-01 22:12:29'),
+(21, 51, 'f6f91bfb-e63a-4854-a900-db8de31d08ac', 2, '2019-07-03 23:33:12', '2019-07-03 23:33:12');
 
 -- --------------------------------------------------------
 
@@ -920,9 +702,23 @@ CREATE TABLE `otp` (
 --
 
 INSERT INTO `otp` (`id`, `mobile`, `otp`, `created_at`, `updated_at`) VALUES
+(24, '88663451', '73894', '2019-07-01 17:54:23', '2019-07-01 17:54:23'),
+(23, '88663453', '46921', '2019-07-01 17:51:15', '2019-07-01 17:51:15'),
+(25, '88663450', '29150', '2019-07-01 18:08:22', '2019-07-01 18:08:22'),
+(22, '88663459', '29745', '2019-07-01 17:49:59', '2019-07-01 17:49:59'),
 (19, '77332211', '97634', '2019-06-25 17:40:24', '2019-06-25 17:40:24'),
-(17, '88663456', '46203', '2019-06-25 00:59:02', '2019-06-30 17:45:26'),
-(18, '11334466', '57819', '2019-06-25 01:07:44', '2019-06-25 19:20:07');
+(36, '88663456', '94028', '2019-07-01 20:13:52', '2019-07-03 19:41:25'),
+(32, '11334466', '25394', '2019-07-01 19:14:34', '2019-07-02 21:53:55'),
+(20, '88663457', '92653', '2019-07-01 17:25:09', '2019-07-01 17:25:09'),
+(21, '88663458', '35061', '2019-07-01 17:46:52', '2019-07-01 17:46:52'),
+(26, '88663454', '32905', '2019-07-01 18:36:39', '2019-07-01 18:36:39'),
+(27, '88663455', '75821', '2019-07-01 18:39:38', '2019-07-01 18:39:38'),
+(28, '88663499', '57842', '2019-07-01 18:41:57', '2019-07-01 18:41:57'),
+(29, '886634564', '49827', '2019-07-01 18:48:16', '2019-07-01 18:48:16'),
+(30, '886634563', '32164', '2019-07-01 18:50:35', '2019-07-01 18:50:35'),
+(33, '886634567', '64529', '2019-07-01 19:56:08', '2019-07-01 19:56:08'),
+(34, '88663999', '23091', '2019-07-01 19:57:00', '2019-07-01 19:57:00'),
+(38, '55756071', '57618', '2019-07-03 23:30:00', '2019-07-04 18:35:06');
 
 -- --------------------------------------------------------
 
@@ -977,6 +773,8 @@ CREATE TABLE `permissions` (
   `categories_status` tinyint(4) NOT NULL,
   `registeredusers_status` tinyint(4) NOT NULL,
   `settings_status` tinyint(4) NOT NULL DEFAULT '0',
+  `shipments_status` tinyint(4) NOT NULL,
+  `transactions_status` tinyint(4) NOT NULL,
   `webmaster_status` tinyint(4) NOT NULL DEFAULT '0',
   `status` tinyint(4) NOT NULL,
   `created_by` int(11) DEFAULT NULL,
@@ -989,9 +787,9 @@ CREATE TABLE `permissions` (
 -- Dumping data for table `permissions`
 --
 
-INSERT INTO `permissions` (`id`, `name`, `view_status`, `add_status`, `edit_status`, `delete_status`, `analytics_status`, `notifications_status`, `countries_status`, `companyusers_status`, `categories_status`, `registeredusers_status`, `settings_status`, `webmaster_status`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 'Webmaster', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
-(2, 'Website Manager', 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
+INSERT INTO `permissions` (`id`, `name`, `view_status`, `add_status`, `edit_status`, `delete_status`, `analytics_status`, `notifications_status`, `countries_status`, `companyusers_status`, `categories_status`, `registeredusers_status`, `settings_status`, `shipments_status`, `transactions_status`, `webmaster_status`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 'Webmaster', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
+(2, 'Website Manager', 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
 
 -- --------------------------------------------------------
 
@@ -1028,6 +826,15 @@ CREATE TABLE `ratings` (
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `ratings`
+--
+
+INSERT INTO `ratings` (`id`, `user_id`, `company_id`, `rating`, `created_at`, `updated_at`) VALUES
+(6, 47, 8, 2, '2019-07-01 22:39:13', '2019-07-02 16:35:17'),
+(7, 48, 8, 4, '2019-07-03 16:59:34', '2019-07-03 19:35:31'),
+(8, 48, 9, 3, '2019-07-03 19:01:40', '2019-07-03 19:36:51');
+
 -- --------------------------------------------------------
 
 --
@@ -1039,15 +846,11 @@ CREATE TABLE `registered_users` (
   `fullname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  `original_password` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `mobile` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `image` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
-  `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `country_id` int(11) DEFAULT NULL,
-  `address` text COLLATE utf8_unicode_ci,
-  `location` text COLLATE utf8_unicode_ci,
-  `phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `player_id` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -1057,10 +860,11 @@ CREATE TABLE `registered_users` (
 -- Dumping data for table `registered_users`
 --
 
-INSERT INTO `registered_users` (`id`, `fullname`, `email`, `password`, `original_password`, `mobile`, `image`, `status`, `remember_token`, `country_id`, `address`, `location`, `phone`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(47, 'Peter samuel', 'peter@tyu.com', '', '', '11334466', 'user_image_1561389671.png', 1, NULL, 1, NULL, NULL, NULL, '2019-06-25 00:58:40', '2019-07-04 11:53:32', NULL),
-(48, NULL, '', '', '', '88663456', NULL, 1, NULL, 4, NULL, NULL, NULL, '2019-06-25 00:59:02', '2019-06-25 00:59:02', NULL),
-(49, NULL, '', '', '', '77332211', NULL, 1, NULL, 4, NULL, NULL, NULL, '2019-06-25 17:40:24', '2019-06-25 17:40:24', NULL);
+INSERT INTO `registered_users` (`id`, `fullname`, `email`, `password`, `mobile`, `image`, `status`, `country_id`, `player_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(47, 'Peter Samuel', 'Hello@vavisa-kw.com', '', '11334466', 'user_image_1561389671.png', 1, 1, NULL, '2019-06-25 00:58:40', '2019-07-07 19:26:41', NULL),
+(48, 'Mario Gamal', 'mario@vavisa-kw.com', '', '88663456', 'user_image_1562146814.png', 1, 4, NULL, '2019-06-25 00:59:02', '2019-07-03 19:40:14', NULL),
+(49, NULL, '', '', '77332211', NULL, 1, 4, NULL, '2019-06-25 17:40:24', '2019-06-25 17:40:24', NULL),
+(51, 'Peter Samuel', 'Hello@vavisa.com', '', '98539080', NULL, 1, 1, NULL, '2019-07-03 23:30:00', '2019-07-07 19:27:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -1109,7 +913,9 @@ CREATE TABLE `shipments` (
   `address_to_id` int(10) NOT NULL,
   `user_id` int(10) UNSIGNED NOT NULL,
   `company_id` int(10) DEFAULT NULL,
-  `pickup_time` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `is_today` tinyint(1) NOT NULL,
+  `pickup_time_from` time DEFAULT NULL,
+  `pickup_time_to` time DEFAULT NULL,
   `status` int(2) NOT NULL COMMENT '1 - Pending, 2- Accepted, 3- picked Up, 4 - Delivered',
   `payment_type` varchar(10) COLLATE utf8_unicode_ci NOT NULL COMMENT '1- Knet, 2- Wallet, 3- COD',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -1120,13 +926,25 @@ CREATE TABLE `shipments` (
 -- Dumping data for table `shipments`
 --
 
-INSERT INTO `shipments` (`id`, `name`, `description`, `image`, `price`, `address_from_id`, `address_to_id`, `user_id`, `company_id`, `pickup_time`, `status`, `payment_type`, `created_at`, `updated_at`) VALUES
-(24, NULL, NULL, NULL, 10, 5, 6, 48, 8, '1', 2, '1', '2019-06-25 17:27:03', '2019-06-25 07:30:06'),
-(29, NULL, NULL, NULL, 10, 5, 6, 48, NULL, '1', 1, '1', '2019-06-25 18:11:09', '2019-06-25 18:11:09'),
-(33, NULL, NULL, NULL, 10, 5, 6, 48, NULL, '1', 1, '1', '2019-06-26 16:46:26', '2019-06-26 16:46:26'),
-(38, NULL, NULL, NULL, 10, 17, 18, 47, NULL, '1', 1, '1', '2019-06-30 17:31:03', '2019-06-30 17:31:03'),
-(39, NULL, NULL, NULL, 10, 18, 17, 47, NULL, '1', 1, '1', '2019-06-30 17:31:28', '2019-06-30 17:31:28'),
-(40, NULL, NULL, NULL, 10, 18, 17, 47, 8, '1', 2, '1', '2019-06-30 17:31:39', '2019-06-30 07:32:01');
+INSERT INTO `shipments` (`id`, `name`, `description`, `image`, `price`, `address_from_id`, `address_to_id`, `user_id`, `company_id`, `is_today`, `pickup_time_from`, `pickup_time_to`, `status`, `payment_type`, `created_at`, `updated_at`) VALUES
+(24, NULL, NULL, NULL, 10, 5, 6, 48, 8, 0, '00:00:01', '00:00:00', 4, '1', '2019-06-25 17:27:03', '2019-07-01 14:34:09'),
+(29, NULL, NULL, NULL, 10, 5, 6, 48, 9, 0, '00:00:01', '00:00:00', 2, '1', '2019-06-25 18:11:09', '2019-07-02 09:12:16'),
+(33, NULL, NULL, NULL, 10, 5, 6, 48, NULL, 0, '00:00:01', '00:00:00', 1, '1', '2019-06-26 16:46:26', '2019-06-26 16:46:26'),
+(38, NULL, NULL, NULL, 10, 17, 18, 47, NULL, 0, '00:00:01', '00:00:00', 1, '1', '2019-06-30 17:31:03', '2019-06-30 17:31:03'),
+(39, NULL, NULL, NULL, 10, 18, 17, 47, NULL, 0, '00:00:01', '00:00:00', 1, '1', '2019-06-30 17:31:28', '2019-06-30 17:31:28'),
+(40, NULL, NULL, NULL, 10, 18, 17, 47, 8, 0, '00:00:01', '00:00:00', 2, '1', '2019-06-30 17:31:39', '2019-06-30 07:32:01'),
+(43, NULL, NULL, NULL, 10, 17, 18, 47, 9, 0, '02:18:00', '08:18:00', 4, '1', '2019-07-01 00:19:14', '2019-07-02 11:56:59'),
+(44, NULL, NULL, NULL, 10, 17, 9, 47, 8, 0, '17:22:00', '02:10:00', 4, '1', '2019-07-02 00:24:16', '2019-07-02 11:57:07'),
+(46, NULL, NULL, NULL, 10, 9, 21, 47, NULL, 0, '06:22:00', '12:22:00', 1, '1', '2019-07-02 19:24:34', '2019-07-02 19:24:34'),
+(47, NULL, NULL, NULL, 10, 9, 9, 47, NULL, 0, '12:00:00', '01:00:00', 1, '1', '2019-07-02 22:21:59', '2019-07-03 19:10:29'),
+(48, NULL, NULL, NULL, 10, 18, 9, 47, NULL, 0, '06:54:00', '04:54:00', 1, '1', '2019-07-03 16:55:20', '2019-07-03 16:55:20'),
+(50, NULL, NULL, NULL, 10, 23, 23, 47, NULL, 1, NULL, NULL, 1, '1', '2019-07-07 18:20:45', '2019-07-07 18:20:45'),
+(51, NULL, NULL, NULL, 10, 22, 23, 51, NULL, 1, NULL, NULL, 1, '1', '2019-07-07 18:21:04', '2019-07-07 18:21:04'),
+(52, NULL, NULL, NULL, 10, 22, 23, 51, NULL, 0, '11:26:00', '06:26:00', 1, '1', '2019-07-07 18:27:34', '2019-07-07 18:27:34'),
+(56, NULL, NULL, NULL, 10, 22, 23, 51, NULL, 1, NULL, NULL, 1, '1', '2019-07-07 18:56:52', '2019-07-07 18:56:52'),
+(57, NULL, NULL, NULL, 10, 22, 23, 51, NULL, 0, '12:09:00', '05:09:00', 1, '1', '2019-07-07 19:10:52', '2019-07-07 19:10:52'),
+(58, NULL, NULL, NULL, 10, 22, 23, 51, NULL, 1, NULL, NULL, 1, '1', '2019-07-07 19:29:18', '2019-07-07 19:29:18'),
+(59, NULL, NULL, NULL, 10, 22, 23, 51, NULL, 0, '16:08:00', '08:45:00', 1, '1', '2019-07-07 23:09:21', '2019-07-07 23:09:21');
 
 -- --------------------------------------------------------
 
@@ -1154,7 +972,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `photo`, `permissions_id`, `status`, `remember_token`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-('1', 'admin', 'mjhosawa@vavisa-kw.com', '$2y$10$vCYpyjX68hKYbzsAUZS4vuLCodSrXukCOHorulIwREO70hNgv6J5q', NULL, 1, 1, 'AeYAHkotjdHEssWQ1be3u23ym04KzJXXEDEssm29t9TfR3tBqrU6EZ0eYC9l', '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
+('1', 'admin', 'mjhosawa@vavisa-kw.com', '$2y$10$vCYpyjX68hKYbzsAUZS4vuLCodSrXukCOHorulIwREO70hNgv6J5q', NULL, 1, 1, 'AQ5D7JVCe56NaEAaHYoT0F2Z0wvqemEFn9gHZdLwPMuwKbRDOQDUdJ2kHsMn', '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
 
 -- --------------------------------------------------------
 
@@ -1191,6 +1009,14 @@ CREATE TABLE `wallet` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `wallet`
+--
+
+INSERT INTO `wallet` (`id`, `company_id`, `balance`, `created_at`, `updated_at`) VALUES
+(3, 10, 0, '2019-07-02 22:50:13', '2019-07-02 22:50:13'),
+(4, 11, 0, '2019-07-07 19:58:55', '2019-07-07 19:58:55');
 
 -- --------------------------------------------------------
 
@@ -1248,6 +1074,8 @@ CREATE TABLE `webmaster_settings` (
   `settings_status` tinyint(4) NOT NULL,
   `default_currency_id` int(11) NOT NULL,
   `languages_count` int(11) NOT NULL,
+  `shipments_status` tinyint(4) NOT NULL,
+  `transactions_status` tinyint(4) NOT NULL,
   `header_menu_id` int(11) NOT NULL,
   `footer_menu_id` int(11) NOT NULL,
   `links_status` tinyint(4) NOT NULL,
@@ -1265,8 +1093,8 @@ CREATE TABLE `webmaster_settings` (
 -- Dumping data for table `webmaster_settings`
 --
 
-INSERT INTO `webmaster_settings` (`id`, `ar_box_status`, `en_box_status`, `analytics_status`, `registeredusers_status`, `categories_status`, `companyusers_status`, `countries_status`, `notifications_status`, `settings_status`, `default_currency_id`, `languages_count`, `header_menu_id`, `footer_menu_id`, `links_status`, `register_status`, `permission_group`, `api_status`, `api_key`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 2, 0, 0, 3, 1, '571775002564288', 1, 1, '2017-11-08 13:25:54', '2017-11-09 18:55:04');
+INSERT INTO `webmaster_settings` (`id`, `ar_box_status`, `en_box_status`, `analytics_status`, `registeredusers_status`, `categories_status`, `companyusers_status`, `countries_status`, `notifications_status`, `settings_status`, `default_currency_id`, `languages_count`, `shipments_status`, `transactions_status`, `header_menu_id`, `footer_menu_id`, `links_status`, `register_status`, `permission_group`, `api_status`, `api_key`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 1, 1, 2, 0, 0, 3, 1, '571775002564288', 1, 1, '2017-11-08 13:25:54', '2017-11-09 18:55:04');
 
 --
 -- Indexes for dumped tables
@@ -1340,12 +1168,6 @@ ALTER TABLE `knet_payments`
 -- Indexes for table `language_management`
 --
 ALTER TABLE `language_management`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `log_activities`
---
-ALTER TABLE `log_activities`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1505,13 +1327,13 @@ ALTER TABLE `webmaster_settings`
 -- AUTO_INCREMENT for table `addresses`
 --
 ALTER TABLE `addresses`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `authentication`
 --
 ALTER TABLE `authentication`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=150;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -1523,7 +1345,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `category_shipment`
 --
 ALTER TABLE `category_shipment`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `cc_payments`
@@ -1541,7 +1363,7 @@ ALTER TABLE `commissions`
 -- AUTO_INCREMENT for table `companies`
 --
 ALTER TABLE `companies`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `countries`
@@ -1553,7 +1375,7 @@ ALTER TABLE `countries`
 -- AUTO_INCREMENT for table `free_deliveries`
 --
 ALTER TABLE `free_deliveries`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `knet_payments`
@@ -1565,13 +1387,7 @@ ALTER TABLE `knet_payments`
 -- AUTO_INCREMENT for table `language_management`
 --
 ALTER TABLE `language_management`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
-
---
--- AUTO_INCREMENT for table `log_activities`
---
-ALTER TABLE `log_activities`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=303;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -1595,13 +1411,13 @@ ALTER TABLE `notification_specific_user`
 -- AUTO_INCREMENT for table `one_signal_company_users`
 --
 ALTER TABLE `one_signal_company_users`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `one_signal_users`
 --
 ALTER TABLE `one_signal_users`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -1613,7 +1429,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `otp`
 --
 ALTER TABLE `otp`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `pages`
@@ -1637,19 +1453,19 @@ ALTER TABLE `prices`
 -- AUTO_INCREMENT for table `ratings`
 --
 ALTER TABLE `ratings`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `registered_users`
 --
 ALTER TABLE `registered_users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `shipments`
 --
 ALTER TABLE `shipments`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `versions`
@@ -1661,7 +1477,7 @@ ALTER TABLE `versions`
 -- AUTO_INCREMENT for table `wallet`
 --
 ALTER TABLE `wallet`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `wallet_offers`

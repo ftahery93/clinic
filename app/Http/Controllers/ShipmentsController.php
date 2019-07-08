@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Auth;
 use File;
 use Helper;
 use Redirect;
+use Response;
 use App\Shipment;
 use App\Http\Requests;
 use Illuminate\Config;
 use Illuminate\Http\Request;
+use Illuminate\Database\Query\Builder;
 
 
 class ShipmentsController extends Controller
@@ -45,12 +48,28 @@ class ShipmentsController extends Controller
 
     public function show($id)
     {
+        
         //List of groups
         if (@Auth::user()->permissionsGroup->view_status) {
-            $Shipment = Shipment::find($id)->orderby('id', 'asc')->first();
+            $Shipment = Shipment::find($id)->first();
+
+            $ToAddress = DB::table('addresses')
+            ->select('block','street','area','building','mobile','details','notes')
+            ->join('shipments', 'shipments.address_to_id', '=', 'addresses.id')
+            ->where('shipments.id','=',$id)
+            ->first();
+
+            $FromAddress = DB::table('addresses')
+            ->select('block','street','area','building','mobile','details','notes')
+            ->join('shipments', 'shipments.address_from_id', '=', 'addresses.id')
+            ->where('shipments.id','=',$id)
+            ->first();
+            
         } 
 
-        return view("backend.shipments.view",compact("Shipment"));
+        return $Shipment;
+
+        return view("backend.shipments.view",compact("Shipment","ToAddress","FromAddress"));
     }
 
     public function getUploadPath()
