@@ -507,13 +507,6 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
                         "name": "Version",
                         "in": "header",
                         "description": "1.0.0",

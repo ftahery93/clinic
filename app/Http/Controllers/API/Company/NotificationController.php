@@ -34,13 +34,6 @@ class NotificationController extends Controller
      *             description="user prefered language",
      *        ),
      *        @SWG\Parameter(
-     *             name="Authorization",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user access token",
-     *        ),
-     *        @SWG\Parameter(
      *             name="Version",
      *             in="header",
      *             required=true,

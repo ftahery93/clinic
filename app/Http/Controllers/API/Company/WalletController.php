@@ -97,7 +97,7 @@ class WalletController extends Controller
             WalletTransaction::create([
                 'company_id' => $request->company_id,
                 'amount' => $request->amount,
-                'type' => true,
+                'type' => 1,
             ]);
 
             $balance = $wallet->balance + $request->amount;
