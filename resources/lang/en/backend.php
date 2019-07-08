@@ -19,6 +19,8 @@ return [
   'approved' => 'Approved',
   'picked_up' => 'Picked Up',
   'delivered' => 'Delivered',
+  'shipment_from' => 'Shipment From',
+  'shipment_to' => 'Shipment To',
   'description' => 'Description',
   'mobile' => 'Mobile',
   'phone' => 'Phone',

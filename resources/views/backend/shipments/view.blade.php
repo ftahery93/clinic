@@ -21,24 +21,38 @@
                         <strong class="text-muted">{!! trans('backend.shipment_from') !!}:
                             &nbsp; {!! $Shipment->name !!}</strong>
                         <p class="text-muted">
-                            {!! trans('backend.contactPhone') !!}:
-                            &nbsp; {!! $Shipment->name !!}<br>
-                            {!! trans('backend.contactEmail') !!}:
-                            &nbsp; {!! $Shipment->namel !!}
+                            {!! trans('backend.block') !!}:
+                                &nbsp; {!! $FromAddress->block !!}<br>
+                                {!! trans('backend.street') !!}:
+                                &nbsp; {!! $FromAddress->street !!}<br>
+                                {!! trans('backend.area') !!}:
+                                &nbsp; {!! $FromAddress->area !!}<br>
+                                {!! trans('backend.building') !!}:
+                                &nbsp; {!! $FromAddress->building !!}<br>
+                                {!! trans('backend.details') !!}:
+                                &nbsp; {!! $FromAddress->details !!}<br>
+                                {!! trans('backend.mobile') !!}:
+                                &nbsp; {!! $FromAddress->mobile !!}
                         </p>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="box p-a" style="min-height: 110px">
-                        <strong class="text-muted">{!! trans('backend.sendTo') !!}:
+                        <strong class="text-muted">{!! trans('backend.shipment_to') !!}:
                             &nbsp; {!! $Shipment->name !!}</strong>
                         <p class="text-muted">
-                                {!! trans('backend.contactEmail') !!}:
-                                &nbsp; {!! $Shipment->name !!}<br>
-                                {!! trans('backend.sendCc') !!}:
-                                &nbsp; {!! $Shipment->name !!}<br>
-                                {!! trans('backend.sendBcc') !!}:
-                                &nbsp; {!! $Shipment->name !!}
+                                {!! trans('backend.block') !!}:
+                                &nbsp; {!! $ToAddress->block !!}<br>
+                                {!! trans('backend.street') !!}:
+                                &nbsp; {!! $ToAddress->street !!}<br>
+                                {!! trans('backend.area') !!}:
+                                &nbsp; {!! $ToAddress->area !!}<br>
+                                {!! trans('backend.building') !!}:
+                                &nbsp; {!! $ToAddress->building !!}<br>
+                                {!! trans('backend.details') !!}:
+                                &nbsp; {!! $ToAddress->details !!}<br>
+                                {!! trans('backend.mobile') !!}:
+                                &nbsp; {!! $ToAddress->mobile !!}
                         </p>
                     </div>
                 </div>

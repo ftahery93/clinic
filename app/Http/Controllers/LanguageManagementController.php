@@ -65,11 +65,11 @@ class LanguageManagementController extends Controller
             $Languages = LanguageManagement::find($id);
         }
        
-        //if (count($Languages) > 0) {
-            return view("backEnd.languageManagement.edit", compact("Languages"));
-      //  } else {
-           //return redirect()->action('languageManagementController@index');
-       // }
+        if (count($Languages) > 0) {
+            return view("backend.languageManagement.edit", compact("Languages"));
+       } else {
+           return redirect()->action('languageManagementController@index');
+       }
     }
 
     /**
@@ -82,7 +82,7 @@ class LanguageManagementController extends Controller
     public function update(Request $request, $id)
     {
         $Languages = LanguageManagement::find($id);
-       // if (count($Languages) > 0) {
+       if (count($Languages) > 0) {
 
             $this->validate($request, [
                 'name' => 'required',
@@ -97,9 +97,9 @@ class LanguageManagementController extends Controller
             $Languages->fill($input)->save();
           
             return redirect()->action('LanguageManagementController@edit', $id)->with('doneMessage', trans('backend.saveDone'));
-        // } else {
-        //     return redirect()->action('UsersController@index');
-        // }
+        } else {
+            return redirect()->action('UsersController@index');
+        }
     }
 
      /**

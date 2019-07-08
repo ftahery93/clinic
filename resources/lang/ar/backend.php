@@ -20,6 +20,8 @@
   'approved' => 'وافق',
   'picked_up' => 'التقط',
   'delivered' => 'تم التوصيل',
+  'shipment_from' => 'شحنة بواسطة',
+  'shipment_to' => 'شحنة إلى',
   'shipments' => 'شحنات',
   'price' => 'السعر',
   'payment_type' => 'دفع',
