@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Company;
 use App\RegisteredUser;
+use App\Shipment;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
@@ -30,18 +31,26 @@ class HomeController extends Controller
     {
         if (@Auth::user()->permissionsGroup->view_status) {
             //Get the Number of Company Users
-            $Company = Company::where('status', '=', '1')->get();
-            if(count($Company) > 0){
-                $NumberofCompanyUsers = count($Company);
-            }
-
-            //Get the Number of Registered Users
-            $RegisteredUser = RegisteredUser::where('status', '=', '1')->get();
-            if(count($RegisteredUser) > 0){
-                $NumberofRegisteredUsers = count($RegisteredUser);
-            }
+            $Company = Company::where('status', '=', '1')->get();          
+            $NumberofCompanyUsers = count($Company);
             
-            return view('backend.home',compact("NumberofCompanyUsers","NumberofRegisteredUsers"));
+            //Get the Number of Registered Users
+            $RegisteredUser = RegisteredUser::where('status', '=', '1')->get();            
+            $NumberofRegisteredUsers = count($RegisteredUser);
+            
+            //Get the Number of Pending Shipments
+            $pShipments = Shipment::where('status', '=', '1')->get();             
+            $NumberofPendingShipments = count($pShipments);
+            
+
+            //Get the Number of Approved Shipments
+            $aShipments = Shipment::where('status', '=', '2')->get();              
+            $NumberofApprovedShipments = count($aShipments);
+
+            //Get Latest 20 Shipments
+            $Shipments = Shipment::take(13)->orderby('id', 'asc')->get();  
+           
+            return view('backend.home',compact("NumberofCompanyUsers","NumberofRegisteredUsers","NumberofPendingShipments","NumberofApprovedShipments","Shipments"));
         } 
     }
 

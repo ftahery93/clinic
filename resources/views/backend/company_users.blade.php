@@ -54,9 +54,9 @@
                                         </a>
                                     @endif
                                     @if(@Auth::user()->permissionsGroup->view_status)
-                                        <button class="btn btn-sm warning" data-toggle="modal"
+                                        <button class="btn btn-sm warning customer_view" data-toggle="modal"
                                                 data-target="#mv-{{ $CompanyUser->id }}" ui-toggle-class="bounce"
-                                                ui-target="#animate">
+                                                ui-target="#animate"  data-rating="{{ $CompanyUser->rating }}">
                                             <small><i class="material-icons">visibility</i> {{ trans('backend.view') }}
                                             </small>
                                         </button>
@@ -65,7 +65,7 @@
                             </tr>
                             <!-- .modal -->
                             <div id="mv-{{ $CompanyUser->id }}" class="modal fade" data-backdrop="true">
-                                    <div class="modal-dialog" id="animate">
+                                    <div class="modal-dialog" id="animate" >
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title">{{ trans('backend.company_users_details') }}</h5>
@@ -87,10 +87,14 @@
                                                 <p class="text-center"><strong>Approved: </strong><br>
                                                     <i class="fa {{ ($CompanyUser->approved==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
                                                 </p>
-                                                <p class="text-center"><strong>Ratings: </strong><br>
-                                                    <i class="fa {{ ($CompanyUser->rating==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
+                                                <p class="text-center"><strong>Ratings : </strong><br>
+                                                <div class="stars-outer hotel_b">
+                                                        <div class="stars-inner"></div>
+                                                        </div>     
                                                 </p>
-                                                <br>
+                                                
+                                                <p class="text-center"><strong><i class="fa fa-google-wallet" aria-hidden="true"></i>
+                                                 Wallet: </strong><br>{{ ($CompanyUser->balance!=0)?$CompanyUser->balance:0 }} KWD</p>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn dark-white p-x-md"
@@ -188,5 +192,56 @@
                 $("#submit_show_msg").css("display", "none");
             }
         });
+
+        $(".customer_view").on("click",function() {
+            //$(document).on("click",".customer_view",function() {
+          var rating=  $(this).attr('data-rating');
+        //console.log(rating);
+            // const ratings = {  
+            //     hotel_b :rate,
+            //     };
+
+        // total number of stars
+        const starTotal = 5;
+
+       // for(const rating in ratings) {  
+        const starPercentage = (rating / starTotal) * 100;
+        const starPercentageRounded = `${(Math.round(starPercentage / 10) * 10)}%`;
+        $('.stars-inner').css("width",starPercentageRounded);
+        //console.log(starPercentageRounded);
+        //document.querySelector(`.${rating} .stars-inner`).style.width = starPercentageRounded; 
+       // }
+    });
+
+    $('#modal').on('hidden.bs.modal', function() {
+    $(this).removeData('bs.modal');
+});
+       
     </script>
+    <style>
+        .stars-outer {
+  display: inline-block;
+  position: relative;
+  font-family: FontAwesome;
+}
+
+.stars-outer::before {
+  content: "\f006 \f006 \f006 \f006 \f006";
+}
+
+.stars-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+}
+
+.stars-inner::before {
+  content: "\f005 \f005 \f005 \f005 \f005";
+  color: #f8ce0b;
+}
+
+        </style>
 @endsection
