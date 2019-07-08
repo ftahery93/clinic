@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Auth;
 use File;
 use Redirect;
+use App\Price;
 use App\Setting;
-use App\WalletOffer;
+use App\Commission;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
@@ -25,12 +26,61 @@ class SettingsController extends Controller
         }
     }
 
+    // Edit Settings
     public function edit()
     {
         $id = $this->getId();
         $Setting = Setting::find($id);
         if (count($Setting) > 0) {
             return view("backend.settings.settings", compact("Setting"));
+        } else {
+            return redirect()->route('adminHome');
+        }
+    }
+
+    // Show Commission settings
+    public function showCommission()
+    {
+        $Commission = Commission::find(1);
+        if (count($Commission) > 0) {
+            return view("backend.commissions", compact("Commission"));
+        } else {
+            return redirect()->route('adminHome');
+        }
+    }
+
+    // Update Commission settings
+    public function updateCommission(Request $request)
+    {
+        $Commission = Commission::find(1);
+        if (count($Commission) > 0) {
+            $Commission->percentage = $request->percentage;
+            $Commission->save();
+            return redirect()->action('SettingsController@showCommission')->with('doneMessage', trans('backend.saveDone'));
+        } else {
+            return redirect()->route('adminHome');
+        }
+    }
+
+    // Show Price settings
+    public function showPrice()
+    {
+        $Price = Price::find(1);
+        if (count($Price) > 0) {
+            return view("backend.prices", compact("Price"));
+        } else {
+            return redirect()->route('adminHome');
+        }
+    }
+
+    // Update Price settings
+    public function updatePrice(Request $request)
+    {
+        $Price = Price::find(1);
+        if (count($Price) > 0) {
+            $Price->price = $request->price;
+            $Price->save();
+            return redirect()->action('SettingsController@showPrice')->with('doneMessage', trans('backend.saveDone'));
         } else {
             return redirect()->route('adminHome');
         }

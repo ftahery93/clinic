@@ -74,6 +74,14 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::post('/settings/wallet/offers/destory/{id}', 'WalletOffersController@destroy')->name('wallet_offers_destroy');
     Route::post('/settings/wallet/offers/updateAll', 'WalletOffersController@updateAll')->name('wallet_offers_update_all');
 
+    // Commission Setting
+    Route::get('/settings/commission', 'SettingsController@showCommission')->name('commissions_setting');
+    Route::post('/settings/commission/update', 'SettingsController@updateCommission')->name('commissions_update_setting');
+
+    // Price Setting
+    Route::get('/settings/price', 'SettingsController@showPrice')->name('price_setting');
+    Route::post('/settings/price/update', 'SettingsController@updatePrice')->name('price_update_setting');
+
     // Notifications
     Route::post('/notifications', 'NotificationsController@index')->name('notifications_list');
     Route::post('/notifications/search', 'NotificationsController@search')->name('webmailsSearch');

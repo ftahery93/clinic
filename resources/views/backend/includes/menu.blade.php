@@ -159,13 +159,23 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                                         </a>
                                     </li>
                                     <?php
-                                    $currentFolder = "languageManagement"; // Put folder name here
+                                    $currentFolder = "commissions"; // Put folder name here
                                     $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
                                     ?>
                                     <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
-                                        <a href="{{ route('adminLanguages') }}">
-                                            <span class="nav-text">{{ trans('backend.languageManagement') }}
-                                            </span>
+                                        <a href="{{ route('commissions_setting') }}"
+                                           onclick="location.href='{{ route('commissions_setting') }}'">
+                                            <span class="nav-text">{{ trans('backend.commissions_setting') }}</span>
+                                        </a>
+                                    </li>
+                                    <?php
+                                    $currentFolder = "price"; // Put folder name here
+                                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                                    ?>
+                                    <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
+                                        <a href="{{ route('price_setting') }}"
+                                           onclick="location.href='{{ route('price_setting') }}'">
+                                            <span class="nav-text">{{ trans('backend.price_setting') }}</span>
                                         </a>
                                     </li>
                                     <?php
@@ -176,6 +186,16 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                                         <a href="{{ route('wallet_offers_list') }}"
                                            onclick="location.href='{{ route('wallet_offers_list') }}'">
                                             <span class="nav-text">{{ trans('backend.wallet_offers') }}</span>
+                                        </a>
+                                    </li>
+                                    <?php
+                                    $currentFolder = "languageManagement"; // Put folder name here
+                                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                                    ?>
+                                    <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
+                                        <a href="{{ route('adminLanguages') }}">
+                                            <span class="nav-text">{{ trans('backend.languageManagement') }}
+                                            </span>
                                         </a>
                                     </li>
                                     <?php
