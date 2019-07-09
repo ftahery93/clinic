@@ -243,7 +243,7 @@ class ShipmentController extends Controller
             } else if ($totalShipments < $freeDeliveries->quantity) {
                 $freeShipments = $totalShipments;
                 $totalShipments = 0;
-                $remainingFreeShipments = ($freeDeliveries->quantity) - ($totalShipments);
+                $remainingFreeShipments = ($freeDeliveries->quantity) - ($freeShipments);
                 $freeDeliveries->update([
                     'quantity' => $remainingFreeShipments,
                 ]);
