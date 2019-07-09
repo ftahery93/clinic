@@ -99,7 +99,7 @@ class CompanyProfileController extends Controller
 
         if ($company != null) {
             $country = Country::find($company->country_id);
-            $company["company"] = collect($country);
+            $company["country"] = collect($country);
             return response()->json($company);
         } else {
             return response()->json([
@@ -154,7 +154,7 @@ class CompanyProfileController extends Controller
 
         if ($company) {
             $country = Country::find($company->country_id);
-            $company["company"] = collect($country);
+            $company["country"] = collect($country);
             return collect($company);
         } else {
             return response()->json([
@@ -201,7 +201,7 @@ class CompanyProfileController extends Controller
 
         $company = Company::find($request->company_id);
         $country = Country::find($company->country_id);
-        $company["company"] = collect($country);
+        $company["country"] = collect($country);
         return response()->json($company);
     }
 
@@ -321,7 +321,7 @@ class CompanyProfileController extends Controller
         }
 
         $country = Country::find($registeredCompany->country_id);
-        $registeredCompany["company"] = collect($country);
+        $registeredCompany["country"] = collect($country);
 
         return response()->json([
             'message' => LanguageManagement::getLabel('text_successUpdated', $this->language),
