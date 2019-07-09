@@ -317,6 +317,7 @@ class ShipmentController extends Controller
             'free_deliveries' => $freeDeliveries,
             'wallet_amount' => $walletAmount,
             'card_amount' => $cardAmount,
+            'status' => 1,
         ]);
 
         if ($walletAmount > 0) {
