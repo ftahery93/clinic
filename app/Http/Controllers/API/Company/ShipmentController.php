@@ -314,7 +314,7 @@ class ShipmentController extends Controller
         }
         $order = Order::create([
             'company_id' => $request->company_id,
-            'free_deliveries' => $freeDeliveries,
+            'free_deliveries' => $freeShipments,
             'wallet_amount' => $walletAmount,
             'card_amount' => $cardAmount,
             'status' => 1,
