@@ -236,7 +236,7 @@ class ShipmentController extends Controller
         if ($freeDeliveries != null) {
             if ($totalShipments > $freeDeliveries->quantity) {
                 $freeShipments = $freeDeliveries->quantity;
-                $totalShipments -= $freeShipments;
+                $totalShipments = $totalShipments - $freeShipments;
                 $freeDeliveries->update([
                     'quantity' => 0,
                 ]);
@@ -276,7 +276,7 @@ class ShipmentController extends Controller
                 ]);
             } else if ($wallet->balance < $remainingAmount) {
                 $walletAmount = $wallet->balance;
-                $remainingAmount -= $walletAmount;
+                $remainingAmount = $remainingAmount - $walletAmount;
                 $walletTransaction = WalletTransaction::create([
                     'company_id' => $request->company_id,
                     'amount' => $walletAmount,
