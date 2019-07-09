@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 08, 2019 at 05:31 PM
+-- Generation Time: Jul 09, 2019 at 03:49 PM
 -- Server version: 10.0.38-MariaDB-0ubuntu0.16.04.1
 -- PHP Version: 7.1.29-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -227,7 +227,6 @@ CREATE TABLE `categories` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci,
   `image` text COLLATE utf8_unicode_ci,
-  `parent_id` int(10) DEFAULT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -237,10 +236,10 @@ CREATE TABLE `categories` (
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `categories` (`id`, `name`, `description`, `image`, `parent_id`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Gift', NULL, NULL, NULL, 1, '2019-06-11 21:00:00', '2019-06-18 21:00:00'),
-(2, 'Food', NULL, NULL, NULL, 1, '2019-06-11 21:00:00', '2019-06-09 21:00:00'),
-(3, 'Electronics', NULL, NULL, NULL, 1, '2019-06-23 21:00:00', '2019-06-18 21:00:00');
+INSERT INTO `categories` (`id`, `name`, `description`, `image`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Gift', NULL, NULL, 1, '2019-06-11 21:00:00', '2019-07-09 07:42:35'),
+(2, 'Food', NULL, NULL, 1, '2019-06-11 21:00:00', '2019-06-09 21:00:00'),
+(3, 'Electronics', NULL, NULL, 1, '2019-06-23 21:00:00', '2019-06-18 21:00:00');
 
 -- --------------------------------------------------------
 
@@ -347,7 +346,7 @@ CREATE TABLE `commissions` (
 --
 
 INSERT INTO `commissions` (`id`, `percentage`, `created_at`, `updated_at`) VALUES
-(1, 10, '2019-06-13 11:40:40', '2019-06-13 11:40:40');
+(1, 20, '2019-06-13 11:40:40', '2019-07-08 15:13:13');
 
 -- --------------------------------------------------------
 
@@ -773,9 +772,7 @@ CREATE TABLE `permissions` (
   `add_status` tinyint(4) NOT NULL DEFAULT '0',
   `edit_status` tinyint(4) NOT NULL DEFAULT '0',
   `delete_status` tinyint(4) NOT NULL DEFAULT '0',
-  `analytics_status` tinyint(4) NOT NULL DEFAULT '0',
   `notifications_status` tinyint(4) NOT NULL DEFAULT '0',
-  `countries_status` tinyint(4) NOT NULL DEFAULT '0',
   `companyusers_status` tinyint(4) NOT NULL,
   `categories_status` tinyint(4) NOT NULL,
   `registeredusers_status` tinyint(4) NOT NULL,
@@ -794,9 +791,9 @@ CREATE TABLE `permissions` (
 -- Dumping data for table `permissions`
 --
 
-INSERT INTO `permissions` (`id`, `name`, `view_status`, `add_status`, `edit_status`, `delete_status`, `analytics_status`, `notifications_status`, `countries_status`, `companyusers_status`, `categories_status`, `registeredusers_status`, `settings_status`, `shipments_status`, `transactions_status`, `webmaster_status`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 'Webmaster', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
-(2, 'Website Manager', 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
+INSERT INTO `permissions` (`id`, `name`, `view_status`, `add_status`, `edit_status`, `delete_status`, `notifications_status`, `companyusers_status`, `categories_status`, `registeredusers_status`, `settings_status`, `shipments_status`, `transactions_status`, `webmaster_status`, `status`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 'Webmaster', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54'),
+(2, 'Website Manager', 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
 
 -- --------------------------------------------------------
 
@@ -816,7 +813,7 @@ CREATE TABLE `prices` (
 --
 
 INSERT INTO `prices` (`id`, `price`, `created_at`, `updated_at`) VALUES
-(1, 10, '2019-05-16 08:40:57', '2019-05-16 08:40:57');
+(1, 10, '2019-05-16 08:40:57', '2019-07-08 15:19:31');
 
 -- --------------------------------------------------------
 
@@ -979,7 +976,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `photo`, `permissions_id`, `status`, `remember_token`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-('1', 'admin', 'mjhosawa@vavisa-kw.com', '$2y$10$vCYpyjX68hKYbzsAUZS4vuLCodSrXukCOHorulIwREO70hNgv6J5q', NULL, 1, 1, 'AQ5D7JVCe56NaEAaHYoT0F2Z0wvqemEFn9gHZdLwPMuwKbRDOQDUdJ2kHsMn', '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
+('1', 'admin', 'mjhosawa@vavisa-kw.com', '$2y$10$vCYpyjX68hKYbzsAUZS4vuLCodSrXukCOHorulIwREO70hNgv6J5q', NULL, 1, 1, 'pBmPf15oBkWgAkOavQk0Y1rNQO2QjWu9rujxJExXbdufhDHoP9jjwlJ5qPDc', '1', NULL, '2017-11-08 13:25:54', '2017-11-08 13:25:54');
 
 -- --------------------------------------------------------
 
@@ -1044,7 +1041,7 @@ CREATE TABLE `wallet_offers` (
 --
 
 INSERT INTO `wallet_offers` (`id`, `amount`, `free_deliveries`, `created_at`, `updated_at`) VALUES
-(1, 50, 2, '2019-05-16 11:46:14', '2019-05-16 11:46:14'),
+(1, 50, 2, '2019-05-16 11:46:14', '2019-07-09 12:29:35'),
 (2, 100, 4, '2019-05-16 11:46:14', '2019-05-16 11:46:14');
 
 -- --------------------------------------------------------
@@ -1072,11 +1069,9 @@ CREATE TABLE `webmaster_settings` (
   `id` int(10) UNSIGNED NOT NULL,
   `ar_box_status` tinyint(4) NOT NULL,
   `en_box_status` tinyint(4) NOT NULL,
-  `analytics_status` tinyint(4) NOT NULL,
   `registeredusers_status` tinyint(4) NOT NULL,
   `categories_status` tinyint(4) NOT NULL,
   `companyusers_status` tinyint(4) NOT NULL,
-  `countries_status` tinyint(4) NOT NULL,
   `notifications_status` tinyint(4) NOT NULL,
   `settings_status` tinyint(4) NOT NULL,
   `default_currency_id` int(11) NOT NULL,
@@ -1100,8 +1095,8 @@ CREATE TABLE `webmaster_settings` (
 -- Dumping data for table `webmaster_settings`
 --
 
-INSERT INTO `webmaster_settings` (`id`, `ar_box_status`, `en_box_status`, `analytics_status`, `registeredusers_status`, `categories_status`, `companyusers_status`, `countries_status`, `notifications_status`, `settings_status`, `default_currency_id`, `languages_count`, `shipments_status`, `transactions_status`, `header_menu_id`, `footer_menu_id`, `links_status`, `register_status`, `permission_group`, `api_status`, `api_key`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 1, 1, 2, 0, 0, 3, 1, '571775002564288', 1, 1, '2017-11-08 13:25:54', '2017-11-09 18:55:04');
+INSERT INTO `webmaster_settings` (`id`, `ar_box_status`, `en_box_status`, `registeredusers_status`, `categories_status`, `companyusers_status`, `notifications_status`, `settings_status`, `default_currency_id`, `languages_count`, `shipments_status`, `transactions_status`, `header_menu_id`, `footer_menu_id`, `links_status`, `register_status`, `permission_group`, `api_status`, `api_key`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1, 1, 1, 2, 0, 0, 3, 1, '571775002564288', 1, 1, '2017-11-08 13:25:54', '2017-11-09 18:55:04');
 
 --
 -- Indexes for dumped tables
@@ -1346,7 +1341,7 @@ ALTER TABLE `authentication`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `category_shipment`
@@ -1448,7 +1443,7 @@ ALTER TABLE `pages`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `prices`
@@ -1490,7 +1485,7 @@ ALTER TABLE `wallet`
 -- AUTO_INCREMENT for table `wallet_offers`
 --
 ALTER TABLE `wallet_offers`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `wallet_transactions`

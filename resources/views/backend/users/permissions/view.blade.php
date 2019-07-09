@@ -1,18 +1,18 @@
 <div class="padding">
     <div class="box">
         <div class="box-header dker">
-            <h3>{{ trans('backLang.permissions') }}</h3>
+            <h3>{{ trans('backend.permissions') }}</h3>
             <small>
-                <a href="{{ route('adminHome') }}">{{ trans('backLang.home') }}</a> /
-                <a href="">{{ trans('backLang.settings') }}</a>
+                <a href="{{ route('adminHome') }}">{{ trans('backend.home') }}</a> /
+                <a href="">{{ trans('backend.settings') }}</a>
             </small>
         </div>
         @if(count($Permissions) >0)
             <div class="row p-a pull-right" style="margin-top: -70px;">
                 <div class="col-sm-12">
-                    <a class="btn btn-fw danger" href="{{route("permissionsCreate")}}">
+                    <a class="btn btn-fw danger" href="{{route("permissions_create")}}">
                         <i class="material-icons">&#xe03b;</i>
-                        &nbsp; {{ trans('backLang.newPermissions') }}
+                        &nbsp; {{ trans('backend.newPermissions') }}
                     </a>
                 </div>
             </div>
@@ -21,12 +21,12 @@
             <div class="row p-a">
                 <div class="col-sm-12">
                     <div class=" p-a text-center ">
-                        {{ trans('backLang.noData') }}
+                        {{ trans('backend.noData') }}
                         <br>
                         <br>
-                        <a class="btn btn-fw primary" href="{{route("permissionsCreate")}}">
+                        <a class="btn btn-fw primary" href="{{route("permissions_create")}}">
                             <i class="material-icons">&#xe03b;</i>
-                            &nbsp; {{ trans('backLang.newPermissions') }}
+                            &nbsp; {{ trans('backend.newPermissions') }}
                         </a>
 
                     </div>
@@ -38,10 +38,10 @@
                 <table class="table table-striped  b-t">
                     <thead>
                     <tr>
-                        <th>{{ trans('backLang.title') }}</th>
-                        <th>{{ trans('backLang.permissions') }}</th>
-                        <th class="text-center" style="width:50px;">{{ trans('backLang.status') }}</th>
-                        <th class="text-center" style="width:200px;">{{ trans('backLang.options') }}</th>
+                        <th>{{ trans('backend.title') }}</th>
+                        <th>{{ trans('backend.permissions') }}</th>
+                        <th class="text-center" style="width:50px;">{{ trans('backend.status') }}</th>
+                        <th class="text-center" style="width:200px;">{{ trans('backend.options') }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -53,42 +53,42 @@
                                 <small>
                                     <small>
                                         @if($Permission->add_status==1)
-                                            <i class="fa fa-check text-success inline"></i> {{ trans('backLang.perAdd') }}
+                                            <i class="fa fa-check text-success inline"></i> {{ trans('backend.perAdd') }}
                                             &nbsp;
                                         @endif
                                         @if($Permission->edit_status==1)
-                                            <i class="fa fa-check text-success inline"></i> {{ trans('backLang.perEdit') }}
+                                            <i class="fa fa-check text-success inline"></i> {{ trans('backend.perEdit') }}
                                             &nbsp;
                                         @endif
                                         @if($Permission->delete_status==1)
-                                            <i class="fa fa-check text-success inline"></i> {{ trans('backLang.perDelete') }}
+                                            <i class="fa fa-check text-success inline"></i> {{ trans('backend.perDelete') }}
                                             &nbsp;
                                         @endif
                                         @if($Permission->add_status==0 && $Permission->edit_status==0 && $Permission->delete_status==0)
-                                            {{ trans('backLang.viewOnly') }}
+                                            {{ trans('backend.viewOnly') }}
                                             &nbsp;
                                         @endif
                                         <br>
-                                        @if($Permission->analytics_status==1)
-                                            {{ trans('backLang.pollAnalytics') }},
+                                        @if($Permission->companyusers_status==1)
+                                            {{ trans('backend.company_users') }},
                                         @endif
-                                        @if($Permission->polls_status==1)
-                                            {{ trans('backLang.polls') }},
+                                        @if($Permission->registeredusers_status==1)
+                                            {{ trans('backend.registered_users') }},
                                         @endif
                                         @if($Permission->categories_status==1)
-                                            {{ trans('backLang.categories') }},
+                                            {{ trans('backend.categories') }},
                                         @endif
-                                        @if($Permission->appusers_status==1)
-                                            {{ trans('backLang.appusers') }},
+                                        @if($Permission->shipments_status==1)
+                                            {{ trans('backend.shipments') }},
                                         @endif
-                                        @if($Permission->countries_status==1)
-                                            {{ trans('backLang.countries') }},
+                                        @if($Permission->transactions_status==1)
+                                            {{ trans('backend.transactions') }},
                                         @endif
                                         @if($Permission->notifications_status==1)
-                                            {{ trans('backLang.notifications') }},
+                                            {{ trans('backend.notifications') }},
                                         @endif
                                         @if($Permission->settings_status==1)
-                                            {{ trans('backLang.generalSettings') }},
+                                            {{ trans('backend.generalSettings') }},
                                         @endif
                                         <br>
                                     </small>
@@ -99,14 +99,14 @@
                             </td>
                             <td class="text-center">
                                 <a class="btn btn-sm success"
-                                   href="{{ route("permissionsEdit",["id"=>$Permission->id]) }}">
-                                    <small><i class="material-icons">&#xe3c9;</i> {{ trans('backLang.edit') }}
+                                   href="{{ route("permissions_edit",["id"=>$Permission->id]) }}">
+                                    <small><i class="material-icons">&#xe3c9;</i> {{ trans('backend.edit') }}
                                     </small>
                                 </a>
                                 <button class="btn btn-sm danger" data-toggle="modal"
                                         data-target="#p-{{ $Permission->id }}" ui-toggle-class="bounce"
                                         ui-target="#animate">
-                                    <small><i class="material-icons">&#xe872;</i> {{ trans('backLang.delete') }}
+                                    <small><i class="material-icons">&#xe872;</i> {{ trans('backend.delete') }}
                                     </small>
                                 </button>
                             </td>
@@ -116,20 +116,20 @@
                             <div class="modal-dialog" id="animate">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">{{ trans('backLang.confirmation') }}</h5>
+                                        <h5 class="modal-title">{{ trans('backend.confirmation') }}</h5>
                                     </div>
                                     <div class="modal-body text-center p-lg">
                                         <p>
-                                            {{ trans('backLang.confirmationDeleteMsg') }}
+                                            {{ trans('backend.confirmationDeleteMsg') }}
                                             <br>
                                             <strong>[ {{ $Permission->name }} ]</strong>
                                         </p>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn dark-white p-x-md"
-                                                data-dismiss="modal">{{ trans('backLang.no') }}</button>
-                                        <a href="{{ route("permissionsDestroy",["id"=>$Permission->id]) }}"
-                                           class="btn danger p-x-md">{{ trans('backLang.yes') }}</a>
+                                                data-dismiss="modal">{{ trans('backend.no') }}</button>
+                                        <a href="{{ route("permissions_delete",["id"=>$Permission->id]) }}"
+                                           class="btn danger p-x-md">{{ trans('backend.yes') }}</a>
                                     </div>
                                 </div><!-- /.modal-content -->
                             </div>

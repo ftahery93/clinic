@@ -16,7 +16,6 @@ class User extends Authenticatable
     // relation with Permissions
     public function permissionsGroup()
     {
-
         return $this->belongsTo('App\Permissions', 'permissions_id');
     }
 

@@ -92,13 +92,11 @@ class UsersController extends Controller
         $User->password = bcrypt($request->password);
         $User->permissions_id = $request->permissions_id;
         $User->photo = $fileFinalName_ar;
-        $User->connect_email = $request->connect_email;
-        $User->connect_password = $request->connect_password;
         $User->status = 1;
         $User->created_by = Auth::user()->id;
         $User->save();
 
-        return redirect()->action('UsersController@index')->with('doneMessage', trans('backLang.addDone'));
+        return redirect()->action('UsersController@index')->with('doneMessage', trans('backend.addDone'));
     }
 
     public function getUploadPath()
@@ -189,14 +187,11 @@ class UsersController extends Controller
                 }
                 $User->photo = $fileFinalName_ar;
             }
-            $User->connect_email = $request->connect_email;
-            if ($request->connect_password != "") {
-                $User->connect_password = $request->connect_password;
-            }
+ 
             $User->status = $request->status;
             $User->updated_by = Auth::user()->id;
             $User->save();
-            return redirect()->action('UsersController@edit', $id)->with('doneMessage', trans('backLang.saveDone'));
+            return redirect()->action('UsersController@edit', $id)->with('doneMessage', trans('backend.saveDone'));
         } else {
             return redirect()->action('UsersController@index');
         }
@@ -221,7 +216,7 @@ class UsersController extends Controller
                 File::delete($this->getUploadPath() . $User->photo);
             }
             $User->delete();
-            return redirect()->action('UsersController@index')->with('doneMessage', trans('backLang.deleteDone'));
+            return redirect()->action('UsersController@index')->with('doneMessage', trans('backend.deleteDone'));
         } else {
             return redirect()->action('UsersController@index');
         }
@@ -253,7 +248,7 @@ class UsersController extends Controller
             }
             User::wherein('id', $request->ids)->where('id', "!=", 1)->delete();
         }
-        return redirect()->action('UsersController@index')->with('doneMessage', trans('backLang.saveDone'));
+        return redirect()->action('UsersController@index')->with('doneMessage', trans('backend.saveDone'));
     }
 
 
@@ -279,32 +274,24 @@ class UsersController extends Controller
             'name' => 'required'
         ]);
 
-        $data_sections_values = "";
-        if (@$request->data_sections != "") {
-            foreach ($request->data_sections as $key => $val) {
-                $data_sections_values = $val . "," . $data_sections_values;
-            }
-            $data_sections_values = substr($data_sections_values, 0, -1);
-        }
-
         $Permissions = new Permissions;
         $Permissions->name = $request->name;
         $Permissions->view_status = ($request->view_status) ? "1" : "0";
         $Permissions->add_status = ($request->add_status) ? "1" : "0";
         $Permissions->edit_status = ($request->edit_status) ? "1" : "0";
         $Permissions->delete_status = ($request->delete_status) ? "1" : "0";
-        $Permissions->analytics_status = ($request->analytics_status) ? "1" : "0";
-        $Permissions->inbox_status = ($request->inbox_status) ? "1" : "0";
-        $Permissions->newsletter_status = ($request->newsletter_status) ? "1" : "0";
-        $Permissions->calendar_status = ($request->calendar_status) ? "1" : "0";
-        $Permissions->banners_status = ($request->banners_status) ? "1" : "0";
+        $Permissions->notifications_status = ($request->notifications_status) ? "1" : "0";
+        $Permissions->companyusers_status = ($request->companyusers_status) ? "1" : "0";
+        $Permissions->categories_status = ($request->categories_status) ? "1" : "0";
+        $Permissions->registeredusers_status = ($request->registeredusers_status) ? "1" : "0";
+        $Permissions->shipments_status = ($request->shipments_status) ? "1" : "0";
+        $Permissions->transactions_status = ($request->transactions_status) ? "1" : "0";
         $Permissions->settings_status = ($request->settings_status) ? "1" : "0";
         $Permissions->webmaster_status = ($request->webmaster_status) ? "1" : "0";
-        $Permissions->data_sections = $data_sections_values;
         $Permissions->status = true;
         $Permissions->save();
 
-        return redirect()->action('UsersController@index')->with('doneMessage', trans('backLang.addDone'));
+        return redirect()->action('UsersController@index')->with('doneMessage', trans('backend.addDone'));
     }
 
 
@@ -346,33 +333,25 @@ class UsersController extends Controller
                 'name' => 'required'
             ]);
 
-            $data_sections_values = "";
-            if (@$request->data_sections != "") {
-                foreach ($request->data_sections as $key => $val) {
-                    $data_sections_values = $val . "," . $data_sections_values;
-                }
-                $data_sections_values = substr($data_sections_values, 0, -1);
-            }
-
             $Permissions->name = $request->name;
             $Permissions->view_status = ($request->view_status) ? "1" : "0";
             $Permissions->add_status = ($request->add_status) ? "1" : "0";
             $Permissions->edit_status = ($request->edit_status) ? "1" : "0";
             $Permissions->delete_status = ($request->delete_status) ? "1" : "0";
-            $Permissions->analytics_status = ($request->analytics_status) ? "1" : "0";
-            $Permissions->inbox_status = ($request->inbox_status) ? "1" : "0";
-            $Permissions->newsletter_status = ($request->newsletter_status) ? "1" : "0";
-            $Permissions->calendar_status = ($request->calendar_status) ? "1" : "0";
-            $Permissions->banners_status = ($request->banners_status) ? "1" : "0";
+            $Permissions->notifications_status = ($request->notifications_status) ? "1" : "0";
+            $Permissions->companyusers_status = ($request->companyusers_status) ? "1" : "0";
+            $Permissions->categories_status = ($request->categories_status) ? "1" : "0";
+            $Permissions->registeredusers_status = ($request->registeredusers_status) ? "1" : "0";
+            $Permissions->shipments_status = ($request->shipments_status) ? "1" : "0";
+            $Permissions->transactions_status = ($request->transactions_status) ? "1" : "0";
             $Permissions->settings_status = ($request->settings_status) ? "1" : "0";
             $Permissions->webmaster_status = ($request->webmaster_status) ? "1" : "0";
-            $Permissions->data_sections = $data_sections_values;
             $Permissions->status = $request->status;
             if ($id != 1) {
                 $Permissions->save();
             }
             return redirect()->action('UsersController@permissions_edit', $id)->with('doneMessage',
-                trans('backLang.saveDone'));
+                trans('backend.saveDone'));
         } else {
             return redirect()->action('UsersController@index');
         }
@@ -393,7 +372,7 @@ class UsersController extends Controller
         }
         if (count($Permissions) > 0 && $id != 1) {
             $Permissions->delete();
-            return redirect()->action('UsersController@index')->with('doneMessage', trans('backLang.deleteDone'));
+            return redirect()->action('UsersController@index')->with('doneMessage', trans('backend.deleteDone'));
         } else {
             return redirect()->action('UsersController@index');
         }

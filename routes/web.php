@@ -36,10 +36,6 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     // Admin Home
     Route::get('/dashboard', 'HomeController@index')->name('adminHome');
 
-    //Search
-    Route::get('/search', 'HomeController@search')->name('adminSearch');
-    Route::post('/find', 'HomeController@find')->name('adminFind');
-
     // Registered Users
     Route::get('/regular/users', 'RegisteredUsersController@index')->name('registered_users_list');
     Route::post('/regular/users/updateAll', 'RegisteredUsersController@updateAll')->name('registered_users_update_all');
@@ -56,10 +52,12 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
 
     // Categories
     Route::get('/categories', 'CategoriesController@index')->name('categories_list');
-    Route::get('/categories/create', 'CategoriesController@create')->name('adminCategoriesCreate');
-    Route::get('/categories/{id}/edit', 'CategoriesController@edit')->name('adminCategoriesEdit');
-    Route::get('/categories/destroy/{id}', 'CategoriesController@destroy')->name('adminCategoriesDestroy');
-    Route::post('/categories/updateAll', 'CategoriesController@updateAll')->name('adminCategoriesUpdateAll');
+    Route::get('/categories/create', 'CategoriesController@create')->name('categories_create');
+    Route::post('/categories/store', 'CategoriesController@store')->name('categories_store');
+    Route::get('/categories/{id}/edit', 'CategoriesController@edit')->name('categories_edit');
+    Route::post('/categories/{id}/update', 'CategoriesController@update')->name('categories_update');
+    Route::get('/categories/destroy/{id}', 'CategoriesController@destroy')->name('categories_destroy');
+    Route::post('/categories/updateAll', 'CategoriesController@updateAll')->name('categories_update_all');
 
     // Shipments and Transactions
     Route::get('/users/shipments', 'ShipmentsController@index')->name('shipments_list');
@@ -70,8 +68,11 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
 
     // Wallet Offers
     Route::get('/settings/wallet/offers', 'WalletOffersController@index')->name('wallet_offers_list');
-    Route::post('/settings/wallet/offers/{id}', 'WalletOffersController@edit')->name('wallet_offers_edit');
-    Route::post('/settings/wallet/offers/destory/{id}', 'WalletOffersController@destroy')->name('wallet_offers_destroy');
+    Route::get('/settings/wallet/offers/create', 'WalletOffersController@create')->name('wallet_offers_create');
+    Route::get('/settings/wallet/offers/{id}/edit', 'WalletOffersController@edit')->name('wallet_offers_edit');
+    Route::post('/settings/wallet/offers/store', 'WalletOffersController@store')->name('wallet_offers_store');
+    Route::post('/settings/wallet/offers/{id}/update', 'WalletOffersController@update')->name('wallet_offers_update');
+    Route::get('/settings/wallet/offers/destory/{id}', 'WalletOffersController@destroy')->name('wallet_offers_destroy');
     Route::post('/settings/wallet/offers/updateAll', 'WalletOffersController@updateAll')->name('wallet_offers_update_all');
 
     // Commission Setting
@@ -83,13 +84,12 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::post('/settings/price/update', 'SettingsController@updatePrice')->name('price_update_setting');
 
     // Notifications
-    Route::post('/notifications', 'NotificationsController@index')->name('notifications_list');
-    Route::post('/notifications/search', 'NotificationsController@search')->name('webmailsSearch');
-    Route::get('/notifications/{id}/edit', 'NotificationsController@edit')->name('webmailsEdit');
-    Route::get('/notifications/{group_id?}/{wid?}/{stat?}/{contact_email?}', 'NotificationsController@index')->name('adminNotifications');
-    Route::post('/notifications/{id}/update', 'NotificationsController@update')->name('webmailsUpdate');
-    Route::get('/notifications/destroy/{id}', 'NotificationsController@destroy')->name('webmailsDestroy');
-    Route::post('/notifications/updateAll', 'NotificationsController@updateAll')->name('webmailsUpdateAll');
+    // Route::get('/notifications', 'NotificationsController@index')->name('notifications_list');
+    // Route::get('/notifications/{id}/edit', 'NotificationsController@edit')->name('notifications_edit');
+    // Route::get('/notifications/store', 'NotificationsController@index')->name('notifications_store');
+    // Route::post('/notifications/{id}/update', 'NotificationsController@update')->name('notifications_update');
+    // Route::get('/notifications/destroy/{id}', 'NotificationsController@destroy')->name('notifications_delete');
+    // Route::post('/notifications/updateAll', 'NotificationsController@updateAll')->name('notifications_update_all');
 
     // Language Managment
     Route::get('/languages/{id}/edit', 'LanguageManagementController@edit')->name('adminLanguagesEdit');
@@ -98,18 +98,18 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('/languages/{lang}/updateLocale', 'LanguageManagementController@updateLocale')->name('adminLanguageUpdateVariable');
 
     // Users & Permissions
-    Route::get('/users', 'UsersController@index')->name('users');
-    Route::get('/users/create/', 'UsersController@create')->name('usersCreate');
-    Route::post('/users/store', 'UsersController@store')->name('usersStore');
-    Route::get('/users/{id}/edit', 'UsersController@edit')->name('usersEdit');
-    Route::post('/users/{id}/update', 'UsersController@update')->name('usersUpdate');
-    Route::get('/users/destroy/{id}', 'UsersController@destroy')->name('usersDestroy');
-    Route::post('/users/updateAll', 'UsersController@updateAll')->name('usersUpdateAll');
-    Route::get('/users/permissions/create/', 'UsersController@permissions_create')->name('permissionsCreate');
-    Route::post('/users/permissions/store', 'UsersController@permissions_store')->name('permissionsStore');
-    Route::get('/users/permissions/{id}/edit', 'UsersController@permissions_edit')->name('permissionsEdit');
-    Route::post('/users/permissions/{id}/update', 'UsersController@permissions_update')->name('permissionsUpdate');
-    Route::get('/users/permissions/destroy/{id}', 'UsersController@permissions_destroy')->name('permissionsDestroy');
+    Route::get('/users', 'UsersController@index')->name('users_list');
+    Route::get('/users/create/', 'UsersController@create')->name('users_create');
+    Route::post('/users/store', 'UsersController@store')->name('users_store');
+    Route::get('/users/{id}/edit', 'UsersController@edit')->name('users_edit');
+    Route::post('/users/{id}/update', 'UsersController@update')->name('users_update');
+    Route::get('/users/destroy/{id}', 'UsersController@destroy')->name('users_delete');
+    Route::post('/users/updateAll', 'UsersController@updateAll')->name('users_update_all');
+    Route::get('/users/permissions/create/', 'UsersController@permissions_create')->name('permissions_create');
+    Route::post('/users/permissions/store', 'UsersController@permissions_store')->name('permissions_store');
+    Route::get('/users/permissions/{id}/edit', 'UsersController@permissions_edit')->name('permissions_edit');
+    Route::post('/users/permissions/{id}/update', 'UsersController@permissions_update')->name('permissions_update');
+    Route::get('/users/permissions/destroy/{id}', 'UsersController@permissions_destroy')->name('permissions_delete');
 
 });
 // .. End of Backend Routes

@@ -1,5 +1,4 @@
 @extends('backend.layout')
-
 @section('content')
     @if(@Auth::user()->permissionsGroup->webmaster_status)
         @include('backend.users.permissions.view')
@@ -18,7 +17,7 @@
                 @if(@Auth::user()->permissionsGroup->webmaster_status)
                     <div class="row p-a pull-right" style="margin-top: -70px;">
                         <div class="col-sm-12">
-                            <a class="btn btn-fw primary" href="{{route("usersCreate")}}">
+                            <a class="btn btn-fw primary" href="{{route("users_create")}}">
                                 <i class="material-icons">&#xe7fe;</i>
                                 &nbsp; {{ trans('backend.newUser') }}
                             </a>
@@ -31,20 +30,12 @@
                     <div class="col-sm-12">
                         <div class=" p-a text-center ">
                             {{ trans('backend.noData') }}
-                            <br>
-                            @if(@Auth::user()->permissionsGroup->webmaster_status)
-                                <br>
-                                <a class="btn btn-fw primary" href="{{route("usersCreate")}}">
-                                    <i class="material-icons">&#xe7fe;</i>
-                                    &nbsp; {{ trans('backend.newUser') }}
-                                </a>
-                            @endif
                         </div>
                     </div>
                 </div>
             @endif
             @if($Users->total() > 0)
-                {{Form::open(['route'=>'usersUpdateAll','method'=>'post'])}}
+                {{Form::open(['route'=>'users_update_all','method'=>'post'])}}
                 <div class="table-responsive">
                     <table class="table table-striped  b-t">
                         <thead>
@@ -78,7 +69,7 @@
                                 </td>
                                 <td class="text-center">
                                     <a class="btn btn-sm success"
-                                       href="{{ route("usersEdit",["id"=>$User->id]) }}">
+                                       href="{{ route("users_edit",["id"=>$User->id]) }}">
                                         <small><i class="material-icons">&#xe3c9;</i> {{ trans('backend.edit') }}
                                         </small>
                                     </a>
@@ -109,7 +100,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn dark-white p-x-md"
                                                     data-dismiss="modal">{{ trans('backend.no') }}</button>
-                                            <a href="{{ route("usersDestroy",["id"=>$User->id]) }}"
+                                            <a href="{{ route("users_delete",["id"=>$User->id]) }}"
                                                class="btn danger p-x-md">{{ trans('backend.yes') }}</a>
                                         </div>
                                     </div><!-- /.modal-content -->

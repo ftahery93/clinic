@@ -24,32 +24,6 @@ class Helper
         return $Setting->$var;
     }
 
-    // Get Notifications Alerts
-    static function notificationAlerts()
-    {
-        //List of all Notifications
-        if (@Auth::user()->permissionsGroup->view_status) {
-            $Notifications = Notification::where('created_by', '=', Auth::user()->id)->orderby('id', 'desc')->where('status', '=',
-                0)->where('cat_id', '=', 0)->limit(4)->get();
-        } else {
-            $Notifications = Notification::orderby('id', 'desc')->where('status', '=', 0)->where('cat_id', '=', 0)->limit(4)->get();
-        }
-        return $Notifications;
-    }
-
-    // Get Notifications Alerts
-    static function notificationNewCount()
-    {
-        //List of all Webmails
-        if (@Auth::user()->permissionsGroup->view_status) {
-            $Notifications = Notification::where('created_by', '=', Auth::user()->id)->orderby('id', 'desc')->where('status', '=',
-                0)->where('cat_id', '=', 0)->get();
-        } else {
-            $Notifications = Notification::orderby('id', 'desc')->where('status', '=', 0)->where('cat_id', '=', 0)->get();
-        }
-        return count($Notifications);
-    }
-
     static function GetIcon($path, $file)
     {
         $ext = strrchr($file, ".");
@@ -83,31 +57,6 @@ class Helper
             $icon = "<i class=\"fa fa-file-video-o\" style='color: #D30789;font-size: 20px'></i>";
         }
         return $icon;
-    }
-
-    static function sendOneSignalNotification($playerIds = [], $message)
-    {
-        $content = array(
-            "en" => $message,
-        );
-        $fields = array(
-            'app_id' => env('ONESIGNAL_APP_ID'),
-            'include_player_ids' => $playerIds,
-            'data' => array("foo" => "bar"),
-            'contents' => $content,
-        );
-        $fields = json_encode($fields);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8'));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        $response = curl_exec($ch);
-        curl_close($ch);
-        return $response;
     }
 
     static function getAttribute($obj){

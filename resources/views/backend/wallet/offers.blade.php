@@ -11,7 +11,18 @@
                 </small>
             </div>
             @if($WalletOffers->total() > 0)
-                {{Form::open(['route'=>'company_users_update_all','method'=>'post'])}}
+                @if(@Auth::user()->permissionsGroup->add_status)
+                    <div class="row p-a">
+                        <div class="col-sm-12">
+                                <a class="btn btn-fw primary marginBottom5" href="{{route("wallet_offers_create")}}">
+                                    <i class="material-icons">&#xe02e;</i> &nbsp; {!! trans('backend.create_wallet_offers') !!}
+                                </a>
+                        </div>
+                    </div>
+                @endif
+            @endif
+            @if($WalletOffers->total() > 0)
+                {{Form::open(['route'=>'wallet_offers_update_all','method'=>'post'])}}
                 <div class="table-responsive">
                     <table class="table table-striped  b-t">
                         <thead>

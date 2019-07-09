@@ -6,7 +6,6 @@ $envAdminCharCount = strlen(env('BACKEND_PATH')) + 1;
 // URL after Root Path EX: admin/home
 $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH')) + $envAdminCharCount);
 ?>
-
 <div id="aside" class="app-aside modal fade folded md nav-expand">
     <div class="left navside dark dk" layout="column">
         <div class="navbar navbar-md no-radius">
@@ -114,14 +113,14 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                             $currentFolder = "notifications"; // Put folder name here
                             $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
                             ?>
-                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
+                            {{-- <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
                                 <a href="{{ route('notifications_list') }}">
                                     <span class="nav-icon">
                                         <i class="material-icons">notifications</i>
                                         </span>
                                     <span class="nav-text">{{ trans('backend.siteInbox') }}</span>
                                 </a>
-                            </li>
+                            </li> --}}
                         @endif
                     @endif
 
@@ -203,7 +202,7 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                                     $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
                                     ?>
                                     <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
-                                        <a href="{{ route('users') }}">
+                                        <a href="{{ route('users_list') }}">
                                             <span class="nav-text">{{ trans('backend.usersPermissions') }}</span>
                                         </a>
                                     </li>

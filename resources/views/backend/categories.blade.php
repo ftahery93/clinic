@@ -1,5 +1,4 @@
 @extends('backend.layout')
-
 @section('content')
     <div class="padding">
         <div class="box">
@@ -10,15 +9,13 @@
                     <a href="">{{ trans('backend.categories') }}</a>
                 </small>
             </div>
-            @if($Categories->total() >0)
+            @if($Categories->total() > 0)
                 @if(@Auth::user()->permissionsGroup->add_status)
                     <div class="row p-a">
                         <div class="col-sm-12">
-                            {{-- @foreach($Categories as $Category) --}}
-                                <a class="btn btn-fw primary marginBottom5" href="{{route("adminCategoriesCreate")}}">
+                                <a class="btn btn-fw primary marginBottom5" href="{{route("categories_create")}}">
                                     <i class="material-icons">&#xe02e;</i> &nbsp; {!! trans('backend.createCategory') !!}
                                 </a>
-                            {{-- @endforeach --}}
                         </div>
                     </div>
                 @endif
@@ -28,23 +25,12 @@
                     <div class="col-sm-12">
                         <div class=" p-a text-center ">
                             {{ trans('backend.noData') }}
-                            <br>
-                            <br>
-                            @if(@Auth::user()->permissionsGroup->add_status)
-                                {{-- @foreach($WebmasterBanners as $WebmasterBanner)
-                                    <a class="btn btn-fw primary marginBottom5"
-                                       href="{{route("BannersCreate",$WebmasterBanner->id)}}">
-                                        <i class="material-icons">&#xe02e;</i>
-                                        &nbsp; {!! trans('backend.'.$WebmasterBanner->name) !!}</a>
-                                @endforeach --}}
-                            @endif
                         </div>
                     </div>
                 </div>
             @endif
-
             @if($Categories->total() > 0)
-                {{Form::open(['route'=> 'adminCategoriesUpdateAll','method'=>'post'])}}
+                {{Form::open(['route'=> 'categories_update_all','method'=>'post'])}}
                 <div class="table-responsive">
                     <table class="table table-striped  b-t">
                         <thead>
@@ -60,18 +46,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <?php
-                        $title_var = "title_" . trans('backend.boxCode');
-                        $title_var2 = "title_" . trans('backend.boxCodeOther');
-                        ?>
                         @foreach($Categories as $Category)
-                            <?php
-                            if ($Category->$title_var != "") {
-                                $title = $Category->$title_var;
-                            } else {
-                                $title = $Category->$title_var2;
-                            }
-                            ?>
                             <tr>
                                 <td><label class="ui-check m-a-0">
                                         <input type="checkbox" name="ids[]" value="{{ $Category->id }}"><i
@@ -79,19 +54,14 @@
                                         {!! Form::hidden('row_ids[]',$Category->id, array('class' => 'form-control row_no')) !!}
                                     </label>
                                 </td>
-                                <td>
-                                    {!! $title !!}
-                                </td>
-                                {{-- <td>
-                                    {!! trans('backend.'.$Category->name)   !!}
-                                </td> --}}
+                                <td>{!! $Category->name   !!}</td>
                                 <td class="text-center">
                                     <i class="fa {{ ($Category->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
                                 </td>
                                 <td class="text-center">
                                     @if(@Auth::user()->permissionsGroup->edit_status)
                                         <a class="btn btn-sm success"
-                                           href="{{ route("adminCategoriesEdit",["id"=>$Category->id]) }}">
+                                           href="{{ route("categories_edit",["id"=>$Category->id]) }}">
                                             <small><i class="material-icons">&#xe3c9;</i> {{ trans('backend.edit') }}
                                             </small>
                                         </a>
@@ -118,24 +88,22 @@
                                             <p>
                                                 {{ trans('backend.confirmationDeleteMsg') }}
                                                 <br>
-                                                <strong>[ {{ $title }} ]</strong>
+                                                <strong>[ {{ $Category->name }} ]</strong>
                                             </p>
                                         </div>
-                                        {{-- <div class="modal-footer">
+                                        <div class="modal-footer">
                                             <button type="button" class="btn dark-white p-x-md"
                                                     data-dismiss="modal">{{ trans('backend.no') }}</button>
-                                            <a href="{{ route("BannersDestroy",["id"=>$Category->id]) }}"
+                                            <a href="{{ route("categories_destroy",["id"=>$Category->id]) }}"
                                                class="btn danger p-x-md">{{ trans('backend.yes') }}</a>
-                                        </div> --}}
+                                        </div>
                                     </div><!-- /.modal-content -->
                                 </div>
                             </div>
                             <!-- / .modal -->
                         @endforeach
-
                         </tbody>
                     </table>
-
                 </div>
                 <footer class="dker p-a">
                     <div class="row">
@@ -166,9 +134,8 @@
                                 <select name="action" id="action" class="input-sm form-control w-sm inline v-middle"
                                         required>
                                     <option value="">{{ trans('backend.bulkAction') }}</option>
-                                    {{-- <option value="order">{{ trans('backend.saveOrder') }}</option>
                                     <option value="activate">{{ trans('backend.activeSelected') }}</option>
-                                    <option value="block">{{ trans('backend.blockSelected') }}</option> --}}
+                                    <option value="block">{{ trans('backend.blockSelected') }}</option>
                                     @if(@Auth::user()->permissionsGroup->delete_status)
                                         <option value="delete">{{ trans('backend.deleteSelected') }}</option>
                                     @endif
