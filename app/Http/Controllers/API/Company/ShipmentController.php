@@ -326,7 +326,7 @@ class ShipmentController extends Controller
             ]);
         }
         foreach ($shipments as $shipment) {
-            $order->shipment()->attach($shipment);
+            $order->shipments()->attach($shipment);
             $shipment->update([
                 'status' => 2,
                 'company_id' => $request->company_id,
