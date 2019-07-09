@@ -17,7 +17,6 @@ class CompanyProfileController extends Controller
     public $language;
     public function __construct(Request $request)
     {
-        //$this->middleware('checkAuth');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
     }
@@ -97,8 +96,14 @@ class CompanyProfileController extends Controller
     {
         $company = Company::find($request->company_id);
 
-        if ($company) {
-            return $company;
+        if ($company != null) {
+            $country = Country::find($company->country_id);
+            $company["company"] = collect($country);
+            return response()->json($company);
+        } else {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_company_found', $this->language),
+            ], 404);
         }
     }
 
@@ -147,6 +152,8 @@ class CompanyProfileController extends Controller
         $company = Company::find($company_id);
 
         if ($company) {
+            $country = Country::find($company->country_id);
+            $company["company"] = collect($country);
             return collect($company);
         } else {
             return response()->json([
@@ -193,6 +200,8 @@ class CompanyProfileController extends Controller
 
         $company = Company::find($request->company_id);
         $company = collect($company)->only(['name', 'email', 'mobile', 'description', 'image']);
+        $country = Country::find($company->country_id);
+        $company["company"] = collect($country);
         return response()->json($company);
     }
 
@@ -310,6 +319,9 @@ class CompanyProfileController extends Controller
                 'image' => $file_name,
             ]);
         }
+
+        $country = Country::find($registeredCompany->country_id);
+        $registeredCompany["company"] = collect($country);
 
         return response()->json([
             'message' => LanguageManagement::getLabel('text_successUpdated', $this->language),

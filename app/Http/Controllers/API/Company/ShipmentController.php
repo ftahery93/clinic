@@ -14,7 +14,7 @@ use App\Models\API\Price;
 use App\Models\API\RegisteredUser;
 use App\Models\API\Shipment;
 use App\Models\API\Wallet;
-use App\Models\API\WalletOut;
+use App\Models\API\WalletTransaction;
 use App\Utility;
 use Illuminate\Http\Request;
 
@@ -265,9 +265,10 @@ class ShipmentController extends Controller
             if ($wallet->balance > $remainingAmount) {
                 $walletAmount = $remainingAmount;
                 $remainingAmount = 0;
-                WalletOut::create([
+                $walletTransaction = WalletTransaction::create([
                     'company_id' => $request->company_id,
                     'amount' => $walletAmount,
+                    'type' => 0,
                 ]);
                 $remainingBalance = $wallet->balance - $walletAmount;
                 $wallet->update([
@@ -276,9 +277,10 @@ class ShipmentController extends Controller
             } else if ($wallet->balance < $remainingAmount) {
                 $walletAmount = $wallet->balance;
                 $remainingAmount -= $walletAmount;
-                WalletOut::create([
+                $walletTransaction = WalletTransaction::create([
                     'company_id' => $request->company_id,
                     'amount' => $walletAmount,
+                    'type' => 0,
                 ]);
                 $wallet->update([
                     'balance' => 0,
@@ -286,9 +288,10 @@ class ShipmentController extends Controller
             } else {
                 $walletAmount = $wallet->balance;
                 $remainingAmount = 0;
-                WalletOut::create([
+                $walletTransaction = WalletTransaction::create([
                     'company_id' => $request->company_id,
                     'amount' => $walletAmount,
+                    'type' => 0,
                 ]);
                 $wallet->update([
                     'balance' => 0,
@@ -315,8 +318,13 @@ class ShipmentController extends Controller
             'wallet_amount' => $walletAmount,
             'card_amount' => $cardAmount,
         ]);
-        foreach ($shipments as $shipment) {
 
+        if ($walletAmount > 0) {
+            $walletTransaction->update([
+                'order_id' => $order->id,
+            ]);
+        }
+        foreach ($shipments as $shipment) {
             $order->shipment()->attach($shipment);
             $shipment->update([
                 'status' => 2,
@@ -330,7 +338,7 @@ class ShipmentController extends Controller
         if ($user != null && $company != null) {
             $playerIds[] = $user->player_id;
             Notification::sendNotificationToMultipleUser($playerIds);
-            MailSender::sendMail($user->email, "Shipment Accepted", "Hello User, Your shipment is accepted by " . $company->name);
+            MailSender::sendMail($user->email, "Shipment Accepted", "Hello, Your shipment is accepted by " . $company->name);
         }
 
         return response()->json([
