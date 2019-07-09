@@ -292,7 +292,7 @@ class CompanyProfileController extends Controller
         $registeredCompany = Company::find($request->company_id);
 
         if ($request->email != $registeredCompany->email) {
-            $existingNumber = Company::where('email', $request->email)->get();
+            $existingNumber = Company::where('email', $request->email)->get()->first();
             if ($existingNumber == null) {
                 $registeredCompany->update([
                     'email' => $request->email,
