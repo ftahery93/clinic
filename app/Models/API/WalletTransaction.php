@@ -8,7 +8,7 @@ class WalletTransaction extends Model
 {
     protected $table = "wallet_transactions";
     protected $fillable = array('company_id', 'amount', 'wallet_in', 'order_id');
-    protected $hidden = array('updated_at');
+    protected $hidden = array('updated_at', 'company_id');
 
     public function getWalletInAttribute($value)
     {
