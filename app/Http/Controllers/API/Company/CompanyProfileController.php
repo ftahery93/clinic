@@ -11,6 +11,7 @@ use App\Models\API\FreeDelivery;
 use App\Models\API\OneSignalCompanyUser;
 use App\Utility;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CompanyProfileController extends Controller
 {
