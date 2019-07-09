@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
-use App\Models\Admin\User;
 use App\Models\API\Authentication;
 use App\Models\API\Country;
 use App\Models\API\OneSignalUser;
@@ -232,21 +231,6 @@ class AuthController extends Controller
         $registeredUser = RegisteredUser::where('mobile', $request->mobile)->get()->first();
         $player_id = OneSignalUser::where('player_id', $request->player_id)->get()->first();
 
-        if ($player_id == null) {
-            OneSignalUser::create([
-                'user_id' => $registeredUser->id,
-                'player_id' => $request->player_id,
-                'device_type' => $request->device_type,
-            ]);
-        }
-
-        $token = '' . $registeredUser->id . '' . $registeredUser->mobile . '' . $this->accessToken;
-        Authentication::create([
-            'user_id' => $registeredUser->id,
-            'access_token' => $token,
-            'type' => 1,
-        ]);
-
         if ($registeredUser == null) {
             if ($country == null) {
                 return response()->json([
@@ -264,13 +248,26 @@ class AuthController extends Controller
                 'player_id' => $request->player_id,
                 'device_type' => $request->device_type,
             ]);
+        } else {
+            if ($player_id == null) {
+                OneSignalUser::create([
+                    'user_id' => $registeredUser->id,
+                    'player_id' => $request->player_id,
+                    'device_type' => $request->device_type,
+                ]);
+            }
         }
+        $token = '' . $registeredUser->id . '' . $registeredUser->mobile . '' . $this->accessToken;
+        Authentication::create([
+            'user_id' => $registeredUser->id,
+            'access_token' => $token,
+            'type' => 1,
+        ]);
 
         return response()->json([
             'access_token' => $token,
             'user' => $registeredUser,
         ]);
-
     }
 
     private function getFirebaseUser($idToken)
