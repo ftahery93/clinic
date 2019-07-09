@@ -338,13 +338,13 @@ class ShipmentController extends Controller
 
         if ($user != null && $company != null) {
             $playerIds[] = $user->player_id;
-            Notification::sendNotificationToMultipleUser($playerIds);
+            Notification::sendNotificationToMultipleUser($playerIds, "Shipment #" . $shipment->id . " Accepted");
             MailSender::sendMail($user->email, "Shipment Accepted", "Hello, Your shipment is accepted by " . $company->name);
         }
 
         return response()->json([
             'message' => LanguageManagement::getLabel('accept_shipment_success', $this->language),
-            'free_deliveries_used' => $freeDeliveries,
+            'free_deliveries_used' => $freeShipments,
             'wallet_amount_used' => $walletAmount,
             'card_amount' => $cardAmount,
         ]);
