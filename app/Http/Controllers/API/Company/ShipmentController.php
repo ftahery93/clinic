@@ -268,7 +268,7 @@ class ShipmentController extends Controller
                 $walletTransaction = WalletTransaction::create([
                     'company_id' => $request->company_id,
                     'amount' => $walletAmount,
-                    'type' => 0,
+                    'wallet_in' => 0,
                 ]);
                 $remainingBalance = $wallet->balance - $walletAmount;
                 $wallet->update([
@@ -280,7 +280,7 @@ class ShipmentController extends Controller
                 $walletTransaction = WalletTransaction::create([
                     'company_id' => $request->company_id,
                     'amount' => $walletAmount,
-                    'type' => 0,
+                    'wallet_in' => 0,
                 ]);
                 $wallet->update([
                     'balance' => 0,
@@ -291,7 +291,7 @@ class ShipmentController extends Controller
                 $walletTransaction = WalletTransaction::create([
                     'company_id' => $request->company_id,
                     'amount' => $walletAmount,
-                    'type' => 0,
+                    'wallet_in' => 0,
                 ]);
                 $wallet->update([
                     'balance' => 0,

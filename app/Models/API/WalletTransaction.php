@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class WalletTransaction extends Model
 {
     protected $table = "wallet_transactions";
-    protected $fillable = array('company_id', 'amount', 'type');
+    protected $fillable = array('company_id', 'amount', 'wallet_in', 'order_id');
     protected $hidden = array('updated_at');
 
-    public function getTypeAttribute($value)
+    public function getWalletInAttribute($value)
     {
         return $value ? true : false;
     }

@@ -97,7 +97,7 @@ class WalletController extends Controller
             WalletTransaction::create([
                 'company_id' => $request->company_id,
                 'amount' => $request->amount,
-                'type' => 1,
+                'wallet_in' => 1,
             ]);
 
             $balance = $wallet->balance + $request->amount;
@@ -222,10 +222,7 @@ class WalletController extends Controller
         $transactionDetails = [];
         if ($walletTransactions != null) {
             foreach ($walletTransactions as $walletTransaction) {
-                $details = [];
-                $details["amount"] = $walletTransaction->amount;
-                $details["in"] = $walletTransaction->type;
-                $transactionDetails[] = $details;
+                $transactionDetails[] = $walletTransaction;
             }
         }
 
