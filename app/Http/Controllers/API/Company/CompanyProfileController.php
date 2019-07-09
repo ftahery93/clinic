@@ -200,7 +200,6 @@ class CompanyProfileController extends Controller
     {
 
         $company = Company::find($request->company_id);
-        $company = collect($company)->only(['name', 'email', 'mobile', 'description', 'image']);
         $country = Country::find($company->country_id);
         $company["company"] = collect($country);
         return response()->json($company);
