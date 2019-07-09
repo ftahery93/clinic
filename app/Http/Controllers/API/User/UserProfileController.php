@@ -315,7 +315,6 @@ class UserProfileController extends Controller
                 return response()->json([
                     'error' => LanguageManagement::getLabel('mobile_not_found', $this->language),
                 ], 404);
-
             }
             if (strpos($response['users'][0]['phoneNumber'], $country->country_code . $request->mobile) === false) {
                 return response()->json([
@@ -347,7 +346,6 @@ class UserProfileController extends Controller
                 'access_token' => $token,
             ]);
         }
-
     }
 
     /**
@@ -419,7 +417,6 @@ class UserProfileController extends Controller
         return response()->json([
             'message' => LanguageManagement::getLabel('text_successLoggout', $this->language),
         ]);
-
     }
 
     private function getFirebaseUser($idToken)

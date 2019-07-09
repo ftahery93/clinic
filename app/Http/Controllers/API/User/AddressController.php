@@ -332,8 +332,6 @@ class AddressController extends Controller
             'area' => 'required',
             'building' => 'required',
             'mobile' => 'required|digits:8',
-            'details' => 'required',
-            'notes' => 'required',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
