@@ -15,4 +15,10 @@ class WalletTransaction extends Model
         return $value ? true : false;
     }
 
+    public function getCreatedAtAttribute($value)
+    {
+        $values = explode(" ", $value);
+        return $values[0];
+    }
+
 }
