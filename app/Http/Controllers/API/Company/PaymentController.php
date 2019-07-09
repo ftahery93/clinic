@@ -95,7 +95,7 @@ class PaymentController extends Controller
                 WalletTransaction::create([
                     'company_id' => $order->company_id,
                     'amount' => $order->wallet,
-                    'type' => true,
+                    'wallet_in' => 1,
                 ]);
 
                 $wallet->update([
