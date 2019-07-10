@@ -878,13 +878,13 @@
                         "required": true,
                         "schema": {
                             "properties": {
-                                "wallet_id": {
-                                    "description": "Company Wallet ID - *(Required)",
+                                "offer_id": {
+                                    "description": "Wallet offer ID",
                                     "type": "integer",
                                     "example": 34
                                 },
                                 "amount": {
-                                    "description": "Amount to be added - *(Required)",
+                                    "description": "Amount to be added",
                                     "type": "double",
                                     "example": 50
                                 },

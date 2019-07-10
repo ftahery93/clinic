@@ -49,15 +49,15 @@ class WalletController extends Controller
      *             required=true,
      *          @SWG\Schema(
      *              @SWG\Property(
-     *                  property="wallet_id",
+     *                  property="offer_id",
      *                  type="integer",
-     *                  description="Company Wallet ID - *(Required)",
+     *                  description="Wallet offer ID",
      *                  example=34
      *              ),
      *              @SWG\Property(
      *                  property="amount",
      *                  type="double",
-     *                  description="Amount to be added - *(Required)",
+     *                  description="Amount to be added",
      *                  example=50.00
      *              ),
      *              @SWG\Property(
@@ -109,17 +109,20 @@ class WalletController extends Controller
                 'wallet_in' => 1,
             ]);
 
+            $balance = $wallet->balance + $walletOffers->amount;
+
         } else {
             $balance = $wallet->balance + $request->amount;
-            $wallet->update([
-                'balance' => $balance,
-            ]);
             WalletTransaction::create([
                 'company_id' => $request->company_id,
                 'amount' => $request->amount,
                 'wallet_in' => 1,
             ]);
         }
+
+        $wallet->update([
+            'balance' => $balance,
+        ]);
 
         return response()->json([
             'id' => $wallet->id,
