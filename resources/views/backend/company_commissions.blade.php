@@ -17,11 +17,11 @@
                         <thead>
                         <tr>                           
                             <th>{{ trans('backend.companyName') }}</th>
-                            <th>{{ trans('backend.card_amount') }}({{ trans('backend.currency') }})</th>
-                            <th>{{ trans('backend.wallet_amount') }}({{ trans('backend.currency') }})</th>
-                            <th>{{ trans('backend.free_deliveries') }}</th>
+                            <th>{{ trans('backend.card_amount') }} {{ trans('backend.used') }} ({{ trans('backend.currency') }})</th>
+                            <th>{{ trans('backend.wallet_amount') }} {{ trans('backend.used') }} ({{ trans('backend.currency') }})</th>
+                            <th>{{ trans('backend.free_deliveries') }} {{ trans('backend.used') }}</th>
                             <th>{{ trans('backend.shipments') }}</th>
-                            <th>{{ trans('backend.commissions') }}({{ trans('backend.currency') }})</th>
+                            <th>{{ trans('backend.commissions') }} ({{ trans('backend.currency') }})</th>
                         </tr>
                         </thead>
                         <tbody>
