@@ -109,7 +109,7 @@ class ShipmentController extends Controller
             $shipment = $this->getShipmentDetailsResponse($shipment);
             $shipment["address_from"] = Address::find($shipment->address_from_id);
             $shipment["address_to"] = Address::find($shipment->address_to_id);
-            $response = collect($shipment);
+            $response[] = collect($shipment);
         }
         return response()->json($response);
     }

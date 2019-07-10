@@ -238,7 +238,7 @@ class AuthController extends Controller
                 ], 404);
             }
             $registeredUser = RegisteredUser::create([
-                'mobile' => $request->mobile,
+                'mobile' => $country->code . $request->mobile,
                 'status' => 1,
                 'country_id' => $request->country_id,
             ]);
