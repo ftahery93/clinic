@@ -284,7 +284,7 @@ class UserProfileController extends Controller
         $validator = [
             'mobile' => 'required|digits:8',
             'idToken' => 'required',
-            'country_id' => 'required',
+            'country_id' => 'required|exists:countries,id',
         ];
 
         $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
@@ -311,11 +311,7 @@ class UserProfileController extends Controller
             }
 
             $country = Country::find($request->country_id);
-            if ($country == null) {
-                return response()->json([
-                    'error' => LanguageManagement::getLabel('mobile_not_found', $this->language),
-                ], 404);
-            }
+
             if (strpos($response['users'][0]['phoneNumber'], $country->country_code . $request->mobile) === false) {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('mobile_not_found', $this->language),
@@ -324,7 +320,7 @@ class UserProfileController extends Controller
 
             $user->update([
                 'country_id' => $request->country_id,
-                'mobile' => $request->mobile,
+                'mobile' => $country->country_code . $request->mobile,
             ]);
 
             $country = Country::find($user->country_id);

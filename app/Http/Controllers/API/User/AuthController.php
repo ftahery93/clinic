@@ -253,6 +253,7 @@ class AuthController extends Controller
                 ]);
             }
         }
+
         $token = '' . $registeredUser->id . '' . $registeredUser->mobile . '' . $this->accessToken;
         Authentication::create([
             'user_id' => $registeredUser->id,
