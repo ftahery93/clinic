@@ -64,6 +64,8 @@ class ShipmentController extends Controller
         $response = [];
         foreach ($shipments as $shipment) {
             $shipment = $this->getShipmentDetailsResponse($shipment);
+            $shipment["address_from"] = Address::find($shipment->address_from_id);
+            $shipment["address_to"] = Address::find($shipment->address_to_id);
             $response[] = collect($shipment);
         }
         return response()->json($response);
@@ -104,6 +106,8 @@ class ShipmentController extends Controller
         $response = [];
         foreach ($shipments as $shipment) {
             $shipment = $this->getShipmentDetailsResponse($shipment);
+            $shipment["address_from"] = Address::find($shipment->address_from_id);
+            $shipment["address_to"] = Address::find($shipment->address_to_id);
             $response = collect($shipment);
         }
         return response()->json($response);
@@ -154,6 +158,8 @@ class ShipmentController extends Controller
         $shipment = Shipment::find($shipment_id);
         if ($shipment->company_id == $request->company_id || $shipment->status == 1) {
             $shipment = $this->getShipmentDetailsResponse($shipment);
+            $shipment["address_from"] = Address::find($shipment->address_from_id);
+            $shipment["address_to"] = Address::find($shipment->address_to_id);
             return collect($shipment);
         } else {
             return response()->json([
@@ -507,10 +513,12 @@ class ShipmentController extends Controller
      */
     public function getShipmentHistory(Request $request)
     {
-        $shipments = Shipment::where('company_id', $request->company_id)->get();
+        $shipments = Shipment::where('company_id', $request->company_id)->where('status', 4)->get();
         $response = [];
         foreach ($shipments as $shipment) {
             $shipment = $this->getShipmentDetailsResponse($shipment);
+            $shipment["address_from"] = Address::find($shipment->address_from_id);
+            $shipment["address_to"] = Address::find($shipment->address_to_id);
             $response[] = collect($shipment);
         }
         return response()->json($response);
