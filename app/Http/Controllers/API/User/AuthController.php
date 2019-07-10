@@ -228,17 +228,13 @@ class AuthController extends Controller
             ], 404);
         }
 
-        $registeredUser = RegisteredUser::where('mobile', $country->code . $request->mobile)->get()->first();
+        $registeredUser = RegisteredUser::where('mobile', $country->country_code . $request->mobile)->get()->first();
         $player_id = OneSignalUser::where('player_id', $request->player_id)->get()->first();
 
         if ($registeredUser == null) {
-            if ($country == null) {
-                return response()->json([
-                    'error' => LanguageManagement::getLabel('no_country_found', $this->language),
-                ], 404);
-            }
+
             $registeredUser = RegisteredUser::create([
-                'mobile' => $country->code . $request->mobile,
+                'mobile' => $country->country_code . $request->mobile,
                 'status' => 1,
                 'country_id' => $request->country_id,
             ]);
