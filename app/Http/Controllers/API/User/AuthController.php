@@ -201,7 +201,7 @@ class AuthController extends Controller
         $validator = [
             'idToken' => 'required',
             'mobile' => 'bail|required|digits:8',
-            'country_id' => 'required',
+            'country_id' => 'required|exists:countries,id',
             'player_id' => 'required',
             'device_type' => 'required',
         ];
@@ -222,7 +222,7 @@ class AuthController extends Controller
 
         $country = Country::find($request->country_id);
 
-        if ($country != null && strpos($response['users'][0]['phoneNumber'], $country->country_code . $request->mobile) === false) {
+        if (strpos($response['users'][0]['phoneNumber'], $country->country_code . $request->mobile) === false) {
             return response()->json([
                 'error' => LanguageManagement::getLabel('mobile_not_found', $this->language),
             ], 404);
