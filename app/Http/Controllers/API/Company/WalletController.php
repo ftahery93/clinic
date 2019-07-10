@@ -82,9 +82,9 @@ class WalletController extends Controller
     public function addToWallet(Request $request)
     {
         $validator = [
-            'wallet_id' => 'required',
-            'amount' => 'required',
             'isOffer' => 'required|boolean',
+            'offer_id' => 'required_if:isOffer,true|exists:wallet_offers,id',
+            'amount' => 'required_if:isOffer,false',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
@@ -93,44 +93,38 @@ class WalletController extends Controller
         }
 
         $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
-        if ($wallet != null) {
+
+        if ($request->isOffer) {
+            $walletOffers = WalletOffer::find($request->offer_id);
+            $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->get()->first();
+            $quantity = $freeDeliveries->quantity;
+            $quantity = $quantity + $walletOffers->free_deliveries;
+            $freeDeliveries->update([
+                'quantity' => $quantity,
+            ]);
+
+            WalletTransaction::create([
+                'company_id' => $request->company_id,
+                'amount' => $walletOffers->amount,
+                'wallet_in' => 1,
+            ]);
+
+        } else {
+            $balance = $wallet->balance + $request->amount;
+            $wallet->update([
+                'balance' => $balance,
+            ]);
             WalletTransaction::create([
                 'company_id' => $request->company_id,
                 'amount' => $request->amount,
                 'wallet_in' => 1,
             ]);
-
-            $balance = $wallet->balance + $request->amount;
-            $wallet->update([
-                'balance' => $balance,
-            ]);
-
-            if ($request->isOffer) {
-                $walletOffers = WalletOffer::where('amount', $request->amount)->get()->first();
-                if ($walletOffers != null) {
-                    $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->get()->first();
-                    if ($freeDeliveries != null) {
-                        $quantity = $freeDeliveries->quantity;
-                        $quantity = $quantity + $walletOffers->free_deliveries;
-                        $freeDeliveries->update([
-                            'quantity' => $quantity,
-                        ]);
-                    } else {
-                        FreeDelivery::create([
-                            'company_id' => $request->company_id,
-                            'quantity' => $walletOffers->free_deliveries,
-                        ]);
-                    }
-                }
-            }
-
-            return response()->json([
-                'id' => $wallet->id,
-                'balance' => $wallet->balance,
-            ]);
-        } else {
-            return response()->json([], 404);
         }
+
+        return response()->json([
+            'id' => $wallet->id,
+            'balance' => $wallet->balance,
+        ]);
 
     }
     /*
