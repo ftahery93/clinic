@@ -228,7 +228,7 @@ class AuthController extends Controller
             ], 404);
         }
 
-        $registeredUser = RegisteredUser::where('mobile', $request->mobile)->get()->first();
+        $registeredUser = RegisteredUser::where('mobile', $country->code . $request->mobile)->get()->first();
         $player_id = OneSignalUser::where('player_id', $request->player_id)->get()->first();
 
         if ($registeredUser == null) {
