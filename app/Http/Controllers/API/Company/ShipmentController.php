@@ -75,10 +75,10 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/company/getAcceptedShipments",
+     *         path="/company/getMyShipments",
      *         tags={"Company Shipments"},
-     *         operationId="getAcceptedShipments",
-     *         summary="Get Company accepted shipments",
+     *         operationId="getMyShipments",
+     *         summary="Get Company accepted/picked up shipments",
      *         security={{"ApiAuthentication":{}}},
      *         @SWG\Parameter(
      *             name="Accept-Language",
@@ -101,9 +101,9 @@ class ShipmentController extends Controller
      *     )
      *
      */
-    public function getAcceptedShipments(Request $request)
+    public function getMyShipments(Request $request)
     {
-        $shipments = Shipment::where('company_id', $request->company_id)->where('status', 2)->get();
+        $shipments = Shipment::where('company_id', $request->company_id)->where('status', 2)->where('status', 3)->get();
         $response = [];
         foreach ($shipments as $shipment) {
             $shipment = $this->getShipmentDetailsResponse($shipment);

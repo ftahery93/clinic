@@ -596,13 +596,13 @@
                 ]
             }
         },
-        "/company/getAcceptedShipments": {
+        "/company/getMyShipments": {
             "get": {
                 "tags": [
                     "Company Shipments"
                 ],
-                "summary": "Get Company accepted shipments",
-                "operationId": "getAcceptedShipments",
+                "summary": "Get Company accepted/picked up shipments",
+                "operationId": "getMyShipments",
                 "parameters": [
                     {
                         "name": "Accept-Language",
