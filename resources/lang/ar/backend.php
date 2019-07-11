@@ -543,4 +543,8 @@
   'name' => 'اسم',
   'label' => 'ضع الكلمة المناسبة',
   'langButton' => 'تحديث ملف اللغة',
+  'shipmentPrice' => 'سعر الشحن',
+  'commissions' => 'للجان',
+  'used' => 'مستخدم',
+  'company_details' => 'تفاصيل الشركة',
  ];

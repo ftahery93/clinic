@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Company;
+use App\Order;
+use App\Commission;
 use App\Permissions;
 use Auth;
 use File;
+use DB;
 use Illuminate\Http\Request;
 use Redirect;
 
@@ -127,6 +130,32 @@ class CompanyUsersController extends Controller
             Company::wherein('id', $request->ids)->where('id', "!=", 1)->delete();
         }
         return redirect()->action('CompanyUsersController@index')->with('doneMessage', trans('backend.saveDone'));
+    }
+
+    /**
+     * Company Commissions.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  buttonNames , array $ids[]
+     * @return \Illuminate\Http\Response
+     */
+    public function commissions(Request $request)
+    {
+        if (@Auth::user()->permissionsGroup->view_status) {
+            $CompanyOrders = Order::
+                 select('companies.name As company_name',  DB::raw("COUNT(order_shipment.shipment_id) as count_shipment"),
+                 DB::raw("SUM(orders.wallet_amount) as wallet_amount"), DB::raw("SUM(orders.card_amount) as card_amount"), DB::raw("SUM(orders.free_deliveries) as free_deliveries"))                
+                ->leftJoin('companies', 'companies.id', '=', 'orders.company_id')
+                ->leftJoin('order_shipment', 'order_shipment.order_id', '=', 'orders.id')
+                ->groupBy('orders.id')
+                ->groupBy('companies.id')
+                ->paginate(env('BACKEND_PAGINATION'));
+
+            $Commission=Commission::first();
+            $commissionPercentage =$Commission->percentage;
+          
+        }
+        return view("backend.company_commissions", compact("CompanyOrders","commissionPercentage"));
     }
 
 }

@@ -550,5 +550,8 @@ return [
   'name' => 'Name',
   'label' => 'label',
   'langButton' => 'Update language file',
-  
+  'shipmentPrice' => 'Shipment Price',
+  'commissions' => 'Commissions',
+  'used' => 'Used',
+  'company_details' => 'Company Details',
  ];

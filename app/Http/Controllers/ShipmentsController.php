@@ -57,7 +57,7 @@ class ShipmentsController extends Controller
                 'transactions' => $this->getTransactions($Shipment->id),
             );
         }
-
+    
         return view("backend.shipments",compact("Shipments","ShipmentDetails","Commission"));
     }
 
