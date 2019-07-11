@@ -103,7 +103,7 @@ class ShipmentController extends Controller
      */
     public function getMyShipments(Request $request)
     {
-        $shipments = Shipment::where('company_id', $request->company_id)->where('status', 2)->where('status', 3)->get();
+        $shipments = Shipment::where('company_id', $request->company_id)->where('status', 2)->orWhere('status', 3)->get();
         $response = [];
         foreach ($shipments as $shipment) {
             $shipment = $this->getShipmentDetailsResponse($shipment);
