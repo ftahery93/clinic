@@ -179,31 +179,31 @@
                         @if(!empty($ShipmentDetails))
 
                         <?php                                                          
-                                                            $transaction = $ShipmentDetails[$Shipment->id]['transactions']; 
-                                                        ?>
+                            $transaction = $ShipmentDetails[$Shipment->id]['transactions']; 
+                        ?>
                          <div class="row"> 
                          <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">                              
                         <div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
                             <p class="text-center margin-btm5"><strong>{{ trans('backend.wallet_amount') }} </strong>
                             </p>
-                            <p class="text-center">{{ $transaction->wallet_amount }} {{ trans('backend.currency') }}</p>
+                            <p class="text-center">{{ ($transaction->wallet_amount) ? ($transaction->wallet_amount) : 0  }} {{ trans('backend.currency') }}</p>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
                             <p class="text-center margin-btm5"><strong>{{ trans('backend.card_amount') }} </strong></p>
-                            <p class="text-center">{{ $transaction->card_amount }} {{ trans('backend.currency') }}</p>
+                            <p class="text-center">{{ ($transaction->card_amount) ? ($transaction->card_amount) : 0  }} {{ trans('backend.currency') }}</p>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
                             <p class="text-center margin-btm5"><strong>{{ trans('backend.free_deliveries') }} </strong>
                             </p>
-                            <p class="text-center">{{ $transaction->free_deliveries }} </p>
+                            <p class="text-center">{{ ($transaction->free_deliveries) ? ($transaction->free_deliveries) : 0 }} </p>
                         </div>
 
                         <div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
                             <p class="text-center margin-btm5"><strong>{{ trans('backend.shipmentPrice') }} </strong>
                             </p>
-                            <p class="text-center">{{ $Shipment->price }} {{ trans('backend.currency') }}</p>
+                            <p class="text-center">{{ ($Shipment->price) ? ($Shipment->price) : 0 }} {{ trans('backend.currency') }}</p>
                         </div>
                         </div>
                         </div>
