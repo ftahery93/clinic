@@ -68,6 +68,11 @@ class PaymentController extends Controller
         }
     }
 
+    public function checkPaymentStatus(Request $request)
+    {
+        echo "Yes I have reached here";
+    }
+
     public function paymentFailed(Request $request)
     {
         $validator = [

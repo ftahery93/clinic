@@ -146,6 +146,8 @@ Route::get('services/{id}/edit/{category_id}/', 'Admin\ServiceController@edit');
 Route::patch('services/{id}/{category_id}', 'Admin\ServiceController@update');
 Route::post('services/delete/{category_id}', 'Admin\ServiceController@destroyMany');
 
+Route::get('payment/checkPaymentStatus/{id}/{payID}', 'Admin\PaymentTest@checkPaymentStatus');
+
 //Cache Config , Route , View, Optimize
 Route::get('configCache', 'Admin\CacheController@configCache');
 Route::get('routeCache', 'Admin\CacheController@routeCache');
@@ -157,6 +159,8 @@ Route::get('configCacheClear', 'Admin\CacheController@configCacheClear');
 Route::get('routeCacheClear', 'Admin\CacheController@routeCacheClear');
 Route::get('viewCacheClear', 'Admin\CacheController@viewCacheClear');
 Route::get('cacheClear', 'Admin\CacheController@cacheClear');
+
+Route::get('payment/knetTest/{id?}', 'Admin\PaymentTest@knetTest');
 
 // Route::get('/updateapp', function()
 // {
