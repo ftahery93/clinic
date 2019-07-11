@@ -42,6 +42,7 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
 
     // Company Users
     Route::get('/company/users/', 'CompanyUsersController@index')->name('company_users_list');
+    Route::get('/company/users/commissions', 'CompanyUsersController@commissions')->name('commissions_list');
     Route::get('/company/user/edit/{id}', 'CompanyUsersController@edit')->name('company_users_edit');
     Route::post('/company/user/update/{id}', 'CompanyUsersController@update')->name('company_users_update');
     Route::post('/company/users/updateAll', 'CompanyUsersController@updateAll')->name('company_users_update_all');

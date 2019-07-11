@@ -88,6 +88,25 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                         @endif
                     @endif
 
+                    {{-- Commissions --}}
+                    @if(Helper::GeneralWebmasterSettings("companyusers_status"))
+                        @if(@Auth::user()->permissionsGroup->companyusers_status)
+                            <?php
+                            $currentFolder = "commissions"; // Put folder name here
+                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                            ?>
+                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
+                                <a href="{{ route('commissions_list') }}">
+                                    <span class="nav-icon">
+                                        <i class="material-icons">list</i>
+                                        </span>
+                                    <span class="nav-text">{{ trans('backend.company_details') }}</span>
+                                </a>
+                            </li>
+                        @endif
+                    @endif
+
+
                     {{-- Categories --}}
                     @if(Helper::GeneralWebmasterSettings("categories_status"))
                         @if(@Auth::user()->permissionsGroup->categories_status)
@@ -124,6 +143,7 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                         @endif
                     @endif
 
+                    
                     {{-- Settings --}}
                     @if(Helper::GeneralWebmasterSettings("settings_status"))
                         @if(@Auth::user()->permissionsGroup->settings_status)
