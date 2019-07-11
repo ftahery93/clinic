@@ -256,7 +256,7 @@ class AddressController extends Controller
      *             required=true,
      *          @SWG\Schema(
      *              @SWG\Property(
-     *                  property="address_id",
+     *                  property="id",
      *                  type="integer",
      *                  description="Address ID",
      *                  example=24
@@ -325,7 +325,7 @@ class AddressController extends Controller
     public function editAddress(Request $request)
     {
         $validationMessages = [
-            'address_id' => 'required',
+            'id' => 'required',
             'name' => 'required',
             'block' => 'required',
             'street' => 'required',
@@ -339,7 +339,7 @@ class AddressController extends Controller
             return $checkForError;
         }
 
-        $address = Address::find($request->address_id);
+        $address = Address::find($request->id);
         if ($address != null && $request->user_id == $address->user_id && $address->status == 1) {
             $address->update([
                 'name' => $request->name,

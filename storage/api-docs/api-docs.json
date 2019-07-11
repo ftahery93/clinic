@@ -1177,7 +1177,7 @@
                         "required": true,
                         "schema": {
                             "properties": {
-                                "address_id": {
+                                "id": {
                                     "description": "Address ID",
                                     "type": "integer",
                                     "example": 24
