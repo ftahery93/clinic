@@ -15,7 +15,6 @@ use App\Models\API\Price;
 use App\Models\API\RegisteredUser;
 use App\Models\API\Shipment;
 use App\Models\API\Wallet;
-use App\Models\API\WalletTransaction;
 use App\Utility;
 use Illuminate\Http\Request;
 
@@ -244,22 +243,12 @@ class ShipmentController extends Controller
             if ($totalShipments > $freeDeliveries->quantity) {
                 $freeShipments = $freeDeliveries->quantity;
                 $totalShipments = $totalShipments - $freeShipments;
-                $freeDeliveries->update([
-                    'quantity' => 0,
-                ]);
             } else if ($totalShipments < $freeDeliveries->quantity) {
                 $freeShipments = $totalShipments;
                 $totalShipments = 0;
-                $remainingFreeShipments = ($freeDeliveries->quantity) - ($freeShipments);
-                $freeDeliveries->update([
-                    'quantity' => $remainingFreeShipments,
-                ]);
             } else {
                 $freeShipments = $totalShipments;
                 $totalShipments = 0;
-                $freeDeliveries->update([
-                    'quantity' => 0,
-                ]);
             }
         }
 
@@ -272,37 +261,12 @@ class ShipmentController extends Controller
             if ($wallet->balance > $remainingAmount) {
                 $walletAmount = $remainingAmount;
                 $remainingAmount = 0;
-                $walletTransaction = WalletTransaction::create([
-                    'company_id' => $request->company_id,
-                    'amount' => $walletAmount,
-                    'wallet_in' => 0,
-                ]);
-                $remainingBalance = $wallet->balance - $walletAmount;
-                $wallet->update([
-                    'balance' => $remainingBalance,
-                ]);
             } else if ($wallet->balance < $remainingAmount) {
                 $walletAmount = $wallet->balance;
                 $remainingAmount = $remainingAmount - $walletAmount;
-                $walletTransaction = WalletTransaction::create([
-                    'company_id' => $request->company_id,
-                    'amount' => $walletAmount,
-                    'wallet_in' => 0,
-                ]);
-                $wallet->update([
-                    'balance' => 0,
-                ]);
             } else {
                 $walletAmount = $wallet->balance;
                 $remainingAmount = 0;
-                $walletTransaction = WalletTransaction::create([
-                    'company_id' => $request->company_id,
-                    'amount' => $walletAmount,
-                    'wallet_in' => 0,
-                ]);
-                $wallet->update([
-                    'balance' => 0,
-                ]);
             }
         }
 
@@ -310,9 +274,7 @@ class ShipmentController extends Controller
             $cardAmount = $remainingAmount;
         }
 
-        //$totalAmount = 0;
         foreach ($shipments as $shipment) {
-            //$totalAmount += $shipment->price;
             if ($shipment->status > 1) {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('shipment_booked_already', $this->language),
@@ -327,11 +289,6 @@ class ShipmentController extends Controller
             'status' => 1,
         ]);
 
-        if ($walletAmount > 0) {
-            $walletTransaction->update([
-                'order_id' => $order->id,
-            ]);
-        }
         foreach ($shipments as $shipment) {
             $order->shipments()->attach($shipment);
             $shipment->update([
@@ -351,6 +308,7 @@ class ShipmentController extends Controller
 
         return response()->json([
             'message' => LanguageManagement::getLabel('accept_shipment_success', $this->language),
+            'order_id' => $order->id,
             'free_deliveries_used' => $freeShipments,
             'wallet_amount_used' => $walletAmount,
             'card_amount' => $cardAmount,

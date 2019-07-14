@@ -5,7 +5,7 @@
         "description": "Api description...",
         "version": "1.0.0"
     },
-    "basePath": "/~tvavisa/masafah/public/api",
+    "basePath": "/masafah/public/api",
     "paths": {
         "/company/register": {
             "post": {
@@ -552,6 +552,54 @@
                 "responses": {
                     "200": {
                         "description": "Successful"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
+        "/company/payOrder/{order_id}": {
+            "get": {
+                "tags": [
+                    "Company Shipments"
+                ],
+                "summary": "Pay shipments",
+                "operationId": "payShipments",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "description": "Order ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    },
+                    "404": {
+                        "description": "Order not found"
                     }
                 },
                 "security": [

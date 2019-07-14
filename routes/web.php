@@ -160,7 +160,7 @@ Route::get('routeCacheClear', 'Admin\CacheController@routeCacheClear');
 Route::get('viewCacheClear', 'Admin\CacheController@viewCacheClear');
 Route::get('cacheClear', 'Admin\CacheController@cacheClear');
 
-Route::get('payment/knetTest/{id?}', 'Admin\PaymentTest@knetTest');
+Route::get('payment/{id?}', 'Admin\PaymentController@payment');
 
 // Route::get('/updateapp', function()
 // {
