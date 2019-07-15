@@ -160,7 +160,7 @@ Route::get('routeCacheClear', 'Admin\CacheController@routeCacheClear');
 Route::get('viewCacheClear', 'Admin\CacheController@viewCacheClear');
 Route::get('cacheClear', 'Admin\CacheController@cacheClear');
 
-Route::get('payment/{id?}', 'Admin\PaymentController@payment');
+Route::get('payment/{order_id?}', 'API\Company\PaymentController@payment');
 
 // Route::get('/updateapp', function()
 // {

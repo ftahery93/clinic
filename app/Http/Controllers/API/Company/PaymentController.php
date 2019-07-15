@@ -7,6 +7,7 @@ use App\Models\Admin\LanguageManagement;
 use App\Models\API\Company;
 use App\Models\API\FreeDelivery;
 use App\Models\API\Order;
+use App\Models\API\Payment;
 use App\Models\API\Wallet;
 use App\Models\API\WalletTransaction;
 use App\Utility;
@@ -125,14 +126,18 @@ class PaymentController extends Controller
 
         }
 
-        $this->updateShipmentStatus($order, $request);
+        $isUpdateSuccess = $this->updateShipmentStatus($order);
+
+        if (!$isUpdateSuccess) {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('shipment_booked_already', $this->language),
+            ], 409);
+        }
 
         if ($order->card_amount > 0) {
             $company = Company::find($request->company_id);
             $invoiceString = $this->createInvoice($company, $order);
             $response_data = $this->makeInvoiceCreateIsoRequest($invoiceString);
-            echo $response_data;
-            die;
             $response_data = json_decode($response_data, true);
 
             $paymentMethods = $response_data['PaymentMethods'];
@@ -140,23 +145,49 @@ class PaymentController extends Controller
             return response()->json($extractedPaymentMethods);
 
         } else {
-            $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->get()->first();
-            $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
-
-            $remainingQuantity = $freeDeliveries->quantity - $order->free_deliveries;
-            $walletBalance = $wallet->balance - $order->wallet_amount;
-
-            $freeDeliveries->update([
-                'quantity' => $remainingQuantity,
-            ]);
-
-            $this->createWalletTransaction($request);
-            $this->updateWalletBalance($wallet, $walletBalance);
-            $this->updateOrderStatus($order, 2);
-
+            $this->bookOrder($order);
             return response()->json([
                 'message' => LanguageManagement::getLabel('order_placed_success', $this->language),
             ]);
+        }
+    }
+
+    public function payment(Request $request)
+    {
+        $paymentId = $request->paymentId;
+        $orderId = $request->order_id;
+
+        $response = $this->makeTransactionRequest($paymentId);
+
+        $order = Order::find($orderId);
+        if ($order == null) {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_order_found', $this->language),
+            ], 404);
+        }
+
+        $payment = Payment::create([
+            'reference_id' => $response['ReferenceId'],
+            'track_id' => $response['TrackId'],
+            'transaction_id' => $response['TransactionId'],
+            'payment_id' => $response['PaymentId'],
+            'transaction_status' => $response['TransactionStatus'],
+            'payment_gateway'=>$response['PaymentGateway'],
+            'order_id' => $order->id,
+        ]);
+
+        if ($response['TransactionStatus'] == 2) {
+
+            $this->bookOrder($order);
+
+            return response()->json([
+                'message' => LanguageManagement::getLabel('payment_success', $this->language),
+            ]);
+        } else {
+            $this->updateOrderOnFailedTransaction($order);
+            return response()->json([
+                'error' => LanguageManagement::getLabel('payment_failed', $this->language),
+            ], 424);
         }
     }
 
@@ -171,11 +202,28 @@ class PaymentController extends Controller
         return $extractedPaymentMethods;
     }
 
-    private function createWalletTransaction($request)
+    private function bookOrder($order)
+    {
+        $freeDeliveries = FreeDelivery::where('company_id', $order->company_id)->get()->first();
+        $wallet = Wallet::where('company_id', $order->company_id)->get()->first();
+
+        $remainingQuantity = $freeDeliveries->quantity - $order->free_deliveries;
+        $walletBalance = $wallet->balance - $order->wallet_amount;
+
+        $freeDeliveries->update([
+            'quantity' => $remainingQuantity,
+        ]);
+
+        $this->createWalletTransaction($order);
+        $this->updateWalletBalance($wallet, $walletBalance);
+        $this->updateOrderStatus($order, 2);
+    }
+
+    private function createWalletTransaction($order)
     {
         WalletTransaction::create([
-            'company_id' => $request->company_id,
-            'amount' => $$request->wallet_amount,
+            'company_id' => $order->company_id,
+            'amount' => $order->wallet_amount,
             'wallet_in' => 0,
         ]);
     }
@@ -194,57 +242,60 @@ class PaymentController extends Controller
         ]);
     }
 
-    private function updateShipmentStatus($order, $request)
+    private function updateShipmentStatus($order)
     {
         $shipments = $order->shipments()->get();
         foreach ($shipments as $shipment) {
-            $shipment->update([
-                'status' => 2,
-                'company_id' => $request->company_id,
-            ]);
+            if ($shipment->status == 1) {
+                $shipment->update([
+                    'status' => 2,
+                    'company_id' => $order->company_id,
+                ]);
+            } else {
+                return false;
+            }
         }
+        return true;
     }
 
     private function createInvoice($company, $order)
     {
-        $callBackUri = url('/public/admin/payment?id=' . $order->id);
+        $callBackUri = url('/admin/payment?order_id=' . $order->id);
+        $callBackUri = str_replace("localhost", "127.0.0.1", $callBackUri);
 
-        $invoiceString = "{\"InvoiceValue\": \"" . $order->id . "\",";
-        $invoiceString .= "\"CustomerName\": \"" . $company->name . "\",";
-        $invoiceString .= "\"CustomerBlock\": \"" . $order->id . "\",";
-        $invoiceString .= "\"CustomerStreet\": \"" . $order->id . "\",";
-        $invoiceString .= "\"CustomerHouseBuildingNo\": \"" . $order->id . "\",";
-        $invoiceString .= "\"CustomerCivilId\": \"" . $order->id . "\",";
-        $invoiceString .= "\"CustomerAddress\": \"" . $order->id . "\",";
-        $invoiceString .= "\"CustomerReference\": \"" . $order->id . "\",";
-        $invoiceString .= "\"DisplayCurrencyIsoAlpha\": \"KWD\",";
-        $invoiceString .= "\"CountryCodeId\": 1,";
-        $invoiceString .= "\"CustomerMobile\": \"" . $company->mobile . "\",";
-        $invoiceString .= "\"CustomerEmail\": \"" . $order->email . "\",";
-        $invoiceString .= "\"SendInvoiceOption\": 2,";
-        $invoiceString .= "\"InvoiceItemsCreate\": [";
+        $invoiceString = '{"InvoiceValue": "' . $order->id . '",
+        "CustomerName": "' . $company->name . '",
+        "CustomerBlock": "' . $order->id . '",
+        "CustomerStreet": "' . $order->id . '",
+        "CustomerHouseBuildingNo": "' . $order->id . '",
+        "CustomerCivilId": "' . $order->id . '",
+        "CustomerAddress": "' . $order->id . '",
+        "CustomerReference": "' . $order->id . '",
+        "DisplayCurrencyIsoAlpha": "KWD",
+        "CountryCodeId": 1,
+        "CustomerMobile": "' . $company->mobile . '",
+        "CustomerEmail": "' . $company->email . '",
+        "SendInvoiceOption": 2,
+        "InvoiceItemsCreate": [{"ProductId":null,
+        "ProductName": "Shipments",
+        "Quantity": 1,
+        "UnitPrice": "' . $order->card_amount . '"}],
+        "CallBackUrl": "' . $callBackUri . '",
+        "Language": 2,
+        "ExpireDate": "' . date("Y-m-d H:i:s", strtotime('+2 hours')) . '",
+        "ApiCustomFileds": "string",
+        "ErrorUrl": "' . $callBackUri . '"}';
 
-        $invoiceString .= "{\"ProductId\": " . $order->id . ",";
-        $invoiceString .= "\"ProductName\": \"" . $order->id . "\",";
-        $invoiceString .= "\"Quantity\": 1,";
-        $invoiceString .= "\"UnitPrice\": \"" . $order->cart_amount . "\"}";
-
-        $invoiceString .= "],";
-        $invoiceString .= "\"CallBackUrl\": \"" . $callBackUri . "\",";
-        $invoiceString .= "\"Language\": 2,";
-        $invoiceString .= "\"ExpireDate\": \"" . date("Y-m-d H:i:s", strtotime('+2 hours')) . "\",";
-        $invoiceString .= "\"ApiCustomFileds\": \"string\",";
-        $invoiceString .= "\"ErrorUrl\": \"" . $callBackUri . "\"}";
-
-        $invoiceString = json_encode($invoiceString, true);
-
+        //$invoiceString = json_encode($invoiceString, true);
+        //echo $invoiceString;
+        //die;
         return $invoiceString;
 
     }
 
     private function makeInvoiceCreateIsoRequest($invoiceString)
     {
-        $url = "https://apikw.myfatoorah.com/Invoices/CreateInvoiceIso";
+        $url = "https://apidemo.myfatoorah.com/ApiInvoices/CreateInvoiceIso";
         $header[] = 'Content-Type: application/json';
         $header[] = 'Accept: application/json';
         $header[] = 'authorization: bearer ' . env('MY_FATOORAH_API_KEY');
@@ -259,6 +310,45 @@ class PaymentController extends Controller
         $response_data = curl_exec($ch);
 
         return $response_data;
-
     }
+
+    private function makeTransactionRequest($paymentId)
+    {
+        $header[] = 'Content-Type: application/json';
+        $header[] = 'Accept: application/json';
+        $header[] = 'authorization: bearer ' . env('MY_FATOORAH_API_KEY');
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://apidemo.myfatoorah.com/ApiInvoices/Transaction/" . $paymentId);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_POST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        $response = curl_exec($ch);
+        $response = json_decode($response, true);
+        return $response;
+    }
+
+    private function updateOrderOnSuccessfulTransaction($order)
+    {
+        $order->update([
+            'status' => 1,
+        ]);
+    }
+
+    private function updateOrderOnFailedTransaction($order)
+    {
+        $order->update([
+            'status' => 2,
+        ]);
+        $shipments = $order->shipments()->get();
+        foreach ($shipments as $shipment) {
+            $shipment->update([
+                'status' => 1,
+            ]);
+        }
+    }
+
 }

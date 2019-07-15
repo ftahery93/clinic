@@ -286,15 +286,11 @@ class ShipmentController extends Controller
             'free_deliveries' => $freeShipments,
             'wallet_amount' => $walletAmount,
             'card_amount' => $cardAmount,
-            'status' => 1,
+            'status' => 0,
         ]);
 
         foreach ($shipments as $shipment) {
             $order->shipments()->attach($shipment);
-            $shipment->update([
-                'status' => 2,
-                'company_id' => $request->company_id,
-            ]);
         }
 
         $user = RegisteredUser::find($shipment->user_id);
