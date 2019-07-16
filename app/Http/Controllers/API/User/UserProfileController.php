@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\API\User;
 
-use App\Http\Controllers\Controller;
-
-use App\LanguageManagement;
 use App\Authentication;
+use App\Http\Controllers\Controller;
+use App\LanguageManagement;
 use App\RegisteredUser;
 use App\Utility;
 use Illuminate\Http\Request;
@@ -290,8 +289,9 @@ class UserProfileController extends Controller
         }
 
         $user = RegisteredUser::find($request->user_id);
+        $country = Country::find($request->country_id);
 
-        $existingUser = RegisteredUser::where('mobile', $request->mobile)->get()->first();
+        $existingUser = RegisteredUser::where('mobile', $request->mobile)->where('country_id', $country->id)->get()->first();
         if ($existingUser != null) {
             return response()->json([
                 'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
@@ -306,8 +306,6 @@ class UserProfileController extends Controller
                     'error' => LanguageManagement::getLabel('mobile_not_found', $this->language),
                 ], 404);
             }
-
-            $country = Country::find($request->country_id);
 
             if (strpos($response['users'][0]['phoneNumber'], $country->country_code . $request->mobile) === false) {
                 return response()->json([
