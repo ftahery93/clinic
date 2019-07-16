@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use File;
-use Redirect;
+use App\Commission;
 use App\Price;
 use App\Setting;
-use App\Commission;
-use App\Http\Requests;
+use Auth;
 use Illuminate\Http\Request;
+use Redirect;
 
 class SettingsController extends Controller
 {
@@ -31,7 +29,7 @@ class SettingsController extends Controller
     {
         $id = $this->getId();
         $Setting = Setting::find($id);
-        if (count($Setting) > 0) {
+        if ($Setting != null) {
             return view("backend.settings.settings", compact("Setting"));
         } else {
             return redirect()->route('adminHome');
@@ -42,7 +40,7 @@ class SettingsController extends Controller
     public function showCommission()
     {
         $Commission = Commission::find(1);
-        if (count($Commission) > 0) {
+        if ($Commission != null) {
             return view("backend.commissions", compact("Commission"));
         } else {
             return redirect()->route('adminHome');
@@ -53,7 +51,7 @@ class SettingsController extends Controller
     public function updateCommission(Request $request)
     {
         $Commission = Commission::find(1);
-        if (count($Commission) > 0) {
+        if ($Commission != null) {
             $Commission->percentage = $request->percentage;
             $Commission->save();
             return redirect()->action('SettingsController@showCommission')->with('doneMessage', trans('backend.saveDone'));
@@ -66,7 +64,7 @@ class SettingsController extends Controller
     public function showPrice()
     {
         $Price = Price::find(1);
-        if (count($Price) > 0) {
+        if ($Price != null) {
             return view("backend.prices", compact("Price"));
         } else {
             return redirect()->route('adminHome');
@@ -77,7 +75,7 @@ class SettingsController extends Controller
     public function updatePrice(Request $request)
     {
         $Price = Price::find(1);
-        if (count($Price) > 0) {
+        if ($Price != null) {
             $Price->price = $request->price;
             $Price->save();
             return redirect()->action('SettingsController@showPrice')->with('doneMessage', trans('backend.saveDone'));
@@ -108,7 +106,7 @@ class SettingsController extends Controller
         //
         $id = $this->getId();
         $Setting = Setting::find($id);
-        if (count($Setting) > 0) {
+        if ($Setting != null) {
             $Setting->site_url = $request->site_url;
             $Setting->site_title_en = $request->site_title_en;
             $Setting->site_title_ar = $request->site_title_ar;

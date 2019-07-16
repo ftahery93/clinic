@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Commission;
 use App\Company;
 use App\Order;
-use App\Commission;
 use App\Permissions;
 use Auth;
-use File;
 use DB;
+use File;
 use Illuminate\Http\Request;
 use Redirect;
 
@@ -38,8 +38,8 @@ class CompanyUsersController extends Controller
     {
         if (@Auth::user()->permissionsGroup->view_status) {
             $CompanyUsers = Company::
-                 select('companies.id', 'companies.name', 'companies.email', 'companies.mobile', 'companies.phone', 'companies.status',
-                  'companies.rating', 'companies.approved', 'companies.image', 'wallet.balance')
+                select('companies.id', 'companies.name', 'companies.email', 'companies.mobile', 'companies.phone', 'companies.status',
+                'companies.rating', 'companies.approved', 'companies.image', 'wallet.balance')
                 ->orderby('id', 'asc')
                 ->leftJoin('wallet', 'wallet.company_id', '=', 'companies.id')
                 ->paginate(env('BACKEND_PAGINATION'));
@@ -143,19 +143,20 @@ class CompanyUsersController extends Controller
     {
         if (@Auth::user()->permissionsGroup->view_status) {
             $CompanyOrders = Order::
-                 select('companies.name As company_name',  DB::raw("COUNT(order_shipment.shipment_id) as count_shipment"),
-                 DB::raw("SUM(orders.wallet_amount) as wallet_amount"), DB::raw("SUM(orders.card_amount) as card_amount"), DB::raw("SUM(orders.free_deliveries) as free_deliveries"))                
+                select('companies.name As company_name', DB::raw("COUNT(order_shipment.shipment_id) as count_shipment"),
+                DB::raw("SUM(orders.wallet_amount) as wallet_amount"), DB::raw("SUM(orders.card_amount) as card_amount"), DB::raw("SUM(orders.free_deliveries) as free_deliveries"))
                 ->leftJoin('companies', 'companies.id', '=', 'orders.company_id')
                 ->leftJoin('order_shipment', 'order_shipment.order_id', '=', 'orders.id')
+                ->where('status', 1)
                 ->groupBy('orders.id')
                 ->groupBy('companies.id')
                 ->paginate(env('BACKEND_PAGINATION'));
 
-            $Commission=Commission::first();
-            $commissionPercentage =$Commission->percentage;
-          
+            $Commission = Commission::first();
+            $commissionPercentage = $Commission->percentage;
+
         }
-        return view("backend.company_commissions", compact("CompanyOrders","commissionPercentage"));
+        return view("backend.company_commissions", compact("CompanyOrders", "commissionPercentage"));
     }
 
 }
