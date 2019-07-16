@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use Redirect;
 use App\Permissions;
 use App\WalletOffer;
-use App\Http\Requests;
-use Illuminate\Config;
+use Auth;
 use Illuminate\Http\Request;
+use Redirect;
 
 class WalletOffersController extends Controller
 {
@@ -47,15 +45,15 @@ class WalletOffersController extends Controller
      */
     public function create()
     {
-         // Check Permissions
-         if (!@Auth::user()->permissionsGroup->add_status) {
+        // Check Permissions
+        if (!@Auth::user()->permissionsGroup->add_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
 
         return view("backend.wallet.create");
     }
 
-   /**
+    /**
      * Create Wallet Offer
      *
      * @param  \Illuminate\Http\Request $request
@@ -67,11 +65,10 @@ class WalletOffersController extends Controller
         if (!@Auth::user()->permissionsGroup->add_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
-        
 
         $this->validate($request, [
             'amount' => 'required',
-            'free_deliveries' => 'required'
+            'free_deliveries' => 'required',
         ]);
 
         $WalletOffer = new WalletOffer;
@@ -100,7 +97,7 @@ class WalletOffersController extends Controller
         if (@Auth::user()->permissionsGroup->view_status) {
             $WalletOffer = WalletOffer::find($id);
         }
-        if (count($WalletOffer) > 0) {
+        if ($WalletOffer != null) {
             return view("backend.wallet.edit", compact("WalletOffer"));
         } else {
             return redirect()->action('WalletOffersController@index');
@@ -122,7 +119,7 @@ class WalletOffersController extends Controller
         }
 
         $WalletOffer = WalletOffer::find($id);
-        if (count($WalletOffer) > 0) {
+        if ($WalletOffer != null) {
             $this->validate($request, [
                 'amount' => 'required',
                 'free_deliveries' => 'required',
@@ -154,14 +151,13 @@ class WalletOffersController extends Controller
         if (@Auth::user()->permissionsGroup->view_status) {
             $WalletOffer = WalletOffer::find($id);
         }
-        if (count($WalletOffer) > 0) {
+        if ($WalletOffer != null) {
             $WalletOffer->delete();
             return redirect()->action('WalletOffersController@index')->with('doneMessage', trans('backend.deleteDone'));
         } else {
             return redirect()->action('WalletOffersController@index');
         }
     }
-
 
     /**
      * Update all selected resources in storage.
@@ -172,7 +168,7 @@ class WalletOffersController extends Controller
      */
     public function updateAll(Request $request)
     {
-       if ($request->action == "delete") {
+        if ($request->action == "delete") {
             // Check Permissions
             if (!@Auth::user()->permissionsGroup->delete_status) {
                 return Redirect::to(route('NoPermission'))->send();

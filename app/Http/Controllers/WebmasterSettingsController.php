@@ -27,7 +27,7 @@ class WebmasterSettingsController extends Controller
     {
         $id = $this->getId();
         $WebmasterSetting = WebmasterSetting::find($id);
-        if (count($WebmasterSetting) > 0) {
+        if ($WebmasterSetting!=null) {
             return view("backEnd.webmaster.settings", compact("WebmasterSetting"));
         } else {
             return redirect()->route('adminHome');

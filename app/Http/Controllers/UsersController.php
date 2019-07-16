@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Permissions;
+use App\User;
 use Auth;
 use File;
-use Redirect;
-use App\User;
-use App\Permissions;
-use App\Http\Requests;
 use Illuminate\Config;
 use Illuminate\Http\Request;
-
+use Redirect;
 
 class UsersController extends Controller
 {
@@ -72,7 +70,7 @@ class UsersController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required',
-            'permissions_id' => 'required'
+            'permissions_id' => 'required',
         ]);
 
         // Start of Upload Files
@@ -80,7 +78,7 @@ class UsersController extends Controller
         $fileFinalName_ar = "";
         if ($request->$formFileName != "") {
             $fileFinalName_ar = time() . rand(1111,
-                    9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
             $path = base_path() . "/public/" . $this->getUploadPath();
             $request->file($formFileName)->move($path, $fileFinalName_ar);
         }
@@ -124,7 +122,7 @@ class UsersController extends Controller
             $Users = User::find($id);
             $Permissions = Permissions::orderby('id', 'asc')->get();
         }
-        if (count($Users) > 0) {
+        if ($Users != null) {
             return view("backend.users.edit", compact("Users", "Permissions"));
         } else {
             return redirect()->action('UsersController@index');
@@ -141,7 +139,7 @@ class UsersController extends Controller
     public function update(Request $request, $id)
     {
         $User = User::find($id);
-        if (count($User) > 0) {
+        if ($User != null) {
 
             $this->validate($request, [
                 'photo' => 'mimes:png,jpeg,jpg,gif|max:3000',
@@ -161,7 +159,7 @@ class UsersController extends Controller
             $fileFinalName_ar = "";
             if ($request->$formFileName != "") {
                 $fileFinalName_ar = time() . rand(1111,
-                        9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                    9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
                 $path = base_path() . "/public/" . $this->getUploadPath();
                 $request->file($formFileName)->move($path, $fileFinalName_ar);
             }
@@ -187,7 +185,7 @@ class UsersController extends Controller
                 }
                 $User->photo = $fileFinalName_ar;
             }
- 
+
             $User->status = $request->status;
             $User->updated_by = Auth::user()->id;
             $User->save();
@@ -210,7 +208,7 @@ class UsersController extends Controller
         } else {
             $User = User::find($id);
         }
-        if (count($User) > 0 && $id != 1) {
+        if ($User != null && $id != 1) {
             // Delete a User photo
             if ($User->photo != "") {
                 File::delete($this->getUploadPath() . $User->photo);
@@ -221,7 +219,6 @@ class UsersController extends Controller
             return redirect()->action('UsersController@index');
         }
     }
-
 
     /**
      * Update all selected resources in storage.
@@ -251,7 +248,6 @@ class UsersController extends Controller
         return redirect()->action('UsersController@index')->with('doneMessage', trans('backend.saveDone'));
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
@@ -271,7 +267,7 @@ class UsersController extends Controller
     public function permissions_store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required'
+            'name' => 'required',
         ]);
 
         $Permissions = new Permissions;
@@ -294,7 +290,6 @@ class UsersController extends Controller
         return redirect()->action('UsersController@index')->with('doneMessage', trans('backend.addDone'));
     }
 
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -308,7 +303,7 @@ class UsersController extends Controller
         } else {
             $Permissions = Permissions::find($id);
         }
-        if (count($Permissions) > 0) {
+        if ($Permissions != null) {
             return view("backend.users.permissions.edit", compact("Permissions"));
         } else {
             return redirect()->action('UsersController@index');
@@ -326,11 +321,10 @@ class UsersController extends Controller
     {
         //
         $Permissions = Permissions::find($id);
-        if (count($Permissions) > 0) {
-
+        if ($Permissions != null) {
 
             $this->validate($request, [
-                'name' => 'required'
+                'name' => 'required',
             ]);
 
             $Permissions->name = $request->name;
@@ -370,13 +364,12 @@ class UsersController extends Controller
         } else {
             $Permissions = Permissions::find($id);
         }
-        if (count($Permissions) > 0 && $id != 1) {
+        if ($Permissions != null && $id != 1) {
             $Permissions->delete();
             return redirect()->action('UsersController@index')->with('doneMessage', trans('backend.deleteDone'));
         } else {
             return redirect()->action('UsersController@index');
         }
     }
-
 
 }

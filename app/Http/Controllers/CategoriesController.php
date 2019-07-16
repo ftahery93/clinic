@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use File;
-use Helper;
-use Redirect;
 use App\Category;
-use App\Http\Requests;
-use Illuminate\Config;
+use Auth;
 use Illuminate\Http\Request;
+use Redirect;
 
 class CategoriesController extends Controller
 {
@@ -31,11 +27,11 @@ class CategoriesController extends Controller
     public function index()
     {
         if (@Auth::user()->permissionsGroup->view_status) {
-            $Categories = Category::orderby('created_at','asc')->paginate(env('BACKEND_PAGINATION'));
+            $Categories = Category::orderby('created_at', 'asc')->paginate(env('BACKEND_PAGINATION'));
         }
-       return view("backend.categories", compact("Categories"));
+        return view("backend.categories", compact("Categories"));
     }
-    
+
     /**
      * Show the form for creating a new category
      *
@@ -44,8 +40,8 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-         // Check Permissions
-         if (!@Auth::user()->permissionsGroup->add_status) {
+        // Check Permissions
+        if (!@Auth::user()->permissionsGroup->add_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
 
@@ -64,10 +60,9 @@ class CategoriesController extends Controller
         if (!@Auth::user()->permissionsGroup->add_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
-        
 
         $this->validate($request, [
-            'name' => 'required'
+            'name' => 'required',
         ]);
 
         $Category = new Category;
@@ -92,12 +87,12 @@ class CategoriesController extends Controller
         if (!@Auth::user()->permissionsGroup->edit_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
-    
+
         if (@Auth::user()->permissionsGroup->view_status) {
             $Category = Category::find($id);
-            if (count($Category) > 0) {
+            if ($Category != null) {
                 return view("backend.categories.edit", compact("Category"));
-            } 
+            }
         } else {
             return redirect()->action('CategoriesController@index');
         }
@@ -117,7 +112,7 @@ class CategoriesController extends Controller
         }
 
         $Category = Category::find($id);
-        if (count($Category) > 0) {
+        if ($Category != null) {
 
             $this->validate($request, [
                 'name' => 'required',
@@ -149,14 +144,13 @@ class CategoriesController extends Controller
         if (@Auth::user()->permissionsGroup->view_status) {
             $Category = Category::find($id);
         }
-        if (count($Category) > 0) {
+        if ($Category != null) {
             $Category->delete();
             return redirect()->action('CategoriesController@index')->with('doneMessage', trans('backend.deleteDone'));
         } else {
             return redirect()->action('CategoriesController@index');
         }
     }
-
 
     /**
      * Update all selected resources in storage.

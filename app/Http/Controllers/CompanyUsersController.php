@@ -64,7 +64,7 @@ class CompanyUsersController extends Controller
         if (@Auth::user()->permissionsGroup->view_status) {
             $CompanyUser = Company::find($id);
         }
-        if (count($CompanyUser) > 0) {
+        if ($CompanyUser != null) {
             return view("backend.company.edit", compact("CompanyUser"));
         } else {
             return redirect()->action('CompanyUsersController@index');
@@ -86,7 +86,7 @@ class CompanyUsersController extends Controller
         }
 
         $CompanyUser = Company::find($id);
-        if (count($CompanyUser) > 0) {
+        if ($CompanyUser != null) {
             $this->validate($request, [
                 'name' => 'required',
                 'email' => 'required',

@@ -3,17 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\LanguageManagement;
+use App\Permissions;
 use Auth;
 use File;
-use Redirect;
-use App\Permissions;
-use App\Http\Requests;
-use Illuminate\Config;
 use Illuminate\Http\Request;
+use Redirect;
 
 class LanguageManagementController extends Controller
 {
-   
+
     // Define Default Variables
     public function __construct()
     {
@@ -39,7 +37,6 @@ class LanguageManagementController extends Controller
         return view("backend.languages.list", compact("Languages", "Permissions"));
     }
 
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -52,18 +49,18 @@ class LanguageManagementController extends Controller
         if (!@Auth::user()->permissionsGroup->edit_status) {
             return Redirect::to(route('NoPermission'))->send();
         }
-      
+
         if (@Auth::user()->permissionsGroup->view_status) {
             $Languages = LanguageManagement::find($id);
         } else {
             $Languages = LanguageManagement::find($id);
         }
-       
-        if (count($Languages) > 0) {
+
+        if ($Languages != null) {
             return view("backend.languages.edit", compact("Languages"));
-       } else {
-           return redirect()->action('languageManagementController@index');
-       }
+        } else {
+            return redirect()->action('languageManagementController@index');
+        }
     }
 
     /**
@@ -76,7 +73,7 @@ class LanguageManagementController extends Controller
     public function update(Request $request, $id)
     {
         $Languages = LanguageManagement::find($id);
-        if(count($Languages) > 0) {
+        if ($Languages != null) {
             $this->validate($request, [
                 'name' => 'required',
                 'label_en' => 'required',
@@ -90,31 +87,32 @@ class LanguageManagementController extends Controller
         }
     }
 
-     /**
+    /**
      * Update Localisation file.
      *
      * @param  int  $ids
      * @return \Illuminate\Http\Response
      */
-    public function updateLocale(Request $request) {  
+    public function updateLocale(Request $request)
+    {
         //Write update data into locale file
-        $lang = ($request->lang)?$request->lang:'en';
+        $lang = ($request->lang) ? $request->lang : 'en';
         $LanguageManagement = LanguageManagement::
-            select('title','label_en','label_ar')
+            select('title', 'label_en', 'label_ar')
             ->get();
-            $langstr ="<?php";
-            $langstr .= "\n return [";
-            $langstr .= "\n";
-            $langstr .=" ";
-            $myfile = fopen("resources/lang/".$lang."/messages.php", "w") or die("Unable to open file!");
-            foreach ($LanguageManagement as $row) {
-                $label=($lang=='en')?$row->label_en:$row->label_ar;
-                 $langstr .= '"'.$row->title . '"=>';
-                 $langstr .= '"'.$label. '"';
-                 $langstr .=", \n";
-           }
-           $langstr.= " ";
-           $langstr .=  "];";
+        $langstr = "<?php";
+        $langstr .= "\n return [";
+        $langstr .= "\n";
+        $langstr .= " ";
+        $myfile = fopen("resources/lang/" . $lang . "/messages.php", "w") or die("Unable to open file!");
+        foreach ($LanguageManagement as $row) {
+            $label = ($lang == 'en') ? $row->label_en : $row->label_ar;
+            $langstr .= '"' . $row->title . '"=>';
+            $langstr .= '"' . $label . '"';
+            $langstr .= ", \n";
+        }
+        $langstr .= " ";
+        $langstr .= "];";
         fwrite($myfile, $langstr);
         fclose($myfile);
 
