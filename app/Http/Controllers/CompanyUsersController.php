@@ -147,7 +147,7 @@ class CompanyUsersController extends Controller
                 DB::raw("SUM(orders.wallet_amount) as wallet_amount"), DB::raw("SUM(orders.card_amount) as card_amount"), DB::raw("SUM(orders.free_deliveries) as free_deliveries"))
                 ->leftJoin('companies', 'companies.id', '=', 'orders.company_id')
                 ->leftJoin('order_shipment', 'order_shipment.order_id', '=', 'orders.id')
-                ->where('status', 1)
+                ->where('orders.status', '=', 1)
                 ->groupBy('orders.id')
                 ->groupBy('companies.id')
                 ->paginate(env('BACKEND_PAGINATION'));
