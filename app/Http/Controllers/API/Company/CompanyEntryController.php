@@ -136,7 +136,6 @@ class CompanyEntryController extends Controller
             'mobile' => $request->mobile,
             'image' => $file_name,
             'status' => 0,
-            'otp' => substr(str_shuffle("0123456789"), 0, 5),
             'password' => bcrypt($request->password),
             'approved' => false,
             'country_id' => $request->country_id,

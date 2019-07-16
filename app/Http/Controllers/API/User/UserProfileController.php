@@ -5,9 +5,7 @@ namespace App\Http\Controllers\API\User;
 use App\Http\Controllers\Controller;
 
 use App\LanguageManagement;
-use App\User;
 use App\Authentication;
-use App\Otp;
 use App\RegisteredUser;
 use App\Utility;
 use Illuminate\Http\Request;

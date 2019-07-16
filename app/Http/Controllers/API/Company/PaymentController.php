@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers\API\Company;
 
-use App\Http\Controllers\Controller;
-use App\Models\API\Company;
-use App\Models\API\Payment;
-use function GuzzleHttp\json_decode;
-
-use App\LanguageManagement;
+use App\Company;
 use App\FreeDelivery;
+use App\Http\Controllers\Controller;
+use App\LanguageManagement;
 use App\Order;
+use App\Payment;
+use App\Utility;
 use App\Wallet;
 use App\WalletTransaction;
-use App\Utility;
-
+use function GuzzleHttp\json_decode;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -174,7 +172,7 @@ class PaymentController extends Controller
             'transaction_id' => $response['TransactionId'],
             'payment_id' => $response['PaymentId'],
             'transaction_status' => $response['TransactionStatus'],
-            'payment_gateway'=>$response['PaymentGateway'],
+            'payment_gateway' => $response['PaymentGateway'],
             'order_id' => $order->id,
         ]);
 
