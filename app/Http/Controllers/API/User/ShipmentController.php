@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\API\User;
 
+use App\Address;
+use App\Category;
+use App\Company;
 use App\Helpers\Notification;
 use App\Http\Controllers\Controller;
-use App\Models\Admin\Category;
-use App\Models\Admin\LanguageManagement;
-use App\Models\API\Address;
-use App\Models\API\Company;
-use App\Models\API\Price;
-use App\Models\API\Shipment;
+use App\LanguageManagement;
+use App\Price;
+use App\Shipment;
 use App\Utility;
 use function GuzzleHttp\json_decode;
 use Illuminate\Http\Request;

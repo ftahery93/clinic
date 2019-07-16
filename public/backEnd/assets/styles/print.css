@@ -1,0 +1,6 @@
+@media print {
+.btn{display: none;}
+.borderLeft0{border-left:0px !important;}
+.corner-ribbon.new_ribbon.shadow {margin:auto !important;}
+.logoPrint{display:block;width:200px;margin:auto}
+}

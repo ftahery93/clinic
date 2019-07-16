@@ -9,9 +9,11 @@ return [
     | This value is the name of your application. This value is used when the
     | framework needs to place the application's name in a notification or
     | any other location as required by the application or its packages.
-     */
+    |
+    */
 
-    'name' => 'Events',
+    'name' => env('APP_NAME', 'Masafah'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -21,8 +23,10 @@ return [
     | running in. This may determine how you prefer to configure various
     | services your application utilizes. Set this in your ".env" file.
     |
-     */
+    */
+
     'env' => env('APP_ENV', 'production'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
@@ -32,8 +36,10 @@ return [
     | stack traces will be shown on every error that occurs within your
     | application. If disabled, a simple generic error page is shown.
     |
-     */
+    */
+
     'debug' => env('APP_DEBUG', false),
+
     /*
     |--------------------------------------------------------------------------
     | Application URL
@@ -43,8 +49,10 @@ return [
     | the Artisan command line tool. You should set this to the root of
     | your application so that it is used when running Artisan tasks.
     |
-     */
-    'url' => env('APP_URL', 'http://localhost/events'),
+    */
+
+    'url' => env('APP_URL', 'http://localhost'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
@@ -54,8 +62,10 @@ return [
     | will be used by the PHP date and date-time functions. We have gone
     | ahead and set this to a sensible default for you out of the box.
     |
-     */
+    */
+
     'timezone' => 'Asia/Kuwait',
+
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
@@ -65,8 +75,10 @@ return [
     | by the translation service provider. You are free to set this value
     | to any of the locales which will be supported by the application.
     |
-     */
-    'locale' => 'en',
+    */
+
+    'locale' => env('DEFAULT_LANGUAGE', 'en'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
@@ -76,8 +88,10 @@ return [
     | is not available. You may change the value to correspond to any of
     | the language folders that are provided through your application.
     |
-     */
+    */
+
     'fallback_locale' => 'en',
+
     /*
     |--------------------------------------------------------------------------
     | Encryption Key
@@ -87,23 +101,12 @@ return [
     | to a random, 32 character string, otherwise these encrypted strings
     | will not be safe. Please do this before deploying an application!
     |
-     */
+    */
+
     'key' => env('APP_KEY'),
+
     'cipher' => 'AES-256-CBC',
-    /*
-    |--------------------------------------------------------------------------
-    | Logging Configuration
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure the log settings for your application. Out of
-    | the box, Laravel uses the Monolog PHP logging library. This gives
-    | you a variety of powerful log handlers / formatters to utilize.
-    |
-    | Available Settings: "single", "daily", "syslog", "errorlog"
-    |
-     */
-    'log' => env('APP_LOG', 'single'),
-    'log_level' => env('APP_LOG_LEVEL', 'debug'),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -113,11 +116,13 @@ return [
     | request to your application. Feel free to add your own services to
     | this array to grant expanded functionality to your applications.
     |
-     */
+    */
+
     'providers' => [
         /*
          * Laravel Framework Service Providers...
          */
+        
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -140,20 +145,14 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Yajra\Datatables\DatatablesServiceProvider::class,
-        //'Datatables' => yajra\Datatables\Datatables::class,
-        Watson\Active\ActiveServiceProvider::class,
-        /*Matriphe\Imageupload\ImageuploadServiceProvider::class, */
-        Maatwebsite\Excel\ExcelServiceProvider::class,
-        Spatie\Backup\BackupServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
-        ConsoleTVs\Charts\ChartsServiceProvider::class,
-        Laravel\Passport\PassportServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
+        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
+        Barryvdh\Cors\ServiceProvider::class,
+
         /*
          * Package Service Providers...
          */
 
-        //
 
         /*
          * Application Service Providers...
@@ -163,10 +162,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Collective\Html\HtmlServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
-        L5Swagger\L5SwaggerServiceProvider::class,
     ],
+
     /*
     |--------------------------------------------------------------------------
     | Class Aliases
@@ -176,12 +173,14 @@ return [
     | is started. However, feel free to register as many as you wish as
     | the aliases are "lazy" loaded so they don't hinder performance.
     |
-     */
+    */
+
     'aliases' => [
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
         'Blade' => Illuminate\Support\Facades\Blade::class,
+        'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
         'Bus' => Illuminate\Support\Facades\Bus::class,
         'Cache' => Illuminate\Support\Facades\Cache::class,
         'Config' => Illuminate\Support\Facades\Config::class,
@@ -212,20 +211,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-        'Input' => Illuminate\Support\Facades\Input::class,
-        'Datatables' => Yajra\DataTables\Facades\DataTables::class,
-        'Permit' => App\Helpers\Permit::class,
-        'LogActivity' => App\Helpers\LogActivity::class,
-        'VendorDetail' => App\Helpers\VendorDetail::class,
-        'TrainerDetail' => App\Helpers\TrainerDetail::class,
-        'Cron' => App\Helpers\Cron::class,
-        'CreateTable' => App\Helpers\CreateTable::class,
-        'Common' => App\Helpers\Common::class,
-        'Active' => Watson\Active\Facades\Active::class,
-        'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
-        /* 'Imageupload' => Matriphe\Imageupload\ImageuploadFacade::class, */
-        'Image' => 'Intervention\Image\Facades\Image',
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        'Debugbar' => 'Barryvdh\Debugbar\Facade',
+        'Helper' => App\Helpers\Helper::class,
     ],
+
 ];

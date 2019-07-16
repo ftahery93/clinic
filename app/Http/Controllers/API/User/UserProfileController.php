@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\LanguageManagement;
-use App\Models\Admin\User;
-use App\Models\API\Authentication;
-use App\Models\API\Country;
-use App\Models\API\OneSignalUser;
-use App\Models\API\Otp;
-use App\Models\API\RegisteredUser;
+
+use App\LanguageManagement;
+use App\User;
+use App\Authentication;
+use App\Otp;
+use App\RegisteredUser;
 use App\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;

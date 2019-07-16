@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API\User;
 
+use App\Company;
 use App\Http\Controllers\Controller;
-use App\Models\Admin\LanguageManagement;
-use App\Models\API\Company;
-use App\Models\API\Rating;
+use App\LanguageManagement;
+use App\Rating;
 use App\Utility;
 use Illuminate\Http\Request;
 

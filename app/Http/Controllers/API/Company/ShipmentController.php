@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers\API\Company;
 
+use App\Commission;
+use App\Company;
+use App\FreeDelivery;
 use App\Helpers\MailSender;
 use App\Helpers\Notification;
 use App\Http\Controllers\Controller;
-use App\Models\Admin\LanguageManagement;
-use App\Models\API\Address;
-use App\Models\API\Commission;
-use App\Models\API\Company;
-use App\Models\API\FreeDelivery;
-use App\Models\API\Order;
-use App\Models\API\Price;
-use App\Models\API\RegisteredUser;
-use App\Models\API\Shipment;
-use App\Models\API\Wallet;
+use App\LanguageManagement;
+use App\Order;
+use App\Price;
+use App\RegisteredUser;
+use App\Shipment;
 use App\Utility;
+use App\Wallet;
 use Illuminate\Http\Request;
 
 class ShipmentController extends Controller

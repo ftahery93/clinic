@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\LanguageManagement;
-use App\Models\API\Address;
+
+use App\LanguageManagement;
+use App\Address;
 use App\Utility;
 use Illuminate\Http\Request;
 

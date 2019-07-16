@@ -2,8 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Admin\LanguageManagement;
-use App\Models\API\Version;
+use App;
+use App\LanguageManagement;
+use App\Version;
 use Closure;
 use Illuminate\Support\Str;
 
@@ -21,7 +22,6 @@ class CheckVersion
         $language = $request->header('Accept-Language');
         if ($request->header('Version')) {
             $appVersion = $request->header('Version');
-
             if (Str::startsWith($appVersion, 'Android-')) {
                 $version = Version::find(2);
             } else if (Str::startsWith($appVersion, "iOS-")) {

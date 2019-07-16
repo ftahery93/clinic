@@ -5,7 +5,7 @@
         "description": "Api description...",
         "version": "1.0.0"
     },
-    "basePath": "/~tvavisa/masafah/public/api",
+    "basePath": "/masafah/public/api",
     "paths": {
         "/company/register": {
             "post": {
@@ -482,6 +482,50 @@
                         "description": "1.0.0",
                         "required": true,
                         "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/masafah/api/company/forgotPassword": {
+            "post": {
+                "tags": [
+                    "Company Forgot Password"
+                ],
+                "summary": "Request for password reset",
+                "operationId": "forgotPassword",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "email": {
+                                    "description": "User's email - *(Required)",
+                                    "type": "string",
+                                    "example": "info@dhl.com"
+                                }
+                            }
+                        }
                     }
                 ],
                 "responses": {

@@ -2,20 +2,17 @@
 
 namespace App\Providers;
 
-use Carbon\Carbon;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {
-
     /**
      * The policy mappings for the application.
      *
      * @var array
      */
     protected $policies = [
-        //'App\Model' => 'App\Policies\ModelPolicy',
+        'App\Model' => 'App\Policies\ModelPolicy',
     ];
 
     /**
@@ -25,19 +22,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        //
+
         $this->registerPolicies();
 
-        Passport::routes();
-
-        Passport::tokensExpireIn(Carbon::now()->addHours(24));
-
-        Passport::refreshTokensExpireIn(Carbon::now()->addHours(24));
-
-        Passport::tokensCan([
-            'edit' => 'can edit books available',
-            'create' => 'can add new books',
-            'delete' => 'can delete books',
-        ]);
     }
-
 }

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API\User;
 
+use App\Country;
 use App\Http\Controllers\Controller;
-use App\Models\API\Country;
 use Illuminate\Http\Request;
 
 class CountryController extends Controller

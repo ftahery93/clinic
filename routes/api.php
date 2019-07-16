@@ -38,6 +38,7 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     Route::put('/user/editShipment', 'API\User\ShipmentController@editShipment');
     Route::get('/user/getCategories', 'API\User\ShipmentController@getCategories');
     Route::delete('/user/deleteShipmentById/{shipment_id}', 'API\User\ShipmentController@deleteShipmentById');
+
     Route::get('/user/getShipmentHistory', 'API\User\ShipmentController@getShipmentHistory');
 
     /* Price API */
@@ -47,6 +48,7 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     Route::put('/company/updateProfile', 'API\Company\CompanyProfileController@updateProfile');
     Route::patch('/company/changeMobileNumber', 'API\Company\CompanyProfileController@changeMobileNumber');
     Route::patch('/company/updateMobileNumber', 'API\Company\CompanyProfileController@updateMobileNumber');
+
     Route::post('/company/logout', 'API\Company\CompanyProfileController@logout');
 
     /* Company Details */
@@ -58,6 +60,7 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     Route::get('/company/getPendingShipments', 'API\Company\ShipmentController@getPendingShipments');
     Route::get('/company/getMyShipments', 'API\Company\ShipmentController@getMyShipments');
     Route::post('/company/acceptShipments', 'API\Company\ShipmentController@acceptShipments');
+
     Route::get('/company/getShipmentHistory', 'API\Company\ShipmentController@getShipmentHistory');
     Route::get('/company/getShipmentById/{shipment_id}', 'API\Company\ShipmentController@getShipmentById');
     Route::get('/company/markShipmentAsPicked/{shipment_id}', 'API\Company\ShipmentController@markShipmentAsPicked');
@@ -81,6 +84,7 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     /* Ratings */
     Route::post('/user/rateCompany', 'API\User\RatingController@rateCompany');
     Route::get('/user/getMyRatingByCompanyId/{company_id}', 'API\User\RatingController@getMyRatingByCompanyId');
+
 });
 
 Route::group(['middleware' => 'checkVersion'], function () {
@@ -93,12 +97,15 @@ Route::group(['middleware' => 'checkVersion'], function () {
     Route::post('/company/login', 'API\Company\CompanyEntryController@login');
     Route::post('/company/register', 'API\Company\CompanyEntryController@register');
 
+    Route::post('/company/forgotPassword', 'API\Company\ForgotPasswordController@sendResetLinkEmail');
+
     //Pages
     Route::get('/user/getTermsAndConditions', 'API\User\PagesController@getTermsAndConditions');
 
     /* Countries */
     Route::get('/user/getCountries', 'API\User\CountryController@getCountries');
     Route::get('/company/getCountries', 'API\Company\CountryController@getCountries');
+
 });
 
 Route::post('/sendMail', 'API\User\AuthController@sendMail');

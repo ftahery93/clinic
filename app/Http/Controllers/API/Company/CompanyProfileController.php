@@ -3,15 +3,12 @@
 namespace App\Http\Controllers\API\Company;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\LanguageManagement;
-use App\Models\API\Authentication;
-use App\Models\API\Company;
-use App\Models\API\Country;
-use App\Models\API\FreeDelivery;
-use App\Models\API\OneSignalCompanyUser;
+
+use App\LanguageManagement;
+use App\Company;
+use App\FreeDelivery;
 use App\Utility;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class CompanyProfileController extends Controller
 {

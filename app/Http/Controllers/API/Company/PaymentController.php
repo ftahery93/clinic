@@ -3,15 +3,17 @@
 namespace App\Http\Controllers\API\Company;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin\LanguageManagement;
 use App\Models\API\Company;
-use App\Models\API\FreeDelivery;
-use App\Models\API\Order;
 use App\Models\API\Payment;
-use App\Models\API\Wallet;
-use App\Models\API\WalletTransaction;
-use App\Utility;
 use function GuzzleHttp\json_decode;
+
+use App\LanguageManagement;
+use App\FreeDelivery;
+use App\Order;
+use App\Wallet;
+use App\WalletTransaction;
+use App\Utility;
+
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
