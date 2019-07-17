@@ -46,7 +46,21 @@ class Utility
             'isOffer.boolean' => $this->getMessage($language, ''),
             'offer_id.required_if' => $this->getMessage($language, ''),
             'offer_id.exists' => $this->getMessage($language, ''),
-            'amount.required_if' => $this->getMessage($language, 'amount_required_when_not_offer'),
+            'amount.required_if' => $this->getMessage($language, ''),
+            'block.required' => $this->getMessage($language, ''),
+            'street.required' => $this->getMessage($language, ''),
+            'area.required' => $this->getMessage($language, ''),
+            'building.required' => $this->getMessage($language, ''),
+            'address_id.required' => $this->getMessage($language, ''),
+            'address_id.exists' => $this->getMessage($language, ''),
+            'idToken.required' => $this->getMessage($language, ''),
+            'company_id.required' => $this->getMessage($language, ''),
+            'company_id.exists' => $this->getMessage($language, ''),
+            'rating.required' => $this->getMessage($language, ''),
+            'rating.exists' => $this->getMessage($language, ''),
+            'rating.min' => $this->getMessage($language, ''),
+            'rating.max' => $this->getMessage($language, ''),
+            'shipments.array' => $this->getMessage($language, ''),
 
         ];
         return $message;

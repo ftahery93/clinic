@@ -118,9 +118,10 @@ class ShipmentController extends Controller
 
         $validationMessages = [
             'shipments' => 'required|array|min:1',
-            'shipments.*.category_id' => 'required',
+            'shipments.*.category_id' => 'required|exists:categories,id',
             'shipments.*.quantity' => 'required|numeric',
             'delivery_companies_id' => 'required|array|min:1',
+            'delivery_companies_id.*' => 'numeric',
             'address_from_id' => 'required',
             'address_to_id' => 'required',
             'is_today' => 'required|boolean',

@@ -95,17 +95,21 @@ class CompanyController extends Controller
      *     )
      *
      */
-    public function getCompanyDetailsById($company_id)
+    public function getCompanyDetailsById(Request $request, $company_id)
     {
+
+        $validator = [
+            'company_id' => 'required|exists:companies,id',
+        ];
+
+        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForError != null) {
+            return $checkForError;
+        }
         $company = Company::find($company_id);
 
-        if ($company) {
-            return collect($company);
-        } else {
-            return response()->json([
-                'error' => LanguageManagement::getLabel('no_company_found', $this->language),
-            ], 404);
-        }
+        return collect($company);
+
     }
 
 }

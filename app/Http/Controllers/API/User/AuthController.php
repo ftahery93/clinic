@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\API\User;
+
 use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
 use App\Models\API\Authentication;
@@ -8,6 +9,7 @@ use App\Models\API\OneSignalUser;
 use App\Models\API\RegisteredUser;
 use App\Utility;
 use Illuminate\Http\Request;
+
 /**
  *     @SWG\Info(
  *         version="1.0.0",
@@ -93,7 +95,7 @@ class AuthController extends Controller
     {
         $validator = [
             'mobile' => 'bail|required|digits:8|unique:registered_users',
-            'country_id' => 'required',
+            'country_id' => 'required|exists:countries,id',
         ];
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError) {
@@ -244,6 +246,7 @@ class AuthController extends Controller
             'user' => $registeredUser,
         ]);
     }
+
     private function getFirebaseUser($idToken)
     {
         $fields = array(
@@ -261,57 +264,4 @@ class AuthController extends Controller
         $response = curl_exec($ch);
         return $response;
     }
-    // public function verifyOTP(Request $request)
-    // {
-    //     $validator = [
-    //         'otp' => 'required',
-    //         'mobile' => 'required',
-    //     ];
-    //     $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
-    //     if ($checkForError) {
-    //         return $checkForError;
-    //     }
-    //     $exisitingUser = Otp::where('mobile', $request->mobile)->get()->first();
-    //     if ($exisitingUser == null) {
-    //         return response()->json(['error' => LanguageManagement::getLabel('mobile_not_found', $this->language)], 404);
-    //     } else {
-    //         if ($request->otp == $exisitingUser->otp) {
-    //             $registeredUser = RegisteredUser::where('mobile', $request->mobile)->get()->first();
-    //             $token = '' . $registeredUser->id . '' . $registeredUser->mobile . '' . $this->accessToken;
-    //             Authentication::create([
-    //                 'user_id' => $registeredUser->id,
-    //                 'access_token' => $token,
-    //                 'type' => 1,
-    //             ]);
-    //             return response()->json([
-    //                 'access_token' => $token,
-    //                 'user' => collect($registeredUser),
-    //             ]);
-    //         } else {
-    //             return response()->json(['error' => LanguageManagement::getLabel('text_wrongOTP', $this->language)], 417);
-    //         }
-    //     }
-    // }
-    // public function resendOTP(Request $request)
-    // {
-    //     $validator = [
-    //         'mobile' => 'required|digits:8',
-    //     ];
-    //     $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
-    //     if ($checkForError) {
-    //         return $checkForError;
-    //     }
-    //     $existingUser = Otp::where('mobile', $request->mobile)->get()->first();
-    //     if ($existingUser != null) {
-    //         $generatedOtp = substr(str_shuffle("0123456789"), 0, 5);
-    //         $existingUser->update([
-    //             'otp' => $generatedOtp,
-    //         ]);
-    //         return response()->json([
-    //             'otp' => $existingUser->otp,
-    //         ]);
-    //     } else {
-    //         return response()->json(['error' => LanguageManagement::getLabel('mobile_not_found', $this->language)], 404);
-    //     }
-    // }
 }

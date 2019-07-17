@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\API\User;
 
-use App\Http\Controllers\Controller;
-
-use App\LanguageManagement;
 use App\Address;
+use App\Http\Controllers\Controller;
+use App\LanguageManagement;
 use App\Utility;
 use Illuminate\Http\Request;
 
@@ -181,10 +180,19 @@ class AddressController extends Controller
      *     )
      *
      */
-    public function getAddressById($address_id)
+    public function getAddressById(Request $request, $address_id)
     {
+        $validator = [
+            'address_id' => 'required|exists:addresses,id',
+        ];
+
+        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForError != null) {
+            return $checkForError;
+        }
+
         $address = Address::find($address_id);
-        if ($address != null && $address->status == 1) {
+        if ($address->status == 1) {
             return collect($address);
         } else {
             return response()->json([
@@ -406,9 +414,17 @@ class AddressController extends Controller
      */
     public function deleteAddressById(Request $request, $address_id)
     {
+        $validator = [
+            'address_id' => 'required|exists:addresses,id',
+        ];
+
+        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForError != null) {
+            return $checkForError;
+        }
         $address = Address::find($address_id);
 
-        if ($address != null && $address->user_id == $request->user_id) {
+        if ($address->user_id == $request->user_id) {
             $address->update([
                 'status' => 0,
             ]);
