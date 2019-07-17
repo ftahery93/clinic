@@ -1,15 +1,16 @@
 <?php
-
 namespace App\Http\Controllers\API\User;
-
-use App\Authentication;
 use App\Http\Controllers\Controller;
-use App\LanguageManagement;
-use App\RegisteredUser;
+use App\Models\Admin\LanguageManagement;
+use App\Models\Admin\User;
+use App\Models\API\Authentication;
+use App\Models\API\Country;
+use App\Models\API\OneSignalUser;
+use App\Models\API\Otp;
+use App\Models\API\RegisteredUser;
 use App\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
 class UserProfileController extends Controller
 {
     public $utility;
@@ -21,7 +22,6 @@ class UserProfileController extends Controller
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
     }
-
     /**
      *
      * @SWG\Get(
@@ -54,12 +54,10 @@ class UserProfileController extends Controller
     public function getProfile(Request $request)
     {
         $user = RegisteredUser::find($request->user_id);
-
         $country = Country::find($user->country_id);
         $user["country"] = collect($country);
         return collect($user);
     }
-
     /**
      *
      * @SWG\Put(
@@ -124,32 +122,27 @@ class UserProfileController extends Controller
         //     'fullname' => 'required',
         //     'email' => 'required',
         // ];
-
         // $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
         // if ($checkForMessages) {
         //     return $checkForMessages;
         // }
-
-        if (!empty($request->email)) {
+        $user = RegisteredUser::find($request->user_id);
+        if (!empty($request->email) && $request->email != $user->email) {
             $user = RegisteredUser::where('email', $request->email)->get()->first();
             if ($user != null) {
                 return response()->json([
-                    'error' => LanguageMangement::getLabel('email_exist', $this->language),
+                    'error' => LanguageManagement::getLabel('email_exist', $this->language),
                 ]);
             }
         }
-
         $user = RegisteredUser::find($request->user_id);
-
         $user->update([
             'fullname' => $request->fullname,
             'email' => $request->email,
         ]);
-
         if ($request->image != null) {
             $file_data = $request->image;
             $file_name = 'user_image_' . time() . '.png';
-
             if ($file_data != null) {
                 Storage::disk('public')->put('user_images/' . $file_name, base64_decode($file_data));
                 if ($user->image != null) {
@@ -160,19 +153,14 @@ class UserProfileController extends Controller
                 'image' => $file_name,
             ]);
         }
-
         $country = Country::find($user->country_id);
         $user["country"] = collect($country);
-
         return collect($user);
-
         // return response()->json([
         //     'message' => LanguageManagement::getLabel('text_successUpdated', $this->language),
         //     'user' => collect($user),
-
         // ]);
     }
-
     // public function changeMobileNumber(Request $request)
     // {
     //     $validator = [
@@ -182,20 +170,16 @@ class UserProfileController extends Controller
     //     if ($checkForMessages) {
     //         return $checkForMessages;
     //     }
-
     //     $user = RegisteredUser::find($request->user_id);
-
     //     if ($user->mobile != $request->mobile) {
     //         $existingUser = RegisteredUser::where('mobile', $request->mobile)->get()->first();
     //         if ($existingUser == null) {
-
     //             //$existingOtp = Otp::where('mobile', $request->mobile)->get()->first();
     //             $generatedOtp = substr(str_shuffle("0123456789"), 0, 5);
     //             $otpUser = Otp::create([
     //                 'mobile' => $request->mobile,
     //                 'otp' => $generatedOtp,
     //             ]);
-
     //             return response()->json([
     //                 'otp' => $otpUser->otp,
     //             ]);
@@ -208,7 +192,6 @@ class UserProfileController extends Controller
     //         return response()->json(['error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language)], 409);
     //     }
     // }
-
     /**
      *
      * @SWG\Put(
@@ -282,47 +265,37 @@ class UserProfileController extends Controller
             'idToken' => 'required',
             'country_id' => 'required|exists:countries,id',
         ];
-
         $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForMessages) {
             return $checkForMessages;
         }
-
         $user = RegisteredUser::find($request->user_id);
         $country = Country::find($request->country_id);
-
         $existingUser = RegisteredUser::where('mobile', $request->mobile)->where('country_id', $country->id)->get()->first();
         if ($existingUser != null) {
             return response()->json([
                 'error' => LanguageManagement::getLabel('text_mobileNumberExist', $this->language),
             ], 409);
         } else {
-
             $response = $this->getFirebaseUser($request->idToken);
             $response = json_decode($response, true);
-
             if (!array_key_exists('users', $response)) {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('mobile_not_found', $this->language),
                 ], 404);
             }
-
             if (strpos($response['users'][0]['phoneNumber'], $country->country_code . $request->mobile) === false) {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('mobile_not_found', $this->language),
                 ], 404);
             }
-
             $user->update([
                 'country_id' => $request->country_id,
-                'mobile' => $country->country_code . $request->mobile,
+                'mobile' => $request->mobile,
             ]);
-
             $country = Country::find($user->country_id);
             $user["country"] = collect($country);
-
             $accessToken = uniqid(base64_encode(str_random(50)));
-
             $token = '' . $user->id . '' . $user->mobile . '' . $accessToken;
             $access_token = $request->header('Authorization');
             $authenticatedUser = Authentication::where('access_token', $access_token)->get()->first();
@@ -338,7 +311,6 @@ class UserProfileController extends Controller
             ]);
         }
     }
-
     /**
      *
      * @SWG\Post(
@@ -388,36 +360,29 @@ class UserProfileController extends Controller
     public function logout(Request $request)
     {
         $authenticateEntry = Authentication::where('access_token', $request->header('Authorization'))->get()->first();
-
         if ($authenticateEntry == null) {
             return response()->json([
                 'error' => LanguageManagement::getLabel('no_user_found', $this->language),
             ], 404);
         }
-
         $oneSignalUser = OneSignalUser::where('user_id', $request->user_id)->where('player_id', $request->player_id)->get()->first();
         if ($oneSignalUser == null) {
             return response()->json([
                 'error' => LanguageManagement::getLabel('no_user_found', $this->language),
             ], 404);
         }
-
         $authenticateEntry->delete();
         $oneSignalUser->delete();
-
         return response()->json([
             'message' => LanguageManagement::getLabel('text_successLoggout', $this->language),
         ]);
     }
-
     private function getFirebaseUser($idToken)
     {
         $fields = array(
             'idToken' => $idToken,
         );
-
         $fields = json_encode($fields);
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=" . env('FIREBASE_API_KEY'));
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8'));
@@ -426,7 +391,6 @@ class UserProfileController extends Controller
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
         $response = curl_exec($ch);
         return $response;
     }

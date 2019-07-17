@@ -1,17 +1,13 @@
 <?php
-
 namespace App\Http\Controllers\API\User;
-
-use App\Authentication;
-use App\Country;
 use App\Http\Controllers\Controller;
-use App\LanguageManagement;
-use App\OneSignalUser;
-use App\RegisteredUser;
-use App\User;
+use App\Models\Admin\LanguageManagement;
+use App\Models\API\Authentication;
+use App\Models\API\Country;
+use App\Models\API\OneSignalUser;
+use App\Models\API\RegisteredUser;
 use App\Utility;
 use Illuminate\Http\Request;
-
 /**
  *     @SWG\Info(
  *         version="1.0.0",
@@ -19,7 +15,6 @@ use Illuminate\Http\Request;
  *         description="Api description...",
  *     )
  */
-
 /**
  * @SWG\SecurityScheme(
  *   securityDefinition="ApiAuthentication",
@@ -28,10 +23,8 @@ use Illuminate\Http\Request;
  *   name="Authorization"
  * )
  */
-
 class AuthController extends Controller
 {
-
     /**
      * Create a new controller instance.
      *
@@ -47,7 +40,6 @@ class AuthController extends Controller
         $this->language = $request->header('Accept-Language');
         $this->accessToken = uniqid(base64_encode(str_random(50)));
     }
-
     /**
      * register API
      *
@@ -103,12 +95,10 @@ class AuthController extends Controller
             'mobile' => 'bail|required|digits:8|unique:registered_users',
             'country_id' => 'required',
         ];
-
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError) {
             return $checkForError;
         }
-
         $country = Country::find($request->country_id);
         $otp = substr(str_shuffle("0123456789"), 0, 5);
         $registeredUser = RegisteredUser::create([
@@ -117,13 +107,11 @@ class AuthController extends Controller
             'otp' => $otp,
             'country_id' => $request->country_id,
         ]);
-
         return response()->json([
             'message' => LanguageManagement::getLabel('text_successRegistered', $this->language),
             'otp' => $otp,
         ]);
     }
-
     /**
      *
      * @SWG\Post(
@@ -206,40 +194,31 @@ class AuthController extends Controller
             'player_id' => 'required',
             'device_type' => 'required',
         ];
-
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError) {
             return $checkForError;
         }
-
         $response = $this->getFirebaseUser($request->idToken);
         $response = json_decode($response, true);
-
         if (!array_key_exists('users', $response)) {
             return response()->json([
                 'error' => LanguageManagement::getLabel('mobile_not_found', $this->language),
             ], 404);
         }
-
         $country = Country::find($request->country_id);
-
         if (strpos($response['users'][0]['phoneNumber'], $country->country_code . $request->mobile) === false) {
             return response()->json([
                 'error' => LanguageManagement::getLabel('mobile_not_found', $this->language),
             ], 404);
         }
-
         $registeredUser = RegisteredUser::where('mobile', $request->mobile)->where('country_id', $country->id)->get()->first();
         $player_id = OneSignalUser::where('player_id', $request->player_id)->get()->first();
-
         if ($registeredUser == null) {
-
             $registeredUser = RegisteredUser::create([
                 'mobile' => $request->mobile,
                 'status' => 1,
                 'country_id' => $request->country_id,
             ]);
-
             OneSignalUser::create([
                 'user_id' => $registeredUser->id,
                 'player_id' => $request->player_id,
@@ -254,28 +233,23 @@ class AuthController extends Controller
                 ]);
             }
         }
-
         $token = '' . $registeredUser->id . '' . $registeredUser->mobile . '' . $this->accessToken;
         Authentication::create([
             'user_id' => $registeredUser->id,
             'access_token' => $token,
             'type' => 1,
         ]);
-
         return response()->json([
             'access_token' => $token,
             'user' => $registeredUser,
         ]);
     }
-
     private function getFirebaseUser($idToken)
     {
         $fields = array(
             'idToken' => $idToken,
         );
-
         $fields = json_encode($fields);
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://www.googleapis.com/identitytoolkit/v3/relyingparty/getAccountInfo?key=" . env('FIREBASE_API_KEY'));
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json; charset=utf-8'));
@@ -284,11 +258,9 @@ class AuthController extends Controller
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
         $response = curl_exec($ch);
         return $response;
     }
-
     // public function verifyOTP(Request $request)
     // {
     //     $validator = [
@@ -299,9 +271,7 @@ class AuthController extends Controller
     //     if ($checkForError) {
     //         return $checkForError;
     //     }
-
     //     $exisitingUser = Otp::where('mobile', $request->mobile)->get()->first();
-
     //     if ($exisitingUser == null) {
     //         return response()->json(['error' => LanguageManagement::getLabel('mobile_not_found', $this->language)], 404);
     //     } else {
@@ -320,10 +290,8 @@ class AuthController extends Controller
     //         } else {
     //             return response()->json(['error' => LanguageManagement::getLabel('text_wrongOTP', $this->language)], 417);
     //         }
-
     //     }
     // }
-
     // public function resendOTP(Request $request)
     // {
     //     $validator = [
@@ -333,7 +301,6 @@ class AuthController extends Controller
     //     if ($checkForError) {
     //         return $checkForError;
     //     }
-
     //     $existingUser = Otp::where('mobile', $request->mobile)->get()->first();
     //     if ($existingUser != null) {
     //         $generatedOtp = substr(str_shuffle("0123456789"), 0, 5);
@@ -346,6 +313,5 @@ class AuthController extends Controller
     //     } else {
     //         return response()->json(['error' => LanguageManagement::getLabel('mobile_not_found', $this->language)], 404);
     //     }
-
     // }
 }

@@ -1,19 +1,16 @@
 <?php
-
 namespace App\Http\Controllers\API\Company;
-
-use App\Company;
-use App\FreeDelivery;
 use App\Http\Controllers\Controller;
-use App\LanguageManagement;
-use App\Order;
-use App\Payment;
+use App\Models\Admin\LanguageManagement;
+use App\Models\API\Company;
+use App\Models\API\FreeDelivery;
+use App\Models\API\Order;
+use App\Models\API\Payment;
+use App\Models\API\Wallet;
+use App\Models\API\WalletTransaction;
 use App\Utility;
-use App\Wallet;
-use App\WalletTransaction;
 use function GuzzleHttp\json_decode;
 use Illuminate\Http\Request;
-
 class PaymentController extends Controller
 {
     public $utility;
@@ -23,7 +20,6 @@ class PaymentController extends Controller
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
     }
-
     /**
      *
      * @SWG\Get(
@@ -69,7 +65,6 @@ class PaymentController extends Controller
             ]);
         }
     }
-
     /**
      *
      * @SWG\Get(
@@ -116,34 +111,30 @@ class PaymentController extends Controller
      */
     public function payOrder($order_id, Request $request)
     {
-
         $order = Order::find($order_id);
-
         if ($order->company_id != $request->company_id) {
             return response()->json([
                 'error' => LanguageManagement::getLabel('no_order_found', $this->language),
             ], 404);
-
         }
-
         $isUpdateSuccess = $this->updateShipmentStatus($order);
-
         if (!$isUpdateSuccess) {
             return response()->json([
                 'error' => LanguageManagement::getLabel('shipment_booked_already', $this->language),
             ], 409);
         }
-
         if ($order->card_amount > 0) {
             $company = Company::find($request->company_id);
             $invoiceString = $this->createInvoice($company, $order);
             $response_data = $this->makeInvoiceCreateIsoRequest($invoiceString);
             $response_data = json_decode($response_data, true);
-
             $paymentMethods = $response_data['PaymentMethods'];
             $extractedPaymentMethods = $this->extractPaymentMethods($paymentMethods);
-            return response()->json($extractedPaymentMethods);
-
+            return response()->json([
+                'message' => LanguageManagement::getLabel('redirect_to_payment', $this->language),
+                'payment_methods' => $extractedPaymentMethods,
+            ]
+            );
         } else {
             $this->bookOrder($order);
             return response()->json([
@@ -151,21 +142,17 @@ class PaymentController extends Controller
             ]);
         }
     }
-
     public function payment(Request $request)
     {
         $paymentId = $request->paymentId;
         $orderId = $request->order_id;
-
         $response = $this->makeTransactionRequest($paymentId);
-
         $order = Order::find($orderId);
         if ($order == null) {
             return response()->json([
                 'error' => LanguageManagement::getLabel('no_order_found', $this->language),
             ], 404);
         }
-
         $payment = Payment::create([
             'reference_id' => $response['ReferenceId'],
             'track_id' => $response['TrackId'],
@@ -175,22 +162,16 @@ class PaymentController extends Controller
             'payment_gateway' => $response['PaymentGateway'],
             'order_id' => $order->id,
         ]);
-
         if ($response['TransactionStatus'] == 2) {
-
             $this->bookOrder($order);
-
-            return response()->json([
-                'message' => LanguageManagement::getLabel('payment_success', $this->language),
-            ]);
+            echo "<input type='hidden' name='is_captured' id='is_captured' value='1'>";
+            echo "<input type='hidden' name='payment_id' id='payment_id' value='" . $paymentId . "'>";
         } else {
             $this->updateOrderOnFailedTransaction($order);
-            return response()->json([
-                'error' => LanguageManagement::getLabel('payment_failed', $this->language),
-            ], 424);
+            echo "<input type='hidden' name='is_captured' id='is_captured' value='0'>";
+            echo "<input type='hidden' name='payment_id' id='payment_id' value='" . $paymentId . "'>";
         }
     }
-
     private function extractPaymentMethods($paymentMethods)
     {
         $extractedPaymentMethods = [];
@@ -201,24 +182,19 @@ class PaymentController extends Controller
         }
         return $extractedPaymentMethods;
     }
-
     private function bookOrder($order)
     {
         $freeDeliveries = FreeDelivery::where('company_id', $order->company_id)->get()->first();
         $wallet = Wallet::where('company_id', $order->company_id)->get()->first();
-
         $remainingQuantity = $freeDeliveries->quantity - $order->free_deliveries;
         $walletBalance = $wallet->balance - $order->wallet_amount;
-
         $freeDeliveries->update([
             'quantity' => $remainingQuantity,
         ]);
-
         $this->createWalletTransaction($order);
         $this->updateWalletBalance($wallet, $walletBalance);
-        $this->updateOrderStatus($order, 2);
+        $this->updateOrderOnSuccessfulTransaction($order);
     }
-
     private function createWalletTransaction($order)
     {
         WalletTransaction::create([
@@ -227,21 +203,12 @@ class PaymentController extends Controller
             'wallet_in' => 0,
         ]);
     }
-
     private function updateWalletBalance($wallet, $walletBalance)
     {
         $wallet->update([
             'balance' => $walletBalance,
         ]);
     }
-
-    private function updateOrderStatus($order, $orderStatus)
-    {
-        $order->update([
-            'status' => $orderStatus,
-        ]);
-    }
-
     private function updateShipmentStatus($order)
     {
         $shipments = $order->shipments()->get();
@@ -257,12 +224,10 @@ class PaymentController extends Controller
         }
         return true;
     }
-
     private function createInvoice($company, $order)
     {
         $callBackUri = url('/admin/payment?order_id=' . $order->id);
         $callBackUri = str_replace("localhost", "127.0.0.1", $callBackUri);
-
         $invoiceString = '{"InvoiceValue": "' . $order->id . '",
         "CustomerName": "' . $company->name . '",
         "CustomerBlock": "' . $order->id . '",
@@ -285,21 +250,17 @@ class PaymentController extends Controller
         "ExpireDate": "' . date("Y-m-d H:i:s", strtotime('+2 hours')) . '",
         "ApiCustomFileds": "string",
         "ErrorUrl": "' . $callBackUri . '"}';
-
         //$invoiceString = json_encode($invoiceString, true);
         //echo $invoiceString;
         //die;
         return $invoiceString;
-
     }
-
     private function makeInvoiceCreateIsoRequest($invoiceString)
     {
         $url = "https://apidemo.myfatoorah.com/ApiInvoices/CreateInvoiceIso";
         $header[] = 'Content-Type: application/json';
         $header[] = 'Accept: application/json';
         $header[] = 'authorization: bearer ' . env('MY_FATOORAH_API_KEY');
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
@@ -308,16 +269,13 @@ class PaymentController extends Controller
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
         $response_data = curl_exec($ch);
-
         return $response_data;
     }
-
     private function makeTransactionRequest($paymentId)
     {
         $header[] = 'Content-Type: application/json';
         $header[] = 'Accept: application/json';
         $header[] = 'authorization: bearer ' . env('MY_FATOORAH_API_KEY');
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://apidemo.myfatoorah.com/ApiInvoices/Transaction/" . $paymentId);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
@@ -325,19 +283,16 @@ class PaymentController extends Controller
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_POST, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
         $response = curl_exec($ch);
         $response = json_decode($response, true);
         return $response;
     }
-
     private function updateOrderOnSuccessfulTransaction($order)
     {
         $order->update([
             'status' => 1,
         ]);
     }
-
     private function updateOrderOnFailedTransaction($order)
     {
         $order->update([
@@ -350,5 +305,4 @@ class PaymentController extends Controller
             ]);
         }
     }
-
 }

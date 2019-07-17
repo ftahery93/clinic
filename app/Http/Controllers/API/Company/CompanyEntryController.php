@@ -1,19 +1,16 @@
 <?php
-
 namespace App\Http\Controllers\API\Company;
-
-use App\Authentication;
-use App\Company;
-use App\FreeDelivery;
 use App\Http\Controllers\Controller;
-use App\LanguageManagement;
-use App\OneSignalCompanyUser;
+use App\Models\Admin\LanguageManagement;
+use App\Models\API\Authentication;
+use App\Models\API\Company;
+use App\Models\API\FreeDelivery;
+use App\Models\API\OneSignalCompanyUser;
+use App\Models\API\Wallet;
 use App\Utility;
-use App\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-
 class CompanyEntryController extends Controller
 {
     public $utility;
@@ -25,7 +22,6 @@ class CompanyEntryController extends Controller
         $this->language = $request->header('Accept-Language');
         $this->access_token = uniqid(base64_encode(str_random(50)));
     }
-
     /**
      *
      * @SWG\Post(
@@ -118,15 +114,12 @@ class CompanyEntryController extends Controller
             'image' => 'required',
             'country_id' => 'required',
         ];
-
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError) {
             return $checkForError;
         }
-
         $file_data = $request->image;
         $file_name = 'company_image_' . time() . '.png';
-
         if ($file_data != null) {
             Storage::disk('public')->put('company_images/' . $file_name, base64_decode($file_data));
         }
@@ -136,18 +129,17 @@ class CompanyEntryController extends Controller
             'mobile' => $request->mobile,
             'image' => $file_name,
             'status' => 0,
+            'otp' => substr(str_shuffle("0123456789"), 0, 5),
             'password' => bcrypt($request->password),
             'approved' => false,
             'country_id' => $request->country_id,
         ]);
-
         $token = '' . $registeredCompany->id . '' . $registeredCompany->name . '' . $this->access_token;
         Authentication::create([
             'access_token' => $token,
             'user_id' => $registeredCompany->id,
             'type' => 2,
         ]);
-
         Wallet::create([
             'company_id' => $registeredCompany->id,
             'balance' => 0,
@@ -156,14 +148,12 @@ class CompanyEntryController extends Controller
             'company_id' => $registeredCompany->id,
             'quantity' => 0,
         ]);
-
         return response()->json([
             'message' => LanguageManagement::getLabel('text_successRegistered', $this->language),
             'user' => collect($registeredCompany),
             'access_token' => $token,
         ]);
     }
-
     /**
      *
      * @SWG\Post(
@@ -234,28 +224,23 @@ class CompanyEntryController extends Controller
     public function login(Request $request)
     {
         $valdiationMessages = [
-            'email' => 'required',
+            'email' => 'required|email|exists:companies',
             'password' => 'required',
             'player_id' => 'required',
             'device_type' => 'required',
         ];
-
         $checkForError = $this->utility->checkForErrorMessages($request, $valdiationMessages, 422);
         if ($checkForError) {
             return $checkForError;
         }
-
         if (!Company::where('email', $request->email)
             ->where('status', '=', 1)
             ->exists()) {
             return response()->json(['error' => LanguageManagement::getLabel('text_accountDeactivated', $this->language)], 401);
         }
-
         $registeredCompany = Company::where('email', $request->email)->get()->first();
         $player_id = OneSignalCompanyUser::where('player_id', $request->player_id)->get()->first();
-
         if (Hash::check($request->password, $registeredCompany->password)) {
-
             if ($registeredCompany->approved) {
                 $token = '' . $registeredCompany->id . '' . $registeredCompany->name . '' . $this->access_token;
                 Authentication::create([
@@ -263,7 +248,6 @@ class CompanyEntryController extends Controller
                     'user_id' => $registeredCompany->id,
                     'type' => 2,
                 ]);
-
                 if ($player_id == null) {
                     OneSignalCompanyUser::create([
                         'company_id' => $registeredCompany->id,
@@ -271,7 +255,6 @@ class CompanyEntryController extends Controller
                         'device_type' => $request->device_type,
                     ]);
                 }
-
                 return response()->json([
                     'access_token' => $token,
                     'user' => collect($registeredCompany),

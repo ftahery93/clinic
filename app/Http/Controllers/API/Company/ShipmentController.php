@@ -1,22 +1,20 @@
 <?php
-
 namespace App\Http\Controllers\API\Company;
-
-use App\Commission;
-use App\Company;
-use App\FreeDelivery;
 use App\Helpers\MailSender;
 use App\Helpers\Notification;
 use App\Http\Controllers\Controller;
-use App\LanguageManagement;
-use App\Order;
-use App\Price;
-use App\RegisteredUser;
-use App\Shipment;
+use App\Models\Admin\LanguageManagement;
+use App\Models\API\Address;
+use App\Models\API\Commission;
+use App\Models\API\Company;
+use App\Models\API\FreeDelivery;
+use App\Models\API\Order;
+use App\Models\API\Price;
+use App\Models\API\RegisteredUser;
+use App\Models\API\Shipment;
+use App\Models\API\Wallet;
 use App\Utility;
-use App\Wallet;
 use Illuminate\Http\Request;
-
 class ShipmentController extends Controller
 {
     public $utility;
@@ -27,7 +25,6 @@ class ShipmentController extends Controller
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
     }
-
     /**
      *
      * @SWG\Get(
@@ -69,7 +66,6 @@ class ShipmentController extends Controller
         }
         return response()->json($response);
     }
-
     /**
      *
      * @SWG\Get(
@@ -101,7 +97,9 @@ class ShipmentController extends Controller
      */
     public function getMyShipments(Request $request)
     {
-        $shipments = Shipment::where('company_id', $request->company_id)->where('status', 2)->orWhere('status', 3)->get();
+        $shipments = Shipment::where('company_id', $request->company_id)->where(function ($query) {
+            $query->where('status', 2)->orWhere('status', 3);
+        })->get();
         $response = [];
         foreach ($shipments as $shipment) {
             $shipment = $this->getShipmentDetailsResponse($shipment);
@@ -111,7 +109,6 @@ class ShipmentController extends Controller
         }
         return response()->json($response);
     }
-
     /**
      *
      * @SWG\Get(
@@ -166,7 +163,6 @@ class ShipmentController extends Controller
             ], 404);
         }
     }
-
     /**
      *
      * @SWG\Post(
@@ -219,23 +215,19 @@ class ShipmentController extends Controller
     public function acceptShipments(Request $request)
     {
         json_decode($request->getContent(), true);
-
         $validator = [
             'shipment_ids' => 'required|array|min:1',
         ];
-
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError) {
             return $checkForError;
         }
-
         $shipments = Shipment::findMany($request->shipment_ids);
         $totalShipments = count($request->shipment_ids);
         $freeShipments = 0;
         $walletAmount = 0;
         $cardAmount = 0;
         $remainingAmount = 0;
-
         $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->get()->first();
         $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
         if ($freeDeliveries != null) {
@@ -250,13 +242,10 @@ class ShipmentController extends Controller
                 $totalShipments = 0;
             }
         }
-
         $price = Price::find(1);
         $commission = Commission::find(1);
-
         if ($totalShipments > 0) {
             $remainingAmount = $totalShipments * $price->price * ($commission->percentage / 100);
-
             if ($wallet->balance > $remainingAmount) {
                 $walletAmount = $remainingAmount;
                 $remainingAmount = 0;
@@ -268,11 +257,9 @@ class ShipmentController extends Controller
                 $remainingAmount = 0;
             }
         }
-
         if ($remainingAmount > 0) {
             $cardAmount = $remainingAmount;
         }
-
         foreach ($shipments as $shipment) {
             if ($shipment->status > 1) {
                 return response()->json([
@@ -287,29 +274,25 @@ class ShipmentController extends Controller
             'card_amount' => $cardAmount,
             'status' => 0,
         ]);
-
         foreach ($shipments as $shipment) {
             $order->shipments()->attach($shipment);
         }
-
         $user = RegisteredUser::find($shipment->user_id);
         $company = Company::find($request->company_id);
-
         if ($user != null && $company != null) {
             $playerIds[] = $user->player_id;
             Notification::sendNotificationToMultipleUser($playerIds, "Shipment #" . $shipment->id . " Accepted");
             MailSender::sendMail($user->email, "Shipment Accepted", "Hello, Your shipment is accepted by " . $company->name);
         }
-
         return response()->json([
             'message' => LanguageManagement::getLabel('accept_shipment_success', $this->language),
+            'total_amount' => count($request->shipment_ids) * $price->price * ($commission->percentage / 100),
             'order_id' => $order->id,
             'free_deliveries_used' => $freeShipments,
             'wallet_amount_used' => $walletAmount,
             'card_amount' => $cardAmount,
         ]);
     }
-
     /**
      *
      * @SWG\Get(
@@ -354,7 +337,6 @@ class ShipmentController extends Controller
                 'status' => 3,
             ]);
             $user = RegisteredUser::find($shipment->user_id);
-
             if ($user != null) {
                 MailSender::sendMail($user->email, "Shipment Picked Up", "Hello User, Your shipment is picked");
                 return response()->json([
@@ -370,9 +352,7 @@ class ShipmentController extends Controller
                 'error' => LanguageManagement::getLabel('no_shipment_found', $this->language),
             ], 404);
         }
-
     }
-
     /**
      *
      * @SWG\Get(
@@ -417,7 +397,6 @@ class ShipmentController extends Controller
                 'status' => 4,
             ]);
             $user = RegisteredUser::find($shipment->user_id);
-
             if ($user != null) {
                 MailSender::sendMail($user->email, "Shipment Delivered Up", "Hello User, Your shipment is delivered");
                 return response()->json([
@@ -433,9 +412,7 @@ class ShipmentController extends Controller
                 'error' => LanguageManagement::getLabel('no_shipment_found', $this->language),
             ], 404);
         }
-
     }
-
     /**
      *
      * @SWG\Get(
@@ -477,7 +454,6 @@ class ShipmentController extends Controller
         }
         return response()->json($response);
     }
-
     private function getShipmentDetailsResponse($shipment)
     {
         $items = [];
