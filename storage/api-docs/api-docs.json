@@ -5,7 +5,7 @@
         "description": "Api description...",
         "version": "1.0.0"
     },
-    "basePath": "/~tvavisa/masafah/public/api",
+    "basePath": "/masafah/public/api",
     "paths": {
         "/company/register": {
             "post": {

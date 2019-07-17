@@ -104,7 +104,7 @@ class LanguageManagementController extends Controller
         $langstr .= "\n return [";
         $langstr .= "\n";
         $langstr .= " ";
-        $myfile = fopen("resources/lang/" . $lang . "/messages.php", "w") or die("Unable to open file!");
+        $myfile = fopen(base_path('resources/lang/' . $lang . '/messages.php'), "w") or die("Unable to open file!");
         foreach ($LanguageManagement as $row) {
             $label = ($lang == 'en') ? $row->label_en : $row->label_ar;
             $langstr .= '"' . $row->title . '"=>';

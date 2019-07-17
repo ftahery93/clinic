@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use App;
+use Illuminate\Database\Eloquent\Model;
 
 class LanguageManagement extends Model
 {
@@ -19,7 +19,7 @@ class LanguageManagement extends Model
         //     ->where('title', $title)
         //     ->first();
         App::setLocale($lang);
-        return trans('messages.'.$title);
+        return trans('messages.' . $title);
     }
-    
+
 }

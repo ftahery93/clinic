@@ -55,6 +55,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'localization' => \App\Http\Middleware\Localization::class,
         'checkAuth' => \App\Http\Middleware\CheckAuth::class,
-        'checkVersion' => \App\Http\Middleware\CheckVersion::class
+        'checkVersion' => \App\Http\Middleware\CheckVersion::class,
+        'checkCompanyVersion' => \App\Http\Middleware\CheckCompanyVersion::class,
     ];
 }

@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\API\Company;
+
 use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
 use App\Models\API\Company;
@@ -11,6 +12,7 @@ use App\Models\API\WalletTransaction;
 use App\Utility;
 use function GuzzleHttp\json_decode;
 use Illuminate\Http\Request;
+
 class PaymentController extends Controller
 {
     public $utility;
@@ -111,7 +113,17 @@ class PaymentController extends Controller
      */
     public function payOrder($order_id, Request $request)
     {
+        $validator = [
+            'order_id' => 'required|exists:orders,id',
+        ];
+
+        $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForMessages) {
+            return $checkForMessages;
+        }
+
         $order = Order::find($order_id);
+
         if ($order->company_id != $request->company_id) {
             return response()->json([
                 'error' => LanguageManagement::getLabel('no_order_found', $this->language),
@@ -142,8 +154,19 @@ class PaymentController extends Controller
             ]);
         }
     }
+
     public function payment(Request $request)
     {
+        $validator = [
+            'order_id' => 'required|exists:orders,id',
+            'paymentId' => 'required',
+        ];
+
+        $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForMessages) {
+            return $checkForMessages;
+        }
+
         $paymentId = $request->paymentId;
         $orderId = $request->order_id;
         $response = $this->makeTransactionRequest($paymentId);

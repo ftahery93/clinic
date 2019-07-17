@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\API\Company;
 
-use App\Http\Controllers\Controller;
-
 use App\FreeDelivery;
+use App\Http\Controllers\Controller;
+use App\Utility;
 use App\Wallet;
 use App\WalletOffer;
 use App\WalletTransaction;
-use App\Utility;
 use Illuminate\Http\Request;
 
 class WalletController extends Controller

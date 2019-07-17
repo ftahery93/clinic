@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\API\Company;
+
 use App\Helpers\MailSender;
 use App\Helpers\Notification;
 use App\Http\Controllers\Controller;
@@ -15,6 +16,7 @@ use App\Models\API\Shipment;
 use App\Models\API\Wallet;
 use App\Utility;
 use Illuminate\Http\Request;
+
 class ShipmentController extends Controller
 {
     public $utility;
@@ -109,6 +111,7 @@ class ShipmentController extends Controller
         }
         return response()->json($response);
     }
+
     /**
      *
      * @SWG\Get(
@@ -151,6 +154,15 @@ class ShipmentController extends Controller
      */
     public function getShipmentById(Request $request, $shipment_id)
     {
+        $validator = [
+            'shipment_id' => 'required|exists:shipments,id',
+        ];
+
+        $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForMessages) {
+            return $checkForMessages;
+        }
+
         $shipment = Shipment::find($shipment_id);
         if ($shipment->company_id == $request->company_id || $shipment->status == 1) {
             $shipment = $this->getShipmentDetailsResponse($shipment);
@@ -217,11 +229,13 @@ class ShipmentController extends Controller
         json_decode($request->getContent(), true);
         $validator = [
             'shipment_ids' => 'required|array|min:1',
+            'shipment_ids.*' => 'numeric',
         ];
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError) {
             return $checkForError;
         }
+
         $shipments = Shipment::findMany($request->shipment_ids);
         $totalShipments = count($request->shipment_ids);
         $freeShipments = 0;
@@ -331,8 +345,16 @@ class ShipmentController extends Controller
      */
     public function markShipmentAsPicked(Request $request, $shipment_id)
     {
+        $validator = [
+            'shipment_id' => 'required|exists:shipments,id',
+        ];
+        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForError) {
+            return $checkForError;
+        }
+
         $shipment = Shipment::find($shipment_id);
-        if ($shipment != null && $shipment->company_id == $request->company_id) {
+        if ($shipment->company_id == $request->company_id) {
             $shipment->update([
                 'status' => 3,
             ]);
@@ -391,8 +413,17 @@ class ShipmentController extends Controller
      */
     public function markShipmentAsDelivered(Request $request, $shipment_id)
     {
+
+        $validator = [
+            'shipment_id' => 'required|exists:shipments,id',
+        ];
+        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForError) {
+            return $checkForError;
+        }
+
         $shipment = Shipment::find($shipment_id);
-        if ($shipment != null && $shipment->company_id == $request->company_id) {
+        if ($shipment->company_id == $request->company_id) {
             $shipment->update([
                 'status' => 4,
             ]);

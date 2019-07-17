@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\API\Company;
 
-use App\Http\Controllers\Controller;
-
-use App\LanguageManagement;
 use App\Company;
 use App\FreeDelivery;
+use App\Http\Controllers\Controller;
+use App\LanguageManagement;
 use App\Utility;
 use Illuminate\Http\Request;
 
@@ -277,7 +276,7 @@ class CompanyProfileController extends Controller
     {
         $validator = [
             'name' => 'required',
-            'country_id' => 'required|numeric',
+            'country_id' => 'required|exists:countries,id',
             'email' => 'required|email',
             'mobile' => 'required',
         ];

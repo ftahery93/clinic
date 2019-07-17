@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers\API\Company;
+
 use App\Http\Controllers\Controller;
 use App\Models\Admin\LanguageManagement;
 use App\Models\API\Authentication;
@@ -11,6 +12,7 @@ use App\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+
 class CompanyEntryController extends Controller
 {
     public $utility;
@@ -112,7 +114,7 @@ class CompanyEntryController extends Controller
             'password' => 'required',
             'confirm_password' => 'required|same:password',
             'image' => 'required',
-            'country_id' => 'required',
+            'country_id' => 'required|exists:countries,id',
         ];
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError) {
