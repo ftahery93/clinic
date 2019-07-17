@@ -5,8 +5,9 @@
         "description": "Api description...",
         "version": "1.0.0"
     },
+    "basePath": "/~tvavisa/masafah/public/api",
     "paths": {
-        "/~tvavisa/masafah/public/api/company/register": {
+        "/company/register": {
             "post": {
                 "tags": [
                     "Company Register"
@@ -18,6 +19,13 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "Android-1",
                         "required": true,
                         "type": "string"
                     },
@@ -76,7 +84,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/login": {
+        "/company/login": {
             "post": {
                 "tags": [
                     "Company Login"
@@ -88,6 +96,13 @@
                         "name": "Accept-Language",
                         "in": "header",
                         "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     },
@@ -134,7 +149,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/getCompanies": {
+        "/company/getCompanies": {
             "get": {
                 "tags": [
                     "Company Details"
@@ -150,9 +165,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     }
@@ -161,10 +176,15 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/company/getCompanyDetails": {
+        "/company/getCompanyDetails": {
             "get": {
                 "tags": [
                     "Company Details"
@@ -180,9 +200,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     }
@@ -191,10 +211,15 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/company/getCompanyDetailsById/{company_id}": {
+        "/company/getCompanyDetailsById/{company_id}": {
             "get": {
                 "tags": [
                     "Company Details"
@@ -210,9 +235,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     },
@@ -231,10 +256,15 @@
                     "404": {
                         "description": "Company not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/company/getProfile": {
+        "/company/getProfile": {
             "get": {
                 "tags": [
                     "Company Profile"
@@ -250,9 +280,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     }
@@ -264,10 +294,15 @@
                     "404": {
                         "description": "Shipment not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/company/updateProfile": {
+        "/company/updateProfile": {
             "put": {
                 "tags": [
                     "Company Profile"
@@ -283,9 +318,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     },
@@ -310,6 +345,11 @@
                                     "type": "integer",
                                     "example": 4
                                 },
+                                "mobile": {
+                                    "description": "Company Mobile number",
+                                    "type": "string",
+                                    "example": "98765643"
+                                },
                                 "image": {
                                     "description": "Profile image base64",
                                     "type": "string",
@@ -326,118 +366,15 @@
                     "422": {
                         "description": "Unprocessable entity"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/company/changeMobileNumber": {
-            "patch": {
-                "tags": [
-                    "Company Profile"
-                ],
-                "summary": "Change Company's Mobile number",
-                "operationId": "changeMobileNumber",
-                "parameters": [
-                    {
-                        "name": "Accept-Language",
-                        "in": "header",
-                        "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Change number body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "properties": {
-                                "mobile": {
-                                    "description": "Company Mobile number - *(Required)",
-                                    "type": "string",
-                                    "example": "66341897"
-                                }
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful"
-                    },
-                    "422": {
-                        "description": "Unprocessable entity"
-                    },
-                    "409": {
-                        "description": "Mobile number already registered"
-                    }
-                }
-            }
-        },
-        "/~tvavisa/masafah/public/api/company/updateMobileNumber": {
-            "patch": {
-                "tags": [
-                    "Company Profile"
-                ],
-                "summary": "Update Company's Mobile number",
-                "operationId": "updateMobileNumber",
-                "parameters": [
-                    {
-                        "name": "Accept-Language",
-                        "in": "header",
-                        "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Change number body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "properties": {
-                                "mobile": {
-                                    "description": "Company Mobile number - *(Required)",
-                                    "type": "string",
-                                    "example": "66341897"
-                                },
-                                "otp": {
-                                    "description": "Received OTP - *(Required)",
-                                    "type": "string",
-                                    "example": "46137"
-                                }
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful"
-                    },
-                    "422": {
-                        "description": "Unprocessable entity"
-                    },
-                    "401": {
-                        "description": "Invalid OTP. Unauthorized"
-                    },
-                    "409": {
-                        "description": "Mobile number already registered"
-                    }
-                }
-            }
-        },
-        "/~tvavisa/masafah/public/api/company/getFreeDeliveriesCount": {
+        "/company/getFreeDeliveriesCount": {
             "get": {
                 "tags": [
                     "Company Free Deliveries"
@@ -453,9 +390,96 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
+        "/company/logout": {
+            "post": {
+                "tags": [
+                    "Company Logout"
+                ],
+                "summary": "Logout a company from the app",
+                "operationId": "logout",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "player_id": {
+                                    "description": "company's one signal player id",
+                                    "type": "string",
+                                    "example": "22eshlsaj-a98asdmha-asdjad"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
+        "/company/getCountries": {
+            "get": {
+                "tags": [
+                    "Countries"
+                ],
+                "summary": "Get all available countries",
+                "operationId": "getCountries",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     }
@@ -467,7 +491,51 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/company/getNotifications": {
+        "/masafah/api/company/forgotPassword": {
+            "post": {
+                "tags": [
+                    "Company Forgot Password"
+                ],
+                "summary": "Request for password reset",
+                "operationId": "forgotPassword",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "email": {
+                                    "description": "User's email - *(Required)",
+                                    "type": "string",
+                                    "example": "info@dhl.com"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
+        "/company/getNotifications": {
             "get": {
                 "tags": [
                     "Company Notification"
@@ -483,9 +551,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     }
@@ -494,10 +562,15 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/company/getPaymentOptions": {
+        "/company/getPaymentOptions": {
             "get": {
                 "tags": [
                     "Company Payment"
@@ -513,9 +586,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     }
@@ -524,10 +597,63 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/company/getPendingShipments": {
+        "/company/payOrder/{order_id}": {
+            "get": {
+                "tags": [
+                    "Company Shipments"
+                ],
+                "summary": "Pay shipments",
+                "operationId": "payShipments",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "order_id",
+                        "in": "path",
+                        "description": "Order ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    },
+                    "404": {
+                        "description": "Order not found"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
+        "/company/getPendingShipments": {
             "get": {
                 "tags": [
                     "Company Shipments"
@@ -543,9 +669,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     }
@@ -554,16 +680,21 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/company/getAcceptedShipments": {
+        "/company/getMyShipments": {
             "get": {
                 "tags": [
                     "Company Shipments"
                 ],
-                "summary": "Get Company accepted shipments",
-                "operationId": "getAcceptedShipments",
+                "summary": "Get Company accepted/picked up shipments",
+                "operationId": "getMyShipments",
                 "parameters": [
                     {
                         "name": "Accept-Language",
@@ -573,9 +704,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     }
@@ -584,10 +715,15 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/company/getShipmentById/{shipment_id}": {
+        "/company/getShipmentById/{shipment_id}": {
             "get": {
                 "tags": [
                     "Company Shipments"
@@ -603,9 +739,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     },
@@ -624,10 +760,15 @@
                     "404": {
                         "description": "Shipment not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/company/acceptShipments": {
+        "/company/acceptShipments": {
             "post": {
                 "tags": [
                     "Company Shipments"
@@ -643,9 +784,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     },
@@ -674,10 +815,15 @@
                     "422": {
                         "description": "Unprocessable entity"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/company/markShipmentAsPicked/{shipment_id}": {
+        "/company/markShipmentAsPicked/{shipment_id}": {
             "get": {
                 "tags": [
                     "Company Shipments"
@@ -693,9 +839,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     },
@@ -711,10 +857,15 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/company/markShipmentAsDelivered/{shipment_id}": {
+        "/company/markShipmentAsDelivered/{shipment_id}": {
             "get": {
                 "tags": [
                     "Company Shipments"
@@ -730,9 +881,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     },
@@ -748,10 +899,15 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/company/getShipmentHistory": {
+        "/company/getShipmentHistory": {
             "get": {
                 "tags": [
                     "Company Shipments"
@@ -767,9 +923,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     }
@@ -778,10 +934,15 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/company/addToWallet": {
+        "/company/addToWallet": {
             "post": {
                 "tags": [
                     "Company Wallet"
@@ -797,9 +958,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     },
@@ -809,13 +970,13 @@
                         "required": true,
                         "schema": {
                             "properties": {
-                                "wallet_id": {
-                                    "description": "Company Wallet ID - *(Required)",
+                                "offer_id": {
+                                    "description": "Wallet offer ID",
                                     "type": "integer",
                                     "example": 34
                                 },
                                 "amount": {
-                                    "description": "Amount to be added - *(Required)",
+                                    "description": "Amount to be added",
                                     "type": "double",
                                     "example": 50
                                 },
@@ -835,10 +996,15 @@
                     "422": {
                         "description": "Unprocessable entity"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/company/getWalletOffers": {
+        "/company/getWalletOffers": {
             "get": {
                 "tags": [
                     "Company Wallet"
@@ -854,9 +1020,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     }
@@ -865,10 +1031,15 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/company/getWalletDetails": {
+        "/company/getWalletDetails": {
             "get": {
                 "tags": [
                     "Company Wallet"
@@ -884,9 +1055,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     }
@@ -895,10 +1066,15 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/user/addAddress": {
+        "/user/addAddress": {
             "post": {
                 "tags": [
                     "User Address"
@@ -914,9 +1090,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     },
@@ -951,6 +1127,16 @@
                                     "type": "string",
                                     "example": "14, 13Z"
                                 },
+                                "mobile": {
+                                    "description": "users mobile number",
+                                    "type": "string",
+                                    "example": "88553854"
+                                },
+                                "details": {
+                                    "description": "Any other address details",
+                                    "type": "string",
+                                    "example": "Al-Kuwait, near Hamra"
+                                },
                                 "notes": {
                                     "description": "Extra user notes",
                                     "type": "string",
@@ -967,10 +1153,15 @@
                     "422": {
                         "description": "Unprocessable entity"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/user/getAddressById/{id}": {
+        "/user/getAddressById/{id}": {
             "get": {
                 "tags": [
                     "User Address"
@@ -986,9 +1177,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     },
@@ -1007,10 +1198,15 @@
                     "404": {
                         "description": "Address not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/user/getAddresses": {
+        "/user/getAddresses": {
             "get": {
                 "tags": [
                     "User Address"
@@ -1026,9 +1222,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     }
@@ -1037,10 +1233,15 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/user/editAddress": {
+        "/user/editAddress": {
             "put": {
                 "tags": [
                     "User Address"
@@ -1056,9 +1257,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     },
@@ -1068,7 +1269,7 @@
                         "required": true,
                         "schema": {
                             "properties": {
-                                "address_id": {
+                                "id": {
                                     "description": "Address ID",
                                     "type": "integer",
                                     "example": 24
@@ -1098,6 +1299,16 @@
                                     "type": "string",
                                     "example": "14, 13Z"
                                 },
+                                "mobile": {
+                                    "description": "users mobile number",
+                                    "type": "string",
+                                    "example": "88553854"
+                                },
+                                "details": {
+                                    "description": "Any other address details",
+                                    "type": "string",
+                                    "example": "Al-Kuwait, near Hamra"
+                                },
                                 "notes": {
                                     "description": "Extra user notes",
                                     "type": "string",
@@ -1114,10 +1325,60 @@
                     "422": {
                         "description": "Unprocessable entity"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/user/register": {
+        "/user/deleteAddressById/{address_id}": {
+            "delete": {
+                "tags": [
+                    "User Address"
+                ],
+                "summary": "Delete user address",
+                "operationId": "deleteAddressById",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "iOS-4",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "address_id",
+                        "in": "path",
+                        "description": "Address ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "Address not found"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
+        "/user/register": {
             "post": {
                 "tags": [
                     "User Register"
@@ -1162,7 +1423,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/login": {
+        "/user/login": {
             "post": {
                 "tags": [
                     "User Login"
@@ -1178,11 +1439,23 @@
                         "type": "string"
                     },
                     {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "name": "Mobile",
                         "in": "body",
                         "required": true,
                         "schema": {
                             "properties": {
+                                "idToken": {
+                                    "description": "user Firebase Sign-in token",
+                                    "type": "string",
+                                    "example": "eyjshddss/9as7asdjlaksjd8admsjdnlkloiasjdoiasduasldijad..."
+                                },
                                 "mobile": {
                                     "description": "users mobile number",
                                     "type": "integer",
@@ -1213,50 +1486,20 @@
                     },
                     "422": {
                         "description": "Unprocessable entity"
-                    }
-                }
-            }
-        },
-        "/~tvavisa/masafah/public/api/user/logout": {
-            "post": {
-                "tags": [
-                    "User Logout"
-                ],
-                "summary": "Logout a user from the app",
-                "operationId": "logout",
-                "parameters": [
-                    {
-                        "name": "Accept-Language",
-                        "in": "header",
-                        "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful"
                     },
                     "404": {
-                        "description": "User not found"
+                        "description": "Mobile not found"
                     }
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/verifyOTP": {
-            "post": {
+        "/user/getCompanies": {
+            "get": {
                 "tags": [
-                    "User OTP"
+                    "User Shipment"
                 ],
-                "summary": "Verify User OTP",
-                "operationId": "verifyOTP",
+                "summary": "Get all approved companies",
+                "operationId": "getCompanies",
                 "parameters": [
                     {
                         "name": "Accept-Language",
@@ -1266,45 +1509,32 @@
                         "type": "string"
                     },
                     {
-                        "name": "Verify OTP Body",
-                        "in": "body",
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
                         "required": true,
-                        "schema": {
-                            "properties": {
-                                "mobile": {
-                                    "description": "user's mobile number",
-                                    "type": "integer",
-                                    "example": 88663456
-                                },
-                                "otp": {
-                                    "description": "generated OTP",
-                                    "type": "integer",
-                                    "example": 46103
-                                }
-                            }
-                        }
+                        "type": "string"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Successful"
-                    },
-                    "422": {
-                        "description": "Unprocessable entity"
-                    },
-                    "417": {
-                        "description": "Wrong OTP"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/user/resendOTP": {
-            "post": {
+        "/user/getCompanyDetailsById/{company_id}": {
+            "get": {
                 "tags": [
-                    "User OTP"
+                    "User Shipment"
                 ],
-                "summary": "Resend User OTP",
-                "operationId": "resendOTP",
+                "summary": "Get company details",
+                "operationId": "getCompanyDetails",
                 "parameters": [
                     {
                         "name": "Accept-Language",
@@ -1314,31 +1544,33 @@
                         "type": "string"
                     },
                     {
-                        "name": "Mobile",
-                        "in": "body",
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
                         "required": true,
-                        "schema": {
-                            "properties": {
-                                "mobile": {
-                                    "description": "users mobile number",
-                                    "type": "integer",
-                                    "example": 88663456
-                                }
-                            }
-                        }
+                        "type": "string"
+                    },
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "description": "company ID",
+                        "required": true,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "Successful"
-                    },
-                    "422": {
-                        "description": "Unprocessable entity"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/user/getCountries": {
+        "/user/getCountries": {
             "get": {
                 "tags": [
                     "Countries"
@@ -1352,6 +1584,13 @@
                         "description": "user prefered language",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -1361,7 +1600,7 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/getNotifications": {
+        "/user/getNotifications": {
             "get": {
                 "tags": [
                     "User Notification"
@@ -1377,9 +1616,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     }
@@ -1388,10 +1627,15 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/user/getTermsAndConditions": {
+        "/user/getTermsAndConditions": {
             "get": {
                 "tags": [
                     "User Pages"
@@ -1405,6 +1649,13 @@
                         "description": "user prefered language",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -1414,7 +1665,42 @@
                 }
             }
         },
-        "/~tvavisa/masafah/public/api/user/rateCompany": {
+        "/user/getShipmentPrice": {
+            "get": {
+                "tags": [
+                    "User Shipment"
+                ],
+                "summary": "Get Shipment price",
+                "operationId": "getShipmentPrice",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
+        "/user/rateCompany": {
             "post": {
                 "tags": [
                     "Rating"
@@ -1430,9 +1716,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     },
@@ -1463,10 +1749,60 @@
                     "422": {
                         "description": "Unprocessable entity"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/user/addShipment": {
+        "/user/getMyRatingByCompanyId/{company_id}": {
+            "get": {
+                "tags": [
+                    "Rating"
+                ],
+                "summary": "Get my rating for a company",
+                "operationId": "getMyRatingByCompanyId",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "company_id",
+                        "in": "path",
+                        "description": "company_id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "Address not found"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
+        "/user/addShipment": {
             "post": {
                 "tags": [
                     "User Shipment"
@@ -1482,9 +1818,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     },
@@ -1495,7 +1831,7 @@
                         "schema": {
                             "properties": {
                                 "shipments": {
-                                    "description": "lost of shipments",
+                                    "description": "list of shipments",
                                     "type": "array",
                                     "items": {
                                         "properties": {
@@ -1524,10 +1860,20 @@
                                     "type": "integer",
                                     "example": 1
                                 },
-                                "pickup_time": {
+                                "is_today": {
+                                    "description": "Parcel should be delivered today?",
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "pickup_time_from": {
                                     "description": "Parcel pickup time",
                                     "type": "string",
-                                    "example": "1"
+                                    "example": "10:00"
+                                },
+                                "pickup_time_to": {
+                                    "description": "Parcel pickup time",
+                                    "type": "string",
+                                    "example": "18:00"
                                 }
                             }
                         }
@@ -1540,10 +1886,15 @@
                     "422": {
                         "description": "Unprocessable entity"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/user/getShipments": {
+        "/user/getShipments": {
             "get": {
                 "tags": [
                     "User Shipment"
@@ -1559,9 +1910,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     }
@@ -1570,10 +1921,15 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/user/getShipmentDetails/{shipment_id}": {
+        "/user/getShipmentDetails/{shipment_id}": {
             "get": {
                 "tags": [
                     "User Shipment"
@@ -1589,9 +1945,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     },
@@ -1610,10 +1966,15 @@
                     "404": {
                         "description": "Shipment not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/user/deleteShipmentById/{shipment_id}": {
+        "/user/deleteShipmentById/{shipment_id}": {
             "delete": {
                 "tags": [
                     "User Shipment"
@@ -1629,9 +1990,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     },
@@ -1650,10 +2011,15 @@
                     "404": {
                         "description": "Shipment not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/user/editShipment": {
+        "/user/editShipment": {
             "put": {
                 "tags": [
                     "User Shipment"
@@ -1669,9 +2035,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     },
@@ -1711,10 +2077,20 @@
                                     "type": "integer",
                                     "example": 1
                                 },
-                                "pickup_time": {
+                                "is_today": {
+                                    "description": "Parcel should be delivered today?",
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "pickup_time_from": {
                                     "description": "Parcel pickup time",
                                     "type": "string",
-                                    "example": "1"
+                                    "example": "10:00"
+                                },
+                                "pickup_time_to": {
+                                    "description": "Parcel pickup time",
+                                    "type": "string",
+                                    "example": "16:00"
                                 }
                             }
                         }
@@ -1730,10 +2106,15 @@
                     "409": {
                         "description": "Shipment already accepted"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/user/getCategories": {
+        "/user/getCategories": {
             "get": {
                 "tags": [
                     "User Shipment"
@@ -1749,9 +2130,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     }
@@ -1760,16 +2141,21 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/user/getCompanies": {
+        "/user/getShipmentHistory": {
             "get": {
                 "tags": [
                     "User Shipment"
                 ],
-                "summary": "Get all approved companies",
-                "operationId": "getCompanies",
+                "summary": "Get User shipment history",
+                "operationId": "getShipmentHistory",
                 "parameters": [
                     {
                         "name": "Accept-Language",
@@ -1779,9 +2165,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     }
@@ -1790,10 +2176,15 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/user/getProfile": {
+        "/user/getProfile": {
             "get": {
                 "tags": [
                     "User Profile"
@@ -1809,9 +2200,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     }
@@ -1820,10 +2211,15 @@
                     "200": {
                         "description": "Successful"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/user/updateProfile": {
+        "/user/updateProfile": {
             "put": {
                 "tags": [
                     "User Profile"
@@ -1839,9 +2235,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     },
@@ -1851,11 +2247,6 @@
                         "required": true,
                         "schema": {
                             "properties": {
-                                "mobile": {
-                                    "description": "User's mobile number *(Required)",
-                                    "type": "string",
-                                    "example": "88563421"
-                                },
                                 "fullname": {
                                     "description": "Users full name",
                                     "type": "string",
@@ -1882,61 +2273,16 @@
                     "422": {
                         "description": "Unprocessable entity"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
-        "/~tvavisa/masafah/public/api/user/changeMobileNumber": {
-            "patch": {
-                "tags": [
-                    "User Profile"
-                ],
-                "summary": "Change User's Mobile number",
-                "operationId": "changeMobileNumber",
-                "parameters": [
-                    {
-                        "name": "Accept-Language",
-                        "in": "header",
-                        "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Authorization",
-                        "in": "header",
-                        "description": "user access token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Change number body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "properties": {
-                                "mobile": {
-                                    "description": "User Mobile number - *(Required)",
-                                    "type": "string",
-                                    "example": "66341897"
-                                }
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful"
-                    },
-                    "422": {
-                        "description": "Unprocessable entity"
-                    },
-                    "409": {
-                        "description": "Mobile number already registered"
-                    }
-                }
-            }
-        },
-        "/~tvavisa/masafah/public/api/user/updateMobileNumber": {
-            "patch": {
+        "/user/updateMobileNumber": {
+            "put": {
                 "tags": [
                     "User Profile"
                 ],
@@ -1951,9 +2297,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "Authorization",
+                        "name": "Version",
                         "in": "header",
-                        "description": "user access token",
+                        "description": "1.0.0",
                         "required": true,
                         "type": "string"
                     },
@@ -1963,15 +2309,20 @@
                         "required": true,
                         "schema": {
                             "properties": {
+                                "idToken": {
+                                    "description": "Firebase sign-in token",
+                                    "type": "string",
+                                    "example": "eyonasdn9nlaskjda/askh/askldhjoasjhdasd0asdasdhkas..."
+                                },
                                 "mobile": {
                                     "description": "User's Mobile number - *(Required)",
                                     "type": "string",
-                                    "example": "66341897"
+                                    "example": "99653421"
                                 },
-                                "otp": {
-                                    "description": "Received OTP - *(Required)",
-                                    "type": "string",
-                                    "example": "46137"
+                                "country_id": {
+                                    "description": "User's Country ID - *(Required)",
+                                    "type": "integer",
+                                    "example": 5
                                 }
                             }
                         }
@@ -1990,11 +2341,75 @@
                     "409": {
                         "description": "Mobile number already registered"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
+        "/user/logout": {
+            "post": {
+                "tags": [
+                    "User Logout"
+                ],
+                "summary": "Logout the user from the app",
+                "operationId": "logout",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "player_id": {
+                                    "description": "users one signal player id",
+                                    "type": "string",
+                                    "example": "22eshlsaj-a98asdmha-asdjad"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         }
     },
     "definitions": {
         "User": {}
+    },
+    "securityDefinitions": {
+        "ApiAuthentication": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }

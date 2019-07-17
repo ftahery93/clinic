@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API\User;
 
+use App\Country;
 use App\Http\Controllers\Controller;
-use App\Models\API\Country;
 use Illuminate\Http\Request;
 
 class CountryController extends Controller
@@ -18,7 +18,7 @@ class CountryController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/user/getCountries",
+     *         path="/user/getCountries",
      *         tags={"Countries"},
      *         operationId="getCountries",
      *         summary="Get all available countries",
@@ -28,6 +28,13 @@ class CountryController extends Controller
      *             required=true,
      *             type="string",
      *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Response(
      *             response=200,
@@ -42,11 +49,13 @@ class CountryController extends Controller
         $response = [];
         if ($this->language == 'ar') {
             foreach ($countries as $country) {
-                $response[] = collect($country)->only('id', 'name_ar', 'country_code');
+                $country["name"] = $country["name_ar"];
+                $response[] = collect($country);
             }
         } else {
             foreach ($countries as $country) {
-                $response[] = collect($country)->only('id', 'name_en', 'country_code');
+                $country["name"] = $country["name_en"];
+                $response[] = collect($country);
             }
         }
         return $response;

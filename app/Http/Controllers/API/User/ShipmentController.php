@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\API\User;
 
+use App\Address;
+use App\Category;
+use App\Company;
 use App\Helpers\Notification;
 use App\Http\Controllers\Controller;
-use App\Models\Admin\Category;
-use App\Models\Admin\LanguageManagement;
-use App\Models\API\Company;
-use App\Models\API\Price;
-use App\Models\API\Shipment;
+use App\LanguageManagement;
+use App\Price;
+use App\Shipment;
 use App\Utility;
 use function GuzzleHttp\json_decode;
 use Illuminate\Http\Request;
@@ -20,7 +21,7 @@ class ShipmentController extends Controller
     public function __construct(Request $request)
     {
         $this->middleware('api');
-        $this->middleware('checkAuth');
+        //$this->middleware('checkAuth');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
     }
@@ -28,10 +29,11 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/~tvavisa/masafah/public/api/user/addShipment",
+     *         path="/user/addShipment",
      *         tags={"User Shipment"},
      *         operationId="addShipment",
      *         summary="Add shipment",
+     *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
@@ -40,11 +42,11 @@ class ShipmentController extends Controller
      *             description="user prefered language",
      *        ),
      *        @SWG\Parameter(
-     *             name="Authorization",
+     *             name="Version",
      *             in="header",
      *             required=true,
      *             type="string",
-     *             description="user access token",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Parameter(
      *             name="Add Shipment Body",
@@ -54,7 +56,7 @@ class ShipmentController extends Controller
      *              @SWG\Property(
      *                  property="shipments",
      *                  type="array",
-     *                  description="lost of shipments",
+     *                  description="list of shipments",
      *                  @SWG\items(
      *                      type="object",
      *                      @SWG\Property(property="category_id", type="integer"),
@@ -80,10 +82,22 @@ class ShipmentController extends Controller
      *                  example=1
      *              ),
      *              @SWG\Property(
-     *                  property="pickup_time",
+     *                  property="is_today",
+     *                  type="boolean",
+     *                  description="Parcel should be delivered today?",
+     *                  example=false
+     *              ),
+     *              @SWG\Property(
+     *                  property="pickup_time_from",
      *                  type="string",
      *                  description="Parcel pickup time",
-     *                  example="1"
+     *                  example="10:00"
+     *              ),
+     *              @SWG\Property(
+     *                  property="pickup_time_to",
+     *                  type="string",
+     *                  description="Parcel pickup time",
+     *                  example="18:00"
      *              ),
      *          ),
      *        ),
@@ -104,12 +118,15 @@ class ShipmentController extends Controller
 
         $validationMessages = [
             'shipments' => 'required|array|min:1',
-            'shipments.*.category_id' => 'required',
+            'shipments.*.category_id' => 'required|exists:categories,id',
             'shipments.*.quantity' => 'required|numeric',
             'delivery_companies_id' => 'required|array|min:1',
+            'delivery_companies_id.*' => 'numeric',
             'address_from_id' => 'required',
             'address_to_id' => 'required',
-            'pickup_time' => 'required',
+            'is_today' => 'required|boolean',
+            'pickup_time_from' => 'required_if:is_today,false',
+            'pickup_time_to' => 'required_if:is_today,false',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
@@ -119,28 +136,49 @@ class ShipmentController extends Controller
 
         $price = Price::find(1);
 
+        // Do checks on all the fields before inserting
+
         $shipment = new Shipment();
         $shipment->price = $price->price;
-        $shipment->address_from_id = $request->address_from_id;
-        $shipment->address_to_id = $request->address_to_id;
-        $shipment->pickup_time = $request->pickup_time;
+
+        $address_from = Address::find($request->address_from_id);
+        $address_to = Address::find($request->address_to_id);
+
+        if ($address_from != null || $address_to != null) {
+            $shipment->address_from_id = $request->address_from_id;
+            $shipment->address_to_id = $request->address_to_id;
+        } else {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_address_found', $this->language),
+            ], 404);
+        }
+
+        $shipment->is_today = $request->is_today;
+
+        if (!$shipment->is_today) {
+            $shipment->pickup_time_from = $request->pickup_time_from;
+            $shipment->pickup_time_to = $request->pickup_time_to;
+        }
+
         $shipment->user_id = $request->user_id;
         $shipment->status = 1;
         $shipment->payment_type = 1;
 
         $shipment->save();
 
-        // $shipment = Shipment::create([
-        //     'price' => $price->price,
-        //     'address_from_id' => $request->address_from_id,
-        //     'address_to_id' => $request->address_to_id,
-        //     'pickup_time' => $request->pickup_time,
-        //     'user_id' => $request->user_id,
-        //     'status' => 1,
-        //     'payment_type' => 1,
-        // ]);
+        foreach ($request->shipments as $eachShipment) {
 
-        //return print_r($request->shipments);
+            $category_ids[] = $eachShipment["category_id"];
+        }
+
+        $categories = Category::findMany($category_ids);
+
+        if (count($categories) != count($category_ids)) {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_category_found', $this->language),
+            ], 404);
+            $shipment->delete();
+        }
 
         foreach ($request->shipments as $eachShipment) {
             $shipment->categories()->attach($eachShipment["category_id"], ['quantity' => $eachShipment["quantity"]]);
@@ -173,10 +211,11 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/user/getShipments",
+     *         path="/user/getShipments",
      *         tags={"User Shipment"},
      *         operationId="getShipments",
      *         summary="Get User shipments",
+     *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
@@ -185,11 +224,11 @@ class ShipmentController extends Controller
      *             description="user prefered language",
      *        ),
      *        @SWG\Parameter(
-     *             name="Authorization",
+     *             name="Version",
      *             in="header",
      *             required=true,
      *             type="string",
-     *             description="user access token",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Response(
      *             response=200,
@@ -202,25 +241,25 @@ class ShipmentController extends Controller
     {
         $pending = [];
         $accepted = [];
-        $pickedUp = [];
-        $delivered = [];
 
-        $shipments = Shipment::where('user_id', $request->user_id);
+        $shipments = Shipment::where('user_id', $request->user_id)->get();
 
         if ($shipments) {
             foreach ($shipments as $shipment) {
+                $shipment["address_from"] = Address::find($shipment->address_from_id);
+                $shipment["address_to"] = Address::find($shipment->address_to_id);
+                $shipment = $this->getShipmentDetailsResponse($shipment);
                 switch ($shipment->status) {
                     case 1:
                         $pending[] = $shipment;
                         break;
                     case 2:
+                        $company = Company::find($shipment->company_id);
+                        $responseCompany["id"] = $company->id;
+                        $responseCompany["name"] = $company->name;
+                        $responseCompany["image"] = $company->image;
+                        $shipment["company"] = $responseCompany;
                         $accepted[] = $shipment;
-                        break;
-                    case 3:
-                        $pickedUp[] = $shipment;
-                        break;
-                    case 4:
-                        $delivered[] = $shipment;
                         break;
                 }
             }
@@ -228,8 +267,6 @@ class ShipmentController extends Controller
             return response()->json([
                 'pending' => $pending,
                 'accepted' => $accepted,
-                'pickedUp' => $pickedUp,
-                'delivered' => $delivered,
             ]);
         }
     }
@@ -237,10 +274,11 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/user/getShipmentDetails/{shipment_id}",
+     *         path="/user/getShipmentDetails/{shipment_id}",
      *         tags={"User Shipment"},
      *         operationId="getShipmentDetails",
      *         summary="Get User shipment by ID",
+     *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
@@ -249,11 +287,11 @@ class ShipmentController extends Controller
      *             description="user prefered language",
      *        ),
      *        @SWG\Parameter(
-     *             name="Authorization",
+     *             name="Version",
      *             in="header",
      *             required=true,
      *             type="string",
-     *             description="user access token",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Parameter(
      *             name="shipment_id",
@@ -277,15 +315,18 @@ class ShipmentController extends Controller
     {
         $shipment = Shipment::find($shipment_id);
         if ($shipment != null && $shipment->user_id == $request->user_id) {
-            $items = [];
-            $categories = $shipment->categories()->get();
-            foreach ($categories as $category) {
-                $item["category_id"] = $category->id;
-                $item["category_name"] = $category->name;
-                $item["quantity"] = $category->pivot->quantity;
-                $items[] = $item;
+            $shipment = $this->getShipmentDetailsResponse($shipment);
+            $shipment["address_from"] = Address::find($shipment->address_from_id);
+            $shipment["address_to"] = Address::find($shipment->address_to_id);
+
+            if ($shipment->status > 1) {
+                $company = Company::find($shipment->company_id);
+                $responseCompany["id"] = $company->id;
+                $responseCompany["name"] = $company->name;
+                $responseCompany["image"] = $company->image;
+                $shipment["company"] = $responseCompany;
             }
-            $shipment["items"] = $items;
+
             return collect($shipment);
         } else {
             return response()->json([
@@ -297,10 +338,11 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Delete(
-     *         path="/~tvavisa/masafah/public/api/user/deleteShipmentById/{shipment_id}",
+     *         path="/user/deleteShipmentById/{shipment_id}",
      *         tags={"User Shipment"},
      *         operationId="deleteShipmentById",
      *         summary="Get User shipment by ID",
+     *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
@@ -309,11 +351,11 @@ class ShipmentController extends Controller
      *             description="user prefered language",
      *        ),
      *        @SWG\Parameter(
-     *             name="Authorization",
+     *             name="Version",
      *             in="header",
      *             required=true,
      *             type="string",
-     *             description="user access token",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Parameter(
      *             name="shipment_id",
@@ -333,7 +375,7 @@ class ShipmentController extends Controller
      *     )
      *
      */
-    public function deleteShipmentById($shipment_id, Request $request)
+    public function deleteShipmentById(Request $request, $shipment_id)
     {
         $shipment = Shipment::find($shipment_id);
 
@@ -358,10 +400,11 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Put(
-     *         path="/~tvavisa/masafah/public/api/user/editShipment",
+     *         path="/user/editShipment",
      *         tags={"User Shipment"},
      *         operationId="editShipment",
      *         summary="Edit shipment",
+     *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
@@ -370,11 +413,11 @@ class ShipmentController extends Controller
      *             description="user prefered language",
      *        ),
      *        @SWG\Parameter(
-     *             name="Authorization",
+     *             name="Version",
      *             in="header",
      *             required=true,
      *             type="string",
-     *             description="user access token",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Parameter(
      *             name="Edit Shipment Body",
@@ -410,10 +453,22 @@ class ShipmentController extends Controller
      *                  example=1
      *              ),
      *              @SWG\Property(
-     *                  property="pickup_time",
+     *                  property="is_today",
+     *                  type="boolean",
+     *                  description="Parcel should be delivered today?",
+     *                  example=false
+     *              ),
+     *              @SWG\Property(
+     *                  property="pickup_time_from",
      *                  type="string",
      *                  description="Parcel pickup time",
-     *                  example="1"
+     *                  example="10:00"
+     *              ),
+     *              @SWG\Property(
+     *                  property="pickup_time_to",
+     *                  type="string",
+     *                  description="Parcel pickup time",
+     *                  example="16:00"
      *              ),
      *          ),
      *        ),
@@ -442,7 +497,9 @@ class ShipmentController extends Controller
             //'delivery_companies_id' => 'required|array|min:1',
             'address_from_id' => 'required',
             'address_to_id' => 'required',
-            'pickup_time' => 'required',
+            'is_today' => 'required|boolean',
+            'pickup_time_from' => 'required_if:is_today,false',
+            'pickup_time_to' => 'required_if:is_today,false',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
@@ -459,14 +516,18 @@ class ShipmentController extends Controller
                 'price' => $price->price,
                 'address_from_id' => $request->address_from_id,
                 'address_to_id' => $request->address_to_id,
-                'pickup_time' => $request->pickup_time,
+                'is_today' => $request->is_today,
+                'pickup_time_from' => $request->pickup_time_from,
+                'pickup_time_to' => $request->pickup_time_to,
                 'user_id' => $request->user_id,
                 'status' => 1,
                 'payment_type' => 1,
             ]);
 
+            $shipment->categories()->detach();
+
             foreach ($request->shipments as $eachShipment) {
-                $shipment->categories()->sync($eachShipment["category_id"], ['quantity' => $eachShipment["quantity"]]);
+                $shipment->categories()->attach($eachShipment["category_id"], ['quantity' => $eachShipment["quantity"]]);
             }
 
             return response()->json([
@@ -483,10 +544,11 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/user/getCategories",
+     *         path="/user/getCategories",
      *         tags={"User Shipment"},
      *         operationId="getCategories",
      *         summary="Get Shipment Categories",
+     *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
@@ -495,11 +557,11 @@ class ShipmentController extends Controller
      *             description="user prefered language",
      *        ),
      *        @SWG\Parameter(
-     *             name="Authorization",
+     *             name="Version",
      *             in="header",
      *             required=true,
      *             type="string",
-     *             description="user access token",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Response(
      *             response=200,
@@ -521,10 +583,11 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/user/getCompanies",
+     *         path="/user/getShipmentHistory",
      *         tags={"User Shipment"},
-     *         operationId="getCompanies",
-     *         summary="Get all approved companies",
+     *         operationId="getShipmentHistory",
+     *         summary="Get User shipment history",
+     *         security={{"ApiAuthentication":{}}},
      *         @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
@@ -533,11 +596,11 @@ class ShipmentController extends Controller
      *             description="user prefered language",
      *        ),
      *        @SWG\Parameter(
-     *             name="Authorization",
+     *             name="Version",
      *             in="header",
      *             required=true,
      *             type="string",
-     *             description="user access token",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Response(
      *             response=200,
@@ -546,16 +609,35 @@ class ShipmentController extends Controller
      *     )
      *
      */
-    public function getCompanies()
+    public function getShipmentHistory(Request $request)
     {
-        $companies = Company::all();
-
-        $companyList = [];
-        foreach ($companies as $company) {
-            if ($company->approved) {
-                $companyList[] = $company;
-            }
+        $shipments = Shipment::where('user_id', $request->user_id)->where('status', 4)->get();
+        $response = [];
+        foreach ($shipments as $shipment) {
+            $company = Company::find($shipment->company_id);
+            $responseCompany["id"] = $company->id;
+            $responseCompany["name"] = $company->name;
+            $responseCompany["image"] = $company->image;
+            $shipment["company"] = $responseCompany;
+            $shipment["address_from"] = Address::find($shipment->address_from_id);
+            $shipment["address_to"] = Address::find($shipment->address_to_id);
+            $shipment = $this->getShipmentDetailsResponse($shipment);
+            $response[] = collect($shipment);
         }
-        return $companyList;
+        return response()->json($response);
+    }
+
+    private function getShipmentDetailsResponse($shipment)
+    {
+        $items = [];
+        $categories = $shipment->categories()->get();
+        foreach ($categories as $category) {
+            $item["category_id"] = $category->id;
+            $item["category_name"] = $category->name;
+            $item["quantity"] = $category->pivot->quantity;
+            $items[] = $item;
+        }
+        $shipment["items"] = $items;
+        return $shipment;
     }
 }

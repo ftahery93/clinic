@@ -32,24 +32,18 @@ return [
     | Supported: "session", "token"
     |
      */
+
     'guards' => [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
-        // 'api' => [
-        //     'driver' => 'passport',
-        //     'provider' => 'registeredUsers',
-        // ],
-        // 'company' => [
-        //     'driver' => 'passport',
-        //     'provider' => 'companies',
-        // ],
-        'vendor' => [
-            'driver' => 'session',
-            'provider' => 'vendors',
+        'api' => [
+            'driver' => 'passport',
+            'provider' => 'companies',
         ],
     ],
+
     /*
     |--------------------------------------------------------------------------
     | User Providers
@@ -66,29 +60,19 @@ return [
     | Supported: "database", "eloquent"
     |
      */
+
     'providers' => [
+        //Users
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Admin\User::class,
+            'model' => App\User::class,
         ],
-        // 'registeredUsers' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\Models\API\RegisteredUser::class,
-        // ],
-        // 'company' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\Models\API\Company::class,
-        // ],
-        'vendors' => [
+        'companies' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Vendor\User::class,
+            'model' => App\Company::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
+
     /*
     |--------------------------------------------------------------------------
     | Resetting Passwords
@@ -103,29 +87,21 @@ return [
     | they have less time to be guessed. You may change this as needed.
     |
      */
+
     'passwords' => [
+        //Users
         'users' => [
             'provider' => 'users',
+            'email' => 'auth.emails.password',
             'table' => 'password_resets',
             'expire' => 60,
         ],
-        // 'registeredUsers' => [
-        //     'provider' => 'registeredUsers',
-        //     'email' => 'admin.auth.emails.password',
-        //     'table' => 'password_resets',
-        //     'expire' => 60,
-        // ],
-        // 'companies' => [
-        //     'provider' => 'companies',
-        //     'email' => 'admin.auth.emails.password',
-        //     'table' => 'password_resets',
-        //     'expire' => 60,
-        // ],
-        'vendors' => [
-            'provider' => 'vendors',
-            'email' => 'admin.auth.emails.password',
+        'companies' => [
+            'provider' => 'companies',
+            'email' => 'auth.emails.password',
             'table' => 'password_resets',
             'expire' => 60,
         ],
     ],
+
 ];

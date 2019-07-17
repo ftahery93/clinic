@@ -95,7 +95,7 @@ Language Management
                     <div class="row">
                         <div class="form-group col-sm-12">
 
-                            <div class="col-sm-6">
+                            <!-- <div class="col-sm-6">
                                 <label for="status" class="col-sm-3 control-label">Status</label>
 
                                 <div class="col-sm-9">
@@ -104,16 +104,16 @@ Language Management
                                         <option value="0" {{ (collect(old('status'))->contains(0)) ? 'selected':'' }}> Deactive</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> -->
                             
-                             <div class="col-sm-6{{ $errors->has('title') ? ' has-error' : '' }}">
-                                <label for="label_ar" class="col-sm-3 control-label">Title (text_)</label>
+                             <div class="col-sm-6{{ $errors->has('name') ? ' has-error' : '' }}">
+                                <label for="label_ar" class="col-sm-3 control-label">Name</label>
 
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="title" autocomplete="off" value="" name="title" >
-                                    @if ($errors->has('title'))
+                                    <input type="text" class="form-control" id="name" autocomplete="off" value="" name="name" >
+                                    @if ($errors->has('name'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('title') }}</strong>
+                                        <strong>{{ $errors->first('name') }}</strong>
                                     </span>
                                     @endif
                                 </div>

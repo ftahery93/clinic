@@ -41,12 +41,14 @@ return [
     'email'                => 'The :attribute must be a valid email address.',
     'exists'               => 'The selected :attribute is invalid.',
     'file'                 => 'The :attribute must be a file.',
-    'filled'               => 'The :attribute field is required.',
+    'filled'               => 'The :attribute field must have a value.',
     'image'                => 'The :attribute must be an image.',
     'in'                   => 'The selected :attribute is invalid.',
     'in_array'             => 'The :attribute field does not exist in :other.',
     'integer'              => 'The :attribute must be an integer.',
     'ip'                   => 'The :attribute must be a valid IP address.',
+    'ipv4'                 => 'The :attribute must be a valid IPv4 address.',
+    'ipv6'                 => 'The :attribute must be a valid IPv6 address.',
     'json'                 => 'The :attribute must be a valid JSON string.',
     'max'                  => [
         'numeric' => 'The :attribute may not be greater than :max.',
@@ -98,8 +100,57 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'name' => [
+            'required' => 'Please enter the name',
+        ],
+        'email' => [
+            'required' => 'Please enter the email address',
+            'unique' => 'Account already registered with this email address',
+        ],
+        'password' => [
+            'required' => 'Please enter the email address',
+        ],
+        'age' => [
+            'required' => 'Please enter the age',
+        ],
+        'gender' => [
+            'required' => 'Please enter the gender',
+        ],
+        'terms_conditions' => [
+            'required' => 'Please accept terms and conditions',
+        ],
+        'old_password' => [
+            'required' => 'Please enter current password',
+        ],
+        'new_password' => [
+            'required' => 'Please enter new password',
+        ],
+        'confirm_password' => [
+            'required' => 'Please enter confirm password',
+        ],
+        'category_id' => [
+            'required' => 'Category ID is required',
+        ],
+        'poll_id' => [
+            'required' => 'Poll ID is required',
+        ],
+        'option_id' => [
+            'required' => 'Option ID is required',
+        ],
+        'poll_name' => [
+            'required' => 'Poll name is required',
+        ],
+        'options' => [
+            'required' => 'Options are required',
+        ],
+        'duration_id' => [
+            'required' => 'Duration ID is required',
+        ],
+        'comment' => [
+            'required' => 'Please enter the comments',
+        ],
+        'categories' => [
+            'required' => 'Please select the category',
         ],
     ],
 

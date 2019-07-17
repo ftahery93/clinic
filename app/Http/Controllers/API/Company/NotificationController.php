@@ -13,7 +13,7 @@ class NotificationController extends Controller
     public $language;
     public function __construct(Request $request)
     {
-        $this->middleware('checkAuth');
+        //$this->middleware('checkAuth');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
     }
@@ -21,10 +21,11 @@ class NotificationController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/company/getNotifications",
+     *         path="/company/getNotifications",
      *         tags={"Company Notification"},
      *         operationId="getNotifications",
      *         summary="Get Company Notifications",
+     *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
@@ -33,11 +34,11 @@ class NotificationController extends Controller
      *             description="user prefered language",
      *        ),
      *        @SWG\Parameter(
-     *             name="Authorization",
+     *             name="Version",
      *             in="header",
      *             required=true,
      *             type="string",
-     *             description="user access token",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Response(
      *             response=200,
@@ -48,6 +49,6 @@ class NotificationController extends Controller
      */
     public function getNotifications(Request $request)
     {
-        
+
     }
 }

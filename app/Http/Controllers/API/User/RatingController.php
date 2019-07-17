@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API\User;
 
+use App\Company;
 use App\Http\Controllers\Controller;
-use App\Models\Admin\LanguageManagement;
-use App\Models\API\Company;
-use App\Models\API\Rating;
+use App\LanguageManagement;
+use App\Rating;
 use App\Utility;
 use Illuminate\Http\Request;
 
@@ -15,7 +15,7 @@ class RatingController extends Controller
     public $language;
     public function __construct(Request $request)
     {
-        $this->middleware('checkAuth');
+        //$this->middleware('checkAuth');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
     }
@@ -23,10 +23,11 @@ class RatingController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/~tvavisa/masafah/public/api/user/rateCompany",
+     *         path="/user/rateCompany",
      *         tags={"Rating"},
      *         operationId="rateCompany",
      *         summary="User rating Company",
+     *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
@@ -35,11 +36,11 @@ class RatingController extends Controller
      *             description="user prefered language",
      *        ),
      *        @SWG\Parameter(
-     *             name="Authorization",
+     *             name="Version",
      *             in="header",
      *             required=true,
      *             type="string",
-     *             description="user access token",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Parameter(
      *             name="Body",
@@ -75,7 +76,7 @@ class RatingController extends Controller
     {
 
         $validator = [
-            'company_id' => 'required',
+            'company_id' => 'required|exists:companies,id',
             'rating' => 'required|numeric|min:0.5|max:5',
         ];
 
@@ -115,5 +116,70 @@ class RatingController extends Controller
         return response()->json([
             'message' => LanguageManagement::getLabel('rated_successfully', $this->language),
         ]);
+    }
+
+    /**
+     *
+     * @SWG\Get(
+     *         path="/user/getMyRatingByCompanyId/{company_id}",
+     *         tags={"Rating"},
+     *         operationId="getMyRatingByCompanyId",
+     *         summary="Get my rating for a company",
+     *         security={{"ApiAuthentication":{}}},
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="company_id",
+     *             in="path",
+     *             description="company_id",
+     *             type="integer",
+     *             required=true
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *         @SWG\Response(
+     *             response=404,
+     *             description="Address not found"
+     *        ),
+     *     )
+     *
+     */
+    public function getMyRatingByCompanyId(Request $request, $company_id)
+    {
+
+        $validator = [
+            'company_id' => 'required|exists:companies,id',
+        ];
+
+        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForError) {
+            return $checkForError;
+        }
+
+        $rating = Rating::where('user_id', $request->user_id)->where('company_id', $company_id)->get()->first();
+
+        if ($rating == null) {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_rating_found', $this->language),
+            ], 404);
+        }
+        return response()->json([
+            'rating' => $rating->rating,
+        ]);
+
     }
 }

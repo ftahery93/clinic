@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\API\User;
 
+use App\Address;
 use App\Http\Controllers\Controller;
-use App\Models\Admin\LanguageManagement;
-use App\Models\API\Address;
+use App\LanguageManagement;
 use App\Utility;
 use Illuminate\Http\Request;
 
@@ -14,7 +14,8 @@ class AddressController extends Controller
     public $language;
     public function __construct(Request $request)
     {
-        $this->middleware('checkAuth');
+        //$this->middleware('checkAuth');
+        //$this->middleware('checkVersion');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
     }
@@ -22,10 +23,11 @@ class AddressController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/~tvavisa/masafah/public/api/user/addAddress",
+     *         path="/user/addAddress",
      *         tags={"User Address"},
      *         operationId="addAddress",
      *         summary="Add User address",
+     *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
@@ -34,11 +36,11 @@ class AddressController extends Controller
      *             description="user prefered language",
      *        ),
      *        @SWG\Parameter(
-     *             name="Authorization",
+     *             name="Version",
      *             in="header",
      *             required=true,
      *             type="string",
-     *             description="user access token",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Parameter(
      *             name="Name",
@@ -76,6 +78,18 @@ class AddressController extends Controller
      *                  example="14, 13Z"
      *              ),
      *              @SWG\Property(
+     *                  property="mobile",
+     *                  type="string",
+     *                  description="users mobile number",
+     *                  example="88553854"
+     *              ),
+     *              @SWG\Property(
+     *                  property="details",
+     *                  type="string",
+     *                  description="Any other address details",
+     *                  example="Al-Kuwait, near Hamra"
+     *              ),
+     *              @SWG\Property(
      *                  property="notes",
      *                  type="string",
      *                  description="Extra user notes",
@@ -102,6 +116,7 @@ class AddressController extends Controller
             'street' => 'required',
             'area' => 'required',
             'building' => 'required',
+            'mobile' => 'required|digits:8',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
@@ -115,22 +130,24 @@ class AddressController extends Controller
             'street' => $request->street,
             'area' => $request->area,
             'building' => $request->building,
+            'mobile' => $request->mobile,
             'notes' => $request->notes,
+            'details' => $request->details,
             'user_id' => $request->user_id,
+            'status' => 1,
         ]);
 
-        return response()->json([
-            'address_id' => $address->id,
-        ]);
+        return collect($address);
     }
 
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/user/getAddressById/{id}",
+     *         path="/user/getAddressById/{id}",
      *         tags={"User Address"},
      *         operationId="getAddress",
      *         summary="Get User address by ID",
+     *         security={{"ApiAuthentication":{}}},
      *         @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
@@ -138,12 +155,12 @@ class AddressController extends Controller
      *             type="string",
      *             description="user prefered language",
      *        ),
-     *         @SWG\Parameter(
-     *             name="Authorization",
+     *        @SWG\Parameter(
+     *             name="Version",
      *             in="header",
      *             required=true,
      *             type="string",
-     *             description="user access token",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Parameter(
      *             name="id",
@@ -163,11 +180,20 @@ class AddressController extends Controller
      *     )
      *
      */
-    public function getAddressById($address_id)
+    public function getAddressById(Request $request, $address_id)
     {
+        $validator = [
+            'address_id' => 'required|exists:addresses,id',
+        ];
+
+        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForError != null) {
+            return $checkForError;
+        }
+
         $address = Address::find($address_id);
-        if ($address != null) {
-            return collect($address)->only('id', 'name', 'street', 'block', 'area', 'notes');
+        if ($address->status == 1) {
+            return collect($address);
         } else {
             return response()->json([
                 'error' => LanguageManagement::getLabel('no_address_found', $this->language),
@@ -179,10 +205,11 @@ class AddressController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/user/getAddresses",
+     *         path="/user/getAddresses",
      *         tags={"User Address"},
      *         operationId="getAddresses",
      *         summary="Get all addresses of a user",
+     *         security={{"ApiAuthentication":{}}},
      *         @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
@@ -190,12 +217,12 @@ class AddressController extends Controller
      *             type="string",
      *             description="user prefered language",
      *        ),
-     *         @SWG\Parameter(
-     *             name="Authorization",
+     *        @SWG\Parameter(
+     *             name="Version",
      *             in="header",
      *             required=true,
      *             type="string",
-     *             description="user access token",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Response(
      *             response=200,
@@ -206,17 +233,18 @@ class AddressController extends Controller
      */
     public function getAddresses(Request $request)
     {
-        $addresses = Address::where('user_id', $request->user_id)->get();
+        $addresses = Address::where('user_id', $request->user_id)->where('status', 1)->get();
         return collect($addresses);
     }
 
     /**
      *
      * @SWG\Put(
-     *         path="/~tvavisa/masafah/public/api/user/editAddress",
+     *         path="/user/editAddress",
      *         tags={"User Address"},
      *         operationId="editAddress",
      *         summary="Edit Address",
+     *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
@@ -225,11 +253,11 @@ class AddressController extends Controller
      *             description="user prefered language",
      *        ),
      *        @SWG\Parameter(
-     *             name="Authorization",
+     *             name="Version",
      *             in="header",
      *             required=true,
      *             type="string",
-     *             description="user access token",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Parameter(
      *             name="Name",
@@ -237,7 +265,7 @@ class AddressController extends Controller
      *             required=true,
      *          @SWG\Schema(
      *              @SWG\Property(
-     *                  property="address_id",
+     *                  property="id",
      *                  type="integer",
      *                  description="Address ID",
      *                  example=24
@@ -273,6 +301,18 @@ class AddressController extends Controller
      *                  example="14, 13Z"
      *              ),
      *              @SWG\Property(
+     *                  property="mobile",
+     *                  type="string",
+     *                  description="users mobile number",
+     *                  example="88553854"
+     *              ),
+     *              @SWG\Property(
+     *                  property="details",
+     *                  type="string",
+     *                   description="Any other address details",
+     *                  example="Al-Kuwait, near Hamra"
+     *              ),
+     *              @SWG\Property(
      *                  property="notes",
      *                  type="string",
      *                  description="Extra user notes",
@@ -294,13 +334,13 @@ class AddressController extends Controller
     public function editAddress(Request $request)
     {
         $validationMessages = [
-            'address_id' => 'required',
+            'id' => 'required',
             'name' => 'required',
             'block' => 'required',
             'street' => 'required',
             'area' => 'required',
             'building' => 'required',
-            'notes' => 'required',
+            'mobile' => 'required|digits:8',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
@@ -308,25 +348,93 @@ class AddressController extends Controller
             return $checkForError;
         }
 
-        $address = Address::find($request->address_id);
-        if ($address != null && $request->user_id == $address->user_id) {
-            $address = Address::create([
+        $address = Address::find($request->id);
+        if ($address != null && $request->user_id == $address->user_id && $address->status == 1) {
+            $address->update([
                 'name' => $request->name,
                 'block' => $request->block,
                 'street' => $request->street,
                 'area' => $request->area,
                 'building' => $request->building,
+                'mobile' => $request->mobile,
+                'details' => $request->details,
                 'notes' => $request->notes,
             ]);
 
             return response()->json([
-                'message' => LanguageMangement::getLabel('address_update_success', $this->language),
+                'message' => LanguageManagement::getLabel('address_update_success', $this->language),
+                'address' => collect($address),
             ]);
         } else {
             return response()->json([
-                'error' => LanguageMangement::getLabel('no_address_found', $this->language),
+                'error' => LanguageManagement::getLabel('no_address_found', $this->language),
             ]);
         }
+    }
+
+    /**
+     *
+     * @SWG\Delete(
+     *         path="/user/deleteAddressById/{address_id}",
+     *         tags={"User Address"},
+     *         operationId="deleteAddressById",
+     *         summary="Delete user address",
+     *         security={{"ApiAuthentication":{}}},
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="iOS-4",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="address_id",
+     *             in="path",
+     *             description="Address ID",
+     *             type="integer",
+     *             required=true
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=404,
+     *             description="Address not found"
+     *        ),
+     *     )
+     *
+     */
+    public function deleteAddressById(Request $request, $address_id)
+    {
+        $validator = [
+            'address_id' => 'required|exists:addresses,id',
+        ];
+
+        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForError != null) {
+            return $checkForError;
+        }
+        $address = Address::find($address_id);
+
+        if ($address->user_id == $request->user_id) {
+            $address->update([
+                'status' => 0,
+            ]);
+            return response()->json([
+                'message' => LanguageManagement::getLabel('delete_address_success', $this->language),
+            ]);
+        }
+        return response()->json([
+            'error' => LanguageManagement::getLabel('no_address_found', $this->language),
+        ], 404);
     }
 
 }

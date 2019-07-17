@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\API\Company;
 
+use App\FreeDelivery;
 use App\Http\Controllers\Controller;
-use App\Models\API\FreeDelivery;
-use App\Models\API\Wallet;
-use App\Models\API\WalletOffer;
-use App\Models\API\WalletTransaction;
 use App\Utility;
+use App\Wallet;
+use App\WalletOffer;
+use App\WalletTransaction;
 use Illuminate\Http\Request;
 
 class WalletController extends Controller
@@ -16,7 +16,7 @@ class WalletController extends Controller
     public $language;
     public function __construct(Request $request)
     {
-        $this->middleware('checkAuth');
+        //$this->middleware('checkAuth');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
     }
@@ -24,10 +24,11 @@ class WalletController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/~tvavisa/masafah/public/api/company/addToWallet",
+     *         path="/company/addToWallet",
      *         tags={"Company Wallet"},
      *         operationId="addToWallet",
      *         summary="Add to company's wallet",
+     *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
@@ -36,11 +37,11 @@ class WalletController extends Controller
      *             description="user prefered language",
      *        ),
      *        @SWG\Parameter(
-     *             name="Authorization",
+     *             name="Version",
      *             in="header",
      *             required=true,
      *             type="string",
-     *             description="user access token",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Parameter(
      *             name="Update profile body",
@@ -48,15 +49,15 @@ class WalletController extends Controller
      *             required=true,
      *          @SWG\Schema(
      *              @SWG\Property(
-     *                  property="wallet_id",
+     *                  property="offer_id",
      *                  type="integer",
-     *                  description="Company Wallet ID - *(Required)",
+     *                  description="Wallet offer ID",
      *                  example=34
      *              ),
      *              @SWG\Property(
      *                  property="amount",
      *                  type="double",
-     *                  description="Amount to be added - *(Required)",
+     *                  description="Amount to be added",
      *                  example=50.00
      *              ),
      *              @SWG\Property(
@@ -81,9 +82,9 @@ class WalletController extends Controller
     public function addToWallet(Request $request)
     {
         $validator = [
-            'wallet_id' => 'required',
-            'amount' => 'required',
             'isOffer' => 'required|boolean',
+            'offer_id' => 'required_if:isOffer,true|exists:wallet_offers,id',
+            'amount' => 'required_if:isOffer,false',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
@@ -92,44 +93,41 @@ class WalletController extends Controller
         }
 
         $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
-        if ($wallet != null) {
+
+        if ($request->isOffer) {
+            $walletOffers = WalletOffer::find($request->offer_id);
+            $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->get()->first();
+            $quantity = $freeDeliveries->quantity;
+            $quantity = $quantity + $walletOffers->free_deliveries;
+            $freeDeliveries->update([
+                'quantity' => $quantity,
+            ]);
+
+            WalletTransaction::create([
+                'company_id' => $request->company_id,
+                'amount' => $walletOffers->amount,
+                'wallet_in' => 1,
+            ]);
+
+            $balance = $wallet->balance + $walletOffers->amount;
+
+        } else {
+            $balance = $wallet->balance + $request->amount;
             WalletTransaction::create([
                 'company_id' => $request->company_id,
                 'amount' => $request->amount,
-                'type' => true,
+                'wallet_in' => 1,
             ]);
-
-            $balance = $wallet->balance + $request->amount;
-            $wallet->update([
-                'balance' => $balance,
-            ]);
-
-            if ($request->isOffer) {
-                $walletOffers = WalletOffer::where('amount', $request->amount)->get()->first();
-                if ($walletOffers != null) {
-                    $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->get()->first();
-                    if ($freeDeliveries != null) {
-                        $quantity = $freeDeliveries->quantity;
-                        $quantity += $walletOffers->free_deliveries;
-                        $freeDeliveries->update([
-                            'quantity' => $quantity,
-                        ]);
-                    } else {
-                        FreeDelivery::create([
-                            'company_id' => $request->company_id,
-                            'quantity' => $walletOffers->free_deliveries,
-                        ]);
-                    }
-                }
-            }
-
-            return response()->json([
-                'id' => $wallet->id,
-                'balance' => $wallet->balance,
-            ]);
-        } else {
-            return response()->json([], 404);
         }
+
+        $wallet->update([
+            'balance' => $balance,
+        ]);
+
+        return response()->json([
+            'id' => $wallet->id,
+            'balance' => $wallet->balance,
+        ]);
 
     }
     /*
@@ -153,10 +151,11 @@ class WalletController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/company/getWalletOffers",
+     *         path="/company/getWalletOffers",
      *         tags={"Company Wallet"},
      *         operationId="getWalletOffers",
      *         summary="Get Wallet offers",
+     *         security={{"ApiAuthentication":{}}},
      *         @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
@@ -165,11 +164,11 @@ class WalletController extends Controller
      *             description="user prefered language",
      *        ),
      *        @SWG\Parameter(
-     *             name="Authorization",
+     *             name="Version",
      *             in="header",
      *             required=true,
      *             type="string",
-     *             description="user access token",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Response(
      *             response=200,
@@ -185,33 +184,34 @@ class WalletController extends Controller
     }
 
 /**
-     *
-     * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/company/getWalletDetails",
-     *         tags={"Company Wallet"},
-     *         operationId="getWalletDetails",
-     *         summary="Get Wallet Details",
-     *         @SWG\Parameter(
-     *             name="Accept-Language",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user prefered language",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Authorization",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user access token",
-     *        ),
-     *        @SWG\Response(
-     *             response=200,
-     *             description="Successful"
-     *        ),
-     *     )
-     *
-     */
+ *
+ * @SWG\Get(
+ *         path="/company/getWalletDetails",
+ *         tags={"Company Wallet"},
+ *         operationId="getWalletDetails",
+ *         summary="Get Wallet Details",
+ *         security={{"ApiAuthentication":{}}},
+ *         @SWG\Parameter(
+ *             name="Accept-Language",
+ *             in="header",
+ *             required=true,
+ *             type="string",
+ *             description="user prefered language",
+ *        ),
+ *        @SWG\Parameter(
+ *             name="Version",
+ *             in="header",
+ *             required=true,
+ *             type="string",
+ *             description="1.0.0",
+ *        ),
+ *        @SWG\Response(
+ *             response=200,
+ *             description="Successful"
+ *        ),
+ *     )
+ *
+ */
     public function getWalletDetails(Request $request)
     {
         $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
@@ -219,10 +219,7 @@ class WalletController extends Controller
         $transactionDetails = [];
         if ($walletTransactions != null) {
             foreach ($walletTransactions as $walletTransaction) {
-                $details = [];
-                $details["amount"] = $walletTransaction->amount;
-                $details["in"] = $walletTransaction->type;
-                $transactionDetails[] = $details;
+                $transactionDetails[] = $walletTransaction;
             }
         }
 

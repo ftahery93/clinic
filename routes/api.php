@@ -15,72 +15,102 @@
 //    return $request->user();
 //})->middleware('auth:api');
 
-/* User */
+Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
 
-Route::post('/user/login', 'API\User\AuthController@login');
-Route::post('/user/register', 'API\User\AuthController@register');
-Route::get('/user/logout', 'API\User\AuthController@logout');
-Route::post('/user/verifyOTP', 'API\User\AuthController@verifyOTP');
-Route::post('/user/resendOTP', 'API\User\AuthController@resendOTP');
+    /* User Profile */
+    Route::get('/user/getProfile', 'API\User\UserProfileController@getProfile');
+    Route::put('/user/updateProfile', 'API\User\UserProfileController@updateProfile');
+    Route::put('/user/updateMobileNumber', 'API\User\UserProfileController@updateMobileNumber');
+    Route::post('/user/logout', 'API\User\UserProfileController@logout');
 
-/* User Profile */
-Route::get('/user/getProfile', 'API\User\UserProfileController@getProfile');
-Route::put('/user/updateProfile', 'API\User\UserProfileController@updateProfile');
-Route::patch('/user/changeMobileNumber', 'API\User\UserProfileController@changeMobileNumber');
-Route::patch('/user/updateMobileNumber', 'API\User\UserProfileController@updateMobileNumber');
+    /* User Address */
+    Route::post('/user/addAddress', 'API\User\AddressController@addAddress');
+    Route::get('/user/getAddressById/{address_id}', 'API\User\AddressController@getAddressById');
+    Route::get('/user/getAddresses', 'API\User\AddressController@getAddresses');
+    Route::put('/user/editAddress', 'API\User\AddressController@editAddress');
+    Route::delete('/user/deleteAddressById/{address_id}', 'API\User\AddressController@deleteAddressById');
 
-/* User Address */
-Route::post('/user/addAddress', 'API\User\AddressController@addAddress');
-Route::get('/user/getAddress/{address_id}', 'API\User\AddressController@getAddress');
-Route::put('/user/editAddress', 'API\User\AddressController@editAddress');
+    /* User shipments  */
+    Route::post('/user/addShipment', 'API\User\ShipmentController@addShipment');
+    Route::get('/user/getShipments', 'API\User\ShipmentController@getShipments');
+    Route::get('/user/getShipmentDetails/{shipment_id}', 'API\User\ShipmentController@getShipmentDetails');
+    Route::put('/user/editShipment', 'API\User\ShipmentController@editShipment');
+    Route::get('/user/getCategories', 'API\User\ShipmentController@getCategories');
+    Route::delete('/user/deleteShipmentById/{shipment_id}', 'API\User\ShipmentController@deleteShipmentById');
 
-/* User shipments  */
-Route::post('/user/addShipment', 'API\User\ShipmentController@addShipment');
-Route::get('/user/getShipments', 'API\User\ShipmentController@getShipments');
-Route::get('/user/getShipmentDetails/{shipment_id}', 'API\User\ShipmentController@getShipmentDetails');
-Route::put('/user/editShipment', 'API\User\ShipmentController@editShipment');
-Route::get('/user/getCategories', 'API\User\ShipmentController@getCategories');
+    Route::get('/user/getShipmentHistory', 'API\User\ShipmentController@getShipmentHistory');
 
-/* Company Profile*/
-Route::post('/company/login', 'API\Company\CompanyEntryController@login');
-Route::post('/company/register', 'API\Company\CompanyEntryController@register');
-Route::get('/company/getProfile', 'API\Company\CompanyProfileController@getProfile');
-Route::put('/company/updateProfile', 'API\Company\CompanyProfileController@updateProfile');
-Route::patch('/company/changeMobileNumber', 'API\Company\CompanyProfileController@changeMobileNumber');
-Route::patch('/company/updateMobileNumber', 'API\Company\CompanyProfileController@updateMobileNumber');
+    /* Price API */
+    Route::get('/user/getShipmentPrice', 'API\User\PriceController@getShipmentPrice');
 
-/* Company Details */
-Route::get('/company/getCompanies', 'API\Company\CompanyProfileController@getCompanies');
-Route::get('/company/getCompanyDetails', 'API\Company\CompanyProfileController@getCompanyDetails');
-Route::get('/company/getCompanyDetailsById/{company_id}', 'API\Company\CompanyProfileController@getCompanyDetailsById');
+    /* Additional APIs for development sake */
+    Route::get('/user/getCompanies', 'API\User\CompanyController@getCompanies');
+    Route::get('/user/getCompanyDetailsById/{company_id}', 'API\User\CompanyController@getCompanyDetailsById');
 
-/* Company Shipments */
-Route::get('/company/getPendingShipments', 'API\Company\ShipmentController@getPendingShipments');
-Route::get('/company/getAcceptedShipments', 'API\Company\ShipmentController@getAcceptedShipments');
-Route::post('/company/acceptShipments', 'API\Company\ShipmentController@acceptShipment');
-Route::get('/company/getShipmentHistory', 'API\Company\ShipmentController@getShipmentHistory');
-Route::get('/company/getShipmentById/{shipment_id}', 'API\Company\ShipmentController@getShipmentById');
-Route::get('/company/markShipmentAsPicked/{shipment_id}', 'API\Company\ShipmentController@markShipmentAsPicked');
-Route::get('/company/markShipmentAsDelivered/{shipment_id}', 'API\Company\ShipmentController@markShipmentAsDelivered');
+    /* Ratings */
+    Route::post('/user/rateCompany', 'API\User\RatingController@rateCompany');
+    Route::get('/user/getMyRatingByCompanyId/{company_id}', 'API\User\RatingController@getMyRatingByCompanyId');
 
-/* Company Free deliveries */
-Route::get('/company/getFreeDeliveriesCount', 'API\Company\CompanyProfileController@getFreeDeliveriesCount');
+});
 
-/* Company Wallet APIs */
-Route::post('/company/addToWallet', 'API\Company\WalletController@addToWallet');
-Route::post('/company/deductFromWallet', 'API\Company\WalletController@deductFromWallet');
-Route::get('/company/getWalletOffers', 'API\Company\WalletController@getWalletOffers');
+Route::group(['middleware' => ['checkAuth', 'checkCompanyVersion']], function () {
 
-//Pages
-Route::get('/user/getTermsAndConditions', 'API\User\PagesController@getTermsAndConditions');
+    Route::get('/company/getProfile', 'API\Company\CompanyProfileController@getProfile');
+    Route::put('/company/updateProfile', 'API\Company\CompanyProfileController@updateProfile');
+    Route::patch('/company/changeMobileNumber', 'API\Company\CompanyProfileController@changeMobileNumber');
+    Route::patch('/company/updateMobileNumber', 'API\Company\CompanyProfileController@updateMobileNumber');
 
-/* Countries */
-Route::get('/user/getCountries', 'API\User\CountryController@getCountries');
+    Route::post('/company/logout', 'API\Company\CompanyProfileController@logout');
 
-/* Additional APIs for development sake */
-Route::get('/user/getCompanies', 'API\User\ShipmentController@getCompanies');
+    /* Company Details */
+    Route::get('/company/getCompanies', 'API\Company\CompanyProfileController@getCompanies');
+    Route::get('/company/getCompanyDetails', 'API\Company\CompanyProfileController@getCompanyDetails');
+    Route::get('/company/getCompanyDetailsById/{company_id}', 'API\Company\CompanyProfileController@getCompanyDetailsById');
 
-/* Ratings */
-Route::post('/user/rateCompany', 'API\User\RatingController@rateCompany');
+    /* Company Shipments */
+    Route::get('/company/getPendingShipments', 'API\Company\ShipmentController@getPendingShipments');
+    Route::get('/company/getMyShipments', 'API\Company\ShipmentController@getMyShipments');
+    Route::post('/company/acceptShipments', 'API\Company\ShipmentController@acceptShipments');
+
+    Route::get('/company/getShipmentHistory', 'API\Company\ShipmentController@getShipmentHistory');
+    Route::get('/company/getShipmentById/{shipment_id}', 'API\Company\ShipmentController@getShipmentById');
+    Route::get('/company/markShipmentAsPicked/{shipment_id}', 'API\Company\ShipmentController@markShipmentAsPicked');
+    Route::get('/company/markShipmentAsDelivered/{shipment_id}', 'API\Company\ShipmentController@markShipmentAsDelivered');
+
+    /* Company Free deliveries */
+    Route::get('/company/getFreeDeliveriesCount', 'API\Company\CompanyProfileController@getFreeDeliveriesCount');
+
+    /* Company Wallet APIs */
+    Route::post('/company/addToWallet', 'API\Company\WalletController@addToWallet');
+    Route::post('/company/deductFromWallet', 'API\Company\WalletController@deductFromWallet');
+    Route::get('/company/getWalletOffers', 'API\Company\WalletController@getWalletOffers');
+    Route::get('/company/getWalletDetails', 'API\Company\WalletController@getWalletDetails');
+
+    Route::get('/company/payOrder/{order_id}', 'API\Company\PaymentController@payOrder');
+});
+
+Route::group(['middleware' => 'checkCompanyVersion'], function () {
+
+    /* Company Profile*/
+    Route::post('/company/login', 'API\Company\CompanyEntryController@login');
+    Route::post('/company/register', 'API\Company\CompanyEntryController@register');
+    Route::get('/company/getCountries', 'API\Company\CountryController@getCountries');
+});
+
+Route::group(['middleware' => 'checkVersion'], function () {
+
+    /* User */
+    Route::post('/user/login', 'API\User\AuthController@login');
+    Route::post('/user/register', 'API\User\AuthController@register');
+
+    Route::post('/company/forgotPassword', 'API\Company\ForgotPasswordController@sendResetLinkEmail');
+
+    //Pages
+    Route::get('/user/getTermsAndConditions', 'API\User\PagesController@getTermsAndConditions');
+
+    /* Countries */
+    Route::get('/user/getCountries', 'API\User\CountryController@getCountries');
+
+});
 
 Route::post('/sendMail', 'API\User\AuthController@sendMail');

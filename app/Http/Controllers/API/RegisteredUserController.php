@@ -7,15 +7,14 @@ use Redirect;
 use Session;
 use DB;
 use View;
-use Carbon\Carbon;
-use DateTime;
-use App\Models\Admin\RegisteredUser;
-use Yajra\Datatables\Datatables;
-use Yajra\Datatables\Html\Builder;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Admin\LanguageManagement;
 use Image;
+use DateTime;
+use App\RegisteredUser;
+use App\LanguageManagement;
+use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+
 
 class RegisteredUserController extends Controller {
 

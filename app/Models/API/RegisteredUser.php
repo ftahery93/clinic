@@ -19,7 +19,7 @@ class RegisteredUser extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'name', 'email', 'password', 'original_password', 'civilid', 'mobile', 'permission_id', 'status', 'user_role_id', 'otp', 'country_id'];
+        'email', 'password', 'mobile', 'status', 'otp', 'country_id', 'fullname', 'image'];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -27,7 +27,7 @@ class RegisteredUser extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token', 'created_at', 'updated_at', 'delete_at', 'otp',
+        'password', 'remember_token', 'created_at', 'updated_at', 'delete_at', 'otp', 'original_password', 'country_id', 'address', 'location', 'phone', 'deleted_at',
     ];
 
 // Probably on the user model, but pick wherever the data is

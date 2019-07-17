@@ -95,7 +95,7 @@ Language Management
                        <div class="row">
                         <div class="form-group col-sm-12">
                    
-                            <div class="col-sm-6">
+                            <!-- <div class="col-sm-6">
                                 <label for="status" class="col-sm-3 control-label">Status</label>
 
                                 <div class="col-sm-9">
@@ -104,7 +104,7 @@ Language Management
                                         <option value="0" @if($LanguageManagement->status == 0) selected  @endif> Deactive</option>
                                     </select>
                                 </div>
-                            </div>
+                            </div> -->
                            <div class="col-sm-6{{ $errors->has('name') ? ' has-error' : '' }}">
                                 <label for="label_ar" class="col-sm-3 control-label">Name</label>
 

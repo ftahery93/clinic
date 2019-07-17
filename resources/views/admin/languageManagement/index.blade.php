@@ -44,12 +44,25 @@ Language Management
 
                     <div class="panel-options">
                         @if ($CreateAccess==1)
+                        <a href="{{ url('admin/languageManagement/updateLocale/en')  }}" class="margin-top0">
+                            <button type="button" class="btn btn-blue btn-icon">
+                                Update language file (EN)
+                                <i class="entypo-cw padding10"></i>
+                            </button>
+                        </a>
+
+                        <a href="{{ url('admin/languageManagement/updateLocale/ar')  }}" class="margin-top0">
+                            <button type="button" class="btn btn-blue btn-icon">
+                                Update language file (AR)
+                                <i class="entypo-cw padding10"></i>
+                            </button>
+                        </a>
                         <a href="{{ url('admin/languageManagement/create')  }}" class="margin-top0">
                             <button type="button" class="btn btn-default btn-icon">
                                 Add Record
                                 <i class="entypo-plus padding10"></i>
                             </button>
-                        </a>
+                        </a>                        
                         @endif
 
                         @if ($DeleteAccess==1)
@@ -58,6 +71,7 @@ Language Management
                             <i class="entypo-cancel"></i>
                         </button>
                         @endif
+                        
 
                     </div>
                 </div>
@@ -71,7 +85,7 @@ Language Management
                                 <th class="col-sm-2">Title</th>
                                 <th class="col-sm-4">Labe EN</th>
                                 <th class="col-sm-4">Label AR</th>
-                                <th class="text-center">Status</th>
+                                <!-- <th class="text-center">Status</th> -->
                                 <th class="text-center col-sm-2">Created On</th>
                                 <th class="text-center">Actions</th>
                             </tr>
@@ -118,7 +132,7 @@ Language Management
                                         {data:  'name'},
                                         {data:  'label_en'},
                                         {data:  'label_ar'},
-                                        {data:  'status', orderable: false, searchable: false, class: 'text-center'},
+                                       // {data:  'status', orderable: false, searchable: false, class: 'text-center'},
                                         {data:  'created_at', class: 'text-center'},
                                         {data:  'action', orderable: false, searchable: false, class: 'text-center'}
                                     ],

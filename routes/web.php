@@ -1,175 +1,116 @@
 <?php
 
-// Dashboard routes
-Route::get('dashboard', 'Admin\DashboardController@index');
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
 
-// Categories Quotation Form routes
-Route::get('categories/dynamicForm', 'Admin\CategoryController@dynamicForm');
-Route::get('categories/quotationForm', 'Admin\CategoryController@quotationForm');
-Route::get('categories/{id}/requestQuotation', 'Admin\CategoryController@requestQuotation');
-Route::get('categories/quotationFormPreview/{id}', 'Admin\CategoryController@quotationFormPreview');
-Route::post('categories/storeRequestQuotation', 'Admin\CategoryController@storeRequestQuotation');
+// Language Route
+Route::post('/lang', array('Middleware' => 'LanguageSwitcher','uses' => 'LanguageController@index',))->name('lang');
+// For Language direct URL link
+Route::get('/lang/{lang}', array('Middleware' => 'LanguageSwitcher','uses' => 'LanguageController@change',))->name('langChange');
+// .. End of Language Route
 
-// Categories Apply Quotation Form routes
-Route::get('categories/dynamicQuotationForm', 'Admin\CategoryController@dynamicForm');
-Route::get('categories/applyQuotationForm', 'Admin\CategoryController@applyQuotationForm');
-Route::get('categories/{id}/quotation', 'Admin\CategoryController@quotation');
-Route::get('categories/applyQuotationFormPreview/{id}', 'Admin\CategoryController@applyQuotationFormPreview');
-Route::post('categories/storeQuotation', 'Admin\CategoryController@storeQuotation');
+// Backend Routes
+Auth::routes();
 
-// Categories routes
-Route::post('masters/categories/delete', 'Admin\CategoryController@destroyMany');
-Route::resource('categories', 'Admin\CategoryController');
+// default path after login
+Route::get('/', function () {
+    return redirect()->route('adminHome');
+});
 
-// User Quotation Request routes
-Route::get('quotationRequestedList/{user_id}', 'Admin\QuotationRequestedController@index');
-Route::get('quotationRequestedDetails/{id}', 'Admin\QuotationRequestedController@quotationRequestedDetails');
-Route::get('quotationAppliedDetails/{id}', 'Admin\QuotationRequestedController@quotationAppliedDetails');
-Route::get('docDownload/{file}/{filePath}', 'Admin\QuotationRequestedController@docDownload');
-Route::get('userQuotationRequestedList/{id}', 'Admin\QuotationRequestedController@userQuotationRequestedList');
-Route::get('requestedList/{id}/{user_id}', 'Admin\QuotationRequestedController@requestedList');
-Route::get('userQuotationDetails/{id}/{quotation_id}', 'Admin\QuotationRequestedController@userQuotationDetails');
+Route::Group(['prefix' => env('BACKEND_PATH')], function () {
 
-// Banner Images routes
-Route::get('bannerImages/uploadImages', 'Admin\BannerImageController@uploadImages');
-Route::post('bannerImages/images', 'Admin\BannerImageController@images');
-Route::post('bannerImages/deleteImage/{id}', 'Admin\BannerImageController@deleteImage');
+    // No Permission
+    Route::get('/403', function () { return view('errors.403'); })->name('NoPermission');
 
-// Country routes
-Route::resource('countries', 'Admin\CountryController');
-Route::post('masters/countries/delete', 'Admin\CountryController@destroyMany');
+    // Not Found
+    Route::get('/404', function () { return view('errors.404'); })->name('NotFound');
 
-// User routes
-Route::resource('users', 'Admin\UserController');
-Route::post('users/delete', 'Admin\UserController@destroyMany');
+    // Admin Home
+    Route::get('/dashboard', 'HomeController@index')->name('adminHome');
 
-// User Profile
-Route::get('user/profile', 'Admin\UserProfileController@profile');
-Route::put('user/profile', 'Admin\UserProfileController@update');
+    // Registered Users
+    Route::get('/regular/users', 'RegisteredUsersController@index')->name('registered_users_list');
+    Route::post('/regular/users/updateAll', 'RegisteredUsersController@updateAll')->name('registered_users_update_all');
 
-// Change Password
-Route::get('user/changepassword', 'Admin\ChangePasswordController@index');
-Route::put('user/changepassword', 'Admin\ChangePasswordController@update');
+    // Company Users
+    Route::get('/company/users/', 'CompanyUsersController@index')->name('company_users_list');
+    Route::get('/company/users/commissions', 'CompanyUsersController@commissions')->name('commissions_list');
+    Route::get('/company/user/edit/{id}', 'CompanyUsersController@edit')->name('company_users_edit');
+    Route::post('/company/user/update/{id}', 'CompanyUsersController@update')->name('company_users_update');
+    Route::post('/company/users/updateAll', 'CompanyUsersController@updateAll')->name('company_users_update_all');
 
-// Permisson routes
-Route::resource('permissions', 'Admin\PermissionController');
-Route::post('permissions/delete', 'Admin\PermissionController@destroyMany');
+    //API Company Reset Password
+    Route::get('/password/resetApiUser/{token}', 'Auth\ResetApiUserPasswordController@showResetForm');
+    Route::post('/password/resetApiUser', 'Auth\ResetApiUserPasswordController@reset');
 
-// Package routes
-Route::resource('packages', 'Admin\PackageController');
-Route::post('packages/delete', 'Admin\PackageController@destroyMany');
+    // Categories
+    Route::get('/categories', 'CategoriesController@index')->name('categories_list');
+    Route::get('/categories/create', 'CategoriesController@create')->name('categories_create');
+    Route::post('/categories/store', 'CategoriesController@store')->name('categories_store');
+    Route::get('/categories/{id}/edit', 'CategoriesController@edit')->name('categories_edit');
+    Route::post('/categories/{id}/update', 'CategoriesController@update')->name('categories_update');
+    Route::get('/categories/destroy/{id}', 'CategoriesController@destroy')->name('categories_destroy');
+    Route::post('/categories/updateAll', 'CategoriesController@updateAll')->name('categories_update_all');
 
-// RegisteredUser routes
-Route::post('registeredUsers/delete', 'Admin\RegisteredUserController@trashMany');
-Route::get('registeredUsers/trashedlist', 'Admin\RegisteredUserController@trashedlist');
-Route::post('registeredUsers/trashed/{id}/delete', 'Admin\RegisteredUserController@destroy');
-Route::post('registeredUsers/trashed/{id}/restore', 'Admin\RegisteredUserController@restore');
-Route::resource('registeredUsers', 'Admin\RegisteredUserController');
+    // Shipments and Transactions
+    Route::get('/users/shipments', 'ShipmentsController@index')->name('shipments_list');
 
-// Service Provider routes
-Route::post('serviceProviders/delete', 'Admin\ServiceProviderController@trashMany');
-Route::get('serviceProviders/trashedlist', 'Admin\ServiceProviderController@trashedlist');
-Route::post('serviceProviders/trashed/{id}/delete', 'Admin\ServiceProviderController@destroy');
-Route::post('serviceProviders/trashed/{id}/restore', 'Admin\ServiceProviderController@restore');
-Route::get('serviceProviders/{user_id}/uploadImages', 'Admin\ServiceProviderController@uploadImages');
-Route::post('serviceProviders/{user_id}/images', 'Admin\ServiceProviderController@images');
-Route::post('serviceProviders/deleteImage/{id}', 'Admin\ServiceProviderController@deleteImage');
+    // Settings
+    Route::get('/settings', 'SettingsController@edit')->name('settings');
+    Route::post('/settings', 'SettingsController@updateSiteInfo')->name('site_settings_update');
 
-// Service Provider Servces routes
-Route::get('serviceProviders/{serviceProvider_id}/services', 'Admin\ServiceProviderController@service');
-Route::post('serviceProviders/{serviceProvider_id}/addService', 'Admin\ServiceProviderController@addService');
-Route::post('serviceProviders/{serviceProvider_id}/service/delete', 'Admin\ServiceProviderController@destroyService');
-Route::get('serviceProviders/{id}/serviceViewed', 'Admin\ServiceProviderController@serviceViewed');
-Route::get('serviceProviders/requirements', 'Admin\ServiceProviderController@requirement');
-Route::get('serviceProviders/{id}/requirementViewed', 'Admin\ServiceProviderController@requirementViewed');
-Route::get('serviceProviders/{id}/requirements', 'Admin\ServiceProviderController@requirement');
+    // Wallet Offers
+    Route::get('/settings/wallet/offers', 'WalletOffersController@index')->name('wallet_offers_list');
+    Route::get('/settings/wallet/offers/create', 'WalletOffersController@create')->name('wallet_offers_create');
+    Route::get('/settings/wallet/offers/{id}/edit', 'WalletOffersController@edit')->name('wallet_offers_edit');
+    Route::post('/settings/wallet/offers/store', 'WalletOffersController@store')->name('wallet_offers_store');
+    Route::post('/settings/wallet/offers/{id}/update', 'WalletOffersController@update')->name('wallet_offers_update');
+    Route::get('/settings/wallet/offers/destory/{id}', 'WalletOffersController@destroy')->name('wallet_offers_destroy');
+    Route::post('/settings/wallet/offers/updateAll', 'WalletOffersController@updateAll')->name('wallet_offers_update_all');
 
-// Service Provider Quotation Form routes
-Route::get('serviceProviders/dynamicForm/{id}', 'Admin\ServiceProviderController@dynamicForm');
-Route::get('serviceProviders/quotationForm', 'Admin\ServiceProviderController@quotationForm');
-Route::get('serviceProviders/{id}/requestQuotation', 'Admin\ServiceProviderController@requestQuotation');
-Route::get('serviceProviders/quotationFormPreview/{id}', 'Admin\ServiceProviderController@quotationFormPreview');
-Route::post('serviceProviders/storeRequestQuotation', 'Admin\ServiceProviderController@storeRequestQuotation');
-Route::resource('serviceProviders', 'Admin\ServiceProviderController');
+    // Commission Setting
+    Route::get('/settings/commission', 'SettingsController@showCommission')->name('commissions_setting');
+    Route::post('/settings/commission/update', 'SettingsController@updateCommission')->name('commissions_update_setting');
 
-// CMSPages routes
-Route::resource('cmsPages', 'Admin\CmsPageController');
-Route::post('cmsPages/delete', 'Admin\CmsPageController@destroyMany');
+    // Price Setting
+    Route::get('/settings/price', 'SettingsController@showPrice')->name('price_setting');
+    Route::post('/settings/price/update', 'SettingsController@updatePrice')->name('price_update_setting');
 
-// InformationPages routes
-Route::resource('information', 'Admin\InformationController');
-Route::post('information/delete', 'Admin\InformationController@destroyMany');
+    // Notifications
+    // Route::get('/notifications', 'NotificationsController@index')->name('notifications_list');
+    // Route::get('/notifications/{id}/edit', 'NotificationsController@edit')->name('notifications_edit');
+    // Route::get('/notifications/store', 'NotificationsController@index')->name('notifications_store');
+    // Route::post('/notifications/{id}/update', 'NotificationsController@update')->name('notifications_update');
+    // Route::get('/notifications/destroy/{id}', 'NotificationsController@destroy')->name('notifications_delete');
+    // Route::post('/notifications/updateAll', 'NotificationsController@updateAll')->name('notifications_update_all');
 
-// Faq routes
-Route::resource('faq', 'Admin\FaqController');
-Route::post('faq/delete', 'Admin\FaqController@destroyMany');
+    // Language Managment
+    Route::get('/languages/{id}/edit', 'LanguageManagementController@edit')->name('adminLanguagesEdit');
+    Route::post('/languages/{id}/update', 'LanguageManagementController@update')->name('adminLanguageUpdate');
+    Route::get('/languages', 'LanguageManagementController@index')->name('adminLanguages');
+    Route::get('/languages/{lang}/updateLocale', 'LanguageManagementController@updateLocale')->name('adminLanguageUpdateVariable');
 
-// Contactus routes
-Route::get('contactus', 'Admin\ContactusController@index');
+    // Users & Permissions
+    Route::get('/users', 'UsersController@index')->name('users_list');
+    Route::get('/users/create/', 'UsersController@create')->name('users_create');
+    Route::post('/users/store', 'UsersController@store')->name('users_store');
+    Route::get('/users/{id}/edit', 'UsersController@edit')->name('users_edit');
+    Route::post('/users/{id}/update', 'UsersController@update')->name('users_update');
+    Route::get('/users/destroy/{id}', 'UsersController@destroy')->name('users_delete');
+    Route::post('/users/updateAll', 'UsersController@updateAll')->name('users_update_all');
+    Route::get('/users/permissions/create/', 'UsersController@permissions_create')->name('permissions_create');
+    Route::post('/users/permissions/store', 'UsersController@permissions_store')->name('permissions_store');
+    Route::get('/users/permissions/{id}/edit', 'UsersController@permissions_edit')->name('permissions_edit');
+    Route::post('/users/permissions/{id}/update', 'UsersController@permissions_update')->name('permissions_update');
+    Route::get('/users/permissions/destroy/{id}', 'UsersController@permissions_destroy')->name('permissions_delete');
 
-// Notifications routes
-Route::resource('notifications', 'Admin\NotificationController');
-Route::post('notifications/delete', 'Admin\NotificationController@destroyMany');
-
-// Authentication Routes
-Route::get('', 'Admin\Auth\LoginController@index');
-Route::post('login', 'Admin\Auth\LoginController@login');
-Route::get('logout', 'Admin\Auth\LoginController@logout');
-
-// Password Reset Routes
-Route::get('password/reset', 'Admin\Auth\ForgotPasswordController@showLinkRequestForm');
-Route::post('password/email', 'Admin\Auth\ForgotPasswordController@sendResetLinkEmail');
-Route::get('password/reset/{token}', 'Admin\Auth\ResetPasswordController@showResetForm');
-Route::post('password/reset', 'Admin\Auth\ResetPasswordController@reset');
-
-// Backup routes
-Route::get('backup', 'Admin\BackupController@index');
-Route::get('backup/create', 'Admin\BackupController@create');
-Route::get('backup/download/{file_name}', 'Admin\BackupController@download');
-Route::post('backup/{file_name}/delete', 'Admin\BackupController@delete');
-
-// LogActivity routes
-Route::get('logActivity', 'Admin\LogActivityController@index');
-Route::get('vendorLogActivity', 'Admin\LogActivityController@vendorLog');
-Route::get('trainerLogActivity', 'Admin\LogActivityController@trainerLog');
-
-// languageManagement routes
-Route::resource('languageManagement', 'Admin\LanguageManagementController');
-Route::post('languageManagement/delete', 'Admin\LanguageManagementController@destroyMany');
-
-// Category Servces routes
-Route::get('services/{category_id}', 'Admin\ServiceController@index');
-Route::get('services/create/{category_id}', 'Admin\ServiceController@create');
-Route::post('services/{category_id}', 'Admin\ServiceController@store');
-Route::get('services/{id}/edit/{category_id}/', 'Admin\ServiceController@edit');
-Route::patch('services/{id}/{category_id}', 'Admin\ServiceController@update');
-Route::post('services/delete/{category_id}', 'Admin\ServiceController@destroyMany');
-
-
-
-//Cache Config , Route , View, Optimize 
-Route::get('configCache', 'Admin\CacheController@configCache');
-Route::get('routeCache', 'Admin\CacheController@routeCache');
-Route::get('viewCache', 'Admin\CacheController@viewCache');
-Route::get('optimize', 'Admin\CacheController@optimize');
-
-//Cache Clear Config , Route , View, Optimize 
-Route::get('configCacheClear', 'Admin\CacheController@configCacheClear');
-Route::get('routeCacheClear', 'Admin\CacheController@routeCacheClear');
-Route::get('viewCacheClear', 'Admin\CacheController@viewCacheClear');
-Route::get('cacheClear', 'Admin\CacheController@cacheClear');
-
-// Route::get('/updateapp', function()
-// {
-//     exec('composer dump-autoload');
-//     echo 'composer dump-autoload complete';
-// });
-
-// //Errors 
-// Route::get('errors/401', function () {
-//     return view('errors.401');
-// });
-// Route::get('errors/505', function () {
-//     return view('errors.505');
-// });
-
+});
+// .. End of Backend Routes

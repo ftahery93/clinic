@@ -46,7 +46,7 @@ class LanguageManagementController extends Controller
         $this->EditAccess = Permit::AccessPermission('languageManagement-edit');
 
         $LanguageManagement = LanguageManagement::
-            select('id', 'name','label_en','label_ar', 'status', 'created_at')
+            select('id', 'name', 'label_en', 'label_ar', 'status', 'created_at')
             ->get();
 
         //Ajax request
@@ -57,9 +57,9 @@ class LanguageManagementController extends Controller
                     $newYear = new Carbon($LanguageManagement->created_at);
                     return $newYear->format('d/m/Y');
                 })
-                ->editColumn('status', function ($LanguageManagement) {
-                    return $LanguageManagement->status == 1 ? '<div class="label label-success status" sid="' . $LanguageManagement->id . '" value="0"><i class="entypo-check"></i></div>' : '<div class="label label-secondary status"  sid="' . $LanguageManagement->id . '" value="1"><i class="entypo-cancel"></i></div>';
-                })
+            // ->editColumn('status', function ($LanguageManagement) {
+            //     return $LanguageManagement->status == 1 ? '<div class="label label-success status" sid="' . $LanguageManagement->id . '" value="0"><i class="entypo-check"></i></div>' : '<div class="label label-secondary status"  sid="' . $LanguageManagement->id . '" value="1"><i class="entypo-cancel"></i></div>';
+            // })
                 ->editColumn('id', function ($LanguageManagement) {
                     return '<input tabindex="5" type="checkbox" class="icheck-14 check"   name="ids[]" value="' . $LanguageManagement->id . '">';
                 })
@@ -69,7 +69,7 @@ class LanguageManagementController extends Controller
                     }
 
                 })
-                ->rawColumns(['id','status', 'action'])
+                ->rawColumns(['id', 'status', 'action'])
                 ->make();
         }
 
@@ -118,7 +118,7 @@ class LanguageManagementController extends Controller
                 ->withErrors($validator)->withInput();
         } else {
             $input = $request->all();
-            $input['title'] = 'text_' . $input['title'];
+            $input['title'] = snake_case($input['name']);
 
             LanguageManagement::create($input);
 
@@ -200,7 +200,7 @@ class LanguageManagementController extends Controller
         } else {
 
             $input = $request->all();
-            $input['title'] = 'text_' . $input['title'];
+            $input['title'] = snake_case($input['name']);
             $LanguageManagement->fill($input)->save();
 
             //logActivity
@@ -247,6 +247,42 @@ class LanguageManagementController extends Controller
 
         // redirect
         Session::flash('message', config('global.deletedRecords'));
+
+        return redirect('admin/languageManagement');
+    }
+
+    /**
+     * Update Localisation file.
+     *
+     * @param  int  $ids
+     * @return \Illuminate\Http\Response
+     */
+    public function updateLocale(Request $request)
+    { //Write update data into locale file
+        $lang = ($request->lang) ? $request->lang : 'en';
+
+        $LanguageManagement = LanguageManagement::
+            select('title', 'label_en', 'label_ar')
+            ->get();
+
+        $langstr = "<?php";
+        $langstr .= "\n return [";
+        $langstr .= "\n";
+        $langstr .= " ";
+        $myfile = fopen(base_path('resources/lang/' . $lang . '/messages.php'), "w") or die("Unable to open file!");
+
+        foreach ($LanguageManagement as $row) {
+            $label = ($lang == 'en') ? $row->label_en : $row->label_ar;
+            $langstr .= "'" . $row->title . "'=> '" . $label . "', \n";
+        }
+
+        $langstr .= " ";
+        $langstr .= "];";
+
+        fwrite($myfile, $langstr);
+        fclose($myfile);
+
+        //LogActivity::addToLog('LanguageManagement - file ', 'updated');
 
         return redirect('admin/languageManagement');
     }

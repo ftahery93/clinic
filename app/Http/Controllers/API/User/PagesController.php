@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\API\Page;
+
+use App\Page;
 use App\Utility;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,7 @@ class PagesController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/~tvavisa/masafah/public/api/user/getTermsAndConditions",
+     *         path="/user/getTermsAndConditions",
      *         tags={"User Pages"},
      *         operationId="getTermsAndConditions",
      *         summary="Get Masafah's Terms and Conditions",
@@ -32,6 +33,13 @@ class PagesController extends Controller
      *             required=true,
      *             type="string",
      *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
      *        ),
      *        @SWG\Response(
      *             response=200,
