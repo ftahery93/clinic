@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\API\User;
 
 use App\Address;
+use App\City;
+use App\Country;
+use App\Governorate;
 use App\Http\Controllers\Controller;
 use App\LanguageManagement;
 use App\Utility;
@@ -66,10 +69,22 @@ class AddressController extends Controller
      *                  example="12, 14A"
      *              ),
      *              @SWG\Property(
-     *                  property="area",
-     *                  type="string",
-     *                  description="Area",
-     *                  example="Salmiya, Sharq"
+     *                  property="country_id",
+     *                  type="integer",
+     *                  description="Country ID",
+     *                  example=114
+     *              ),
+     *              @SWG\Property(
+     *                  property="governorate_id",
+     *                  type="integer",
+     *                  description="Governorate ID",
+     *                  example=1
+     *              ),
+     *              @SWG\Property(
+     *                  property="city_id",
+     *                  type="integer",
+     *                  description="City ID",
+     *                  example=1
      *              ),
      *              @SWG\Property(
      *                  property="building",
@@ -114,7 +129,9 @@ class AddressController extends Controller
             'name' => 'required',
             'block' => 'required',
             'street' => 'required',
-            'area' => 'required',
+            'country_id' => 'required|exists:countries,id',
+            'governorate_id' => 'required|exists:governorates,id',
+            'city_id' => 'required|exists:cities,id',
             'building' => 'required',
             'mobile' => 'required|digits:8',
         ];
@@ -124,19 +141,7 @@ class AddressController extends Controller
             return $checkForError;
         }
 
-        $address = Address::create([
-            'name' => $request->name,
-            'block' => $request->block,
-            'street' => $request->street,
-            'area' => $request->area,
-            'building' => $request->building,
-            'mobile' => $request->mobile,
-            'notes' => $request->notes,
-            'details' => $request->details,
-            'user_id' => $request->user_id,
-            'status' => 1,
-        ]);
-
+        $address = $this->createAddress($request);
         return collect($address);
     }
 
@@ -289,10 +294,22 @@ class AddressController extends Controller
      *                  example="12, 14A"
      *              ),
      *              @SWG\Property(
-     *                  property="area",
-     *                  type="string",
-     *                  description="Area",
-     *                  example="Salmiya, Sharq"
+     *                  property="country_id",
+     *                  type="integer",
+     *                  description="Country ID",
+     *                  example=114
+     *              ),
+     *              @SWG\Property(
+     *                  property="governorate_id",
+     *                  type="integer",
+     *                  description="Governorate ID",
+     *                  example=1
+     *              ),
+     *              @SWG\Property(
+     *                  property="city_id",
+     *                  type="integer",
+     *                  description="City ID",
+     *                  example=1
      *              ),
      *              @SWG\Property(
      *                  property="building",
@@ -338,7 +355,9 @@ class AddressController extends Controller
             'name' => 'required',
             'block' => 'required',
             'street' => 'required',
-            'area' => 'required',
+            'country_id' => 'required|exists:countries,id',
+            'governorate_id' => 'required|exists:governorates,id',
+            'city_id' => 'required|exists:cities,id',
             'building' => 'required',
             'mobile' => 'required|digits:8',
         ];
@@ -350,16 +369,7 @@ class AddressController extends Controller
 
         $address = Address::find($request->id);
         if ($address != null && $request->user_id == $address->user_id && $address->status == 1) {
-            $address->update([
-                'name' => $request->name,
-                'block' => $request->block,
-                'street' => $request->street,
-                'area' => $request->area,
-                'building' => $request->building,
-                'mobile' => $request->mobile,
-                'details' => $request->details,
-                'notes' => $request->notes,
-            ]);
+            $address = $this->updateAddress($address, $request);
 
             return response()->json([
                 'message' => LanguageManagement::getLabel('address_update_success', $this->language),
@@ -435,6 +445,104 @@ class AddressController extends Controller
         return response()->json([
             'error' => LanguageManagement::getLabel('no_address_found', $this->language),
         ], 404);
+    }
+
+    /**
+     *
+     * @SWG\Get(
+     *         path="/user/getZonesByCountry",
+     *         tags={"User Address"},
+     *         operationId="getZonesByCountry",
+     *         summary="Get all zones by country",
+     *         security={{"ApiAuthentication":{}}},
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
+    public function getZonesByCountry(Request $request)
+    {
+        $validator = [
+            'country_id' => 'required|exists:countries,id',
+        ];
+        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForError != null) {
+            return $checkForError;
+        }
+
+        App::setlocale($this->language);
+
+        $country = Country::find($request->country_id);
+        $zones = $country->governorates()->get();
+        return response()->json($zones);
+    }
+
+    public function getCitiesByZone(Request $request)
+    {
+        $validator = [
+            'zone_id' => 'required|exists:zones,id',
+        ];
+        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForError != null) {
+            return $checkForError;
+        }
+        $zone = Governorate::find($request->zone_id);
+        $cities = City::where('country_code', $zone->code)->get();
+
+        return response()->json($cities);
+    }
+
+    private function createAddress($request)
+    {
+        $address = Address::create([
+            'name' => $request->name,
+            'block' => $request->block,
+            'street' => $request->street,
+            'country_id' => $request->country_id,
+            'governorate_id' => $request->governorate_id,
+            'city_id' => $request->city_id,
+            'building' => $request->building,
+            'mobile' => $request->mobile,
+            'notes' => $request->notes,
+            'details' => $request->details,
+            'user_id' => $request->user_id,
+            'status' => 1,
+        ]);
+
+        return $address;
+    }
+
+    private function updateAddress($address, $request)
+    {
+        $address->update([
+            'name' => $request->name,
+            'block' => $request->block,
+            'street' => $request->street,
+            'country_id' => $request->country_id,
+            'governorate_id' => $request->governorate_id,
+            'city_id' => $request->city_id,
+            'building' => $request->building,
+            'mobile' => $request->mobile,
+            'details' => $request->details,
+            'notes' => $request->notes,
+        ]);
+        return $address;
     }
 
 }
