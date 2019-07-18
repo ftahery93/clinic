@@ -6,6 +6,7 @@ use App\Company;
 use App\FreeDelivery;
 use App\Http\Controllers\Controller;
 use App\LanguageManagement;
+use App\OneSignalCompanyUser;
 use App\Utility;
 use App\Wallet;
 use Illuminate\Http\Request;
