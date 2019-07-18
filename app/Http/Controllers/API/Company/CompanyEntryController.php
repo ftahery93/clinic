@@ -1,14 +1,13 @@
 <?php
 namespace App\Http\Controllers\API\Company;
 
+use App\Authentication;
+use App\Company;
+use App\FreeDelivery;
 use App\Http\Controllers\Controller;
-use App\Models\Admin\LanguageManagement;
-use App\Models\API\Authentication;
-use App\Models\API\Company;
-use App\Models\API\FreeDelivery;
-use App\Models\API\OneSignalCompanyUser;
-use App\Models\API\Wallet;
+use App\LanguageManagement;
 use App\Utility;
+use App\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
