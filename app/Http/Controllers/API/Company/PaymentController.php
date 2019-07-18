@@ -1,15 +1,15 @@
 <?php
 namespace App\Http\Controllers\API\Company;
 
+use App\Company;
+use App\FreeDelivery;
 use App\Http\Controllers\Controller;
-use App\Models\Admin\LanguageManagement;
-use App\Models\API\Company;
-use App\Models\API\FreeDelivery;
-use App\Models\API\Order;
-use App\Models\API\Payment;
-use App\Models\API\Wallet;
-use App\Models\API\WalletTransaction;
+use App\LanguageManagement;
+use App\Order;
+use App\Payment;
 use App\Utility;
+use App\Wallet;
+use App\WalletTransaction;
 use function GuzzleHttp\json_decode;
 use Illuminate\Http\Request;
 
