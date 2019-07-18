@@ -23,7 +23,7 @@ class CheckCompanyVersion
 
             $android = CompanyVersion::find(2);
             $ios = $version = CompanyVersion::find(1);
-            if ($appVersion == "Android-" . $android || $appVersion == "iOS-" . $ios) {
+            if ($appVersion == "Android-" . $android->version || $appVersion == "iOS-" . $ios->version) {
                 return $next($request);
             } else {
                 return response()->json([
