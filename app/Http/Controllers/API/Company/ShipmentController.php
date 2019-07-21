@@ -2,8 +2,10 @@
 namespace App\Http\Controllers\API\Company;
 
 use App\Address;
+use App\City;
 use App\Commission;
 use App\Company;
+use App\Country;
 use App\FreeDelivery;
 use App\Helpers\MailSender;
 use App\Helpers\Notification;
@@ -23,10 +25,20 @@ class ShipmentController extends Controller
     public $language;
     public function __construct(Request $request)
     {
-        //$this->middleware('checkAuth');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
     }
+
+    public function getAllCities(Request $request)
+    {
+        $companyUser = Company::find($request->company_id);
+        $country_id = $companyUser->country_id;
+
+        $country = Country::find($country_id);
+        $cities = City::where('country_code', $country->is_code_2)->get();
+        return response()->json($cities);
+    }
+
     /**
      *
      * @SWG\Get(
@@ -49,6 +61,20 @@ class ShipmentController extends Controller
      *             type="string",
      *             description="1.0.0",
      *        ),
+     *        @SWG\Parameter(
+     *             name="from_id",
+     *             in="query",
+     *             required=false,
+     *             type="integer",
+     *             description="145",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="to_id",
+     *             in="query",
+     *             required=false,
+     *             type="integer",
+     *             description="11",
+     *        ),
      *        @SWG\Response(
      *             response=200,
      *             description="Successful"
@@ -58,6 +84,17 @@ class ShipmentController extends Controller
      */
     public function getPendingShipments(Request $request)
     {
+        $validator = [
+            'from_id' => 'sometimes|required|exists:cities,id',
+            'to_id' => 'sometimes|required|exists:cities,id',
+        ];
+
+        $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForMessages) {
+            return $checkForMessages;
+        }
+
+        //$shipments = $this->getShipmentsBasedOnAddresses($request);
         $shipments = Shipment::where('status', 1)->get();
         $response = [];
         foreach ($shipments as $shipment) {
@@ -485,6 +522,7 @@ class ShipmentController extends Controller
         }
         return response()->json($response);
     }
+
     private function getShipmentDetailsResponse($shipment)
     {
         $items = [];
@@ -497,5 +535,69 @@ class ShipmentController extends Controller
         }
         $shipment["items"] = $items;
         return $shipment;
+    }
+
+    private function getShipmentsBasedOnAddresses($request)
+    {
+        $shipments = Shipment::where('status', 1)->get();
+
+        $shipmentAddresses = [];
+        // foreach ($shipments as $shipment) {
+        //     $addresses = $shipment->
+        // }
+
+        if (!empty($request->from_id) && !empty($request->to_id)) {
+            $from_city = $this->findCityById($request->from_id);
+            $from_addresses = $from_city->addresses()->get();
+            $to_city = $this->findCityById($request->to_id);
+            $to_addresses = $to_city->addresses()->get();
+
+            $address_from_ids = [];
+            foreach ($from_addresses as $from_address) {
+                $address_from_ids[] = $from_address->id;
+            }
+
+            $address_to_ids = [];
+            foreach ($to_addresses as $to_address) {
+                $address_to_ids[] = $to_address->id;
+            }
+
+            //$shipments = $this->findShipmentsWithFromAndToAddress($from_address, $to_address);
+        } else if (!empty($request->from_id) && empty($request->to_id)) {
+            $from_address = $this->findAddressById($request->from_id);
+            $shipments = $this->findShipmentsWithOnlyFromAddress($from_address);
+        } else if (empty($request->from_id) && !empty($request->to_id)) {
+            $to_address = $this->findAddressById($request->to_id);
+            $shipments = $this->findShipmentsWithOnlyToAddress($to_address);
+        } else {
+            $shipments = Shipment::where('status', 1)->get();
+        }
+
+        return $shipments;
+    }
+
+    private function findAddressById($id)
+    {
+        return Address::find($id);
+    }
+
+    private function findCityById($id)
+    {
+        return City::find($id);
+    }
+
+    private function findShipmentsWithFromAndToAddress($from_address, $to_address)
+    {
+        return Shipment::where('status', 1)->where('address_from_id', $from_address->id)->where('address_to_id', $to_address->id)->get();
+    }
+
+    private function findShipmentsWithOnlyFromAddress($from_address)
+    {
+        return Shipment::where('status', 1)->where('address_from_id', $from_address->id)->get();
+    }
+
+    private function findShipmentsWithOnlyToAddress($to_address)
+    {
+        return Shipment::where('status', 1)->where('address_to_id', $to_address->id)->get();
     }
 }

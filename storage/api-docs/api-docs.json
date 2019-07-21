@@ -674,6 +674,20 @@
                         "description": "1.0.0",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "from_id",
+                        "in": "query",
+                        "description": "145",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "to_id",
+                        "in": "query",
+                        "description": "11",
+                        "required": false,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -1117,10 +1131,20 @@
                                     "type": "string",
                                     "example": "12, 14A"
                                 },
-                                "area": {
-                                    "description": "Area",
-                                    "type": "string",
-                                    "example": "Salmiya, Sharq"
+                                "country_id": {
+                                    "description": "Country ID",
+                                    "type": "integer",
+                                    "example": 114
+                                },
+                                "governorate_id": {
+                                    "description": "Governorate ID",
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "city_id": {
+                                    "description": "City ID",
+                                    "type": "integer",
+                                    "example": 1
                                 },
                                 "building": {
                                     "description": "Building number",
@@ -1289,10 +1313,20 @@
                                     "type": "string",
                                     "example": "12, 14A"
                                 },
-                                "area": {
-                                    "description": "Area",
-                                    "type": "string",
-                                    "example": "Salmiya, Sharq"
+                                "country_id": {
+                                    "description": "Country ID",
+                                    "type": "integer",
+                                    "example": 114
+                                },
+                                "governorate_id": {
+                                    "description": "Governorate ID",
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "city_id": {
+                                    "description": "City ID",
+                                    "type": "integer",
+                                    "example": 1
                                 },
                                 "building": {
                                     "description": "Building number",
@@ -1369,6 +1403,90 @@
                     },
                     "404": {
                         "description": "Address not found"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
+        "/user/getGovernoratesByCountry/{country_id}": {
+            "get": {
+                "tags": [
+                    "User Address"
+                ],
+                "summary": "Get all Governorates by country",
+                "operationId": "getGovernoratesByCountry",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "country_id",
+                        "in": "path",
+                        "description": "Country ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
+        "/user/getCitiesByGovernorate/{governorate_id}": {
+            "get": {
+                "tags": [
+                    "User Address"
+                ],
+                "summary": "Get all cities by zones",
+                "operationId": "getCitiesByGovernorate",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "country_id",
+                        "in": "path",
+                        "description": "Country ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
                     }
                 },
                 "security": [
