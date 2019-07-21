@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Address;
 use Illuminate\Database\Eloquent\Model;
 
 class City extends Model
@@ -13,5 +14,10 @@ class City extends Model
     public function getNameAttribute()
     {
         return $this->{'name_' . App::getLocale()};
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
     }
 }

@@ -450,10 +450,10 @@ class AddressController extends Controller
     /**
      *
      * @SWG\Get(
-     *         path="/user/getZonesByCountry",
+     *         path="/user/getGovernoratesByCountry/{country_id}",
      *         tags={"User Address"},
-     *         operationId="getZonesByCountry",
-     *         summary="Get all zones by country",
+     *         operationId="getGovernoratesByCountry",
+     *         summary="Get all Governorates by country",
      *         security={{"ApiAuthentication":{}}},
      *         @SWG\Parameter(
      *             name="Accept-Language",
@@ -469,6 +469,13 @@ class AddressController extends Controller
      *             type="string",
      *             description="1.0.0",
      *        ),
+     *        @SWG\Parameter(
+     *             name="country_id",
+     *             in="path",
+     *             description="Country ID",
+     *             type="integer",
+     *             required=true
+     *        ),
      *        @SWG\Response(
      *             response=200,
      *             description="Successful"
@@ -476,7 +483,7 @@ class AddressController extends Controller
      *     )
      *
      */
-    public function getZonesByCountry(Request $request)
+    public function getGovernoratesByCountry(Request $request)
     {
         $validator = [
             'country_id' => 'required|exists:countries,id',
@@ -493,17 +500,53 @@ class AddressController extends Controller
         return response()->json($zones);
     }
 
-    public function getCitiesByZone(Request $request)
+    /**
+     *
+     * @SWG\Get(
+     *         path="/user/getCitiesByGovernorate/{governorate_id}",
+     *         tags={"User Address"},
+     *         operationId="getCitiesByGovernorate",
+     *         summary="Get all cities by zones",
+     *         security={{"ApiAuthentication":{}}},
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="country_id",
+     *             in="path",
+     *             description="Country ID",
+     *             type="integer",
+     *             required=true
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
+    public function getCitiesByGovernorate(Request $request)
     {
         $validator = [
-            'zone_id' => 'required|exists:zones,id',
+            'governorate_id' => 'required|exists:governorates,id',
         ];
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError != null) {
             return $checkForError;
         }
-        $zone = Governorate::find($request->zone_id);
-        $cities = City::where('country_code', $zone->code)->get();
+        $governorates = Governorate::find($request->governorate_id);
+        $cities = City::where('country_code', $governorates->code)->get();
 
         return response()->json($cities);
     }
