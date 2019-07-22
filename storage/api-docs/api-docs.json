@@ -1515,9 +1515,9 @@
                         "type": "string"
                     },
                     {
-                        "name": "country_id",
+                        "name": "governorate_id",
                         "in": "path",
-                        "description": "Country ID",
+                        "description": "Governorate ID",
                         "required": true,
                         "type": "integer"
                     }

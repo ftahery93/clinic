@@ -30,7 +30,7 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     Route::put('/user/editAddress', 'API\User\AddressController@editAddress');
     Route::delete('/user/deleteAddressById/{address_id}', 'API\User\AddressController@deleteAddressById');
     Route::get('/user/getGovernoratesByCountry/{country_id}', 'API\User\AddressController@getGovernoratesByCountry');
-    Route::get('/user/getCitiesByGovernorate/{governorate_id}', 'API\User\AddressController@getAddressById');
+    Route::get('/user/getCitiesByGovernorate/{governorate_id}', 'API\User\AddressController@getCitiesByGovernorate');
     Route::get('/user/getAddressById/{address_id}', 'API\User\AddressController@getAddressById');
 
     /* User shipments  */
