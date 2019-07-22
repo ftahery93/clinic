@@ -4,6 +4,7 @@ namespace App;
 
 use App\Address;
 use Illuminate\Database\Eloquent\Model;
+use App;
 
 class City extends Model
 {
