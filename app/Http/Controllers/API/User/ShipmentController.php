@@ -147,6 +147,8 @@ class ShipmentController extends Controller
         if ($address_from != null || $address_to != null) {
             $shipment->address_from_id = $request->address_from_id;
             $shipment->address_to_id = $request->address_to_id;
+            $shipment->city_id_from = $address_from->city_id;
+            $shipment->city_id_to = $address_to->city_id;
         } else {
             return response()->json([
                 'error' => LanguageManagement::getLabel('no_address_found', $this->language),

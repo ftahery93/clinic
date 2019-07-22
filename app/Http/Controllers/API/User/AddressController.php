@@ -245,7 +245,7 @@ class AddressController extends Controller
     /**
      *
      * @SWG\Put(
-     *         path="/user/editAddress",
+     *         path="/user/editAddress/",
      *         tags={"User Address"},
      *         operationId="editAddress",
      *         summary="Edit Address",
@@ -272,7 +272,7 @@ class AddressController extends Controller
      *              @SWG\Property(
      *                  property="id",
      *                  type="integer",
-     *                  description="Address ID",
+     *                  description="Address ID - * Required",
      *                  example=24
      *              ),
      *              @SWG\Property(

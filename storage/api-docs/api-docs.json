@@ -653,6 +653,41 @@
                 ]
             }
         },
+        "/company/getMyCities": {
+            "get": {
+                "tags": [
+                    "Company Shipments"
+                ],
+                "summary": "Get all my cities",
+                "operationId": "getMyCities",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
         "/company/getPendingShipments": {
             "get": {
                 "tags": [
@@ -693,6 +728,9 @@
                 "responses": {
                     "200": {
                         "description": "Successful"
+                    },
+                    "404": {
+                        "description": "Shipments not found"
                     }
                 },
                 "security": [
@@ -1265,7 +1303,7 @@
                 ]
             }
         },
-        "/user/editAddress": {
+        "/user/editAddress/": {
             "put": {
                 "tags": [
                     "User Address"
@@ -1294,7 +1332,7 @@
                         "schema": {
                             "properties": {
                                 "id": {
-                                    "description": "Address ID",
+                                    "description": "Address ID - * Required",
                                     "type": "integer",
                                     "example": 24
                                 },

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Company;
 
+use App;
 use App\Company;
 use App\Country;
 use App\FreeDelivery;
@@ -196,7 +197,7 @@ class CompanyProfileController extends Controller
      */
     public function getProfile(Request $request)
     {
-
+        App::setlocale($this->language);
         $company = Company::find($request->company_id);
         $country = Country::find($company->country_id);
         $company["country"] = collect($country);
