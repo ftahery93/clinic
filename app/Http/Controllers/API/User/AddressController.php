@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\User;
 
+use App;
 use App\Address;
 use App\City;
 use App\Country;
