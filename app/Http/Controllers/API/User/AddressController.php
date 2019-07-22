@@ -486,19 +486,13 @@ class AddressController extends Controller
      */
     public function getGovernoratesByCountry(Request $request)
     {
-        // $validator = [
-        //     'country_id' => 'required|exists:countries,id',
-        // ];
-        // $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
-        // if ($checkForError != null) {
-        //     return $checkForError;
-        // }
 
         App::setlocale($this->language);
 
         $country = Country::find($request->country_id);
-        $zones = $country->governorates()->get();
-        return response()->json($zones);
+        $governorates = Governorate::where('country_id', $country->id)->get();
+        //$zones = $country->governorates()->get();
+        return response()->json($governorates);
     }
 
     /**
@@ -524,9 +518,9 @@ class AddressController extends Controller
      *             description="1.0.0",
      *        ),
      *        @SWG\Parameter(
-     *             name="country_id",
+     *             name="governorate_id",
      *             in="path",
-     *             description="Country ID",
+     *             description="Governorate ID",
      *             type="integer",
      *             required=true
      *        ),
@@ -539,13 +533,6 @@ class AddressController extends Controller
      */
     public function getCitiesByGovernorate(Request $request)
     {
-        // $validator = [
-        //     'governorate_id' => 'required|exists:governorates,id',
-        // ];
-        // $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
-        // if ($checkForError != null) {
-        //     return $checkForError;
-        // }
         $governorates = Governorate::find($request->governorate_id);
         $cities = City::where('country_code', $governorates->code)->get();
 
