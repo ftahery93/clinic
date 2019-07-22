@@ -230,17 +230,17 @@ class ShipmentController extends Controller
      */
     public function getShipmentById(Request $request, $shipment_id)
     {
-        $validator = [
-            'shipment_id' => 'required|exists:shipments,id',
-        ];
+        // $validator = [
+        //     'shipment_id' => 'required|exists:shipments,id',
+        // ];
 
-        $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
-        if ($checkForMessages) {
-            return $checkForMessages;
-        }
+        // $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
+        // if ($checkForMessages) {
+        //     return $checkForMessages;
+        // }
 
         $shipment = Shipment::find($shipment_id);
-        if ($shipment->company_id == $request->company_id || $shipment->status == 1) {
+        if ($shipment != null && $shipment->company_id == $request->company_id) {
             $shipment = $this->getShipmentDetailsResponse($shipment);
             $shipment["address_from"] = Address::find($shipment->address_from_id);
             $shipment["address_to"] = Address::find($shipment->address_to_id);
