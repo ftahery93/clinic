@@ -113,14 +113,14 @@ class PaymentController extends Controller
      */
     public function payOrder(Request $request)
     {
-        $validator = [
-            'order_id' => 'required|exists:orders,id',
-        ];
+        // $validator = [
+        //     'order_id' => 'required|exists:orders,id',
+        // ];
 
-        $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
-        if ($checkForMessages) {
-            return $checkForMessages;
-        }
+        // $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
+        // if ($checkForMessages) {
+        //     return $checkForMessages;
+        // }
 
         $order = Order::find($request->order_id);
 
