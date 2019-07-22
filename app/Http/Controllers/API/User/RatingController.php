@@ -161,14 +161,14 @@ class RatingController extends Controller
     public function getMyRatingByCompanyId(Request $request, $company_id)
     {
 
-        $validator = [
-            'company_id' => 'required|exists:companies,id',
-        ];
+        // $validator = [
+        //     'company_id' => 'required|exists:companies,id',
+        // ];
 
-        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
-        if ($checkForError) {
-            return $checkForError;
-        }
+        // $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        // if ($checkForError) {
+        //     return $checkForError;
+        // }
 
         $rating = Rating::where('user_id', $request->user_id)->where('company_id', $company_id)->get()->first();
 
