@@ -579,20 +579,21 @@ class ShipmentController extends Controller
     private function getShipmentsBasedOnCityId($request)
     {
         if (!empty($request->from_id) && !empty($request->to_id)) {
-            $shipments = $this->findShipmentsWithFromAndToCity($request->city_id_from, $request->city_id_to);
+            $shipments = $this->findShipmentsWithFromAndToCity($request->from_id, $request->to_id);
         } else if (!empty($request->from_id) && empty($request->to_id)) {
-            $shipments = $this->findShipmentsWithOnlyFromCity($request->city_id_from);
+            $shipments = $this->findShipmentsWithOnlyFromCity($request->from_id);
         } else if (empty($request->from_id) && !empty($request->to_id)) {
-            $shipments = $this->findShipmentsWithOnlyToCity($request->city_id_to);
+            $shipments = $this->findShipmentsWithOnlyToCity($request->to_id);
         } else {
             $shipments = Shipment::where('status', 1)->get();
         }
-
+        //echo collect($shipments);
         return $shipments;
     }
 
     private function findShipmentsWithFromAndToCity($from_city, $to_city)
     {
+        //echo $from_city . " " . $to_city;
         return Shipment::where('status', 1)->where('city_id_from', $from_city)->where('city_id_to', $to_city)->get();
     }
 
