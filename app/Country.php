@@ -17,7 +17,7 @@ class Country extends Model
         return $this->{'name_' . App::getLocale()};
     }
 
-    private function governorates()
+    public function governorates()
     {
         return $this->belongsToMany(Governorate::class);
     }
