@@ -551,45 +551,6 @@ class AddressController extends Controller
         return response()->json($cities);
     }
 
-    /**
-     *
-     * @SWG\Get(
-     *         path="/user/getMyCities",
-     *         tags={"User Address"},
-     *         operationId="getMyCities",
-     *         summary="Get all my cities",
-     *         security={{"ApiAuthentication":{}}},
-     *         @SWG\Parameter(
-     *             name="Accept-Language",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user prefered language",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Version",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="1.0.0",
-     *        ),
-     *        @SWG\Response(
-     *             response=200,
-     *             description="Successful"
-     *        ),
-     *     )
-     *
-     */
-    public function getMyCities(Request $request)
-    {
-        $companyUser = Company::find($request->company_id);
-        $country_id = $companyUser->country_id;
-        $country = Country::find($country_id);
-
-        $cities = City::where('country_code', $country->iso_code_2)->get();
-        return response()->json($cities);
-    }
-
     private function createAddress($request)
     {
         $address = Address::create([

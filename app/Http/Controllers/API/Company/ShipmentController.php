@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\API\Company;
 
+use App;
 use App\Address;
 use App\City;
 use App\Commission;
@@ -29,16 +30,44 @@ class ShipmentController extends Controller
         $this->language = $request->header('Accept-Language');
     }
 
-    public function getAllCities(Request $request)
+    /**
+     *
+     * @SWG\Get(
+     *         path="/company/getMyCities",
+     *         tags={"Company Shipments"},
+     *         operationId="getMyCities",
+     *         summary="Get all my cities",
+     *         security={{"ApiAuthentication":{}}},
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
+    public function getMyCities(Request $request)
     {
         $companyUser = Company::find($request->company_id);
         $country_id = $companyUser->country_id;
-
         $country = Country::find($country_id);
-        $cities = City::where('country_code', $country->is_code_2)->get();
+
+        $cities = City::where('country_code', $country->iso_code_2)->get();
         return response()->json($cities);
     }
-
     /**
      *
      * @SWG\Get(

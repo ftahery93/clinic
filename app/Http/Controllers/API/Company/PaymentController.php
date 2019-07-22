@@ -111,7 +111,7 @@ class PaymentController extends Controller
      *     )
      *
      */
-    public function payOrder($order_id, Request $request)
+    public function payOrder(Request $request)
     {
         $validator = [
             'order_id' => 'required|exists:orders,id',
@@ -122,7 +122,7 @@ class PaymentController extends Controller
             return $checkForMessages;
         }
 
-        $order = Order::find($order_id);
+        $order = Order::find($request->order_id);
 
         if ($order->company_id != $request->company_id) {
             return response()->json([

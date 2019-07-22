@@ -29,6 +29,9 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     Route::get('/user/getAddresses', 'API\User\AddressController@getAddresses');
     Route::put('/user/editAddress', 'API\User\AddressController@editAddress');
     Route::delete('/user/deleteAddressById/{address_id}', 'API\User\AddressController@deleteAddressById');
+    Route::get('/user/getGovernoratesByCountry/{country_id}', 'API\User\AddressController@getGovernoratesByCountry');
+    Route::get('/user/getCitiesByGovernorate/{governorate_id}', 'API\User\AddressController@getAddressById');
+    Route::get('/user/getAddressById/{address_id}', 'API\User\AddressController@getAddressById');
 
     /* User shipments  */
     Route::post('/user/addShipment', 'API\User\ShipmentController@addShipment');
@@ -87,6 +90,8 @@ Route::group(['middleware' => ['checkAuth', 'checkCompanyVersion']], function ()
     Route::get('/company/getWalletDetails', 'API\Company\WalletController@getWalletDetails');
 
     Route::get('/company/payOrder/{order_id}', 'API\Company\PaymentController@payOrder');
+
+    Route::get('/company/getMyCities', 'API\Company\ShipmentController@getMyCities');
 });
 
 Route::group(['middleware' => 'checkCompanyVersion'], function () {
