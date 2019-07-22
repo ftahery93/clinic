@@ -21,12 +21,12 @@ class Shipment extends Model
         return $value ? true : false;
     }
 
-    public function getPickupTimeFrom($value)
+    public function getPickupTimeFromAttribute($value)
     {
         return substr($value, 0, -3);
     }
 
-    public function getPickupTimeTo($value)
+    public function getPickupTimeToAttribute($value)
     {
         return substr($value, 0, -3);
     }
