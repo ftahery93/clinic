@@ -485,13 +485,13 @@ class AddressController extends Controller
      */
     public function getGovernoratesByCountry(Request $request)
     {
-        $validator = [
-            'country_id' => 'required|exists:countries,id',
-        ];
-        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
-        if ($checkForError != null) {
-            return $checkForError;
-        }
+        // $validator = [
+        //     'country_id' => 'required|exists:countries,id',
+        // ];
+        // $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        // if ($checkForError != null) {
+        //     return $checkForError;
+        // }
 
         App::setlocale($this->language);
 
@@ -538,13 +538,13 @@ class AddressController extends Controller
      */
     public function getCitiesByGovernorate(Request $request)
     {
-        $validator = [
-            'governorate_id' => 'required|exists:governorates,id',
-        ];
-        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
-        if ($checkForError != null) {
-            return $checkForError;
-        }
+        // $validator = [
+        //     'governorate_id' => 'required|exists:governorates,id',
+        // ];
+        // $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        // if ($checkForError != null) {
+        //     return $checkForError;
+        // }
         $governorates = Governorate::find($request->governorate_id);
         $cities = City::where('country_code', $governorates->code)->get();
 
