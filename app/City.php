@@ -2,14 +2,14 @@
 
 namespace App;
 
+use App;
 use App\Address;
 use Illuminate\Database\Eloquent\Model;
-use App;
 
 class City extends Model
 {
     protected $table = "cities";
-    protected $hidden = ['created_at', 'updated_at', 'state_name', 'name_en', 'name_ar'];
+    protected $hidden = ['created_at', 'updated_at', 'state_name', 'name_en', 'name_ar', 'country_code'];
     protected $appends = ['name'];
 
     public function getNameAttribute()
