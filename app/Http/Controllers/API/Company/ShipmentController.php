@@ -305,7 +305,6 @@ class ShipmentController extends Controller
         json_decode($request->getContent(), true);
         $validator = [
             'shipment_ids' => 'required|array|min:1',
-            'shipment_ids.*' => 'numeric',
         ];
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError) {
