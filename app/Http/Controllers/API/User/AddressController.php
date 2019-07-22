@@ -187,14 +187,14 @@ class AddressController extends Controller
      */
     public function getAddressById(Request $request, $address_id)
     {
-        $validator = [
-            'address_id' => 'required|exists:addresses,id',
-        ];
+        // $validator = [
+        //     'address_id' => 'required|exists:addresses,id',
+        // ];
 
-        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
-        if ($checkForError != null) {
-            return $checkForError;
-        }
+        // $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        // if ($checkForError != null) {
+        //     return $checkForError;
+        // }
 
         $address = Address::find($address_id);
         if ($address->status == 1) {
@@ -424,14 +424,14 @@ class AddressController extends Controller
      */
     public function deleteAddressById(Request $request, $address_id)
     {
-        $validator = [
-            'address_id' => 'required|exists:addresses,id',
-        ];
+        // $validator = [
+        //     'address_id' => 'required|exists:addresses,id',
+        // ];
 
-        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
-        if ($checkForError != null) {
-            return $checkForError;
-        }
+        // $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        // if ($checkForError != null) {
+        //     return $checkForError;
+        // }
         $address = Address::find($address_id);
 
         if ($address->user_id == $request->user_id) {

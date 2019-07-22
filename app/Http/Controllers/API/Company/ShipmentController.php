@@ -420,13 +420,13 @@ class ShipmentController extends Controller
      */
     public function markShipmentAsPicked(Request $request, $shipment_id)
     {
-        $validator = [
-            'shipment_id' => 'required|exists:shipments,id',
-        ];
-        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
-        if ($checkForError) {
-            return $checkForError;
-        }
+        // $validator = [
+        //     'shipment_id' => 'required|exists:shipments,id',
+        // ];
+        // $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        // if ($checkForError) {
+        //     return $checkForError;
+        // }
 
         $shipment = Shipment::find($shipment_id);
         if ($shipment->company_id == $request->company_id) {
@@ -489,13 +489,13 @@ class ShipmentController extends Controller
     public function markShipmentAsDelivered(Request $request, $shipment_id)
     {
 
-        $validator = [
-            'shipment_id' => 'required|exists:shipments,id',
-        ];
-        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
-        if ($checkForError) {
-            return $checkForError;
-        }
+        // $validator = [
+        //     'shipment_id' => 'required|exists:shipments,id',
+        // ];
+        // $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        // if ($checkForError) {
+        //     return $checkForError;
+        // }
 
         $shipment = Shipment::find($shipment_id);
         if ($shipment->company_id == $request->company_id) {
