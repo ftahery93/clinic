@@ -224,6 +224,7 @@ class PaymentController extends Controller
             'company_id' => $order->company_id,
             'amount' => $order->wallet_amount,
             'wallet_in' => 0,
+            'order_id' => $order->id,
         ]);
     }
     private function updateWalletBalance($wallet, $walletBalance)
