@@ -139,9 +139,10 @@ class ShipmentController extends Controller
             }
             return response()->json($response);
         } else {
-            return response()->json([
-                'error' => LanguageManagement::getLabel('no_shipment_found', $this->language),
-            ], 404);
+            // return response()->json([
+            //     'error' => LanguageManagement::getLabel('no_shipment_found', $this->language),
+            // ], 404);
+            return response()->json([]);
         }
     }
     /**
