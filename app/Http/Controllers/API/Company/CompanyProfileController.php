@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\LanguageManagement;
 use App\Utility;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CompanyProfileController extends Controller
 {
@@ -312,7 +313,9 @@ class CompanyProfileController extends Controller
 
             if ($file_data != null) {
                 Storage::disk('public')->put('company_images/' . $file_name, base64_decode($file_data));
-                Storage::disk('public')->delete('company_images/' . $registeredCompany->image);
+                $existingFile = $registeredCompany->image;
+                $existingFile = substr_replace($existingFile, '', url('/uploads/company_images/'));
+                Storage::disk('public')->delete('company_images/' . $existingFile);
             }
             $registeredCompany->update([
                 'image' => $file_name,
