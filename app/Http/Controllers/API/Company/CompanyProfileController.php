@@ -314,7 +314,7 @@ class CompanyProfileController extends Controller
             if ($file_data != null) {
                 Storage::disk('public')->put('company_images/' . $file_name, base64_decode($file_data));
                 $existingFile = $registeredCompany->image;
-                $existingFile = substr_replace($existingFile, '', url('/uploads/company_images/'));
+                $existingFile = str_replace(url('/uploads/company_images/'), '', $existingFile);
                 Storage::disk('public')->delete('company_images/' . $existingFile);
             }
             $registeredCompany->update([
