@@ -66,6 +66,7 @@ class ShipmentController extends Controller
         $country = Country::find($country_id);
 
         $cities = City::where('country_code', $country->iso_code_2)->get();
+        $cities = collect($cities)->sortBy('name')->values()->all();
         return response()->json($cities);
     }
     /**
