@@ -9,12 +9,12 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 // Language Route
-Route::post('/lang', array('Middleware' => 'LanguageSwitcher','uses' => 'LanguageController@index',))->name('lang');
+Route::post('/lang', array('Middleware' => 'LanguageSwitcher', 'uses' => 'LanguageController@index'))->name('lang');
 // For Language direct URL link
-Route::get('/lang/{lang}', array('Middleware' => 'LanguageSwitcher','uses' => 'LanguageController@change',))->name('langChange');
+Route::get('/lang/{lang}', array('Middleware' => 'LanguageSwitcher', 'uses' => 'LanguageController@change'))->name('langChange');
 // .. End of Language Route
 
 // Backend Routes
@@ -28,10 +28,10 @@ Route::get('/', function () {
 Route::Group(['prefix' => env('BACKEND_PATH')], function () {
 
     // No Permission
-    Route::get('/403', function () { return view('errors.403'); })->name('NoPermission');
+    Route::get('/403', function () {return view('errors.403');})->name('NoPermission');
 
     // Not Found
-    Route::get('/404', function () { return view('errors.404'); })->name('NotFound');
+    Route::get('/404', function () {return view('errors.404');})->name('NotFound');
 
     // Admin Home
     Route::get('/dashboard', 'HomeController@index')->name('adminHome');
@@ -112,5 +112,10 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::post('/users/permissions/{id}/update', 'UsersController@permissions_update')->name('permissions_update');
     Route::get('/users/permissions/destroy/{id}', 'UsersController@permissions_destroy')->name('permissions_delete');
 
+
+    Route::get('payment/{order_id?}', 'API\Company\PaymentController@payment');
+Route::get('paymentForWallet/{wallet_id?}/{isOffer?}/{offer_id?}/{company_id?}', 'API\Company\PaymentController@paymentForWallet');
 });
+
+
 // .. End of Backend Routes

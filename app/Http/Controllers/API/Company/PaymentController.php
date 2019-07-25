@@ -9,6 +9,7 @@ use App\Order;
 use App\Payment;
 use App\Utility;
 use App\Wallet;
+use App\WalletOffer;
 use App\WalletTransaction;
 use function GuzzleHttp\json_decode;
 use Illuminate\Http\Request;
@@ -113,15 +114,6 @@ class PaymentController extends Controller
      */
     public function payOrder(Request $request)
     {
-        // $validator = [
-        //     'order_id' => 'required|exists:orders,id',
-        // ];
-
-        // $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
-        // if ($checkForMessages) {
-        //     return $checkForMessages;
-        // }
-
         $order = Order::find($request->order_id);
 
         if ($order->company_id != $request->company_id) {
@@ -137,7 +129,8 @@ class PaymentController extends Controller
         }
         if ($order->card_amount > 0) {
             $company = Company::find($request->company_id);
-            $invoiceString = $this->createInvoice($company, $order);
+            $callBackUri = $this->createCallBackUriForOrder($order->id);
+            $invoiceString = $this->createInvoice($company, $order, $callBackUri);
             $response_data = $this->makeInvoiceCreateIsoRequest($invoiceString);
             $response_data = json_decode($response_data, true);
             $paymentMethods = $response_data['PaymentMethods'];
@@ -153,6 +146,102 @@ class PaymentController extends Controller
                 'message' => LanguageManagement::getLabel('order_placed_success', $this->language),
             ]);
         }
+    }
+
+    /**
+     *
+     * @SWG\Post(
+     *         path="/company/addToWallet",
+     *         tags={"Company Wallet"},
+     *         operationId="addToWallet",
+     *         summary="Add to company's wallet",
+     *         security={{"ApiAuthentication":{}}},
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Update profile body",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="offer_id",
+     *                  type="integer",
+     *                  description="Wallet offer ID",
+     *                  example=34
+     *              ),
+     *              @SWG\Property(
+     *                  property="amount",
+     *                  type="double",
+     *                  description="Amount to be added",
+     *                  example=50.00
+     *              ),
+     *              @SWG\Property(
+     *                  property="isOffer",
+     *                  type="boolean",
+     *                  description="Amount added to wallet is under offers - *(Required)",
+     *                  example=true
+     *              ),
+     *          ),
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=422,
+     *             description="Unprocessable entity"
+     *        ),
+     *     )
+     *
+     */
+    public function addToWallet(Request $request)
+    {
+        $validator = [
+            'isOffer' => 'required|boolean',
+            'offer_id' => 'required_if:isOffer,true|exists:wallet_offers,id',
+            'amount' => 'required_if:isOffer,false',
+        ];
+
+        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForError != null) {
+            return $checkForError;
+        }
+
+        $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
+        $company = Company::find($request->company_id);
+
+        if ($request->isOffer) {
+            $walletOffers = WalletOffer::find($request->offer_id);
+            $wallet['card_amount'] = $walletOffers->amount;
+        } else {
+            $wallet['card_amount'] = $request->amount;
+        }
+        $request->isOffer = ($request->isOffer) == true ? 1 : 0;
+        $request->offer_id = empty($request->offer_id) ? 0 : $request->offer_id;
+        $callBackUri = $this->createCallBackUriForWallet($wallet->id, $request->isOffer, $request->company_id, $request->offer_id);
+        $invoiceString = $this->createInvoice($company, $wallet, $callBackUri);
+        $response_data = $this->makeInvoiceCreateIsoRequest($invoiceString);
+        $response_data = json_decode($response_data, true);
+
+        $paymentMethods = $response_data['PaymentMethods'];
+        $extractedPaymentMethods = $this->extractPaymentMethods($paymentMethods);
+        return response()->json([
+            'message' => LanguageManagement::getLabel('redirect_to_payment', $this->language),
+            'payment_methods' => $extractedPaymentMethods,
+        ]
+        );
     }
 
     public function payment(Request $request)
@@ -195,6 +284,94 @@ class PaymentController extends Controller
             echo "<input type='hidden' name='payment_id' id='payment_id' value='" . $paymentId . "'>";
         }
     }
+
+    public function paymentForWallet(Request $request)
+    {
+        // $validator = [
+        //     'wallet_id' => 'required|exists:wallet,id',
+        //     'paymentId' => 'required',
+        // ];
+
+        // $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
+        // if ($checkForMessages) {
+        //     return $checkForMessages;
+        // }
+
+        $paymentId = $request->paymentId;
+        $wallet_id = $request->wallet_id;
+
+        $wallet = Wallet::find($wallet_id);
+
+        $response = $this->makeTransactionRequest($paymentId);
+        $amount = $response['InvoiceValue'];
+
+        $walletModel["isOffer"] = $request->isOffer;
+        $walletModel["offer_id"] = $request->offer_id;
+        $walletModel["company_id"] = $request->company_id;
+        $walletModel["amount"] = $amount;
+        $walletModel["wallet"] = $wallet;
+
+        //print_r($walletModel);
+        //die;
+
+        $payment = Payment::create([
+            'reference_id' => $response['ReferenceId'],
+            'track_id' => $response['TrackId'],
+            'transaction_id' => $response['TransactionId'],
+            'payment_id' => $response['PaymentId'],
+            'transaction_status' => $response['TransactionStatus'],
+            'payment_gateway' => $response['PaymentGateway'],
+            'order_id' => 0,
+            'wallet_id' => $wallet->id,
+        ]);
+
+        if ($response['TransactionStatus'] == 2) {
+            $this->addAmountToWallet($walletModel);
+            echo "<input type='hidden' name='is_captured' id='is_captured' value='1'>";
+            echo "<input type='hidden' name='payment_id' id='payment_id' value='" . $paymentId . "'>";
+        } else {
+            echo "<input type='hidden' name='is_captured' id='is_captured' value='0'>";
+            echo "<input type='hidden' name='payment_id' id='payment_id' value='" . $paymentId . "'>";
+        }
+    }
+
+    private function addAmountToWallet($walletModel)
+    {
+        if ($walletModel['isOffer'] == "1") {
+            $walletOffers = WalletOffer::find($walletModel['offer_id']);
+            $freeDeliveries = FreeDelivery::where('company_id', $walletModel['company_id'])->get()->first();
+            $quantity = $freeDeliveries->quantity;
+            $quantity = $quantity + $walletOffers->free_deliveries;
+
+            $freeDeliveries->update([
+                'quantity' => $quantity,
+            ]);
+
+            WalletTransaction::create([
+                'company_id' => $walletModel['company_id'],
+                'amount' => $walletOffers->amount,
+                'wallet_in' => 1,
+            ]);
+
+            $balance = $walletModel['wallet']->balance + $walletOffers->amount;
+        } else {
+            $balance = $walletModel['wallet']->balance + $walletModel['amount'];
+            WalletTransaction::create([
+                'company_id' => $walletModel['company_id'],
+                'amount' => $walletModel['amount'],
+                'wallet_in' => 1,
+            ]);
+        }
+        $walletModel['wallet']->update([
+            'balance' => $balance,
+        ]);
+
+        // return response()->json([
+        //     'id' => $wallet->id,
+        //     'balance' => $wallet->balance,
+        // ]);
+    }
+
     private function extractPaymentMethods($paymentMethods)
     {
         $extractedPaymentMethods = [];
@@ -205,6 +382,7 @@ class PaymentController extends Controller
         }
         return $extractedPaymentMethods;
     }
+
     private function bookOrder($order)
     {
         $freeDeliveries = FreeDelivery::where('company_id', $order->company_id)->get()->first();
@@ -248,10 +426,23 @@ class PaymentController extends Controller
         }
         return true;
     }
-    private function createInvoice($company, $order)
+
+    private function createCallBackUriForOrder($id)
     {
-        $callBackUri = url('/admin/payment?order_id=' . $order->id);
+        $callBackUri = url('/admin/payment?order_id=' . $id);
         $callBackUri = str_replace("localhost", "127.0.0.1", $callBackUri);
+        return $callBackUri;
+    }
+
+    private function createCallBackUriForWallet($wallet_id, $isOffer = 0, $company_id, $offerId = 0)
+    {
+        $callBackUri = url('/admin/paymentForWallet?wallet_id=' . $wallet_id . '&isOffer=' . $isOffer . '&offer_id=' . $offerId . '&company_id=' . $company_id);
+        $callBackUri = str_replace("localhost", "127.0.0.1", $callBackUri);
+        return $callBackUri;
+    }
+
+    private function createInvoice($company, $order, $callBackUri)
+    {
         $invoiceString = '{"InvoiceValue": "' . $order->id . '",
         "CustomerName": "' . $company->name . '",
         "CustomerBlock": "' . $order->id . '",
@@ -274,11 +465,9 @@ class PaymentController extends Controller
         "ExpireDate": "' . date("Y-m-d H:i:s", strtotime('+2 hours')) . '",
         "ApiCustomFileds": "string",
         "ErrorUrl": "' . $callBackUri . '"}';
-        //$invoiceString = json_encode($invoiceString, true);
-        //echo $invoiceString;
-        //die;
         return $invoiceString;
     }
+
     private function makeInvoiceCreateIsoRequest($invoiceString)
     {
         $url = "https://apidemo.myfatoorah.com/ApiInvoices/CreateInvoiceIso";
