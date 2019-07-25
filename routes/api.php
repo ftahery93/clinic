@@ -90,6 +90,7 @@ Route::group(['middleware' => ['checkAuth', 'checkCompanyVersion']], function ()
     Route::get('/company/getWalletDetails', 'API\Company\WalletController@getWalletDetails');
 
     Route::get('/company/payOrder/{order_id}', 'API\Company\PaymentController@payOrder');
+    Route::post('/company/addToWallet', 'API\Company\PaymentController@addToWallet');
 
     Route::get('/company/getMyCities', 'API\Company\ShipmentController@getMyCities');
 });

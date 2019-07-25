@@ -653,6 +653,68 @@
                 ]
             }
         },
+        "/company/addToWallet": {
+            "post": {
+                "tags": [
+                    "Company Wallet"
+                ],
+                "summary": "Add to company's wallet",
+                "operationId": "addToWallet",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Update profile body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "offer_id": {
+                                    "description": "Wallet offer ID",
+                                    "type": "integer",
+                                    "example": 34
+                                },
+                                "amount": {
+                                    "description": "Amount to be added",
+                                    "type": "double",
+                                    "example": 50
+                                },
+                                "isOffer": {
+                                    "description": "Amount added to wallet is under offers - *(Required)",
+                                    "type": "boolean",
+                                    "example": true
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
         "/company/getMyCities": {
             "get": {
                 "tags": [
@@ -985,68 +1047,6 @@
                 "responses": {
                     "200": {
                         "description": "Successful"
-                    }
-                },
-                "security": [
-                    {
-                        "ApiAuthentication": []
-                    }
-                ]
-            }
-        },
-        "/company/addToWallet": {
-            "post": {
-                "tags": [
-                    "Company Wallet"
-                ],
-                "summary": "Add to company's wallet",
-                "operationId": "addToWallet",
-                "parameters": [
-                    {
-                        "name": "Accept-Language",
-                        "in": "header",
-                        "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Version",
-                        "in": "header",
-                        "description": "1.0.0",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Update profile body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "properties": {
-                                "offer_id": {
-                                    "description": "Wallet offer ID",
-                                    "type": "integer",
-                                    "example": 34
-                                },
-                                "amount": {
-                                    "description": "Amount to be added",
-                                    "type": "double",
-                                    "example": 50
-                                },
-                                "isOffer": {
-                                    "description": "Amount added to wallet is under offers - *(Required)",
-                                    "type": "boolean",
-                                    "example": true
-                                }
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful"
-                    },
-                    "422": {
-                        "description": "Unprocessable entity"
                     }
                 },
                 "security": [
