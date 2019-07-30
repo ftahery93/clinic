@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Company;
 use App\Models\Admin\Category;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,5 +30,10 @@ class Shipment extends Model
     public function getPickupTimeToAttribute($value)
     {
         return $value == null ? null : substr($value, 0, -3);
+    }
+
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class);
     }
 }

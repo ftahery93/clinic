@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Shipment;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -41,6 +42,11 @@ class Company extends Authenticatable
     public function getImageAttribute($value)
     {
         return $value ? url('/uploads/company_images/' . $value) : null;
+    }
+
+    public function shipments()
+    {
+        return $this->belongsToMany(Shipment::class);
     }
 
 }
