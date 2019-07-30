@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Company;
 
 use App;
+use App\Authentication;
 use App\Company;
 use App\Country;
 use App\FreeDelivery;
@@ -11,6 +12,7 @@ use App\LanguageManagement;
 use App\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\OneSignalCompanyUser;
 
 class CompanyProfileController extends Controller
 {

@@ -8,6 +8,7 @@ class Notification
     {
         $content = array(
             "en" => $message,
+            "ar" => $message,
         );
 
         $fields = array(
