@@ -8,6 +8,7 @@ use App\Company;
 use App\Helpers\Notification;
 use App\Http\Controllers\Controller;
 use App\LanguageManagement;
+use App\OneSignalCompanyUser;
 use App\Price;
 use App\Shipment;
 use App\Utility;
@@ -169,7 +170,6 @@ class ShipmentController extends Controller
         $shipment->save();
 
         foreach ($request->shipments as $eachShipment) {
-
             $category_ids[] = $eachShipment["category_id"];
         }
 
@@ -187,9 +187,14 @@ class ShipmentController extends Controller
         }
 
         $companies = Company::findMany($request->delivery_companies_id);
+
         $playerIds = [];
         foreach ($companies as $company) {
-            $playerIds[] = $company->player_id;
+            $shipment->companies()->attach($company->id);
+            $playerIdsOfEachCompany = OneSignalCompanyUser::where('company_id', $company->id)->get();
+            foreach ($playerIdsOfEachCompany as $eachPlayerId) {
+                $playerIds[] = $eachPlayerId->player_id;
+            }
         }
         $message = "";
         if (count($companies) == 1) {
@@ -199,10 +204,6 @@ class ShipmentController extends Controller
         }
 
         Notification::sendNotificationToMultipleUser($playerIds, $message);
-
-        foreach ($companies as $company) {
-            $playerIds[] = $company->player_id;
-        }
 
         return response()->json([
             'message' => LanguageManagement::getLabel('add_shipment_success', $this->language),

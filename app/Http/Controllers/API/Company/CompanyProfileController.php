@@ -9,10 +9,10 @@ use App\Country;
 use App\FreeDelivery;
 use App\Http\Controllers\Controller;
 use App\LanguageManagement;
+use App\OneSignalCompanyUser;
 use App\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use App\OneSignalCompanyUser;
 
 class CompanyProfileController extends Controller
 {

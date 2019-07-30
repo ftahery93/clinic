@@ -127,8 +127,20 @@ class ShipmentController extends Controller
         if ($checkForMessages) {
             return $checkForMessages;
         }
+        $company = Company::find($request->company_id);
 
-        $shipments = $this->getShipmentsBasedOnCityId($request);
+        if ($company == null) {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_company_found', $this->language),
+            ], 404);
+        }
+
+        $companyShipments = $company->shipments()->get();
+        if (count($companyShipments) == 0) {
+            return response()->json([]);
+        }
+
+        $shipments = $this->getShipmentsBasedOnCityId($request, $companyShipments);
 
         $response = [];
         if (count($shipments) > 0) {
@@ -139,12 +151,9 @@ class ShipmentController extends Controller
                 $response[] = collect($shipment);
             }
             return response()->json($response);
-        } else {
-            // return response()->json([
-            //     'error' => LanguageManagement::getLabel('no_shipment_found', $this->language),
-            // ], 404);
-            return response()->json([]);
         }
+        return response()->json([]);
+
     }
     /**
      *
@@ -232,16 +241,17 @@ class ShipmentController extends Controller
      */
     public function getShipmentById(Request $request, $shipment_id)
     {
-        // $validator = [
-        //     'shipment_id' => 'required|exists:shipments,id',
-        // ];
-
-        // $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
-        // if ($checkForMessages) {
-        //     return $checkForMessages;
-        // }
-
         $shipment = Shipment::find($shipment_id);
+
+        $companies = $shipment->companies()->get();
+        $companyShipment = collect($companies)->where('id', $request->company_id)->values()->all();
+
+        if (count($companyShipment) == 0) {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_shipment_found', $this->language),
+            ]);
+        }
+
         if ($shipment != null && $shipment->company_id == $request->company_id) {
             $shipment = $this->getShipmentDetailsResponse($shipment);
             $shipment["address_from"] = Address::find($shipment->address_from_id);
@@ -307,7 +317,7 @@ class ShipmentController extends Controller
         json_decode($request->getContent(), true);
         $validator = [
             'shipment_ids' => 'required|array|min:1',
-            'shipment_ids.*'=>'distinct',
+            'shipment_ids.*' => 'distinct',
         ];
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError) {
@@ -579,34 +589,35 @@ class ShipmentController extends Controller
         return $shipment;
     }
 
-    private function getShipmentsBasedOnCityId($request)
+    private function getShipmentsBasedOnCityId($request, $companyShipments)
     {
         if (!empty($request->from_id) && !empty($request->to_id)) {
-            $shipments = $this->findShipmentsWithFromAndToCity($request->from_id, $request->to_id);
+            $shipments = $this->findShipmentsWithFromAndToCity($companyShipments, $request->from_id, $request->to_id);
         } else if (!empty($request->from_id) && empty($request->to_id)) {
-            $shipments = $this->findShipmentsWithOnlyFromCity($request->from_id);
+            $shipments = $this->findShipmentsWithOnlyFromCity($companyShipments, $request->from_id);
         } else if (empty($request->from_id) && !empty($request->to_id)) {
-            $shipments = $this->findShipmentsWithOnlyToCity($request->to_id);
+            $shipments = $this->findShipmentsWithOnlyToCity($companyShipments, $request->to_id);
         } else {
-            $shipments = Shipment::where('status', 1)->get();
+            $shipments = collect($companyShipments)->where('status', 1)->values()->all();
         }
-        //echo collect($shipments);
         return $shipments;
     }
 
-    private function findShipmentsWithFromAndToCity($from_city, $to_city)
+    private function findShipmentsWithFromAndToCity($shipments, $from_city, $to_city)
     {
-        //echo $from_city . " " . $to_city;
-        return Shipment::where('status', 1)->where('city_id_from', $from_city)->where('city_id_to', $to_city)->get();
+        return collect($shipments)->where('status', 1)->where('city_id_from', $from_city)->where('city_id_to', $to_city)->values()->all();
+        //return Shipment::where('status', 1)->where('city_id_from', $from_city)->where('city_id_to', $to_city)->get();
     }
 
-    private function findShipmentsWithOnlyFromCity($from_city)
+    private function findShipmentsWithOnlyFromCity($shipments, $from_city)
     {
-        return Shipment::where('status', 1)->where('city_id_from', $from_city)->get();
+        return collect($shipments)->where('status', 1)->where('city_id_from', $from_city)->values()->all();
+        //return Shipment::where('status', 1)->where('city_id_from', $from_city)->get();
     }
 
-    private function findShipmentsWithOnlyToCity($to_city)
+    private function findShipmentsWithOnlyToCity($shipments, $to_city)
     {
-        return Shipment::where('status', 1)->where('city_id_to', $to_city)->get();
+        return collect($shipments)->where('status', 1)->where('city_id_to', $to_city)->values()->all();
+        //return Shipment::where('status', 1)->where('city_id_to', $to_city)->get();
     }
 }

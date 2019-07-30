@@ -4,7 +4,7 @@ namespace App\Helpers;
 class Notification
 {
 
-    public static function sendNotificationToMultipleUser($playerIds = [], $message)
+    public static function sendNotificationToMultipleUser($playerIds, $message)
     {
         $content = array(
             "en" => $message,
@@ -13,7 +13,7 @@ class Notification
 
         $fields = array(
             'app_id' => env('ONE_SIGNAL_APP_ID', ''),
-            'include_player_ids' => $playerIds,
+            'include_player_ids' => $playerIds == null ? [] : $playerIds,
             'data' => array("foo" => "bar"),
             'contents' => $content,
         );
