@@ -241,7 +241,7 @@ class CompanyEntryController extends Controller
             return response()->json(['error' => LanguageManagement::getLabel('text_accountDeactivated', $this->language)], 401);
         }
         $registeredCompany = Company::where('email', $request->email)->get()->first();
-        $player_id = OneSignalCompanyUser::where('player_id', $request->player_id)->get()->first();
+        //$player_id = OneSignalCompanyUser::where('player_id', $request->player_id)->get()->first();
         if (Hash::check($request->password, $registeredCompany->password)) {
             if ($registeredCompany->approved) {
                 $token = '' . $registeredCompany->id . '' . $registeredCompany->name . '' . $this->access_token;
@@ -250,13 +250,13 @@ class CompanyEntryController extends Controller
                     'user_id' => $registeredCompany->id,
                     'type' => 2,
                 ]);
-                if ($player_id == null) {
+                //if ($player_id == null) {
                     OneSignalCompanyUser::create([
                         'company_id' => $registeredCompany->id,
                         'player_id' => $request->player_id,
                         'device_type' => $request->device_type,
                     ]);
-                }
+                //}
                 return response()->json([
                     'access_token' => $token,
                     'user' => collect($registeredCompany),
