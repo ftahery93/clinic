@@ -8,10 +8,9 @@ use App\Commission;
 use App\Company;
 use App\Country;
 use App\FreeDelivery;
-use App\Helpers\MailSender;
-use App\Helpers\Notification;
 use App\Http\Controllers\Controller;
 use App\LanguageManagement;
+use App\OneSignalUser;
 use App\Order;
 use App\Price;
 use App\RegisteredUser;
@@ -383,8 +382,12 @@ class ShipmentController extends Controller
         $company = Company::find($request->company_id);
         if ($user != null && $company != null) {
             $playerIds[] = $user->player_id;
-            Notification::sendNotificationToMultipleUser($playerIds, "Shipment #" . $shipment->id . " Accepted");
-            MailSender::sendMail($user->email, "Shipment Accepted", "Hello, Your shipment is accepted by " . $company->name);
+
+            $message_en = "Shipment #" . $shipment->id . " Accepted by " . $company->name;
+            $message_ar = "شحنة #" . $shipment->id . " قبلها " . $company->name;
+
+            //Notification::sendNotificationToMultipleUser($playerIds, $message_en, $message_ar);
+            //MailSender::sendMail($user->email, "Shipment Accepted", "Hello, Your shipment is accepted by " . $company->name);
         }
         return response()->json([
             'message' => LanguageManagement::getLabel('accept_shipment_success', $this->language),
@@ -448,7 +451,16 @@ class ShipmentController extends Controller
             ]);
             $user = RegisteredUser::find($shipment->user_id);
             if ($user != null) {
-                MailSender::sendMail($user->email, "Shipment Picked Up", "Hello User, Your shipment is picked");
+                //MailSender::sendMail($user->email, "Shipment Picked Up", "Hello User, Your shipment is picked");
+                $message_en = "Shipment #" . $shipment->id . " is Picked";
+                $message_ar = "شحنة #" . $shipment->id . " هو التقطت";
+
+                $users = OneSignalUser::where('user_id', $shipment->user_id)->get();
+                foreach ($users as $user) {
+                    $playerIds[] = $user->player_id;
+                }
+
+                Notification::sendNotificationToMultipleUser($playerIds, $message_en, $message_ar);
                 return response()->json([
                     'message' => LanguageManagement::getLabel('picked_success', $this->language),
                 ]);
@@ -517,7 +529,17 @@ class ShipmentController extends Controller
             ]);
             $user = RegisteredUser::find($shipment->user_id);
             if ($user != null) {
-                MailSender::sendMail($user->email, "Shipment Delivered Up", "Hello User, Your shipment is delivered");
+
+                $message_en = "Shipment #" . $shipment->id . " is Delivered";
+                $message_ar = "شحنة #" . $shipment->id . " تم التوصيل";
+
+                $users = OneSignalUser::where('user_id', $shipment->user_id)->get();
+                foreach ($users as $user) {
+                    $playerIds[] = $user->player_id;
+                }
+
+                Notification::sendNotificationToMultipleUser($playerIds, $message_en, $message_ar);
+                //MailSender::sendMail($user->email, "Shipment Delivered Up", "Hello User, Your shipment is delivered");
                 return response()->json([
                     'message' => LanguageManagement::getLabel('delivered_success', $this->language),
                 ]);

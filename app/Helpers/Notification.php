@@ -4,11 +4,11 @@ namespace App\Helpers;
 class Notification
 {
 
-    public static function sendNotificationToMultipleUser($playerIds, $message)
+    public static function sendNotificationToMultipleUser($playerIds, $message_en, $message_ar)
     {
         $content = array(
-            "en" => $message,
-            "ar" => $message,
+            "en" => $message_en,
+            "ar" => $message_ar,
         );
 
         $fields = array(
