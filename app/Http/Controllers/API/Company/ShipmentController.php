@@ -8,6 +8,7 @@ use App\Commission;
 use App\Company;
 use App\Country;
 use App\FreeDelivery;
+use App\Helpers\Notification;
 use App\Http\Controllers\Controller;
 use App\LanguageManagement;
 use App\OneSignalUser;
@@ -380,15 +381,15 @@ class ShipmentController extends Controller
         }
         $user = RegisteredUser::find($shipment->user_id);
         $company = Company::find($request->company_id);
-        if ($user != null && $company != null) {
-            $playerIds[] = $user->player_id;
+        // if ($user != null && $company != null) {
+        //     $playerIds[] = $user->player_id;
 
-            $message_en = "Shipment #" . $shipment->id . " Accepted by " . $company->name;
-            $message_ar = "شحنة #" . $shipment->id . " قبلها " . $company->name;
+        //     $message_en = "Shipment #" . $shipment->id . " Accepted by " . $company->name;
+        //     $message_ar = "شحنة #" . $shipment->id . " قبلها " . $company->name;
 
-            //Notification::sendNotificationToMultipleUser($playerIds, $message_en, $message_ar);
-            //MailSender::sendMail($user->email, "Shipment Accepted", "Hello, Your shipment is accepted by " . $company->name);
-        }
+        //     //Notification::sendNotificationToMultipleUser($playerIds, $message_en, $message_ar);
+        //     //MailSender::sendMail($user->email, "Shipment Accepted", "Hello, Your shipment is accepted by " . $company->name);
+        // }
         return response()->json([
             'message' => LanguageManagement::getLabel('accept_shipment_success', $this->language),
             'total_amount' => count($request->shipment_ids) * $price->price * ($commission->percentage / 100),
