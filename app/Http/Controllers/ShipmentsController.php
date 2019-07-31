@@ -86,7 +86,7 @@ class ShipmentsController extends Controller
 
         $addresses = DB::table('shipments')
             ->leftJoin('addresses', 'addresses.id', '=', $joinKey)
-            ->select(DB::raw('addresses.name, addresses.mobile, CONCAT(addresses.block, ", ", addresses.building,",",addresses.street,") AS address'))
+            ->select(DB::raw('addresses.name, addresses.mobile, CONCAT(addresses.block, ", ", addresses.building,",",addresses.street) AS address'))
             ->where('shipments.id', '=', $id)
             ->first();
 
