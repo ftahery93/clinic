@@ -196,7 +196,6 @@ class ShipmentController extends Controller
                 $playerIds[] = $eachPlayerId->player_id;
             }
         }
-        $message = "";
         if (count($companies) == 1) {
             $message_en = "New shipment arrived: #" . $shipment->id . "\n JUST FOR YOU";
             $message_ar = "وصل شحنة جديدة: #" . $shipment->id . "\nفقط لك";
@@ -390,6 +389,14 @@ class ShipmentController extends Controller
                     'error' => LanguageManagement::getLabel('shipment_booked_already', $this->language),
                 ], 422);
             } else {
+                $users = OneSignalUser::where('user_id', $shipment->user_id)->get();
+                foreach ($users as $user) {
+                    $playerIds[] = $user->player_id;
+                }
+                $message_en = "Shipment #" . $shipment->id . " is Deleted";
+                $message_ar = "شحنة #" . $shipment->id . "يتم حذف";
+
+                Notification::sendNotificationToMultipleForUser($playerIds, $message_en, $message_ar);
                 $shipment->delete();
                 return response()->json([
                     'message' => LanguageManagement::getLabel('shipment_delete_success', $this->language),

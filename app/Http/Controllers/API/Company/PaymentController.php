@@ -137,6 +137,7 @@ class PaymentController extends Controller
             $response_data = json_decode($response_data, true);
             $paymentMethods = $response_data['PaymentMethods'];
             $extractedPaymentMethods = $this->extractPaymentMethods($paymentMethods);
+            $this->sendNotificationForAcceptedShipments($order->shipments()->get());
             return response()->json([
                 'message' => LanguageManagement::getLabel('redirect_to_payment', $this->language),
                 'payment_methods' => $extractedPaymentMethods,
@@ -519,7 +520,7 @@ class PaymentController extends Controller
             }
             $message_en = "Shipment #" . $shipment->id . " Accepted by " . $company->name;
             $message_ar = "شحنة #" . $shipment->id . " قبلها " . $company->name;
-            Notification::sendNotificationToMultipleUser($playerIds, $message_en, $message_ar);
+            Notification::sendNotificationToMultipleForUser($playerIds, $message_en, $message_ar);
         }
     }
 }
