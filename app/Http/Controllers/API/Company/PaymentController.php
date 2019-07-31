@@ -137,7 +137,6 @@ class PaymentController extends Controller
             $response_data = json_decode($response_data, true);
             $paymentMethods = $response_data['PaymentMethods'];
             $extractedPaymentMethods = $this->extractPaymentMethods($paymentMethods);
-            $this->sendNotificationForAcceptedShipments($order->shipments()->get());
             return response()->json([
                 'message' => LanguageManagement::getLabel('redirect_to_payment', $this->language),
                 'payment_methods' => $extractedPaymentMethods,
@@ -145,6 +144,7 @@ class PaymentController extends Controller
             );
         } else {
             $this->bookOrder($order);
+            $this->sendNotificationForAcceptedShipments($order->shipments()->get());
             return response()->json([
                 'message' => LanguageManagement::getLabel('order_placed_success', $this->language),
             ]);
