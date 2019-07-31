@@ -192,9 +192,12 @@ class ShipmentController extends Controller
         foreach ($companies as $company) {
             $shipment->companies()->attach($company->id);
             $playerIdsOfEachCompany = OneSignalCompanyUser::where('company_id', $company->id)->get();
-            foreach ($playerIdsOfEachCompany as $eachPlayerId) {
-                $playerIds[] = $eachPlayerId->player_id;
+            if (count($playerIdsOfEachCompany) > 0) {
+                foreach ($playerIdsOfEachCompany as $eachPlayerId) {
+                    $playerIds[] = $eachPlayerId->player_id;
+                }
             }
+
         }
         if (count($companies) == 1) {
             $message_en = "New shipment arrived: #" . $shipment->id . "\n JUST FOR YOU";

@@ -299,14 +299,21 @@ class CompanyProfileController extends Controller
                 $registeredCompany->update([
                     'email' => $request->email,
                     'name' => $request->name,
-                    'country_id' => $request->country_id,
                     'mobile' => $request->mobile,
+                    'country_id' => $request->country_id,
                 ]);
             } else {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('email_exist', $this->language),
                 ], 409);
             }
+        } else {
+            $registeredCompany->update([
+                'email' => $request->email,
+                'name' => $request->name,
+                'mobile' => $request->mobile,
+                'country_id' => $request->country_id,
+            ]);
         }
 
         if ($request->image != null) {
