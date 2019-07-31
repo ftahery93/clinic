@@ -460,7 +460,7 @@ class ShipmentController extends Controller
                     $playerIds[] = $user->player_id;
                 }
 
-                Notification::sendNotificationToMultipleUser($playerIds, $message_en, $message_ar);
+                Notification::sendNotificationToMultipleForUser($playerIds, $message_en, $message_ar);
                 return response()->json([
                     'message' => LanguageManagement::getLabel('picked_success', $this->language),
                 ]);
@@ -538,7 +538,7 @@ class ShipmentController extends Controller
                     $playerIds[] = $user->player_id;
                 }
 
-                Notification::sendNotificationToMultipleUser($playerIds, $message_en, $message_ar);
+                Notification::sendNotificationToMultipleForUser($playerIds, $message_en, $message_ar);
                 //MailSender::sendMail($user->email, "Shipment Delivered Up", "Hello User, Your shipment is delivered");
                 return response()->json([
                     'message' => LanguageManagement::getLabel('delivered_success', $this->language),
