@@ -198,12 +198,14 @@ class ShipmentController extends Controller
         }
         $message = "";
         if (count($companies) == 1) {
-            $message = "Request JUST FOR YOU";
+            $message_en = "New shipment arrived: #" . $shipment->id . "\n JUST FOR YOU";
+            $message_ar = "وصل شحنة جديدة: #" . $shipment->id . "\nفقط لك";
         } else {
-            $message = "Request sent to many";
+            $message_en = "New shipment arrived: #" . $shipment->id;
+            $message_ar = "وصل شحنة جديدة : #" . $shipment->id;
         }
 
-        Notification::sendNotificationToMultipleUser($playerIds, $message);
+        Notification::sendNotificationToMultipleUser($playerIds, $message_en, $message_ar);
 
         return response()->json([
             'message' => LanguageManagement::getLabel('add_shipment_success', $this->language),

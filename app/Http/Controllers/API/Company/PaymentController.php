@@ -3,8 +3,10 @@ namespace App\Http\Controllers\API\Company;
 
 use App\Company;
 use App\FreeDelivery;
+use App\Helpers\Notification;
 use App\Http\Controllers\Controller;
 use App\LanguageManagement;
+use App\OneSignalUser;
 use App\Order;
 use App\Payment;
 use App\Utility;
@@ -276,6 +278,7 @@ class PaymentController extends Controller
         ]);
         if ($response['TransactionStatus'] == 2) {
             $this->bookOrder($order);
+            $this->sendNotificationForAcceptedShipments($order->shipments()->get());
             echo "<input type='hidden' name='is_captured' id='is_captured' value='1'>";
             echo "<input type='hidden' name='payment_id' id='payment_id' value='" . $paymentId . "'>";
         } else {
@@ -287,16 +290,6 @@ class PaymentController extends Controller
 
     public function paymentForWallet(Request $request)
     {
-        // $validator = [
-        //     'wallet_id' => 'required|exists:wallet,id',
-        //     'paymentId' => 'required',
-        // ];
-
-        // $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
-        // if ($checkForMessages) {
-        //     return $checkForMessages;
-        // }
-
         $paymentId = $request->paymentId;
         $wallet_id = $request->wallet_id;
 
@@ -310,9 +303,6 @@ class PaymentController extends Controller
         $walletModel["company_id"] = $request->company_id;
         $walletModel["amount"] = $amount;
         $walletModel["wallet"] = $wallet;
-
-        //print_r($walletModel);
-        //die;
 
         $payment = Payment::create([
             'reference_id' => $response['ReferenceId'],
@@ -516,6 +506,20 @@ class PaymentController extends Controller
             $shipment->update([
                 'status' => 1,
             ]);
+        }
+    }
+
+    private function sendNotificationForAcceptedShipments($shipments)
+    {
+        foreach ($shipments as $shipment) {
+            $oneSignalUser = OneSignalUser::where('user_id', $shipment->user_id)->get();
+            $company = Company::find($shipment->company_id);
+            foreach ($oneSignalUser as $eachOneSignalUser) {
+                $playerIds[] = $eachOneSignalUser->player_id;
+            }
+            $message_en = "Shipment #" . $shipment->id . " Accepted by " . $company->name;
+            $message_ar = "شحنة #" . $shipment->id . " قبلها " . $company->name;
+            Notification::sendNotificationToMultipleUser($playerIds, $message_en, $message_ar);
         }
     }
 }
