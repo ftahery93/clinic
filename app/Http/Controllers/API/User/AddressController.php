@@ -534,7 +534,7 @@ class AddressController extends Controller
     public function getCitiesByGovernorate(Request $request)
     {
         $governorates = Governorate::find($request->governorate_id);
-        $cities = City::where('country_code', $governorates->code)->get();
+        $cities = City::where('country_code', $governorates->code)->where('governorate_id', $governorates->id)->get();
 
         return response()->json($cities);
     }
