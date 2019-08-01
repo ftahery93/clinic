@@ -21,9 +21,12 @@ Route::get('/lang/{lang}', array('Middleware' => 'LanguageSwitcher', 'uses' => '
 Auth::routes();
 
 // default path after login
-Route::get('/', function () {
-    return redirect()->route('adminHome');
-});
+// Route::get('/', function () {
+//     return redirect()->route('adminHome');
+// });
+
+// Default path for home app landing page
+Route::get('/', function () { return view('backend.home.landing'); })->name("landingPage");
 
 Route::Group(['prefix' => env('BACKEND_PATH')], function () {
 
