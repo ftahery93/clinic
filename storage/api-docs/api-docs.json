@@ -917,6 +917,11 @@
                                         "type": "integer",
                                         "example": 1
                                     }
+                                },
+                                "use_free_deliveries": {
+                                    "description": "Use free deliveries or not",
+                                    "type": "boolean",
+                                    "example": "true"
                                 }
                             }
                         }
