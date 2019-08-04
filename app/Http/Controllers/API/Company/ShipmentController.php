@@ -299,6 +299,12 @@ class ShipmentController extends Controller
      *                      example=1
      *                  ),
      *              ),
+     *             @SWG\Property(
+     *                  property="use_free_deliveries",
+     *                  type="boolean",
+     *                  description="Use free deliveries or not",
+     *                  example="true"
+     *              ),
      *          ),
      *        ),
      *        @SWG\Response(
@@ -318,6 +324,7 @@ class ShipmentController extends Controller
         $validator = [
             'shipment_ids' => 'required|array|min:1',
             'shipment_ids.*' => 'distinct',
+            'use_free_deliveries' => 'required|boolean',
         ];
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError) {
@@ -330,24 +337,42 @@ class ShipmentController extends Controller
         $walletAmount = 0;
         $cardAmount = 0;
         $remainingAmount = 0;
-        $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->get()->first();
-        $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
-        if ($freeDeliveries != null) {
-            if ($totalShipments > $freeDeliveries->quantity) {
-                $freeShipments = $freeDeliveries->quantity;
-                $totalShipments = $totalShipments - $freeShipments;
-            } else if ($totalShipments < $freeDeliveries->quantity) {
-                $freeShipments = $totalShipments;
-                $totalShipments = 0;
-            } else {
-                $freeShipments = $totalShipments;
-                $totalShipments = 0;
-            }
+        $actualTotalAmount = 0;
+
+        $price = 0;
+
+        $shipments = collect($shipments)->sortByDesc('price')->values()->all();
+        foreach ($shipments as $shipment) {
+            $price = $price + $shipment->price;
         }
-        $price = Price::find(1);
+        $actualTotalAmount = $price;
+
+        if ($request->use_free_deliveries) {
+            $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->get()->first();
+
+            if ($freeDeliveries != null) {
+                if ($totalShipments > $freeDeliveries->quantity) {
+                    $freeShipments = $freeDeliveries->quantity;
+                    $totalShipments = $totalShipments - $freeShipments;
+                } else if ($totalShipments < $freeDeliveries->quantity) {
+                    $freeShipments = $totalShipments;
+                    $totalShipments = 0;
+                } else {
+                    $freeShipments = $totalShipments;
+                    $totalShipments = 0;
+                }
+                for ($key = 0; $key < $freeShipments; $key++) {
+                    $price = $price - $shipments[$key]->price;
+                }
+            }
+        } else {
+            $freeShipments = 0;
+        }
+
         $commission = Commission::find(1);
         if ($totalShipments > 0) {
-            $remainingAmount = $totalShipments * $price->price * ($commission->percentage / 100);
+            $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
+            $remainingAmount = $totalShipments * $price * ($commission->percentage / 100);
             if ($wallet->balance > $remainingAmount) {
                 $walletAmount = $remainingAmount;
                 $remainingAmount = 0;
@@ -362,6 +387,7 @@ class ShipmentController extends Controller
         if ($remainingAmount > 0) {
             $cardAmount = $remainingAmount;
         }
+
         foreach ($shipments as $shipment) {
             if ($shipment->status > 1) {
                 return response()->json([
@@ -379,20 +405,10 @@ class ShipmentController extends Controller
         foreach ($shipments as $shipment) {
             $order->shipments()->attach($shipment);
         }
-        $user = RegisteredUser::find($shipment->user_id);
-        $company = Company::find($request->company_id);
-        // if ($user != null && $company != null) {
-        //     $playerIds[] = $user->player_id;
 
-        //     $message_en = "Shipment #" . $shipment->id . " Accepted by " . $company->name;
-        //     $message_ar = "شحنة #" . $shipment->id . " قبلها " . $company->name;
-
-        //     //Notification::sendNotificationToMultipleUser($playerIds, $message_en, $message_ar);
-        //     //MailSender::sendMail($user->email, "Shipment Accepted", "Hello, Your shipment is accepted by " . $company->name);
-        // }
         return response()->json([
             'message' => LanguageManagement::getLabel('accept_shipment_success', $this->language),
-            'total_amount' => count($request->shipment_ids) * $price->price * ($commission->percentage / 100),
+            'total_amount' => $actualTotalAmount,
             'order_id' => $order->id,
             'free_deliveries_used' => $freeShipments,
             'wallet_amount_used' => $walletAmount,

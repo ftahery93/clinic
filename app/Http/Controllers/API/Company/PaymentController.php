@@ -213,7 +213,7 @@ class PaymentController extends Controller
     {
         $validator = [
             'isOffer' => 'required|boolean',
-            'offer_id' => 'required_if:isOffer,true|exists:wallet_offers,id',
+            'offer_id' => 'required_if:isOffer,true',
             'amount' => 'required_if:isOffer,false',
         ];
 
@@ -226,8 +226,15 @@ class PaymentController extends Controller
         $company = Company::find($request->company_id);
 
         if ($request->isOffer) {
-            $walletOffers = WalletOffer::find($request->offer_id);
-            $wallet['card_amount'] = $walletOffers->amount;
+            $walletOffer = WalletOffer::find($request->offer_id);
+            if ($walletOffer != null) {
+                $wallet['card_amount'] = $walletOffer->amount;
+            } else {
+                return response()->json([
+                    'error' => LanguageManagement::getLabel('no_valid_offer', $this->language),
+                ], 404);
+            }
+
         } else {
             $wallet['card_amount'] = $request->amount;
         }

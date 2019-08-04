@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API\User;
 use App\Address;
 use App\Category;
 use App\Company;
+use App\ExceptionCity;
+use App\Governorate;
 use App\Helpers\Notification;
 use App\Http\Controllers\Controller;
 use App\LanguageManagement;
@@ -126,8 +128,8 @@ class ShipmentController extends Controller
             'address_from_id' => 'required|exists:addresses,id',
             'address_to_id' => 'required|exists:addresses,id',
             'is_today' => 'required|boolean',
-            'pickup_time_from' => 'required_if:is_today,false',
-            'pickup_time_to' => 'required_if:is_today,false',
+            'pickup_time_from' => 'required',
+            'pickup_time_to' => 'required',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
@@ -135,13 +137,7 @@ class ShipmentController extends Controller
             return $checkForError;
         }
 
-        $price = Price::find(1);
-
-        // Do checks on all the fields before inserting
-
         $shipment = new Shipment();
-        $shipment->price = $price->price;
-
         $address_from = Address::find($request->address_from_id);
         $address_to = Address::find($request->address_to_id);
 
@@ -156,13 +152,37 @@ class ShipmentController extends Controller
             ], 404);
         }
 
-        $shipment->is_today = $request->is_today;
+        $governorate_from = Governorate::find($address_from->governorate_id);
+        $governorate_to = Governorate::find($address_to->governorate_id);
+        $exceptionCities = ExceptionCity::all();
+        $price = 0;
 
-        if (!$shipment->is_today) {
-            $shipment->pickup_time_from = $request->pickup_time_from;
-            $shipment->pickup_time_to = $request->pickup_time_to;
+        $fromValueExists = collect($exceptionCities)->where('city_id', $address_from->city_id)->first();
+
+        if ($fromValueExists != null) {
+            $price_from = $fromValueExists->price;
+        } else {
+            $price_from = $governorate_from->price;
         }
 
+        $toValueExists = collect($exceptionCities)->where('city_id', $address_to->city_id)->first();
+
+        if ($toValueExists != null) {
+            $price_to = $toValueExists->price;
+        } else {
+            $price_to = $governorate_to->price;
+        }
+
+        if ($price_from >= $price_to) {
+            $price = $price_from;
+        } else {
+            $price = $price_to;
+        }
+
+        $shipment->price = $price;
+        $shipment->is_today = $request->is_today;
+        $shipment->pickup_time_from = $request->pickup_time_from;
+        $shipment->pickup_time_to = $request->pickup_time_to;
         $shipment->user_id = $request->user_id;
         $shipment->status = 1;
         $shipment->payment_type = 1;
@@ -199,12 +219,16 @@ class ShipmentController extends Controller
             }
 
         }
+
+        $city_from = City::find($address_from->city_id);
+        $city_to = City::find($address_to->city_id);
+
         if (count($companies) == 1) {
-            $message_en = "New shipment arrived: #" . $shipment->id . "\n JUST FOR YOU";
-            $message_ar = "وصل شحنة جديدة: #" . $shipment->id . "\nفقط لك";
+            $message_en = "New shipment arrived: #" . $shipment->id . "\n JUST FOR YOU \n From: " . $city_from->name_en . " -  To: " . $city_to->name_en;
+            $message_ar = "وصل شحنة جديدة: #" . $shipment->id . "\nفقط لك" . "\nمن: " . $city_from->name_ar . " -  لك: " . $city_to->name_ar;
         } else {
-            $message_en = "New shipment arrived: #" . $shipment->id;
-            $message_ar = "وصل شحنة جديدة : #" . $shipment->id;
+            $message_en = "New shipment arrived: #" . $shipment->id . "\n From: " . $city_from->name_en . " -  To: " . $city_to->name_en;
+            $message_ar = "وصل شحنة جديدة : #" . $shipment->id . "\nمن: " . $city_from->name_ar . " -  لك: " . $city_to->name_ar;
         }
 
         Notification::sendNotificationToMultipleUser($playerIds, $message_en, $message_ar);

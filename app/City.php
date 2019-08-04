@@ -21,4 +21,9 @@ class City extends Model
     {
         return $this->hasMany(Address::class);
     }
+
+    public function governorate()
+    {
+        return $this->hasOne(Governorate::class);
+    }
 }

@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use App;
+use Illuminate\Database\Eloquent\Model;
 
 class Governorate extends Model
 {
@@ -15,5 +15,10 @@ class Governorate extends Model
     public function getNameAttribute()
     {
         return $this->{'name_' . App::getLocale()};
+    }
+
+    public function cities()
+    {
+        return $this->belongsTo(City::class);
     }
 }
