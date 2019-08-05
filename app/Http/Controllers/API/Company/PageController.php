@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Company;
 use App\Page;
 use App\Utility;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class PageController extends Controller
 {
