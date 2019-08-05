@@ -114,6 +114,8 @@ Route::group(['middleware' => 'checkVersion'], function () {
     //Pages
     Route::get('/user/getTermsAndConditions', 'API\User\PagesController@getTermsAndConditions');
 
+    Route::get('/company/getTermsAndConditions', 'API\Company\PageController@getTermsAndConditions');
+
     /* Countries */
     Route::get('/user/getCountries', 'API\User\CountryController@getCountries');
 
