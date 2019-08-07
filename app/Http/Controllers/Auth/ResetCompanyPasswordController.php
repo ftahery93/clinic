@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\API\Company;
+namespace App\Http\Controllers\Auth;
 
-use App\Helpers\Utility;
 use App\Http\Controllers\Controller;
-use App\Models\LanguageManagement;
+use App\LanguageManagement;
+use App\Utility;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -50,7 +50,7 @@ class ResetCompanyPasswordController extends Controller
             return view('auth.api_passwords.reset')->with(compact('token', 'email'));
         }
 
-        return view('api_passwords.auth.reset')->with(compact('token', 'email'));
+        return view('auth.api_passwords.reset')->with(compact('token', 'email'));
     }
 
     /**

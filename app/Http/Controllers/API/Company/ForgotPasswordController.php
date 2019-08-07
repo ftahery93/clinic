@@ -97,7 +97,6 @@ class ForgotPasswordController extends Controller
                 'message' => LanguageManagement::getLabel('forgot_password_email_sent', $this->language),
             ]);
         }
-
     }
 
     /**

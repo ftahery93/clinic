@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notifications\CompanyResetPassword;
 use App\Shipment;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -47,6 +48,11 @@ class Company extends Authenticatable
     public function shipments()
     {
         return $this->belongsToMany(Shipment::class);
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new CompanyResetPassword($token));
     }
 
 }
