@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ trans('backLang.code') }}" dir="{{ trans('backLang.direction') }}">
+<html lang="{{ trans('backend.code') }}" dir="{{ trans('backend.direction') }}">
 <head>
     @include('backEnd.includes.head')
 </head>
@@ -11,7 +11,7 @@
             <div class="pull-center">
                 <div>
                     <a class="navbar-brand"><img src="{{ URL::to('backEnd/assets/images/logo.png') }}" alt="."> 
-                        <span class="hidden-folded inline">{{ trans('backLang.control') }}</span>
+                        <span class="hidden-folded inline">{{ trans('backend.control') }}</span>
                     </a>
                 </div>
             </div>

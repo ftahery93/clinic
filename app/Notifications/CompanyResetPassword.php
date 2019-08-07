@@ -36,7 +36,7 @@ class CompanyResetPassword extends Notification
      */
     public function toMail($notifiable)
     {
-        $action = '/password/resetCompanyPassword'; //For App Provider
+        $action = 'admin/password/resetCompanyPassword';
         return (new MailMessage)
             ->subject(Lang::getFromJson('Reset Password Notification'))
             ->line('You are receiving this email because we received a password reset request for your account.')
