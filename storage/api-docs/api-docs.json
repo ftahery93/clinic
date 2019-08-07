@@ -491,7 +491,7 @@
                 }
             }
         },
-        "/masafah/api/company/forgotPassword": {
+        "/company/forgotPassword": {
             "post": {
                 "tags": [
                     "Company Forgot Password"
@@ -1857,7 +1857,7 @@
             }
         },
         "/user/getShipmentPrice": {
-            "get": {
+            "post": {
                 "tags": [
                     "User Shipment"
                 ],
@@ -1877,6 +1877,35 @@
                         "description": "1.0.0",
                         "required": true,
                         "type": "string"
+                    },
+                    {
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "governorate_id_from": {
+                                    "description": "Governorate ID from - * Required",
+                                    "type": "integer",
+                                    "example": 24
+                                },
+                                "governorate_id_to": {
+                                    "description": "Governorate ID To - * Required",
+                                    "type": "integer",
+                                    "example": 24
+                                },
+                                "city_id_from": {
+                                    "description": "City ID from - * Required",
+                                    "type": "integer",
+                                    "example": 24
+                                },
+                                "city_id_to": {
+                                    "description": "City ID To - * Required",
+                                    "type": "integer",
+                                    "example": 24
+                                }
+                            }
+                        }
                     }
                 ],
                 "responses": {

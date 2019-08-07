@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\API\Company;
 
+use App\Company;
 use App\Http\Controllers\Controller;
 use App\LanguageManagement;
-use App\Company;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Validator;
 use App\Utility;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Password;
 
 class ForgotPasswordController extends Controller
 {
@@ -29,11 +27,10 @@ class ForgotPasswordController extends Controller
         $this->language = $request->header('Accept-Language');
     }
 
- 
     /**
      *
      * @SWG\Post(
-     *         path="/masafah/api/company/forgotPassword",
+     *         path="/company/forgotPassword",
      *         tags={"Company Forgot Password"},
      *         operationId="forgotPassword",
      *         summary="Request for password reset",
@@ -68,44 +65,42 @@ class ForgotPasswordController extends Controller
      *             response=200,
      *             description="Successful"
      *        ),
-    *       )
+     *       )
      *
      */
     public function sendResetLinkEmail(Request $request)
     {
-    
+
         $validator = [
             'email' => 'required|email',
-        ]; 
-     
-        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);        
-        
+        ];
+
+        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+
         if ($checkForError) {
-            return $checkForError;        
+            return $checkForError;
         }
-        
-        
+
         // We will send the password reset link to this application user. Once we have attempted
         // to send the link, we will examine the response then see the message we
         // need to show to the application user. Finally, we'll send out a proper response.
 
-     
         $response = $this->broker()->sendResetLink($request->only('email'));
-        
-        if($response=='passwords.user'){
+
+        if ($response == 'passwords.user') {
             return response()->json([
                 'error' => LanguageManagement::getLabel('email_not_found', $this->language),
             ], 401);
-           }
-       if($response=='passwords.sent'){
+        }
+        if ($response == 'passwords.sent') {
             return response()->json([
-            'message' => LanguageManagement::getLabel('forgot_password_email_sent', $this->language),
-        ]);
-       }
-       
+                'message' => LanguageManagement::getLabel('forgot_password_email_sent', $this->language),
+            ]);
+        }
+
     }
 
-   /**
+    /**
      * Get the response for a successful password reset link.
      *
      * @param  string  $response
@@ -136,11 +131,10 @@ class ForgotPasswordController extends Controller
     {
         return Password::broker($this->broker);
     }
-    
+
     protected function guard()
     {
         return Auth::guard($this->guard);
     }
 
-    
 }

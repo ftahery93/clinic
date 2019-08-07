@@ -26,7 +26,7 @@ Auth::routes();
 // });
 
 // Default path for home app landing page
-Route::get('/', function () { return view('backend.home.landing'); })->name("landingPage");
+Route::get('/', function () {return view('backend.home.landing');})->name("landingPage");
 
 Route::Group(['prefix' => env('BACKEND_PATH')], function () {
 
@@ -115,10 +115,12 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::post('/users/permissions/{id}/update', 'UsersController@permissions_update')->name('permissions_update');
     Route::get('/users/permissions/destroy/{id}', 'UsersController@permissions_destroy')->name('permissions_delete');
 
-
     Route::get('payment/{order_id?}', 'API\Company\PaymentController@payment');
-Route::get('paymentForWallet/{wallet_id?}/{isOffer?}/{offer_id?}/{company_id?}', 'API\Company\PaymentController@paymentForWallet');
-});
+    Route::get('paymentForWallet/{wallet_id?}/{isOffer?}/{offer_id?}/{company_id?}', 'API\Company\PaymentController@paymentForWallet');
 
+    //API Provider Reset Password
+    Route::get('/password/resetCompanyPassword/{token}', 'Auth\ResetCompanyPasswordController@showResetForm');
+    Route::post('/password/resetCompanyPassword', 'Auth\ResetCompanyPasswordController@reset');
+});
 
 // .. End of Backend Routes
