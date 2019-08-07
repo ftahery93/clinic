@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ trans('backend.code') }}" dir="{{ trans('backend.direction') }}">
 <head>
-    @include('backEnd.includes.head')
+    @include('backend.includes.head')
 </head>
 <body>
 <div class="app" id="app">
@@ -10,7 +10,7 @@
         <div class="navbar">
             <div class="pull-center">
                 <div>
-                    <a class="navbar-brand"><img src="{{ URL::to('backEnd/assets/images/logo.png') }}" alt="."> 
+                    <a class="navbar-brand"><img src="{{ URL::to('backend/assets/images/logo.png') }}" alt="."> 
                         <span class="hidden-folded inline">{{ trans('backend.control') }}</span>
                     </a>
                 </div>
@@ -57,6 +57,6 @@
     </div>
     <!-- ############ LAYOUT END-->
 </div>
-@include('backEnd.includes.foot')
+@include('backend.includes.foot')
 </body>
 </html>
