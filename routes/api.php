@@ -44,7 +44,7 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     Route::get('/user/getShipmentHistory', 'API\User\ShipmentController@getShipmentHistory');
 
     /* Price API */
-    Route::get('/user/getShipmentPrice', 'API\User\PriceController@getShipmentPrice');
+    Route::post('/user/getShipmentPrice', 'API\User\PriceController@getShipmentPrice');
 
     /* Additional APIs for development sake */
     Route::get('/user/getCompanies', 'API\User\CompanyController@getCompanies');
