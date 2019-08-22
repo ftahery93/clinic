@@ -157,26 +157,8 @@
 							<!-- Item -->
 							<div class="swiper-slide">
 								<div class="item">
-									<img src="{{ asset('assets/images/img-icon2.png')}}" alt="Masafah">
-									<h3>Orders</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-								</div>
-							</div>
-							<!-- /.Item -->
-							<!-- Item -->
-							<div class="swiper-slide">
-								<div class="item">
 									<img src="{{ asset('assets/images/img-icon3.png')}}" alt="Masafah">
-									<h3>Shipment History</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-								</div>
-							</div>
-							<!-- /.Item -->
-							<!-- Item -->
-							<div class="swiper-slide">
-								<div class="item">
-									<img src="{{ asset('assets/images/img-icon1.png')}}" alt="Masafah">
-									<h3>Wallet</h3>
+									<h3>Shipments</h3>
 									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 								</div>
 							</div>
@@ -203,52 +185,27 @@
 				<div class="owl-carousel owl-theme">
 					<!-- Item -->
 					<div class="item">
-						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user1.jpg')}}" alt="Masafah">
+						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user2.png')}}" alt="Masafah">
 					</div>
 					<!-- /.Item -->
 					<!-- Item -->
 					<div class="item">
-						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user2.jpg')}}" alt="Masafah">
+						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user3.png')}}" alt="Masafah">
 					</div>
 					<!-- /.Item -->
 					<!-- Item -->
 					<div class="item">
-						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user3.jpg')}}" alt="Masafah">
+						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user4.png')}}" alt="Masafah">
 					</div>
 					<!-- /.Item -->
 					<!-- Item -->
 					<div class="item">
-						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user4.jpg')}}" alt="Masafah">
+						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user2.png')}}" alt="Masafah">
 					</div>
 					<!-- /.Item -->
 					<!-- Item -->
 					<div class="item">
-						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user5.jpg')}}" alt="Masafah">
-					</div>
-					<!-- /.Item -->
-					<!-- Item -->
-					<div class="item">
-						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user6.jpg')}}" alt="Masafah">
-					</div>
-					<!-- /.Item -->
-					<!-- Item -->
-					<div class="item">
-						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user7.jpg')}}" alt="Masafah">
-					</div>
-					<!-- /.Item -->
-					<!-- Item -->
-					<div class="item">
-						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user1.jpg')}}" alt="Masafah">
-					</div>
-					<!-- /.Item -->
-					<!-- Item -->
-					<div class="item">
-						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user2.jpg')}}" alt="Masafah">
-					</div>
-					<!-- /.Item -->
-					<!-- Item -->
-					<div class="item">
-						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user3.jpg')}}" alt="Masafah">
+						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user3.png')}}" alt="Masafah">
 					</div>
 					<!-- /.Item -->
 				</div>
