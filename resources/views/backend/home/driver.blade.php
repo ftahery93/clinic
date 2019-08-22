@@ -111,7 +111,7 @@
 									</ul>
 								</div>
 								<div class="right ez-animate col-12 col-sm-12 col-md-5" data-animation="fadeInRight">
-									<img class="img-fluid" src="{{ asset('assets/images/img-1.png')}}" alt="Masafah">
+									<img class="img-fluid" src="{{ asset('assets/images/img-2.png')}}" alt="Masafah">
 								</div>
 							</div>
 						</div>
