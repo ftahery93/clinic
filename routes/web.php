@@ -27,6 +27,7 @@ Auth::routes();
 
 // Default path for home app landing page
 Route::get('/', function () {return view('backend.home.landing');})->name("landingPage");
+Route::get('/driver', function () {return view('backend.home.driver');})->name("driverPage");
 
 Route::Group(['prefix' => env('BACKEND_PATH')], function () {
 

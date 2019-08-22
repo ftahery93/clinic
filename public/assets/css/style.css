@@ -3094,6 +3094,11 @@ a.animated-button.style2:hover:after {
 	-webkit-transition: all 0.2s ease-in-out;
 	transition: all 0.2s ease-in-out;
 }
+.bgschemeblack {
+	background-image: linear-gradient(120deg, #000001 0%, #000001 100%);
+	-webkit-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+}
 .bgsolidscheme,
 #section-bloglist1 a.bghoverscheme:hover .time{
 	background: #628bea;

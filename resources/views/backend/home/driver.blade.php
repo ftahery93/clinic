@@ -81,7 +81,7 @@
 	                </li>
                 </ul>
 						</div>
-						<a href="{{ route('driverPage') }}" class="btn-1 shadow1 style1 bgschemeblack">Driver</a>
+						<a href="{{ route('landingPage') }}" class="btn-1 shadow1 style1 bgschemeblack">User</a>
             <a href="#section-download1" class="btn-1 shadow1 style3 bgscheme">Download Now</a>
             <button type="button" id="sidebarCollapse" class="navbar-toggler active" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
                 <span></span>
@@ -103,7 +103,7 @@
 						<div class="container">
 							<div class="row">
 								<div class="left col-12 col-sm-12 col-md-7">
-									<h1 class="ez-animate" data-animation="fadeInLeft">Perfect app for users.</h1>
+									<h1 class="ez-animate" data-animation="fadeInLeft">Perfect app for drivers.</h1>
 									<p class="ez-animate" data-animation="fadeInLeft">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 									<ul>
 										<li><a href="#"><img class="img-fluid ez-animate" src="{{ asset('assets/images/img-appstore.png')}}" alt="Masafah" data-animation="fadeInUp"></a></li>
@@ -111,7 +111,7 @@
 									</ul>
 								</div>
 								<div class="right ez-animate col-12 col-sm-12 col-md-5" data-animation="fadeInRight">
-									<img class="img-fluid" src="{{ asset('assets/images/img-1.png')}}" alt="Masafah">
+									<img class="img-fluid" src="{{ asset('assets/images/img-2.png')}}" alt="Masafah">
 								</div>
 							</div>
 						</div>
@@ -157,8 +157,26 @@
 							<!-- Item -->
 							<div class="swiper-slide">
 								<div class="item">
+									<img src="{{ asset('assets/images/img-icon2.png')}}" alt="Masafah">
+									<h3>Orders</h3>
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+								</div>
+							</div>
+							<!-- /.Item -->
+							<!-- Item -->
+							<div class="swiper-slide">
+								<div class="item">
 									<img src="{{ asset('assets/images/img-icon3.png')}}" alt="Masafah">
-									<h3>Shipments</h3>
+									<h3>Shipment History</h3>
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+								</div>
+							</div>
+							<!-- /.Item -->
+							<!-- Item -->
+							<div class="swiper-slide">
+								<div class="item">
+									<img src="{{ asset('assets/images/img-icon1.png')}}" alt="Masafah">
+									<h3>Wallet</h3>
 									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 								</div>
 							</div>
@@ -185,27 +203,52 @@
 				<div class="owl-carousel owl-theme">
 					<!-- Item -->
 					<div class="item">
-						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user2.png')}}" alt="Masafah">
+						<img class="img-fluid" src="{{ asset('assets/images/img-screen-driver1.jpg')}}" alt="Masafah">
 					</div>
 					<!-- /.Item -->
 					<!-- Item -->
 					<div class="item">
-						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user3.png')}}" alt="Masafah">
+						<img class="img-fluid" src="{{ asset('assets/images/img-screen-driver2.jpg')}}" alt="Masafah">
 					</div>
 					<!-- /.Item -->
 					<!-- Item -->
 					<div class="item">
-						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user4.png')}}" alt="Masafah">
+						<img class="img-fluid" src="{{ asset('assets/images/img-screen-driver3.jpg')}}" alt="Masafah">
 					</div>
 					<!-- /.Item -->
 					<!-- Item -->
 					<div class="item">
-						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user2.png')}}" alt="Masafah">
+						<img class="img-fluid" src="{{ asset('assets/images/img-screen-driver4.jpg')}}" alt="Masafah">
 					</div>
 					<!-- /.Item -->
 					<!-- Item -->
 					<div class="item">
-						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user3.png')}}" alt="Masafah">
+						<img class="img-fluid" src="{{ asset('assets/images/img-screen-driver5.jpg')}}" alt="Masafah">
+					</div>
+					<!-- /.Item -->
+					<!-- Item -->
+					<div class="item">
+						<img class="img-fluid" src="{{ asset('assets/images/img-screen-driver6.jpg')}}" alt="Masafah">
+					</div>
+					<!-- /.Item -->
+					<!-- Item -->
+					<div class="item">
+						<img class="img-fluid" src="{{ asset('assets/images/img-screen-driver7.jpg')}}" alt="Masafah">
+					</div>
+					<!-- /.Item -->
+					<!-- Item -->
+					<div class="item">
+						<img class="img-fluid" src="{{ asset('assets/images/img-screen-driver1.jpg')}}" alt="Masafah">
+					</div>
+					<!-- /.Item -->
+					<!-- Item -->
+					<div class="item">
+						<img class="img-fluid" src="{{ asset('assets/images/img-screen-driver2.jpg')}}" alt="Masafah">
+					</div>
+					<!-- /.Item -->
+					<!-- Item -->
+					<div class="item">
+						<img class="img-fluid" src="{{ asset('assets/images/img-screen-driver3.jpg')}}" alt="Masafah">
 					</div>
 					<!-- /.Item -->
 				</div>
@@ -220,7 +263,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-					<h1>Download User app today</h1>
+					<h1>Download Driver app today</h1>
 					<ul>
 						<li>
 							<a href="#">
