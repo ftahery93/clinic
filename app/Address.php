@@ -19,7 +19,7 @@ class Address extends Model
         return $this->belongsTo(City::class);
     }
 
-    public function getCOuntryAttribute()
+    public function getCountryAttribute()
     {
         return Country::find($this->{'country_id'});
         //return $country->name;

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\User;
 
 use App\Address;
 use App\Category;
+use App\City;
 use App\Company;
 use App\ExceptionCity;
 use App\Governorate;
@@ -63,7 +64,8 @@ class ShipmentController extends Controller
      *                  @SWG\items(
      *                      type="object",
      *                      @SWG\Property(property="category_id", type="integer"),
-     *                      @SWG\Property(property="quantity", type="integer")
+     *                      @SWG\Property(property="quantity", type="integer"),
+     *                      @SWG\Property(property="address_to_id", type="integer"),
      *                  ),
      *              ),
      *              @SWG\Property(
@@ -76,12 +78,6 @@ class ShipmentController extends Controller
      *                  property="address_from_id",
      *                  type="integer",
      *                  description="User pick up address id",
-     *                  example=1
-     *              ),
-     *              @SWG\Property(
-     *                  property="address_to_id",
-     *                  type="integer",
-     *                  description="User drop address id",
      *                  example=1
      *              ),
      *              @SWG\Property(
@@ -118,15 +114,14 @@ class ShipmentController extends Controller
     public function addShipment(Request $request)
     {
         json_decode($request->getContent(), true);
-
         $validationMessages = [
             'shipments' => 'required|array|min:1',
             'shipments.*.category_id' => 'required|exists:categories,id',
             'shipments.*.quantity' => 'required|numeric',
+            'shipments.*.address_to_id' => 'required|exists:addresses,id',
             'delivery_companies_id' => 'required|array|min:1',
             'delivery_companies_id.*' => 'numeric',
             'address_from_id' => 'required|exists:addresses,id',
-            'address_to_id' => 'required|exists:addresses,id',
             'is_today' => 'required|boolean',
             'pickup_time_from' => 'required',
             'pickup_time_to' => 'required',
@@ -139,13 +134,11 @@ class ShipmentController extends Controller
 
         $shipment = new Shipment();
         $address_from = Address::find($request->address_from_id);
-        $address_to = Address::find($request->address_to_id);
+        //$address_to = Address::find($request->address_to_id);
 
-        if ($address_from != null || $address_to != null) {
+        if ($address_from->user_id == $request->user_id) {
             $shipment->address_from_id = $request->address_from_id;
-            $shipment->address_to_id = $request->address_to_id;
             $shipment->city_id_from = $address_from->city_id;
-            $shipment->city_id_to = $address_to->city_id;
         } else {
             return response()->json([
                 'error' => LanguageManagement::getLabel('no_address_found', $this->language),
@@ -153,33 +146,10 @@ class ShipmentController extends Controller
         }
 
         $governorate_from = Governorate::find($address_from->governorate_id);
-        $governorate_to = Governorate::find($address_to->governorate_id);
         $exceptionCities = ExceptionCity::all();
-        $price = 0;
-
         $fromValueExists = collect($exceptionCities)->where('city_id', $address_from->city_id)->first();
+        $price_from = $this->calculateShipmentFromPrice($fromValueExists, $governorate_from);
 
-        if ($fromValueExists != null) {
-            $price_from = $fromValueExists->price;
-        } else {
-            $price_from = $governorate_from->price;
-        }
-
-        $toValueExists = collect($exceptionCities)->where('city_id', $address_to->city_id)->first();
-
-        if ($toValueExists != null) {
-            $price_to = $toValueExists->price;
-        } else {
-            $price_to = $governorate_to->price;
-        }
-
-        if ($price_from >= $price_to) {
-            $price = $price_from;
-        } else {
-            $price = $price_to;
-        }
-
-        $shipment->price = $price;
         $shipment->is_today = $request->is_today;
         $shipment->pickup_time_from = $request->pickup_time_from;
         $shipment->pickup_time_to = $request->pickup_time_to;
@@ -187,23 +157,14 @@ class ShipmentController extends Controller
         $shipment->status = 1;
         $shipment->payment_type = 1;
 
+        $citiesNameAr = "";
+        $citiesNameEn = "";
+        $price = $this->calculateShipmentPrice($request, $exceptionCities, $price_from, $citiesNameAr, $citiesNameEn);
+        $shipment->price = $price;
         $shipment->save();
 
         foreach ($request->shipments as $eachShipment) {
-            $category_ids[] = $eachShipment["category_id"];
-        }
-
-        $categories = Category::findMany($category_ids);
-
-        if (count($categories) != count($category_ids)) {
-            return response()->json([
-                'error' => LanguageManagement::getLabel('no_category_found', $this->language),
-            ], 404);
-            $shipment->delete();
-        }
-
-        foreach ($request->shipments as $eachShipment) {
-            $shipment->categories()->attach($eachShipment["category_id"], ['quantity' => $eachShipment["quantity"]]);
+            $shipment->categories()->attach($eachShipment["category_id"], ['quantity' => $eachShipment["quantity"], 'address_to_id' => $eachShipment['address_to_id']]);
         }
 
         $companies = Company::findMany($request->delivery_companies_id);
@@ -217,18 +178,16 @@ class ShipmentController extends Controller
                     $playerIds[] = $eachPlayerId->player_id;
                 }
             }
-
         }
 
         $city_from = City::find($address_from->city_id);
-        $city_to = City::find($address_to->city_id);
 
         if (count($companies) == 1) {
-            $message_en = "New shipment arrived: #" . $shipment->id . "\n JUST FOR YOU \n From: " . $city_from->name_en . " -  To: " . $city_to->name_en;
-            $message_ar = "وصل شحنة جديدة: #" . $shipment->id . "\nفقط لك" . "\nمن: " . $city_from->name_ar . " -  لك: " . $city_to->name_ar;
+            $message_en = "New shipment arrived: #" . $shipment->id . "\n JUST FOR YOU \n From: " . $city_from->name_en . " -  To: " . $citiesNameEn;
+            $message_ar = "وصل شحنة جديدة: #" . $shipment->id . "\nفقط لك" . "\nمن: " . $city_from->name_ar . " -  لك: " . $citiesNameAr;
         } else {
-            $message_en = "New shipment arrived: #" . $shipment->id . "\n From: " . $city_from->name_en . " -  To: " . $city_to->name_en;
-            $message_ar = "وصل شحنة جديدة : #" . $shipment->id . "\nمن: " . $city_from->name_ar . " -  لك: " . $city_to->name_ar;
+            $message_en = "New shipment arrived: #" . $shipment->id . "\n From: " . $city_from->name_en . " -  To: " . $citiesNameEn;
+            $message_ar = "وصل شحنة جديدة : #" . $shipment->id . "\nمن: " . $city_from->name_ar . " -  لك: " . $citiesNameAr;
         }
 
         Notification::sendNotificationToMultipleUser($playerIds, $message_en, $message_ar);
@@ -278,7 +237,6 @@ class ShipmentController extends Controller
         if ($shipments) {
             foreach ($shipments as $shipment) {
                 $shipment["address_from"] = Address::find($shipment->address_from_id);
-                $shipment["address_to"] = Address::find($shipment->address_to_id);
                 $shipment = $this->getShipmentDetailsResponse($shipment);
                 switch ($shipment->status) {
                     case 1:
@@ -294,7 +252,6 @@ class ShipmentController extends Controller
                         break;
                 }
             }
-
             return response()->json([
                 'pending' => $pending,
                 'accepted' => $accepted,
@@ -348,7 +305,7 @@ class ShipmentController extends Controller
         if ($shipment != null && $shipment->user_id == $request->user_id) {
             $shipment = $this->getShipmentDetailsResponse($shipment);
             $shipment["address_from"] = Address::find($shipment->address_from_id);
-            $shipment["address_to"] = Address::find($shipment->address_to_id);
+            //$shipment["address_to"] = Address::find($shipment->address_to_id);
 
             if ($shipment->status > 1) {
                 $company = Company::find($shipment->company_id);
@@ -472,23 +429,18 @@ class ShipmentController extends Controller
      *              @SWG\Property(
      *                  property="shipments",
      *                  type="array",
-     *                  description="lost of shipments",
+     *                  description="list of shipments",
      *                  @SWG\items(
      *                      type="object",
      *                      @SWG\Property(property="category_id", type="integer"),
-     *                      @SWG\Property(property="quantity", type="integer")
+     *                      @SWG\Property(property="quantity", type="integer"),
+     *                      @SWG\Property(property="address_to_id", type="integer")
      *                  ),
      *              ),
      *              @SWG\Property(
      *                  property="address_from_id",
      *                  type="integer",
      *                  description="User pick up address id",
-     *                  example=1
-     *              ),
-     *              @SWG\Property(
-     *                  property="address_to_id",
-     *                  type="integer",
-     *                  description="User drop address id",
      *                  example=1
      *              ),
      *              @SWG\Property(
@@ -533,9 +485,10 @@ class ShipmentController extends Controller
             'shipments' => 'required|array|min:1',
             'shipments.*.category_id' => 'required',
             'shipments.*.quantity' => 'required|numeric',
+            'shipments.*.address_to_id' => 'required|exists:addresses,id',
             //'delivery_companies_id' => 'required|array|min:1',
             'address_from_id' => 'required',
-            'address_to_id' => 'required',
+            //'address_to_id' => 'required',
             'is_today' => 'required|boolean',
             'pickup_time_from' => 'required_if:is_today,false',
             'pickup_time_to' => 'required_if:is_today,false',
@@ -547,18 +500,29 @@ class ShipmentController extends Controller
         }
 
         $shipment = Shipment::find($request->shipment_id);
+        $address_from = Address::find($request->address_from_id);
+        if ($address_from->user_id != $request->user_id) {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_address_found', $this->language),
+            ], 404);
+        }
 
         if ($shipment->status == 1) {
-            $price = Price::find(1);
+            //$price = Price::find(1);
+            $governorate_from = Governorate::find($address_from->governorate_id);
+            $exceptionCities = ExceptionCity::all();
+            $fromValueExists = collect($exceptionCities)->where('city_id', $address_from->city_id)->first();
+            $price_from = $this->calculateShipmentFromPrice($fromValueExists, $governorate_from);
+            $price = $this->calculateShipmentPrice($request, $exceptionCities, $price_from, '', '');
 
             $shipment->update([
-                'price' => $price->price,
+                'price' => $price,
                 'address_from_id' => $request->address_from_id,
-                'address_to_id' => $request->address_to_id,
                 'is_today' => $request->is_today,
                 'pickup_time_from' => $request->pickup_time_from,
                 'pickup_time_to' => $request->pickup_time_to,
                 'user_id' => $request->user_id,
+                'city_id_from' => $address_from->city_id,
                 'status' => 1,
                 'payment_type' => 1,
             ]);
@@ -566,7 +530,7 @@ class ShipmentController extends Controller
             $shipment->categories()->detach();
 
             foreach ($request->shipments as $eachShipment) {
-                $shipment->categories()->attach($eachShipment["category_id"], ['quantity' => $eachShipment["quantity"]]);
+                $shipment->categories()->attach($eachShipment["category_id"], ['quantity' => $eachShipment["quantity"], 'address_to_id' => $eachShipment["address_to_id"]]);
             }
 
             return response()->json([
@@ -659,7 +623,7 @@ class ShipmentController extends Controller
             $responseCompany["image"] = $company->image;
             $shipment["company"] = $responseCompany;
             $shipment["address_from"] = Address::find($shipment->address_from_id);
-            $shipment["address_to"] = Address::find($shipment->address_to_id);
+            //$shipment["address_to"] = Address::find($shipment->address_to_id);
             $shipment = $this->getShipmentDetailsResponse($shipment);
             $response[] = collect($shipment);
         }
@@ -670,13 +634,62 @@ class ShipmentController extends Controller
     {
         $items = [];
         $categories = $shipment->categories()->get();
-        foreach ($categories as $category) {
-            $item["category_id"] = $category->id;
-            $item["category_name"] = $category->name;
-            $item["quantity"] = $category->pivot->quantity;
-            $items[] = $item;
+        $groupedCategories = collect($categories)->groupBy('pivot.address_to_id');
+        $groupingCategories = [];
+        foreach ($groupedCategories as $categories) {
+            $eachCategory["address_to"] = Address::find($categories[0]->pivot->address_to_id);
+            $items = [];
+            foreach ($categories as $category) {
+                $item["category_id"] = $category->id;
+                $item["category_name"] = $category->name;
+                $item["quantity"] = $category->pivot->quantity;
+                $items[] = $item;
+            }
+            $eachCategory["items"] = $items;
+            $groupingCategories[] = $eachCategory;
         }
-        $shipment["items"] = $items;
+        $shipment["items"] = $groupingCategories;
         return $shipment;
+    }
+
+    private function calculateShipmentPrice($request, $exceptionCities, $price_from, $citiesNameAr, $citiesNameEn)
+    {
+        $groupedShipments = collect($request->shipments)->groupBy('address_to_id');
+        $price = 0;
+        $address_to_ids = array_keys($groupedShipments->toArray());
+
+        foreach ($address_to_ids as $eachAddressId) {
+            $address_to = Address::find($eachAddressId);
+            $governorate_to = Governorate::find($address_to->governorate_id);
+            $toValueExists = collect($exceptionCities)->where('city_id', $address_to->city_id)->first();
+            if ($toValueExists != null) {
+                $price_to = $toValueExists->price;
+            } else {
+                $price_to = $governorate_to->price;
+            }
+
+            if ($price_from >= $price_to) {
+                $price = $price + $price_from;
+            } else {
+                $price = $price + $price_to;
+            }
+            $city_to = City::find($address_to->city_id);
+            $citiesNameAr = $citiesNameAr . $city_to->name_ar . ", ";
+            $citiesNameEn = $citiesNameEn . $city_to->name_en . ", ";
+        }
+
+        $citiesNameAr = substr($citiesNameAr, 0, -2);
+        $citiesNameEn = substr($citiesNameEn, 0, -2);
+        return $price;
+    }
+
+    public function calculateShipmentFromPrice($fromValueExists, $governorate_from)
+    {
+        if ($fromValueExists != null) {
+            $price_from = $fromValueExists->price;
+        } else {
+            $price_from = $governorate_from->price;
+        }
+        return $price_from;
     }
 }

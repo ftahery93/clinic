@@ -147,7 +147,7 @@ class ShipmentController extends Controller
             foreach ($shipments as $shipment) {
                 $shipment = $this->getShipmentDetailsResponse($shipment);
                 $shipment["address_from"] = Address::find($shipment->address_from_id);
-                $shipment["address_to"] = Address::find($shipment->address_to_id);
+                //$shipment["address_to"] = Address::find($shipment->address_to_id);
                 $response[] = collect($shipment);
             }
             return response()->json($response);
@@ -193,7 +193,7 @@ class ShipmentController extends Controller
         foreach ($shipments as $shipment) {
             $shipment = $this->getShipmentDetailsResponse($shipment);
             $shipment["address_from"] = Address::find($shipment->address_from_id);
-            $shipment["address_to"] = Address::find($shipment->address_to_id);
+            //$shipment["address_to"] = Address::find($shipment->address_to_id);
             $response[] = collect($shipment);
         }
         return response()->json($response);
@@ -608,7 +608,7 @@ class ShipmentController extends Controller
         foreach ($shipments as $shipment) {
             $shipment = $this->getShipmentDetailsResponse($shipment);
             $shipment["address_from"] = Address::find($shipment->address_from_id);
-            $shipment["address_to"] = Address::find($shipment->address_to_id);
+            //$shipment["address_to"] = Address::find($shipment->address_to_id);
             $response[] = collect($shipment);
         }
         return response()->json($response);
@@ -618,13 +618,21 @@ class ShipmentController extends Controller
     {
         $items = [];
         $categories = $shipment->categories()->get();
-        foreach ($categories as $category) {
-            $item["category_id"] = $category->id;
-            $item["category_name"] = $category->name;
-            $item["quantity"] = $category->pivot->quantity;
-            $items[] = $item;
+        $groupedCategories = collect($categories)->groupBy('pivot.address_to_id');
+        $groupingCategories = [];
+        foreach ($groupedCategories as $categories) {
+            $eachCategory["address_to"] = Address::find($categories[0]->pivot->address_to_id);
+            $items = [];
+            foreach ($categories as $category) {
+                $item["category_id"] = $category->id;
+                $item["category_name"] = $category->name;
+                $item["quantity"] = $category->pivot->quantity;
+                $items[] = $item;
+            }
+            $eachCategory["items"] = $items;
+            $groupingCategories[] = $eachCategory;
         }
-        $shipment["items"] = $items;
+        $shipment["items"] = $groupingCategories;
         return $shipment;
     }
 
