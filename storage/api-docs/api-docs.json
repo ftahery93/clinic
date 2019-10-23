@@ -2060,6 +2060,9 @@
                                             },
                                             "quantity": {
                                                 "type": "integer"
+                                            },
+                                            "address_to_id": {
+                                                "type": "integer"
                                             }
                                         },
                                         "type": "object"
@@ -2072,11 +2075,6 @@
                                 },
                                 "address_from_id": {
                                     "description": "User pick up address id",
-                                    "type": "integer",
-                                    "example": 1
-                                },
-                                "address_to_id": {
-                                    "description": "User drop address id",
                                     "type": "integer",
                                     "example": 1
                                 },
@@ -2273,7 +2271,7 @@
                                     "example": 1
                                 },
                                 "shipments": {
-                                    "description": "lost of shipments",
+                                    "description": "list of shipments",
                                     "type": "array",
                                     "items": {
                                         "properties": {
@@ -2282,6 +2280,9 @@
                                             },
                                             "quantity": {
                                                 "type": "integer"
+                                            },
+                                            "address_to_id": {
+                                                "type": "integer"
                                             }
                                         },
                                         "type": "object"
@@ -2289,11 +2290,6 @@
                                 },
                                 "address_from_id": {
                                     "description": "User pick up address id",
-                                    "type": "integer",
-                                    "example": 1
-                                },
-                                "address_to_id": {
-                                    "description": "User drop address id",
                                     "type": "integer",
                                     "example": 1
                                 },

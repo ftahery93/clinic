@@ -70,7 +70,6 @@ class ForgotPasswordController extends Controller
      */
     public function sendResetLinkEmail(Request $request)
     {
-
         $validator = [
             'email' => 'required|email',
         ];
