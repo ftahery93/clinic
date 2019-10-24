@@ -508,7 +508,6 @@ class ShipmentController extends Controller
         }
 
         if ($shipment->status == 1) {
-            //$price = Price::find(1);
             $governorate_from = Governorate::find($address_from->governorate_id);
             $exceptionCities = ExceptionCity::all();
             $fromValueExists = collect($exceptionCities)->where('city_id', $address_from->city_id)->first();
@@ -645,7 +644,7 @@ class ShipmentController extends Controller
                 $item["quantity"] = $category->pivot->quantity;
                 $items[] = $item;
             }
-            $eachCategory["items"] = $items;
+            $eachCategory["products"] = $items;
             $groupingCategories[] = $eachCategory;
         }
         $shipment["items"] = $groupingCategories;

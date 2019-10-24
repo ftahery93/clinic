@@ -629,7 +629,7 @@ class ShipmentController extends Controller
                 $item["quantity"] = $category->pivot->quantity;
                 $items[] = $item;
             }
-            $eachCategory["items"] = $items;
+            $eachCategory["products"] = $items;
             $groupingCategories[] = $eachCategory;
         }
         $shipment["items"] = $groupingCategories;
