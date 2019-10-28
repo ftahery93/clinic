@@ -1884,25 +1884,15 @@
                         "required": true,
                         "schema": {
                             "properties": {
-                                "governorate_id_from": {
-                                    "description": "Governorate ID from - * Required",
+                                "address_from": {
+                                    "description": "User source address",
                                     "type": "integer",
                                     "example": 24
                                 },
-                                "governorate_id_to": {
-                                    "description": "Governorate ID To - * Required",
-                                    "type": "integer",
-                                    "example": 24
-                                },
-                                "city_id_from": {
-                                    "description": "City ID from - * Required",
-                                    "type": "integer",
-                                    "example": 24
-                                },
-                                "city_id_to": {
-                                    "description": "City ID To - * Required",
-                                    "type": "integer",
-                                    "example": 24
+                                "address_to": {
+                                    "description": "Address to list",
+                                    "type": "string",
+                                    "example": "1,2,3,4"
                                 }
                             }
                         }
