@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\User;
 
+use App\Address;
 use App\ExceptionCity;
 use App\Governorate;
 use App\Http\Controllers\Controller;
@@ -47,28 +48,16 @@ class PriceController extends Controller
      *             required=true,
      *          @SWG\Schema(
      *              @SWG\Property(
-     *                  property="governorate_id_from",
+     *                  property="address_from",
      *                  type="integer",
-     *                  description="Governorate ID from - * Required",
+     *                  description="User source address",
      *                  example=24
      *              ),
      *              @SWG\Property(
-     *                  property="governorate_id_to",
-     *                  type="integer",
-     *                  description="Governorate ID To - * Required",
-     *                  example=24
-     *              ),
-     *              @SWG\Property(
-     *                  property="city_id_from",
-     *                  type="integer",
-     *                  description="City ID from - * Required",
-     *                  example=24
-     *              ),
-     *              @SWG\Property(
-     *                  property="city_id_to",
-     *                  type="integer",
-     *                  description="City ID To - * Required",
-     *                  example=24
+     *                  property="address_to",
+     *                  type="string",
+     *                  description="Address to list",
+     *                  example="1,2,3,4"
      *              ),
      *          ),
      *        ),
@@ -83,10 +72,9 @@ class PriceController extends Controller
     {
 
         $validator = [
-            'governorate_id_from' => 'required|integer|exists:governorates,id',
-            'governorate_id_to' => 'required|integer|exists:governorates,id',
-            'city_id_from' => 'required|integer|exists:cities,id',
-            'city_id_to' => 'required|integer|exists:cities,id',
+            'address_from' => 'required|integer|exists:addresses,id',
+            'address_to' => 'required|array|min:1',
+            'address_to.*' => 'numeric',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
@@ -94,12 +82,12 @@ class PriceController extends Controller
             return $checkForError;
         }
 
-        $governorate_from = Governorate::find($request->governorate_id_from);
-        $governorate_to = Governorate::find($request->governorate_id_to);
+        $address_from = Address::find($request->address_from);
+        $governorate_from = Governorate::find($address_from->governorate_id);
         $exceptionCities = ExceptionCity::all();
         $price = 0;
 
-        $fromValueExists = collect($exceptionCities)->where('city_id', $request->city_id_from)->first();
+        $fromValueExists = collect($exceptionCities)->where('city_id', $address_from->city_id)->first();
 
         if ($fromValueExists != null) {
             $price_from = $fromValueExists->price;
@@ -107,22 +95,32 @@ class PriceController extends Controller
             $price_from = $governorate_from->price;
         }
 
-        $toValueExists = collect($exceptionCities)->where('city_id', $request->city_id_to)->first();
-
-        if ($toValueExists != null) {
-            $price_to = $toValueExists->price;
-        } else {
-            $price_to = $governorate_to->price;
-        }
-
-        if ($price_from >= $price_to) {
-            $price = $price_from;
-        } else {
-            $price = $price_to;
-        }
+        $price = $this->calculateShipmentPrice($request->address_to, $exceptionCities, $price_from);
 
         return response()->json([
             'price' => $price,
         ]);
+    }
+
+    private function calculateShipmentPrice($address_to_ids, $exceptionCities, $price_from)
+    {
+        $price = 0;
+        foreach ($address_to_ids as $address_id) {
+            $address_to = Address::find($address_id);
+            $governorate_to = Governorate::find($address_to->governorate_id);
+            $toValueExists = collect($exceptionCities)->where('city_id', $address_to->city_id)->first();
+            if ($toValueExists != null) {
+                $price_to = $toValueExists->price;
+            } else {
+                $price_to = $governorate_to->price;
+            }
+
+            if ($price_from >= $price_to) {
+                $price = $price + $price_from;
+            } else {
+                $price = $price + $price_to;
+            }
+        }
+        return $price;
     }
 }
