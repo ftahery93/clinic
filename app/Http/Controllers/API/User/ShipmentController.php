@@ -164,7 +164,9 @@ class ShipmentController extends Controller
         $shipment->save();
 
         foreach ($request->shipments as $eachShipment) {
-            $shipment->categories()->attach($eachShipment["category_id"], ['quantity' => $eachShipment["quantity"], 'address_to_id' => $eachShipment['address_to_id']]);
+            $address = Address::find($eachShipment['address_to_id']);
+            $shipment->categories()->attach($eachShipment["category_id"], ['quantity' => $eachShipment["quantity"],
+                'address_to_id' => $eachShipment['address_to_id'], 'city_id_to' => $address->city_id, 'city_id_from' => $address_from->city_id]);
         }
 
         $companies = Company::findMany($request->delivery_companies_id);

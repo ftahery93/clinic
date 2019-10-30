@@ -140,6 +140,7 @@ class ShipmentController extends Controller
             return response()->json([]);
         }
 
+        //return response()->json($companyShipments);
         $shipments = $this->getShipmentsBasedOnCityId($request, $companyShipments);
 
         $response = [];
@@ -370,9 +371,10 @@ class ShipmentController extends Controller
         }
 
         $commission = Commission::find(1);
-        if ($totalShipments > 0) {
+        $remainingAmount = $totalShipments * $price * ($commission->percentage / 100);
+        if ($totalShipments > 0 && $request->use_free_deliveries) {
             $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
-            $remainingAmount = $totalShipments * $price * ($commission->percentage / 100);
+            //$remainingAmount = $totalShipments * $price * ($commission->percentage / 100);
             if ($wallet->balance > $remainingAmount) {
                 $walletAmount = $remainingAmount;
                 $remainingAmount = 0;
@@ -453,14 +455,6 @@ class ShipmentController extends Controller
      */
     public function markShipmentAsPicked(Request $request, $shipment_id)
     {
-        // $validator = [
-        //     'shipment_id' => 'required|exists:shipments,id',
-        // ];
-        // $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
-        // if ($checkForError) {
-        //     return $checkForError;
-        // }
-
         $shipment = Shipment::find($shipment_id);
         if ($shipment->company_id == $request->company_id) {
             $shipment->update([
@@ -652,19 +646,37 @@ class ShipmentController extends Controller
 
     private function findShipmentsWithFromAndToCity($shipments, $from_city, $to_city)
     {
-        return collect($shipments)->where('status', 1)->where('city_id_from', $from_city)->where('city_id_to', $to_city)->values()->all();
-        //return Shipment::where('status', 1)->where('city_id_from', $from_city)->where('city_id_to', $to_city)->get();
+        $shipmentIds = [];
+        foreach ($shipments as $shipment) {
+            if ($shipment->status == 1) {
+                $categorisedShipments = $shipment->categories()->get();
+                $exists = collect($categorisedShipments)->where('pivot.city_id_to', $to_city)->where('pivot.city_id_from', $from_city)->values()->all();
+                if ($exists != null) {
+                    $shipmentIds = array_merge($shipmentIds, collect($exists)->pluck('pivot.shipment_id')->unique()->toArray());
+                }
+            }
+        }
+        return Shipment::findMany($shipmentIds);
     }
 
     private function findShipmentsWithOnlyFromCity($shipments, $from_city)
     {
         return collect($shipments)->where('status', 1)->where('city_id_from', $from_city)->values()->all();
-        //return Shipment::where('status', 1)->where('city_id_from', $from_city)->get();
     }
 
     private function findShipmentsWithOnlyToCity($shipments, $to_city)
     {
-        return collect($shipments)->where('status', 1)->where('city_id_to', $to_city)->values()->all();
-        //return Shipment::where('status', 1)->where('city_id_to', $to_city)->get();
+        $shipmentIds = [];
+        foreach ($shipments as $shipment) {
+            if ($shipment->status == 1) {
+                $categorisedShipments = $shipment->categories()->get();
+                $exists = collect($categorisedShipments)->where('pivot.city_id_to', $to_city)->values()->all();
+
+                if ($exists != null) {
+                    $shipmentIds = array_merge($shipmentIds, collect($exists)->pluck('pivot.shipment_id')->unique()->toArray());
+                }
+            }
+        }
+        return Shipment::findMany($shipmentIds);
     }
 }
