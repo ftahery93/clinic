@@ -553,7 +553,7 @@ class AddressController extends Controller
         if ($city == null) {
             return response()->json([
                 'error' => LanguageManagement::getLabel('no_city_found', $this->language),
-            ],404);
+            ], 404);
         }
 
         $governorate = Governorate::find($city->governorate_id);
@@ -603,6 +603,40 @@ class AddressController extends Controller
         $cities = City::where('country_code', $governorates->code)->where('governorate_id', $governorates->id)->get();
 
         return response()->json($cities);
+    }
+
+    /**
+     *
+     * @SWG\Get(
+     *         path="/user/getAllCities",
+     *         tags={"User Address"},
+     *         operationId="getAllCities",
+     *         summary="Get all cities in Kuwait",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
+    public function getAllCities(Request $request)
+    {
+        $cities = City::where('country_code', 'KW')->get();
+        return collect($cities);
     }
 
     private function createAddress($request)

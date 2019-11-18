@@ -33,6 +33,7 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     Route::get('/user/getCitiesByGovernorate/{governorate_id}', 'API\User\AddressController@getCitiesByGovernorate');
     Route::get('/user/getAddressById/{address_id}', 'API\User\AddressController@getAddressById');
     Route::get('/user/getGovernorateByCity/{city_id}', 'API\User\AddressController@getGovernorateByCity');
+    Route::get('/user/getAllCities', 'API\User\AddressController@getAllCities');
 
     /* User shipments  */
     Route::post('/user/addShipment', 'API\User\ShipmentController@addShipment');
