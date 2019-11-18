@@ -1681,6 +1681,36 @@
                 ]
             }
         },
+        "/user/getAllCities": {
+            "get": {
+                "tags": [
+                    "User Address"
+                ],
+                "summary": "Get all cities in Kuwait",
+                "operationId": "getAllCities",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
         "/user/register": {
             "post": {
                 "tags": [
