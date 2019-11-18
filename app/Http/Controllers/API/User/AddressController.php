@@ -111,6 +111,12 @@ class AddressController extends Controller
      *                  description="Extra user notes",
      *                  example="Do not park vehicle infront of the gate"
      *              ),
+     *              @SWG\Property(
+     *                  property="save",
+     *                  type="boolean",
+     *                  description="Should the address be saved",
+     *                  example="true"
+     *              ),
      *          ),
      *        ),
      *        @SWG\Response(
@@ -135,6 +141,7 @@ class AddressController extends Controller
             'city_id' => 'required|exists:cities,id',
             'building' => 'required',
             'mobile' => 'required|digits:8',
+            'save' => 'required|boolean',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
@@ -239,7 +246,7 @@ class AddressController extends Controller
      */
     public function getAddresses(Request $request)
     {
-        $addresses = Address::where('user_id', $request->user_id)->where('status', 1)->get();
+        $addresses = Address::where('user_id', $request->user_id)->where('status', 1)->where('save', 1)->get();
         return collect($addresses);
     }
 
@@ -336,6 +343,12 @@ class AddressController extends Controller
      *                  description="Extra user notes",
      *                  example="Do not park vehicle infront of the gate"
      *              ),
+     *              @SWG\Property(
+     *                  property="save",
+     *                  type="boolean",
+     *                  description="Should the address be saved",
+     *                  example="true"
+     *              ),
      *          ),
      *        ),
      *        @SWG\Response(
@@ -361,6 +374,7 @@ class AddressController extends Controller
             'city_id' => 'required|exists:cities,id',
             'building' => 'required',
             'mobile' => 'required|digits:8',
+            'save' => 'required|boolean',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
@@ -493,6 +507,58 @@ class AddressController extends Controller
         $governorates = Governorate::where('country_id', $country->id)->get();
         //$zones = $country->governorates()->get();
         return response()->json($governorates);
+    }
+
+    /**
+     *
+     * @SWG\Get(
+     *         path="/user/getGovernorateByCity/{city_id}",
+     *         tags={"User Address"},
+     *         operationId="getGovernorateByCity",
+     *         summary="Get all Governorates by City",
+     *         security={{"ApiAuthentication":{}}},
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="city_id",
+     *             in="path",
+     *             description="City ID",
+     *             type="integer",
+     *             required=true
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
+    public function getGovernorateByCity(Request $request)
+    {
+        App::setlocale($this->language);
+
+        $city = City::find($request->city_id);
+        if ($city == null) {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_city_found', $this->language),
+            ],404);
+        }
+
+        $governorate = Governorate::find($city->governorate_id);
+        return collect($governorate);
+
     }
 
     /**

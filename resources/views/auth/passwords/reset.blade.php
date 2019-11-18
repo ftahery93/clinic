@@ -24,7 +24,7 @@
             {{ csrf_field() }}
 
               <input type="hidden" name="token" value="{{ $token }}">
-                <div class="md-form-group {{ $errors->has('email') ? ' has-error' : '' }}">
+                {{-- <div class="md-form-group {{ $errors->has('email') ? ' has-error' : '' }}">
                     <input type="email" name="email" value="{{ $email or old('email') }}" class="md-input" required>
                     <label>{{ trans('backLang.yourEmail') }}</label>
                 </div>
@@ -32,7 +32,7 @@
                     <span class="help-block">
                         <strong>{{ $errors->first('email') }}</strong>
                     </span>
-                @endif
+                @endif --}}
                 <div class="md-form-group {{ $errors->has('password') ? ' has-error' : '' }}">
                     <input type="password" name="password" class="md-input" required>
                     <label>{{ trans('backLang.newPassword') }}</label>

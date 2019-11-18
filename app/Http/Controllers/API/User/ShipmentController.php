@@ -30,6 +30,9 @@ class ShipmentController extends Controller
         $this->language = $request->header('Accept-Language');
     }
 
+    public $citiesNameAr;
+    public $citiesNameEn;
+
     /**
      *
      * @SWG\Post(
@@ -183,6 +186,9 @@ class ShipmentController extends Controller
         }
 
         $city_from = City::find($address_from->city_id);
+
+        global $citiesNameAr;
+        global $citiesNameEn;
 
         if (count($companies) == 1) {
             $message_en = "New shipment arrived: #" . $shipment->id . "\n JUST FOR YOU \n From: " . $city_from->name_en . " -  To: " . $citiesNameEn;
@@ -659,6 +665,9 @@ class ShipmentController extends Controller
         $price = 0;
         $address_to_ids = array_keys($groupedShipments->toArray());
 
+        global $citiesNameAr;
+        global $citiesNameEn;
+        $iterator = 0;
         foreach ($address_to_ids as $eachAddressId) {
             $address_to = Address::find($eachAddressId);
             $governorate_to = Governorate::find($address_to->governorate_id);
@@ -674,9 +683,13 @@ class ShipmentController extends Controller
             } else {
                 $price = $price + $price_to;
             }
-            $city_to = City::find($address_to->city_id);
-            $citiesNameAr = $citiesNameAr . $city_to->name_ar . ", ";
-            $citiesNameEn = $citiesNameEn . $city_to->name_en . ", ";
+
+            if ($iterator < 3) {
+                $city_to = City::find($address_to->city_id);
+                $citiesNameAr = $citiesNameAr . $city_to->name_ar . ", ";
+                $citiesNameEn = $citiesNameEn . $city_to->name_en . ", ";
+            }
+            $iterator = $iterator + 1;
         }
 
         $citiesNameAr = substr($citiesNameAr, 0, -2);

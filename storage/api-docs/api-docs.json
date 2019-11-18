@@ -5,7 +5,7 @@
         "description": "Api description...",
         "version": "1.0.0"
     },
-    "basePath": "/~tvavisa/masafah/api",
+    "basePath": "/masafah/api",
     "paths": {
         "/company/register": {
             "post": {
@@ -912,6 +912,66 @@
                 ]
             }
         },
+        "/company/getShipmentPrice": {
+            "post": {
+                "tags": [
+                    "Company Shipments"
+                ],
+                "summary": "Get Shipment Price for the Company",
+                "operationId": "getShipmentPrice",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Accept shipment body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "shipment_ids": {
+                                    "description": "Shipment IDs - *(Required)",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "use_free_deliveries": {
+                                    "description": "Use free deliveries or not",
+                                    "type": "boolean",
+                                    "example": "true"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
         "/company/acceptShipments": {
             "post": {
                 "tags": [
@@ -1238,6 +1298,11 @@
                                     "description": "Extra user notes",
                                     "type": "string",
                                     "example": "Do not park vehicle infront of the gate"
+                                },
+                                "save": {
+                                    "description": "Should the address be saved",
+                                    "type": "boolean",
+                                    "example": "true"
                                 }
                             }
                         }
@@ -1420,6 +1485,11 @@
                                     "description": "Extra user notes",
                                     "type": "string",
                                     "example": "Do not park vehicle infront of the gate"
+                                },
+                                "save": {
+                                    "description": "Should the address be saved",
+                                    "type": "boolean",
+                                    "example": "true"
                                 }
                             }
                         }
@@ -1511,6 +1581,48 @@
                         "name": "country_id",
                         "in": "path",
                         "description": "Country ID",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
+        "/user/getGovernorateByCity/{city_id}": {
+            "get": {
+                "tags": [
+                    "User Address"
+                ],
+                "summary": "Get all Governorates by City",
+                "operationId": "getGovernorateByCity",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "city_id",
+                        "in": "path",
+                        "description": "City ID",
                         "required": true,
                         "type": "integer"
                     }

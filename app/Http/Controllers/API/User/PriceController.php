@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\User;
 
 use App\Address;
+use App\City;
 use App\ExceptionCity;
 use App\Governorate;
 use App\Http\Controllers\Controller;
@@ -19,6 +20,8 @@ class PriceController extends Controller
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
     }
+
+    public $shipmentPriceArray = [];
 
     /**
      *
@@ -77,12 +80,15 @@ class PriceController extends Controller
             'address_to.*' => 'numeric',
         ];
 
+        global $shipmentPriceArray;
+
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError != null) {
             return $checkForError;
         }
 
         $address_from = Address::find($request->address_from);
+        $city_from = City::find($address_from->city_id);
         $governorate_from = Governorate::find($address_from->governorate_id);
         $exceptionCities = ExceptionCity::all();
         $price = 0;
@@ -95,20 +101,29 @@ class PriceController extends Controller
             $price_from = $governorate_from->price;
         }
 
-        $price = $this->calculateShipmentPrice($request->address_to, $exceptionCities, $price_from);
+        $price = $this->calculateShipmentPrice($request->address_to, $city_from->name, $exceptionCities, $price_from);
 
         return response()->json([
             'price' => $price,
+            'price_list' => $shipmentPriceArray,
+
         ]);
     }
 
-    private function calculateShipmentPrice($address_to_ids, $exceptionCities, $price_from)
+    private function calculateShipmentPrice($address_to_ids, $fromCity, $exceptionCities, $price_from)
     {
         $price = 0;
+        global $shipmentPriceArray;
         foreach ($address_to_ids as $address_id) {
+            $priceArray = [];
             $address_to = Address::find($address_id);
+            $city_to = City::find($address_to->city_id);
             $governorate_to = Governorate::find($address_to->governorate_id);
             $toValueExists = collect($exceptionCities)->where('city_id', $address_to->city_id)->first();
+            $priceArray['city_from'] = $fromCity;
+            $priceArray['city_to'] = $city_to->name;
+            $priceOfOneShipment = 0;
+
             if ($toValueExists != null) {
                 $price_to = $toValueExists->price;
             } else {
@@ -117,9 +132,13 @@ class PriceController extends Controller
 
             if ($price_from >= $price_to) {
                 $price = $price + $price_from;
+                $priceOfOneShipment = $priceOfOneShipment + $price_from;
             } else {
                 $price = $price + $price_to;
+                $priceOfOneShipment = $priceOfOneShipment + $price_to;
             }
+            $priceArray['price'] = $priceOfOneShipment;
+            $shipmentPriceArray[] = $priceArray;
         }
         return $price;
     }

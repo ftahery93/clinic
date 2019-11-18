@@ -32,6 +32,7 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     Route::get('/user/getGovernoratesByCountry/{country_id}', 'API\User\AddressController@getGovernoratesByCountry');
     Route::get('/user/getCitiesByGovernorate/{governorate_id}', 'API\User\AddressController@getCitiesByGovernorate');
     Route::get('/user/getAddressById/{address_id}', 'API\User\AddressController@getAddressById');
+    Route::get('/user/getGovernorateByCity/{city_id}', 'API\User\AddressController@getGovernorateByCity');
 
     /* User shipments  */
     Route::post('/user/addShipment', 'API\User\ShipmentController@addShipment');
