@@ -13,7 +13,6 @@ use App\Http\Controllers\Controller;
 use App\LanguageManagement;
 use App\OneSignalUser;
 use App\Order;
-use App\Price;
 use App\RegisteredUser;
 use App\Shipment;
 use App\Utility;
@@ -332,94 +331,100 @@ class ShipmentController extends Controller
         if ($checkForError) {
             return $checkForError;
         }
-
         $shipments = Shipment::findMany($request->shipment_ids);
-        $totalShipments = count($request->shipment_ids);
-        $freeShipments = 0;
-        $walletAmount = 0;
-        $remainingAmount = 0;
-        $actualTotalAmount = 0;
-
-        $price = 0;
-
-        // $shipments = collect($shipments)->sortByDesc('price')->values()->all();
-        // foreach ($shipments as $shipment) {
-        //     $price = $price + $shipment->price;
-        // }
-
-        $price = $this->calculatePriceForShipments($shipments);
-
-        $actualTotalAmount = $price;
-
-        if ($request->use_free_deliveries) {
-            $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->get()->first();
-
-            if ($freeDeliveries != null) {
-                if ($totalShipments > $freeDeliveries->quantity) {
-                    $freeShipments = $freeDeliveries->quantity;
-                    $totalShipments = $totalShipments - $freeShipments;
-                } else if ($totalShipments < $freeDeliveries->quantity) {
-                    $freeShipments = $totalShipments;
-                    $totalShipments = 0;
-                } else {
-                    $freeShipments = $totalShipments;
-                    $totalShipments = 0;
-                }
-                for ($key = 0; $key < $freeShipments; $key++) {
-                    $price = $price - $shipments[$key]->price;
-                }
-            }
-        } else {
-            $freeShipments = 0;
-        }
-
-        $commission = Commission::find(1);
-        $remainingAmount = $totalShipments * $price * ($commission->percentage / 100);
-        if ($totalShipments > 0 && $request->use_free_deliveries) {
-            $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
-            if ($wallet->balance > $remainingAmount) {
-                $walletAmount = $remainingAmount;
-                $remainingAmount = 0;
-            } else if ($wallet->balance < $remainingAmount) {
-                $walletAmount = $wallet->balance;
-                $remainingAmount = $remainingAmount - $walletAmount;
-            } else {
-                $walletAmount = $wallet->balance;
-                $remainingAmount = 0;
-            }
-        }
-
-        // if ($remainingAmount > 0) {
-        //     return response()->json([
-        //         'error' => LanguageManagement::getLabel('insufficient_balance', $this->language),
-        //     ], 403);
-        // }
-
-        $shipmentPriceArray = [];
-        $shipmentPriceArray = $this->calculatePriceForEachShipment($shipments);
-
-        // foreach ($shipments as $shipment) {
-        //     $priceForEachShipment = [];
-        //     $priceForEachShipment['shipment_id'] = $shipment->id;
-        //     $priceForEachShipment['price'] = $shipment->price;
-        //     $shipmentPriceArray[] = $priceForEachShipment;
-        // }
-
-        return response()->json([
-            'shipment_price_list' => $shipmentPriceArray,
-            'total_amount' => $actualTotalAmount,
-            'free_deliveries_used' => $freeShipments,
-            'wallet_amount_used' => $walletAmount,
-        ]);
-
+        $response[] = $this->getShipmentsPrice($request, $shipments);
+        return response()->json($response);
     }
+
     /**
      *
      * @SWG\Post(
-     *         path="/company/acceptShipments",
+     *         path="/company/reserveShipments",
      *         tags={"Company Shipments"},
-     *         operationId="acceptShipments",
-     *         summary="Accept shipments by Company",
+     *         operationId="reserveShipments",
+     *         summary="Reserve the shipments",
+     *         security={{"ApiAuthentication":{}}},
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="Android-1",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Body",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="shipment_ids",
+     *                  type="array",
+     *                  description="Shipment IDs - *(Required)",
+     *                  @SWG\items(
+     *                      type="integer",
+     *                      example=1
+     *                  ),
+     *              ),
+     *          ),
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
+    public function reserveShipments(Request $request)
+    {
+        json_decode($request->getContent(), true);
+        $validator = [
+            'shipment_ids' => 'required|array|min:1',
+            'shipment_ids.*' => 'distinct',
+        ];
+        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForError) {
+            return $checkForError;
+        }
+        $shipmentPrices = [];
+        $shipments = Shipment::findMany($request->shipment_ids);
+        foreach ($shipments as $shipment) {
+            $price = [];
+            if ($shipment != null && $shipment->status == 1) {
+                $price["shipment_id"] = $shipment->id;
+                $price["shipment_price"] = $shipment->price;
+                $shipment->update([
+                    'status' => 5,
+                ]);
+                $shipmentPrices[] = $price;
+            }
+        }
+        $request['use_free_deliveries'] = false;
+        $response[] = $this->getShipmentsPrice($request, $shipments);
+        //ReserveShipment::dispatch($shipment)->delay(Carbon::now()->addSeconds(30));
+        return response()->json([
+            'message' => LanguageManagement::getLabel('reserve_success', $this->language),
+            'shipment_prices' => $shipmentPrices,
+            'shipment_price_list' => $response['shipmentPriceArray'],
+            'total_amount' => $response['actualTotalAmount'],
+            'free_deliveries_used' => $response['freeShipments'],
+            'wallet_amount_used' => $response['walletAmount'],
+        ]);
+    }
+
+    /**
+     *
+     * @SWG\Post(
+     *         path="/company/payShipments",
+     *         tags={"Company Shipments"},
+     *         operationId="payShipments",
+     *         summary="Pay shipments by Company",
      *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
      *             name="Accept-Language",
@@ -468,7 +473,7 @@ class ShipmentController extends Controller
      *     )
      *
      */
-    public function acceptShipments(Request $request)
+    public function payShipments(Request $request)
     {
         json_decode($request->getContent(), true);
         $validator = [
@@ -480,93 +485,63 @@ class ShipmentController extends Controller
         if ($checkForError) {
             return $checkForError;
         }
-
         $shipments = Shipment::findMany($request->shipment_ids);
-        $totalShipments = count($request->shipment_ids);
-        $freeShipments = 0;
-        $walletAmount = 0;
-        $remainingAmount = 0;
-        $actualTotalAmount = 0;
-
-        $price = 0;
-
-        $shipments = collect($shipments)->sortByDesc('price')->values()->all();
         foreach ($shipments as $shipment) {
-            $price = $price + $shipment->price;
-        }
-
-        $actualTotalAmount = $price;
-
-        if ($request->use_free_deliveries) {
-            $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->get()->first();
-
-            if ($freeDeliveries != null) {
-                if ($totalShipments > $freeDeliveries->quantity) {
-                    $freeShipments = $freeDeliveries->quantity;
-                    $totalShipments = $totalShipments - $freeShipments;
-                } else if ($totalShipments < $freeDeliveries->quantity) {
-                    $freeShipments = $totalShipments;
-                    $totalShipments = 0;
-                } else {
-                    $freeShipments = $totalShipments;
-                    $totalShipments = 0;
-                }
-                for ($key = 0; $key < $freeShipments; $key++) {
-                    $price = $price - $shipments[$key]->price;
-                }
-            }
-        } else {
-            $freeShipments = 0;
-        }
-
-        $commission = Commission::find(1);
-        $remainingAmount = $totalShipments * $price * ($commission->percentage / 100);
-        if ($totalShipments > 0 && $request->use_free_deliveries) {
-            $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
-            //$remainingAmount = $totalShipments * $price * ($commission->percentage / 100);
-            if ($wallet->balance > $remainingAmount) {
-                $walletAmount = $remainingAmount;
-                $remainingAmount = 0;
-            } else if ($wallet->balance < $remainingAmount) {
-                $walletAmount = $wallet->balance;
-                $remainingAmount = $remainingAmount - $walletAmount;
-            } else {
-                $walletAmount = $wallet->balance;
-                $remainingAmount = 0;
-            }
-        }
-        if ($remainingAmount > 0) {
-            return response()->json([
-                'error' => LanguageManagement::getLabel('insufficient_balance', $this->language),
-            ], 403);
-        }
-
-        foreach ($shipments as $shipment) {
-            if ($shipment->status > 1) {
+            if ($shipment->status == 5) {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('shipment_booked_already', $this->language),
                 ], 404);
             }
         }
 
+        $response[] = $this->getShipmentsPrice($request, $shipments);
+        $wallet = Wallet::where('company_id', $request->company_id)->get()->first;
+
+        if ($response['wallet_amount_used'] > $wallet->balance) {
+            return response()->json([
+                'error' => LanguageManagement::getLabel('insufficient_balance', $this->language),
+            ], 403);
+        }
+
         $order = Order::create([
             'company_id' => $request->company_id,
-            'free_deliveries' => $freeShipments,
-            'wallet_amount' => $walletAmount,
-            'status' => 0,
+            'free_deliveries' => $response['free_deliveries_used'],
+            'wallet_amount' => $response['wallet_amount_used'],
+            'status' => 2,
         ]);
+
+        $wallet->update([
+            'balance' => ($wallet->balance - $response['wallet_amount_used']),
+        ]);
+
         foreach ($shipments as $shipment) {
             $order->shipments()->attach($shipment);
         }
 
         return response()->json([
             'message' => LanguageManagement::getLabel('accept_shipment_success', $this->language),
-            'total_amount' => $actualTotalAmount,
             'order_id' => $order->id,
-            'free_deliveries_used' => $freeShipments,
-            'wallet_amount_used' => $walletAmount,
         ]);
     }
+
+    // public function unreserveShipment($shipment_id)
+    // {
+    //     $shipment = Shipment::find($shipment_id);
+
+    //     if ($shipment != null && $shipment->status == 5) {
+    //         $shipment->update([
+    //             'status' => 0,
+    //         ]);
+    //         return response()->json([
+    //             'message' => LanguageManagement::getLabel('unreserve_success', $this->language),
+    //         ]);
+    //     } else {
+    //         return response()->json([
+    //             'error' => LanguageManagement::getLabel('no_shipment_found', $this->language),
+    //         ], 404);
+    //     }
+    // }
+
     /**
      *
      * @SWG\Get(
@@ -756,6 +731,61 @@ class ShipmentController extends Controller
             $response[] = collect($shipment);
         }
         return response()->json($response);
+    }
+
+    public function getShipmentsPrice($request, $shipments)
+    {
+        $totalShipments = count($request->shipment_ids);
+        $freeShipments = 0;
+        $walletAmount = 0;
+        $remainingAmount = 0;
+        $actualTotalAmount = 0;
+        $price = 0;
+        $price = $this->calculatePriceForShipments($shipments);
+        $actualTotalAmount = $price;
+        if ($request->use_free_deliveries) {
+            $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->get()->first();
+            if ($freeDeliveries != null) {
+                if ($totalShipments > $freeDeliveries->quantity) {
+                    $freeShipments = $freeDeliveries->quantity;
+                    $totalShipments = $totalShipments - $freeShipments;
+                } else if ($totalShipments < $freeDeliveries->quantity) {
+                    $freeShipments = $totalShipments;
+                    $totalShipments = 0;
+                } else {
+                    $freeShipments = $totalShipments;
+                    $totalShipments = 0;
+                }
+                for ($key = 0; $key < $freeShipments; $key++) {
+                    $price = $price - $shipments[$key]->price;
+                }
+            }
+        }
+        $commission = Commission::find(1);
+        $remainingAmount = $totalShipments * $price * ($commission->percentage / 100);
+        if ($totalShipments > 0 && $request->use_free_deliveries) {
+            $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
+            if ($wallet->balance > $remainingAmount) {
+                $walletAmount = $remainingAmount;
+                $remainingAmount = 0;
+            } else if ($wallet->balance < $remainingAmount) {
+                $walletAmount = $wallet->balance;
+                $remainingAmount = $remainingAmount - $walletAmount;
+            } else {
+                $walletAmount = $wallet->balance;
+                $remainingAmount = 0;
+            }
+        }
+        $shipmentPriceArray = [];
+        $shipmentPriceArray = $this->calculatePriceForEachShipment($shipments);
+
+        $response = [];
+        $response['shipment_price_list'] = $shipmentPriceArray;
+        $response['total_amount'] = $actualTotalAmount;
+        $response['free_deliveries_used'] = $freeShipments;
+        $response['wallet_amount_used'] = $walletAmount;
+
+        return $response;
     }
 
     private function getShipmentDetailsResponse($shipment)

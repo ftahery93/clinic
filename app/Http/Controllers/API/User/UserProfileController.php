@@ -60,6 +60,7 @@ class UserProfileController extends Controller
         $user["country"] = collect($country);
         return collect($user);
     }
+    
     /**
      *
      * @SWG\Put(
@@ -379,6 +380,8 @@ class UserProfileController extends Controller
             'message' => LanguageManagement::getLabel('text_successLoggout', $this->language),
         ]);
     }
+
+    
     private function getFirebaseUser($idToken)
     {
         $fields = array(

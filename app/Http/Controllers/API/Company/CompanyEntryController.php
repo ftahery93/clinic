@@ -251,11 +251,11 @@ class CompanyEntryController extends Controller
                     'type' => 2,
                 ]);
                 //if ($player_id == null) {
-                    OneSignalCompanyUser::create([
-                        'company_id' => $registeredCompany->id,
-                        'player_id' => $request->player_id,
-                        'device_type' => $request->device_type,
-                    ]);
+                OneSignalCompanyUser::create([
+                    'company_id' => $registeredCompany->id,
+                    'player_id' => $request->player_id,
+                    'device_type' => $request->device_type,
+                ]);
                 //}
                 return response()->json([
                     'access_token' => $token,
