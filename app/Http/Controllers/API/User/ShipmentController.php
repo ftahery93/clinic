@@ -73,9 +73,12 @@ class ShipmentController extends Controller
      *              ),
      *              @SWG\Property(
      *                  property="delivery_companies_id",
-     *                  type="string",
-     *                  description="Delivery companies list of ids",
-     *                  example="1,2,3,4"
+     *                  type="array",
+     *                  description="Delivery Company IDs - *(Required)",
+     *                  @SWG\items(
+     *                      type="integer",
+     *                      example=1
+     *                  ),
      *              ),
      *              @SWG\Property(
      *                  property="address_from_id",
@@ -196,6 +199,14 @@ class ShipmentController extends Controller
         } else {
             $message_en = "New shipment arrived: #" . $shipment->id . "\n From: " . $city_from->name_en . " -  To: " . $citiesNameEn;
             $message_ar = "وصل شحنة جديدة : #" . $shipment->id . "\nمن: " . $city_from->name_ar . " -  لك: " . $citiesNameAr;
+        }
+
+        if ($request->is_today) {
+            $message_en = $message_en . " \nNOW";
+            $message_ar = $message_ar . " \nالآن";
+        } else {
+            $message_en = $message_en . " \nLater";
+            $message_ar = $message_ar . " \nلاحقاً";
         }
 
         Notification::sendNotificationToMultipleUser($playerIds, $message_en, $message_ar);
@@ -684,7 +695,7 @@ class ShipmentController extends Controller
                 $price = $price + $price_to;
             }
 
-            if ($iterator < 3) {
+            if ($iterator < 2) {
                 $city_to = City::find($address_to->city_id);
                 $citiesNameAr = $citiesNameAr . $city_to->name_ar . ", ";
                 $citiesNameEn = $citiesNameEn . $city_to->name_en . ", ";

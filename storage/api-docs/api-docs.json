@@ -972,13 +972,65 @@
                 ]
             }
         },
-        "/company/acceptShipments": {
+        "/company/reserveShipments": {
             "post": {
                 "tags": [
                     "Company Shipments"
                 ],
-                "summary": "Accept shipments by Company",
-                "operationId": "acceptShipments",
+                "summary": "Reserve the shipments",
+                "operationId": "reserveShipments",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "Android-1",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "shipment_ids": {
+                                    "description": "Shipment IDs - *(Required)",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
+        "/company/payShipments": {
+            "post": {
+                "tags": [
+                    "Company Shipments"
+                ],
+                "summary": "Pay shipments by Company",
+                "operationId": "payShipments",
                 "parameters": [
                     {
                         "name": "Accept-Language",
@@ -2201,9 +2253,12 @@
                                     }
                                 },
                                 "delivery_companies_id": {
-                                    "description": "Delivery companies list of ids",
-                                    "type": "string",
-                                    "example": "1,2,3,4"
+                                    "description": "Delivery Company IDs - *(Required)",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
                                 },
                                 "address_from_id": {
                                     "description": "User pick up address id",
