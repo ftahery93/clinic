@@ -95,6 +95,9 @@ Route::group(['middleware' => ['checkAuth', 'checkCompanyVersion']], function ()
     Route::post('/company/addToWallet', 'API\Company\PaymentController@addToWallet');
 
     Route::get('/company/getMyCities', 'API\Company\ShipmentController@getMyCities');
+
+    Route::get('/company/getTermsAndConditions', 'API\Company\PageController@getTermsAndConditions');
+
 });
 
 Route::group(['middleware' => 'checkCompanyVersion'], function () {
@@ -117,8 +120,6 @@ Route::group(['middleware' => 'checkVersion'], function () {
 
     //Pages
     Route::get('/user/getTermsAndConditions', 'API\User\PagesController@getTermsAndConditions');
-
-    Route::get('/company/getTermsAndConditions', 'API\Company\PageController@getTermsAndConditions');
 
     /* Countries */
     Route::get('/user/getCountries', 'API\User\CountryController@getCountries');
