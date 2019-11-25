@@ -96,8 +96,6 @@ Route::group(['middleware' => ['checkAuth', 'checkCompanyVersion']], function ()
 
     Route::get('/company/getMyCities', 'API\Company\ShipmentController@getMyCities');
 
-    Route::get('/company/getTermsAndConditions', 'API\Company\PageController@getTermsAndConditions');
-
 });
 
 Route::group(['middleware' => 'checkCompanyVersion'], function () {
@@ -106,6 +104,7 @@ Route::group(['middleware' => 'checkCompanyVersion'], function () {
     Route::post('/company/login', 'API\Company\CompanyEntryController@login');
     Route::post('/company/register', 'API\Company\CompanyEntryController@register');
     Route::get('/company/getCountries', 'API\Company\CountryController@getCountries');
+    Route::get('/company/getTermsAndConditions', 'API\Company\PageController@getTermsAndConditions');
 });
 
 Route::group(['middleware' => 'checkVersion'], function () {
