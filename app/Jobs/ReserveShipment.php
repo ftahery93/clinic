@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Shipment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -13,15 +12,15 @@ class ReserveShipment implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $shipment;
+    public $shipments;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Shipment $shipment)
+    public function __construct($shipments)
     {
-        $this->shipment = $shipment;
+        $this->shipments = $shipments;
     }
 
     /**
@@ -31,10 +30,13 @@ class ReserveShipment implements ShouldQueue
      */
     public function handle()
     {
-        if ($this->shipment != null && $this->shipment->status == 5) {
-            $this->shipment->update([
-                'status' => 8,
-            ]);
+        foreach ($this->shipments as $shipment) {
+            if ($shipment != null && $shipment->status == 5) {
+                $shipment->update([
+                    'status' => 8,
+                ]);
+            }
         }
+
     }
 }

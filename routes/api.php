@@ -75,7 +75,7 @@ Route::group(['middleware' => ['checkAuth', 'checkCompanyVersion']], function ()
     Route::get('/company/getPendingShipments/{from_id?}/{to_id?}', 'API\Company\ShipmentController@getPendingShipments');
     Route::get('/company/getMyShipments', 'API\Company\ShipmentController@getMyShipments');
     Route::post('/company/payShipments', 'API\Company\ShipmentController@payShipments');
-    Route::post('/company/reserveShipments', 'API\Company\ShipmentController@reserveShipment');
+    Route::post('/company/reserveShipments', 'API\Company\ShipmentController@reserveShipments');
 
     Route::get('/company/getShipmentHistory', 'API\Company\ShipmentController@getShipmentHistory');
     Route::get('/company/getShipmentById/{shipment_id}', 'API\Company\ShipmentController@getShipmentById');
