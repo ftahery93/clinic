@@ -411,8 +411,8 @@ class ShipmentController extends Controller
         $request['use_free_deliveries'] = false;
         $response = $this->getShipmentsPrice($request, $shipments);
         //return response()->json($response);
-        //ReserveShipment::dispatch($shipments)->delay(Carbon::now()->addSeconds(30));
-        //Artisan::call('queue:work',['--once'=>true]);
+        ReserveShipment::dispatch($shipments)->delay(Carbon::now()->addSeconds(30));
+        Artisan::call('queue:work',['--once'=>true]);
         return response()->json([
             'message' => LanguageManagement::getLabel('reserve_success', $this->language),
             'shipment_prices' => $shipmentPrices,
