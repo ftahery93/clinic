@@ -48,7 +48,6 @@ class PageController extends Controller
     public function getTermsAndConditions()
     {
         $page = Page::find(2);
-
         return response()->json([
             "terms_and_conditions" => $page->message,
         ]);
