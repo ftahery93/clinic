@@ -600,6 +600,36 @@
                 }
             }
         },
+        "/company/getEmail": {
+            "get": {
+                "tags": [
+                    "Company Pages"
+                ],
+                "summary": "Get Masafah Company's emai;'",
+                "operationId": "getEmail",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
+            }
+        },
         "/company/getPaymentOptions": {
             "get": {
                 "tags": [

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\API\Company;
 
+use App\Contact;
+use App\Http\Controllers\Controller;
 use App\Page;
 use App\Utility;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class PageController extends Controller
 {
@@ -51,5 +52,39 @@ class PageController extends Controller
         return response()->json([
             "terms_and_conditions" => $page->message,
         ]);
+    }
+
+    /**
+     *
+     * @SWG\Get(
+     *         path="/company/getEmail",
+     *         tags={"Company Pages"},
+     *         operationId="getEmail",
+     *         summary="Get Masafah Company's emai;'",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
+    public function getEmail()
+    {
+        $page = Contact::find(1);
+        return response()->json($page);
     }
 }
