@@ -105,6 +105,7 @@ Route::group(['middleware' => 'checkCompanyVersion'], function () {
     Route::post('/company/register', 'API\Company\CompanyEntryController@register');
     Route::get('/company/getCountries', 'API\Company\CountryController@getCountries');
     Route::get('/company/getTermsAndConditions', 'API\Company\PageController@getTermsAndConditions');
+    Route::get('/company/getEmail', 'API\Company\PageController@getEmail');
 });
 
 Route::group(['middleware' => 'checkVersion'], function () {
