@@ -10,6 +10,7 @@ use App\Country;
 use App\FreeDelivery;
 use App\Helpers\Notification;
 use App\Http\Controllers\Controller;
+use App\Jobs\ReserveShipment;
 use App\LanguageManagement;
 use App\OneSignalUser;
 use App\Order;
@@ -18,6 +19,8 @@ use App\Shipment;
 use App\Utility;
 use App\Wallet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Artisan;
 
 class ShipmentController extends Controller
 {
@@ -332,7 +335,7 @@ class ShipmentController extends Controller
             return $checkForError;
         }
         $shipments = Shipment::findMany($request->shipment_ids);
-        $response[] = $this->getShipmentsPrice($request, $shipments);
+        $response = $this->getShipmentsPrice($request, $shipments);
         return response()->json($response);
     }
 
@@ -406,15 +409,17 @@ class ShipmentController extends Controller
             }
         }
         $request['use_free_deliveries'] = false;
-        $response[] = $this->getShipmentsPrice($request, $shipments);
-        //ReserveShipment::dispatch($shipment)->delay(Carbon::now()->addSeconds(30));
+        $response = $this->getShipmentsPrice($request, $shipments);
+        //return response()->json($response);
+        ReserveShipment::dispatch($shipments)->delay(Carbon::now()->addSeconds(30));
+        Artisan::call('queue:work',['--once'=>true]);
         return response()->json([
             'message' => LanguageManagement::getLabel('reserve_success', $this->language),
             'shipment_prices' => $shipmentPrices,
-            'shipment_price_list' => $response['shipmentPriceArray'],
-            'total_amount' => $response['actualTotalAmount'],
-            'free_deliveries_used' => $response['freeShipments'],
-            'wallet_amount_used' => $response['walletAmount'],
+            //'shipment_price_list' => $response['shipmentPriceArray'],
+            'total_amount' => $response["total_amount"],
+            'free_deliveries_used' => $response["free_deliveries_used"],
+            'wallet_amount_used' => $response["wallet_amount_used"],
         ]);
     }
 
@@ -763,7 +768,7 @@ class ShipmentController extends Controller
         }
         $commission = Commission::find(1);
         $remainingAmount = $totalShipments * $price * ($commission->percentage / 100);
-        if ($totalShipments > 0 && $request->use_free_deliveries) {
+        if ($totalShipments > 0) {
             $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
             if ($wallet->balance > $remainingAmount) {
                 $walletAmount = $remainingAmount;
