@@ -30,6 +30,7 @@ class ShipmentController extends Controller
     {
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
+        App::setlocale($this->language);
     }
 
     /**
@@ -398,6 +399,7 @@ class ShipmentController extends Controller
         $shipmentPrices = [];
         $shipments = Shipment::findMany($request->shipment_ids);
         foreach ($shipments as $shipment) {
+
             $price = [];
             if ($shipment != null && $shipment->status == 1) {
                 $price["shipment_id"] = $shipment->id;
@@ -406,17 +408,19 @@ class ShipmentController extends Controller
                     'status' => 5,
                 ]);
                 $shipmentPrices[] = $price;
+            } else {
+                return response()->json([
+                    'error' => LanguageManagement::getLabel('shipment_booked_already', $this->language),
+                ]);
             }
         }
         $request['use_free_deliveries'] = false;
         $response = $this->getShipmentsPrice($request, $shipments);
-        //return response()->json($response);
         ReserveShipment::dispatch($shipments)->delay(Carbon::now()->addSeconds(30));
-        Artisan::call('queue:work',['--once'=>true]);
+        Artisan::call('queue:work', ['--once' => true]);
         return response()->json([
             'message' => LanguageManagement::getLabel('reserve_success', $this->language),
             'shipment_prices' => $shipmentPrices,
-            //'shipment_price_list' => $response['shipmentPriceArray'],
             'total_amount' => $response["total_amount"],
             'free_deliveries_used' => $response["free_deliveries_used"],
             'wallet_amount_used' => $response["wallet_amount_used"],
@@ -492,7 +496,7 @@ class ShipmentController extends Controller
         }
         $shipments = Shipment::findMany($request->shipment_ids);
         foreach ($shipments as $shipment) {
-            if ($shipment->status == 5) {
+            if ($shipment->status == 2) {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('shipment_booked_already', $this->language),
                 ], 404);
@@ -616,6 +620,7 @@ class ShipmentController extends Controller
             ], 404);
         }
     }
+
     /**
      *
      * @SWG\Get(
@@ -768,16 +773,14 @@ class ShipmentController extends Controller
         }
         $commission = Commission::find(1);
         $remainingAmount = $totalShipments * $price * ($commission->percentage / 100);
+        $walletAmount = $remainingAmount;
         if ($totalShipments > 0) {
             $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
             if ($wallet->balance > $remainingAmount) {
-                $walletAmount = $remainingAmount;
                 $remainingAmount = 0;
             } else if ($wallet->balance < $remainingAmount) {
-                $walletAmount = $wallet->balance;
                 $remainingAmount = $remainingAmount - $walletAmount;
             } else {
-                $walletAmount = $wallet->balance;
                 $remainingAmount = 0;
             }
         }
