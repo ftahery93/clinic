@@ -22,6 +22,7 @@ class AddressController extends Controller
         //$this->middleware('checkVersion');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
+        App::setlocale($this->language);
     }
 
     /**
