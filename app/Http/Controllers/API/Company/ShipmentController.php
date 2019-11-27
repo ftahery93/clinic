@@ -20,7 +20,6 @@ use App\Utility;
 use App\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Artisan;
 
 class ShipmentController extends Controller
 {
@@ -417,7 +416,8 @@ class ShipmentController extends Controller
         $request['use_free_deliveries'] = false;
         $response = $this->getShipmentsPrice($request, $shipments);
         ReserveShipment::dispatch($shipments)->delay(Carbon::now()->addSeconds(30));
-        Artisan::call('queue:work', ['--once' => true]);
+        //Artisan::call('queue:work', ['--once' => true]);
+        //Artisan::call('queue:listen');
         return response()->json([
             'message' => LanguageManagement::getLabel('reserve_success', $this->language),
             'shipment_prices' => $shipmentPrices,
