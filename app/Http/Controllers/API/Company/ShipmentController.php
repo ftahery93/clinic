@@ -16,6 +16,7 @@ use App\OneSignalUser;
 use App\Order;
 use App\RegisteredUser;
 use App\Shipment;
+use App\ShipmentPrice;
 use App\Utility;
 use App\Wallet;
 use Illuminate\Http\Request;
@@ -533,24 +534,6 @@ class ShipmentController extends Controller
         ]);
     }
 
-    // public function unreserveShipment($shipment_id)
-    // {
-    //     $shipment = Shipment::find($shipment_id);
-
-    //     if ($shipment != null && $shipment->status == 5) {
-    //         $shipment->update([
-    //             'status' => 0,
-    //         ]);
-    //         return response()->json([
-    //             'message' => LanguageManagement::getLabel('unreserve_success', $this->language),
-    //         ]);
-    //     } else {
-    //         return response()->json([
-    //             'error' => LanguageManagement::getLabel('no_shipment_found', $this->language),
-    //         ], 404);
-    //     }
-    // }
-
     /**
      *
      * @SWG\Get(
@@ -659,15 +642,6 @@ class ShipmentController extends Controller
      */
     public function markShipmentAsDelivered(Request $request, $shipment_id)
     {
-
-        // $validator = [
-        //     'shipment_id' => 'required|exists:shipments,id',
-        // ];
-        // $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
-        // if ($checkForError) {
-        //     return $checkForError;
-        // }
-
         $shipment = Shipment::find($shipment_id);
         if ($shipment->company_id == $request->company_id) {
             $shipment->update([
@@ -741,6 +715,57 @@ class ShipmentController extends Controller
             $response[] = collect($shipment);
         }
         return response()->json($response);
+    }
+
+    /**
+     *
+     * @SWG\Get(
+     *         path="/company/getShipmentDetailsForDeliveries/{shipment_id}",
+     *         tags={"Company Shipments"},
+     *         operationId="getShipmentDetailsForDeliveries",
+     *         summary="Get Company Shipment details for Deliveries",
+     *         security={{"ApiAuthentication":{}}},
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="shipment_id",
+     *             in="path",
+     *             required=true,
+     *             type="integer",
+     *             description="123",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
+    public function getShipmentDetailsForDeliveries(Request $request, $shipment_id)
+    {
+        $shipment = Shipment::find($shipment_id);
+
+        if ($shipment != null && $shipment->status == 5) {
+            $shipmentPrice = ShipmentPrice::where('shipment_id', $shipment_id)->get();
+            return response()->json($shipmentPrice);
+        }
+
+        return response()->json([
+            'error' => LanguageManagement::getLabel('no_shipment_found', $this->language),
+        ], 404);
+
     }
 
     public function getShipmentsPrice($request, $shipments)
