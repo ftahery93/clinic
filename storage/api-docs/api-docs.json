@@ -1233,6 +1233,48 @@
                 ]
             }
         },
+        "/company/getShipmentDetailsForDeliveries/{shipment_id}": {
+            "get": {
+                "tags": [
+                    "Company Shipments"
+                ],
+                "summary": "Get Company Shipment details for Deliveries",
+                "operationId": "getShipmentDetailsForDeliveries",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "shipment_id",
+                        "in": "path",
+                        "description": "123",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
         "/company/getWalletOffers": {
             "get": {
                 "tags": [

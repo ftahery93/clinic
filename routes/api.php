@@ -81,6 +81,7 @@ Route::group(['middleware' => ['checkAuth', 'checkCompanyVersion']], function ()
     Route::get('/company/getShipmentById/{shipment_id}', 'API\Company\ShipmentController@getShipmentById');
     Route::get('/company/markShipmentAsPicked/{shipment_id}', 'API\Company\ShipmentController@markShipmentAsPicked');
     Route::get('/company/markShipmentAsDelivered/{shipment_id}', 'API\Company\ShipmentController@markShipmentAsDelivered');
+    Route::get('/company/getShipmentDetailsForDeliveries/{shipment_id}', 'API\Company\ShipmentController@getShipmentDetailsForDeliveries');
 
     /* Company Free deliveries */
     Route::get('/company/getFreeDeliveriesCount', 'API\Company\CompanyProfileController@getFreeDeliveriesCount');

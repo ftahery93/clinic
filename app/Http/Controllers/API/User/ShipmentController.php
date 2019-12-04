@@ -14,6 +14,7 @@ use App\LanguageManagement;
 use App\OneSignalCompanyUser;
 use App\Price;
 use App\Shipment;
+use App\ShipmentPrice;
 use App\Utility;
 use function GuzzleHttp\json_decode;
 use Illuminate\Http\Request;
@@ -165,9 +166,12 @@ class ShipmentController extends Controller
 
         $citiesNameAr = "";
         $citiesNameEn = "";
-        $price = $this->calculateShipmentPrice($request, $exceptionCities, $price_from, $citiesNameAr, $citiesNameEn);
-        $shipment->price = $price;
         $shipment->save();
+        $price = $this->calculateShipmentPrice($shipment, $request, $exceptionCities, $price_from, $citiesNameAr, $citiesNameEn);
+        //§$shipment->price = $price;
+        $shipment->update([
+            'price' => $price,
+        ]);
 
         foreach ($request->shipments as $eachShipment) {
             $address = Address::find($eachShipment['address_to_id']);
@@ -531,7 +535,7 @@ class ShipmentController extends Controller
             $exceptionCities = ExceptionCity::all();
             $fromValueExists = collect($exceptionCities)->where('city_id', $address_from->city_id)->first();
             $price_from = $this->calculateShipmentFromPrice($fromValueExists, $governorate_from);
-            $price = $this->calculateShipmentPrice($request, $exceptionCities, $price_from, '', '');
+            $price = $this->calculateShipmentPrice($shipment, $request, $exceptionCities, $price_from, '', '');
 
             $shipment->update([
                 'price' => $price,
@@ -670,7 +674,7 @@ class ShipmentController extends Controller
         return $shipment;
     }
 
-    private function calculateShipmentPrice($request, $exceptionCities, $price_from, $citiesNameAr, $citiesNameEn)
+    private function calculateShipmentPrice($shipment, $request, $exceptionCities, $price_from, $citiesNameAr, $citiesNameEn)
     {
         $groupedShipments = collect($request->shipments)->groupBy('address_to_id');
         $price = 0;
@@ -681,7 +685,9 @@ class ShipmentController extends Controller
         $iterator = 0;
         foreach ($address_to_ids as $eachAddressId) {
             $address_to = Address::find($eachAddressId);
+            $address_from = Address::find($request->address_from_id);
             $governorate_to = Governorate::find($address_to->governorate_id);
+            $city_to = City::find($address_to->city_id);
             $toValueExists = collect($exceptionCities)->where('city_id', $address_to->city_id)->first();
             if ($toValueExists != null) {
                 $price_to = $toValueExists->price;
@@ -691,12 +697,14 @@ class ShipmentController extends Controller
 
             if ($price_from >= $price_to) {
                 $price = $price + $price_from;
+                $this->createShipmentPrice($shipment, $address_from->city_id, $city_to->id, $price_from);
             } else {
                 $price = $price + $price_to;
+                $this->createShipmentPrice($shipment, $address_from->city_id, $city_to->id, $price_to);
             }
 
             if ($iterator < 2) {
-                $city_to = City::find($address_to->city_id);
+                //$city_to = City::find($address_to->city_id);
                 $citiesNameAr = $citiesNameAr . $city_to->name_ar . ", ";
                 $citiesNameEn = $citiesNameEn . $city_to->name_en . ", ";
             }
@@ -716,5 +724,15 @@ class ShipmentController extends Controller
             $price_from = $governorate_from->price;
         }
         return $price_from;
+    }
+
+    public function createShipmentPrice($shipment, $city_from_id, $city_to_id, $price)
+    {
+        ShipmentPrice::create([
+            'shipment_id' => $shipment->id,
+            'city_from_id' => $city_from_id,
+            'city_to_id' => $city_to_id,
+            'price' => $price,
+        ]);
     }
 }

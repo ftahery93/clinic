@@ -213,6 +213,7 @@ class AuthController extends Controller
                 'error' => LanguageManagement::getLabel('mobile_not_found', $this->language),
             ], 404);
         }
+        
         $registeredUser = RegisteredUser::where('mobile', $request->mobile)->where('country_id', $country->id)->get()->first();
         $player_id = OneSignalUser::where('player_id', $request->player_id)->get()->first();
         if ($registeredUser == null) {
