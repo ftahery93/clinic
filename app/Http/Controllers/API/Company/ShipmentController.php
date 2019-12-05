@@ -295,21 +295,12 @@ class ShipmentController extends Controller
      *             in="body",
      *             required=true,
      *          @SWG\Schema(
-     *              @SWG\Property(
-     *                  property="shipment_ids",
-     *                  type="array",
-     *                  description="Shipment IDs - *(Required)",
-     *                  @SWG\items(
-     *                      type="integer",
-     *                      example=1
-     *                  ),
-     *              ),
-     *             @SWG\Property(
-     *                  property="use_free_deliveries",
-     *                  type="boolean",
-     *                  description="Use free deliveries or not",
-     *                  example="true"
-     *              ),
+     *              type="array",
+     *              @SWG\items(
+     *                  type="object",
+     *                  @SWG\Property(property="shipment_id",type="integer",example=187),
+     *                  @SWG\Property(property="id",type="integer",example=1)
+     *              )
      *          ),
      *        ),
      *        @SWG\Response(
@@ -325,16 +316,17 @@ class ShipmentController extends Controller
      */
     public function getShipmentPrice(Request $request)
     {
-        json_decode($request->getContent(), true);
+        //json_decode($request->getContent(), true);
         $validator = [
-            'shipment_ids' => 'required|array|min:1',
-            'shipment_ids.*' => 'distinct',
-            'use_free_deliveries' => 'required|boolean',
+            '*.*.shipment_id' => 'required|exists:shipments,id',
+            '*.*.id' => 'required',
         ];
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError) {
             return $checkForError;
         }
+
+
         $shipments = Shipment::findMany($request->shipment_ids);
         $response = $this->getShipmentsPrice($request, $shipments);
         return response()->json($response);

@@ -969,20 +969,19 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "properties": {
-                                "shipment_ids": {
-                                    "description": "Shipment IDs - *(Required)",
-                                    "type": "array",
-                                    "items": {
+                            "type": "array",
+                            "items": {
+                                "properties": {
+                                    "shipment_id": {
+                                        "type": "integer",
+                                        "example": 187
+                                    },
+                                    "id": {
                                         "type": "integer",
                                         "example": 1
                                     }
                                 },
-                                "use_free_deliveries": {
-                                    "description": "Use free deliveries or not",
-                                    "type": "boolean",
-                                    "example": "true"
-                                }
+                                "type": "object"
                             }
                         }
                     }

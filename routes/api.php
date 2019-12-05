@@ -85,6 +85,7 @@ Route::group(['middleware' => ['checkAuth', 'checkCompanyVersion']], function ()
 
     /* Company Free deliveries */
     Route::get('/company/getFreeDeliveriesCount', 'API\Company\CompanyProfileController@getFreeDeliveriesCount');
+    Route::post('/company/getShipmentPrice', 'API\Company\ShipmentController@getShipmentPrice');
 
     /* Company Wallet APIs */
     Route::post('/company/addToWallet', 'API\Company\WalletController@addToWallet');
