@@ -318,7 +318,6 @@ class ShipmentController extends Controller
     {
         //json_decode($request->getContent(), true);
         $validator = [
-            '*.*' => 'required|array|min:1',
             '*.*.shipment_id' => 'required|exists:shipments,id',
             '*.*.id' => 'required',
         ];
