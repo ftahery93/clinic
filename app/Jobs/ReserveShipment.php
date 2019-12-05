@@ -33,7 +33,7 @@ class ReserveShipment implements ShouldQueue
         foreach ($this->shipments as $shipment) {
             if ($shipment != null && $shipment->status == 5) {
                 $shipment->update([
-                    'status' => 8,
+                    'status' => 1,
                 ]);
             }
         }
