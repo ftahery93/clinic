@@ -37,6 +37,5 @@ class ReserveShipment implements ShouldQueue
                 ]);
             }
         }
-
     }
 }

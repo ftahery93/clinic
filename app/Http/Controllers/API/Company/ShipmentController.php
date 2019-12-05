@@ -295,12 +295,24 @@ class ShipmentController extends Controller
      *             in="body",
      *             required=true,
      *          @SWG\Schema(
-     *              type="array",
-     *              @SWG\items(
-     *                  type="object",
-     *                  @SWG\Property(property="shipment_id",type="integer",example=187),
-     *                  @SWG\Property(property="id",type="integer",example=1)
-     *              )
+     *              @SWG\Property(
+     *                  property="shipment_ids",
+     *                  type="array",
+     *                  description="Shipment IDs - *(Required)",
+     *                  @SWG\items(
+     *                      type="integer",
+     *                      example=1
+     *                  ),
+     *              ),
+     *              @SWG\Property(
+     *                  property="free_delivery_ids",
+     *                  type="array",
+     *                  description="list of free shipments",
+     *                  @SWG\items(
+     *                      type="integer",
+     *                      example=1
+     *                  ),
+     *              ),
      *          ),
      *        ),
      *        @SWG\Response(
@@ -316,20 +328,39 @@ class ShipmentController extends Controller
      */
     public function getShipmentPrice(Request $request)
     {
-        //json_decode($request->getContent(), true);
         $validator = [
-            '*.*.shipment_id' => 'required|exists:shipments,id',
-            '*.*.id' => 'required',
+            'shipment_ids' => 'required|array|min:1',
+            'shipment_ids.*' => 'distinct',
+            'free_delivery_ids' => 'required|array',
+            'free_delivery_ids.*' => 'required|exists:shipment_price,id|distinct',
         ];
-        $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
-        if ($checkForError) {
-            return $checkForError;
+
+        $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForMessages) {
+            return $checkForMessages;
         }
 
-
+        $totalShipmentsPrice = 0;
         $shipments = Shipment::findMany($request->shipment_ids);
-        $response = $this->getShipmentsPrice($request, $shipments);
-        return response()->json($response);
+        $totalShipmentsPrice = collect($shipments)->sum('price');
+        $freeDeliveriesTaken = ShipmentPrice::findMany($request->free_delivery_ids);
+        $totalFreeDeliveryAmount = collect($freeDeliveriesTaken)->sum('price');
+        $commission = Commission::find(1);
+        $commisionAmount = ($totalShipmentsPrice - $totalShipmentsPrice) * ($commission->percentage / 100);
+
+        $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->first();
+
+        $free_deliveries_available = $freeDeliveries->quantity - count($request->free_delivery_ids);
+
+        return response()->json([
+            //'message' => LanguageManagement::getLabel('reserve_success', $this->language),
+            'total_amount' => $totalShipmentsPrice,
+            'free_deliveries_used' => count($request->free_delivery_ids),
+            'wallet_amount_used' => $commisionAmount,
+            'free_deliveries_available' => $free_deliveries_available,
+        ]);
+        //$response = $this->getShipmentsPrice($request, $shipments);
+        //return response()->json($response);
     }
 
     /**
@@ -390,6 +421,7 @@ class ShipmentController extends Controller
         }
         $shipmentPrices = [];
         $shipments = Shipment::findMany($request->shipment_ids);
+        $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->first();
         foreach ($shipments as $shipment) {
 
             $price = [];
@@ -409,14 +441,13 @@ class ShipmentController extends Controller
         $request['use_free_deliveries'] = false;
         $response = $this->getShipmentsPrice($request, $shipments);
         ReserveShipment::dispatch($shipments)->delay(Carbon::now()->addSeconds(30));
-        //Artisan::call('queue:work', ['--once' => true]);
-        //Artisan::call('queue:listen');
         return response()->json([
             'message' => LanguageManagement::getLabel('reserve_success', $this->language),
             'shipment_prices' => $shipmentPrices,
             'total_amount' => $response["total_amount"],
             'free_deliveries_used' => $response["free_deliveries_used"],
             'wallet_amount_used' => $response["wallet_amount_used"],
+            'free_deliveries_available' => $freeDeliveries->quantity,
         ]);
     }
 
@@ -757,7 +788,6 @@ class ShipmentController extends Controller
         return response()->json([
             'error' => LanguageManagement::getLabel('no_shipment_found', $this->language),
         ], 404);
-
     }
 
     public function getShipmentsPrice($request, $shipments)

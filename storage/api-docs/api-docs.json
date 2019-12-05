@@ -969,19 +969,23 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "properties": {
-                                    "shipment_id": {
-                                        "type": "integer",
-                                        "example": 187
-                                    },
-                                    "id": {
+                            "properties": {
+                                "shipment_ids": {
+                                    "description": "Shipment IDs - *(Required)",
+                                    "type": "array",
+                                    "items": {
                                         "type": "integer",
                                         "example": 1
                                     }
                                 },
-                                "type": "object"
+                                "free_delivery_ids": {
+                                    "description": "list of free shipments",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                }
                             }
                         }
                     }
