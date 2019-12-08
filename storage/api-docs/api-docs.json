@@ -942,65 +942,6 @@
                 ]
             }
         },
-        "/company/getShipmentPrice": {
-            "post": {
-                "tags": [
-                    "Company Shipments"
-                ],
-                "summary": "Get Shipment Price for the Company",
-                "operationId": "getShipmentPrice",
-                "parameters": [
-                    {
-                        "name": "Accept-Language",
-                        "in": "header",
-                        "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Version",
-                        "in": "header",
-                        "description": "1.0.0",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Accept shipment body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "properties": {
-                                    "shipment_id": {
-                                        "type": "integer",
-                                        "example": 187
-                                    },
-                                    "id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful"
-                    },
-                    "422": {
-                        "description": "Unprocessable entity"
-                    }
-                },
-                "security": [
-                    {
-                        "ApiAuthentication": []
-                    }
-                ]
-            }
-        },
         "/company/reserveShipments": {
             "post": {
                 "tags": [
@@ -1053,6 +994,69 @@
                 ]
             }
         },
+        "/company/getShipmentPrice": {
+            "post": {
+                "tags": [
+                    "Company Shipments"
+                ],
+                "summary": "Get Shipment Price for the Company",
+                "operationId": "getShipmentPrice",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Accept shipment body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "shipment_ids": {
+                                    "description": "Shipment IDs - *(Required)",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "free_delivery_ids": {
+                                    "description": "list of free shipments",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
         "/company/payShipments": {
             "post": {
                 "tags": [
@@ -1089,10 +1093,18 @@
                                         "example": 1
                                     }
                                 },
+                                "free_delivery_ids": {
+                                    "description": "list of free shipments",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
                                 "use_free_deliveries": {
-                                    "description": "Use free deliveries or not",
+                                    "description": "Using free deliveries or not",
                                     "type": "boolean",
-                                    "example": "true"
+                                    "example": true
                                 }
                             }
                         }
