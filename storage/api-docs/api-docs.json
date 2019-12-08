@@ -671,7 +671,7 @@
                     "Company Shipments"
                 ],
                 "summary": "Pay shipments",
-                "operationId": "payShipments",
+                "operationId": "payOrder",
                 "parameters": [
                     {
                         "name": "Accept-Language",
