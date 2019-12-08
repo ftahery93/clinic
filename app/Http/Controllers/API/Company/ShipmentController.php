@@ -19,6 +19,7 @@ use App\Shipment;
 use App\ShipmentPrice;
 use App\Utility;
 use App\Wallet;
+use App\WalletTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -567,7 +568,7 @@ class ShipmentController extends Controller
             $commisionAmount = ($totalShipmentsPrice) * ($commission->percentage / 100);
         }
 
-        if ($commisionAmount > ((double) $wallet->balance)) {
+        if ($commisionAmount > ($wallet->balance)) {
             return response()->json([
                 'error' => LanguageManagement::getLabel('insufficient_balance', $this->language),
             ], 403);
@@ -582,6 +583,13 @@ class ShipmentController extends Controller
 
         $wallet->update([
             'balance' => ($wallet->balance - $commisionAmount),
+        ]);
+
+        WalletTransaction::create([
+            'company_id' => $request->company_id,
+            'amount' => $commisionAmount,
+            'wallet' => false,
+            'order_id' => $order->id,
         ]);
 
         foreach ($shipments as $shipment) {
