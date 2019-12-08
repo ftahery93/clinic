@@ -75,7 +75,7 @@ class PaymentController extends Controller
      * @SWG\Get(
      *         path="/company/payOrder/{order_id}",
      *         tags={"Company Shipments"},
-     *         operationId="payShipments",
+     *         operationId="payOrder",
      *         summary="Pay shipments",
      *         security={{"ApiAuthentication":{}}},
      *          @SWG\Parameter(
