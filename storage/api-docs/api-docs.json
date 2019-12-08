@@ -942,6 +942,58 @@
                 ]
             }
         },
+        "/company/reserveShipments": {
+            "post": {
+                "tags": [
+                    "Company Shipments"
+                ],
+                "summary": "Reserve the shipments",
+                "operationId": "reserveShipments",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "Android-1",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "shipment_ids": {
+                                    "description": "Shipment IDs - *(Required)",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
         "/company/getShipmentPrice": {
             "post": {
                 "tags": [
@@ -1005,58 +1057,6 @@
                 ]
             }
         },
-        "/company/reserveShipments": {
-            "post": {
-                "tags": [
-                    "Company Shipments"
-                ],
-                "summary": "Reserve the shipments",
-                "operationId": "reserveShipments",
-                "parameters": [
-                    {
-                        "name": "Accept-Language",
-                        "in": "header",
-                        "description": "user prefered language",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Version",
-                        "in": "header",
-                        "description": "Android-1",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "name": "Body",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "properties": {
-                                "shipment_ids": {
-                                    "description": "Shipment IDs - *(Required)",
-                                    "type": "array",
-                                    "items": {
-                                        "type": "integer",
-                                        "example": 1
-                                    }
-                                }
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful"
-                    }
-                },
-                "security": [
-                    {
-                        "ApiAuthentication": []
-                    }
-                ]
-            }
-        },
         "/company/payShipments": {
             "post": {
                 "tags": [
@@ -1093,10 +1093,18 @@
                                         "example": 1
                                     }
                                 },
+                                "free_delivery_ids": {
+                                    "description": "list of free shipments",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
                                 "use_free_deliveries": {
-                                    "description": "Use free deliveries or not",
+                                    "description": "Using free deliveries or not",
                                     "type": "boolean",
-                                    "example": "true"
+                                    "example": true
                                 }
                             }
                         }

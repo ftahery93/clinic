@@ -271,101 +271,6 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/company/getShipmentPrice",
-     *         tags={"Company Shipments"},
-     *         operationId="getShipmentPrice",
-     *         summary="Get Shipment Price for the Company",
-     *         security={{"ApiAuthentication":{}}},
-     *          @SWG\Parameter(
-     *             name="Accept-Language",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="user prefered language",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Version",
-     *             in="header",
-     *             required=true,
-     *             type="string",
-     *             description="1.0.0",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="Accept shipment body",
-     *             in="body",
-     *             required=true,
-     *          @SWG\Schema(
-     *              @SWG\Property(
-     *                  property="shipment_ids",
-     *                  type="array",
-     *                  description="Shipment IDs - *(Required)",
-     *                  @SWG\items(
-     *                      type="integer",
-     *                      example=1
-     *                  ),
-     *              ),
-     *              @SWG\Property(
-     *                  property="free_delivery_ids",
-     *                  type="array",
-     *                  description="list of free shipments",
-     *                  @SWG\items(
-     *                      type="integer",
-     *                      example=1
-     *                  ),
-     *              ),
-     *          ),
-     *        ),
-     *        @SWG\Response(
-     *             response=200,
-     *             description="Successful"
-     *        ),
-     *        @SWG\Response(
-     *             response=422,
-     *             description="Unprocessable entity"
-     *        ),
-     *     )
-     *
-     */
-    public function getShipmentPrice(Request $request)
-    {
-        $validator = [
-            'shipment_ids' => 'required|array|min:1',
-            'shipment_ids.*' => 'distinct',
-            'free_delivery_ids' => 'required|array',
-            'free_delivery_ids.*' => 'required|exists:shipment_price,id|distinct',
-        ];
-
-        $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
-        if ($checkForMessages) {
-            return $checkForMessages;
-        }
-
-        $totalShipmentsPrice = 0;
-        $shipments = Shipment::findMany($request->shipment_ids);
-        $totalShipmentsPrice = collect($shipments)->sum('price');
-        $freeDeliveriesTaken = ShipmentPrice::findMany($request->free_delivery_ids);
-        $totalFreeDeliveryAmount = collect($freeDeliveriesTaken)->sum('price');
-        $commission = Commission::find(1);
-        $commisionAmount = ($totalShipmentsPrice - $totalShipmentsPrice) * ($commission->percentage / 100);
-
-        $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->first();
-
-        $free_deliveries_available = $freeDeliveries->quantity - count($request->free_delivery_ids);
-
-        return response()->json([
-            //'message' => LanguageManagement::getLabel('reserve_success', $this->language),
-            'total_amount' => $totalShipmentsPrice,
-            'free_deliveries_used' => count($request->free_delivery_ids),
-            'wallet_amount_used' => $commisionAmount,
-            'free_deliveries_available' => $free_deliveries_available,
-        ]);
-        //$response = $this->getShipmentsPrice($request, $shipments);
-        //return response()->json($response);
-    }
-
-    /**
-     *
-     * @SWG\Post(
      *         path="/company/reserveShipments",
      *         tags={"Company Shipments"},
      *         operationId="reserveShipments",
@@ -454,6 +359,104 @@ class ShipmentController extends Controller
     /**
      *
      * @SWG\Post(
+     *         path="/company/getShipmentPrice",
+     *         tags={"Company Shipments"},
+     *         operationId="getShipmentPrice",
+     *         summary="Get Shipment Price for the Company",
+     *         security={{"ApiAuthentication":{}}},
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Accept shipment body",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="shipment_ids",
+     *                  type="array",
+     *                  description="Shipment IDs - *(Required)",
+     *                  @SWG\items(
+     *                      type="integer",
+     *                      example=1
+     *                  ),
+     *              ),
+     *              @SWG\Property(
+     *                  property="free_delivery_ids",
+     *                  type="array",
+     *                  description="list of free shipments",
+     *                  @SWG\items(
+     *                      type="integer",
+     *                      example=1
+     *                  ),
+     *              ),
+     *          ),
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=422,
+     *             description="Unprocessable entity"
+     *        ),
+     *     )
+     *
+     */
+    public function getShipmentPrice(Request $request)
+    {
+        $validator = [
+            'shipment_ids' => 'required|array|min:1',
+            'shipment_ids.*' => 'distinct',
+            'free_delivery_ids' => 'required|array',
+            'free_delivery_ids.*' => 'required|exists:shipment_price,id|distinct',
+        ];
+
+        $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForMessages) {
+            return $checkForMessages;
+        }
+
+        $totalShipmentsPrice = 0;
+        $shipments = Shipment::findMany($request->shipment_ids);
+        $totalShipmentsPrice = collect($shipments)->sum('price');
+        $freeDeliveriesTaken = ShipmentPrice::findMany($request->free_delivery_ids);
+        $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->first();
+
+        if (count($request->free_delivery_ids) > $freeDeliveries->quantity) {
+            return response()->json([
+                "error" => LanguageManagement::getLabel('insufficient_free_deliveries', $this->language),
+            ], 422);
+        }
+
+        $totalFreeDeliveryAmount = collect($freeDeliveriesTaken)->sum('price');
+        $commission = Commission::find(1);
+        $commisionAmount = ($totalShipmentsPrice - $totalFreeDeliveryAmount) * ($commission->percentage / 100);
+
+        $free_deliveries_available = $freeDeliveries->quantity - count($request->free_delivery_ids);
+
+        return response()->json([
+            'total_amount' => $totalShipmentsPrice,
+            'free_deliveries_used' => count($request->free_delivery_ids),
+            'wallet_amount_used' => $commisionAmount,
+            'free_deliveries_available' => $free_deliveries_available,
+        ]);
+    }
+
+    /**
+     *
+     * @SWG\Post(
      *         path="/company/payShipments",
      *         tags={"Company Shipments"},
      *         operationId="payShipments",
@@ -487,11 +490,20 @@ class ShipmentController extends Controller
      *                      example=1
      *                  ),
      *              ),
+     *              @SWG\Property(
+     *                  property="free_delivery_ids",
+     *                  type="array",
+     *                  description="list of free shipments",
+     *                  @SWG\items(
+     *                      type="integer",
+     *                      example=1
+     *                  )
+     *              ),
      *             @SWG\Property(
-     *                  property="use_free_deliveries",
-     *                  type="boolean",
-     *                  description="Use free deliveries or not",
-     *                  example="true"
+     *                 property="use_free_deliveries",
+     *                 type="boolean",
+     *                 description="Using free deliveries or not",
+     *                 example=true
      *              ),
      *          ),
      *        ),
@@ -513,24 +525,49 @@ class ShipmentController extends Controller
             'shipment_ids' => 'required|array|min:1',
             'shipment_ids.*' => 'distinct',
             'use_free_deliveries' => 'required|boolean',
+            'free_delivery_ids' => 'array|required_if:use_free_deliveries,true',
+            'free_delivery_ids.*' => 'exists:shipment_price,id|distinct|required_if:use_free_deliveries,true',
         ];
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError) {
             return $checkForError;
         }
         $shipments = Shipment::findMany($request->shipment_ids);
+        $wallet = Wallet::where('company_id', $request->company_id)->first();
+        $commission = Commission::find(1);
+
         foreach ($shipments as $shipment) {
             if ($shipment->status == 2) {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('shipment_booked_already', $this->language),
                 ], 404);
             }
+            if ($shipment->status != 5) {
+                return response()->json([
+                    'error' => LanguageManagement::getLabel('not_reserved', $this->language),
+                ], 404);
+            }
         }
 
-        $response[] = $this->getShipmentsPrice($request, $shipments);
-        $wallet = Wallet::where('company_id', $request->company_id)->get()->first;
+        $totalShipmentsPrice = collect($shipments)->sum('price');
 
-        if ($response['wallet_amount_used'] > $wallet->balance) {
+        $free_deliveries_used = 0;
+        if ($request->use_free_deliveries) {
+            $freeDeliveriesTaken = ShipmentPrice::findMany($request->free_delivery_ids);
+            $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->first();
+            if (count($request->free_delivery_ids) > $freeDeliveries->quantity) {
+                return response()->json([
+                    "error" => LanguageManagement::getLabel('insufficient_free_deliveries', $this->language),
+                ], 422);
+            }
+            $totalFreeDeliveryAmount = collect($freeDeliveriesTaken)->sum('price');
+            $commisionAmount = ($totalShipmentsPrice - $totalFreeDeliveryAmount) * ($commission->percentage / 100);
+            $free_deliveries_used = count($request->free_delivery_ids);
+        } else {
+            $commisionAmount = ($totalShipmentsPrice) * ($commission->percentage / 100);
+        }
+
+        if ($commisionAmount > ((double) $wallet->balance)) {
             return response()->json([
                 'error' => LanguageManagement::getLabel('insufficient_balance', $this->language),
             ], 403);
@@ -538,17 +575,21 @@ class ShipmentController extends Controller
 
         $order = Order::create([
             'company_id' => $request->company_id,
-            'free_deliveries' => $response['free_deliveries_used'],
-            'wallet_amount' => $response['wallet_amount_used'],
+            'free_deliveries' => $free_deliveries_used,
+            'wallet_amount' => $commisionAmount,
             'status' => 2,
         ]);
 
         $wallet->update([
-            'balance' => ($wallet->balance - $response['wallet_amount_used']),
+            'balance' => ($wallet->balance - $commisionAmount),
         ]);
 
         foreach ($shipments as $shipment) {
             $order->shipments()->attach($shipment);
+            $shipment->update([
+                'status' => 2,
+                'company_id' => $request->company_id,
+            ]);
         }
 
         return response()->json([
