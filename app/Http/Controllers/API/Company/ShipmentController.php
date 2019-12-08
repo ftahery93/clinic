@@ -536,6 +536,7 @@ class ShipmentController extends Controller
         $shipments = Shipment::findMany($request->shipment_ids);
         $wallet = Wallet::where('company_id', $request->company_id)->first();
         $commission = Commission::find(1);
+        $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->first();
 
         foreach ($shipments as $shipment) {
             if ($shipment->status == 2) {
@@ -555,7 +556,7 @@ class ShipmentController extends Controller
         $free_deliveries_used = 0;
         if ($request->use_free_deliveries) {
             $freeDeliveriesTaken = ShipmentPrice::findMany($request->free_delivery_ids);
-            $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->first();
+
             if (count($request->free_delivery_ids) > $freeDeliveries->quantity) {
                 return response()->json([
                     "error" => LanguageManagement::getLabel('insufficient_free_deliveries', $this->language),
@@ -590,6 +591,10 @@ class ShipmentController extends Controller
             'amount' => $commisionAmount,
             'wallet' => false,
             'order_id' => $order->id,
+        ]);
+
+        $freeDeliveries->update([
+            'quantity' => ($freeDeliveries->quantity - $free_deliveries_used),
         ]);
 
         foreach ($shipments as $shipment) {
