@@ -213,6 +213,12 @@ class ShipmentController extends Controller
             $message_ar = $message_ar . " \nلاحقاً";
         }
 
+        return response()->json([
+            'player_ids'=> $playerIds,
+            'message_en'=>$message_en,
+            'message_ar'=>$message_ar,
+        ]);
+
         Notification::sendNotificationToMultipleUser($playerIds, $message_en, $message_ar);
 
         return response()->json([

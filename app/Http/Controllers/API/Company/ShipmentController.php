@@ -598,11 +598,21 @@ class ShipmentController extends Controller
         ]);
 
         foreach ($shipments as $shipment) {
+            $message_en = "";
+            $message_ar = "";
             $order->shipments()->attach($shipment);
             $shipment->update([
                 'status' => 2,
                 'company_id' => $request->company_id,
             ]);
+            $users = OneSignalUser::where('user_id', $shipment->user_id)->get();
+            foreach ($users as $user) {
+                $playerIds[] = $user->player_id;
+            }
+            $company = Company::find($request->company_id);
+            $message_en = "Shipment #" . $shipment->id . " is Accepted by " . $company->name_en;
+            $message_ar = "شحنة #" . $shipment->id . "هو مقبول من قبل " . $company->name_ar;
+            Notification::sendNotificationToMultipleUser($playerIds, $message_en, $message_ar);
         }
 
         return response()->json([
