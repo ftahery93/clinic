@@ -44,7 +44,7 @@ class RegisteredUser extends Authenticatable
 
     public function getImageAttribute($value)
     {
-        return $value ? url('/uploads/user_images/' . $value) : null;
+        return $value ? url('/public/uploads/user_images/' . $value) : null;
     }
 
 }
