@@ -300,7 +300,7 @@ class ShipmentController extends Controller
      *                  property="shipment_ids",
      *                  type="array",
      *                  description="Shipment IDs - *(Required)",
-     *                  @SWG\items(
+     *                  @SWG\Items(
      *                      type="integer",
      *                      example=1
      *                  ),
