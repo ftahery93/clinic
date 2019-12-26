@@ -10,6 +10,14 @@
                     <a href="">{{ trans('backend.company_users') }}</a>
                 </small>
             </div>
+            <div class="row p-a pull-right" style="margin-top: -70px;">
+                <div class="col-sm-12">
+                    <a class="btn btn-fw primary" href="{{route("company_users_create")}}">
+                        <i class="material-icons">&#xe7fe;</i>
+                        &nbsp; {{ trans('backend.new_company_user') }}
+                    </a>
+                </div>
+            </div>
             @if($CompanyUsers->total() > 0)
                 {{Form::open(['route'=>'company_users_update_all','method'=>'post'])}}
                 <div class="table-responsive">

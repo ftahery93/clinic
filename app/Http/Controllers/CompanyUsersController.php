@@ -6,6 +6,7 @@ use App\Commission;
 use App\Company;
 use App\Order;
 use App\Permissions;
+use App\Country;
 use Auth;
 use DB;
 use File;
@@ -48,6 +49,65 @@ class CompanyUsersController extends Controller
         return view("backend.company_users", compact("CompanyUsers", "Permissions"));
     }
 
+     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $Countries = Country::orderby('id', 'asc')->get();
+
+        return view("backend.company.create", compact("Countries"));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'image' => 'mimes:png,jpeg,jpg,gif|max:3000',
+            'name' => 'required',
+            'email' => 'required|email|unique:companies',
+            'password' => 'required',
+            'country_id' => 'required',
+        ]);
+
+        // Start of Upload Files
+        $formFileName = "image";
+        $fileFinalName_ar = "";
+        if ($request->$formFileName != "") {
+            $fileFinalName_ar = time() . rand(1111,
+                9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+            $path = base_path() . "/public/" . $this->getUploadPath();
+            $request->file($formFileName)->move($path, $fileFinalName_ar);
+        }
+        // End of Upload Files
+
+        $Company = new Company;
+        $Company->name = $request->name;
+        $Company->email = $request->email;
+        $Company->password = bcrypt($request->password);
+        $Company->country_id = $request->country_id;
+        $Company->mobile = $request->mobile;
+        $Company->phone = $request->phone;
+        $Company->image = $fileFinalName_ar;
+        $Company->description = $request->description;
+        $Company->status = 1;
+        $Company->approved = 1;
+        $Company->save();
+
+        return redirect()->action('CompanyUsersController@index')->with('doneMessage', trans('backend.addDone'));
+    }
+
+    public function getUploadPath()
+    {
+        return $this->uploadPath;
+    }
     /**
      * Show the form for editing the specified company user.
      *
@@ -98,6 +158,7 @@ class CompanyUsersController extends Controller
             $CompanyUser->phone = $request->phone;
             $CompanyUser->description = $request->description;
             $CompanyUser->status = $request->status;
+            $CompanyUser->approved = $request->approved;
             $CompanyUser->updated_at = date("Y-m-d H:i:s");
             $CompanyUser->save();
             return redirect()->action('CompanyUsersController@edit', $id)->with('doneMessage', trans('backend.saveDone'));

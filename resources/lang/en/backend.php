@@ -560,4 +560,7 @@ return [
   'commissions' => 'Commissions',
   'used' => 'Used',
   'company_details' => 'Company Details',
+  'new_company_user' => 'New Company User',
+  'password' => 'Password',
+  'selectCountry' => 'Select Country',
  ];
