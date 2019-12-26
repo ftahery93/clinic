@@ -107,6 +107,25 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="approved"
+                                    class="col-sm-2 form-control-label">{!!  trans('backend.approved') !!}</label>
+                            <div class="col-sm-10">
+                                <div class="radio">
+                                    <label class="ui-check ui-check-md">
+                                        {!! Form::radio('approved','1',($CompanyUser->approved==1) ? true : false, array('id' => 'status1','class'=>'has-value')) !!}
+                                        <i class="dark-white"></i>
+                                        {{ trans('backend.active') }}
+                                    </label>
+                                    &nbsp; &nbsp;
+                                    <label class="ui-check ui-check-md">
+                                        {!! Form::radio('approved','0',($CompanyUser->approved==0) ? true : false, array('id' => 'status2','class'=>'has-value')) !!}
+                                        <i class="dark-white"></i>
+                                        {{ trans('backend.notActive') }}
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     @endif
                     <div class="form-group row m-t-md">
                         <div class="col-sm-offset-2 col-sm-10">

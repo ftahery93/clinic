@@ -553,4 +553,7 @@
   'commissions' => 'للجان',
   'used' => 'مستخدم',
   'company_details' => 'تفاصيل الشركة',
+  'new_company_user' => 'مستخدم الشركة الجديد',
+  'password' => 'كلمه السر',
+  'selectCountry' => 'حدد الدولة',
  ];
