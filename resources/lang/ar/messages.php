@@ -16,7 +16,7 @@
 "text_successUpdated"=>"تم تحديث الملف الشخصي بنجاح", 
 "text_mobileNumberExist"=>"رقم الجوال مسجل بالفعل", 
 "text_accountNotApproved"=>"حسابك غير معتمد من مصافح", 
-"invalid_crendentials"=>"البريد الإلكتروني أو كلمة السر خاطئة", 
+"invalid_credentials"=>"البريد الإلكتروني أو كلمة السر خاطئة", 
 "add_shipment_success"=>"تم وضع الشحنة بنجاح", 
 "shipment_booked_already"=>"تم حجز الشحنة بالفعل", 
 "booked"=>"حجز", 
@@ -45,5 +45,13 @@
 "invalid_api_request"=>"طلب API غير صالح", 
 "address_deleted_successfully"=>"تم حذف العنوان بنجاح", 
 "no_rating_found"=>"التقييم غير موجود", 
-"amount_required_when_not_offer"=>"المبلغ المطلوب عندما لا يوجد عرض", 
+"order_placed_success"=>"تم وضع الطلب بنجاح", 
+"no_order_found"=>"لم يتم العثور على الطلب", 
+"payment_success"=>"Payment successful", 
+"payment_failed"=>"عملية الدفع فشلت", 
+"redirect_to_payment"=>"إعادة التوجيه إلى الدفع", 
+"email_not_found"=>"لا يمكننا العثور على مستخدم يحمل عنوان البريد الإلكتروني هذا", 
+"forgot_password_email_sent"=>"لقد أرسلنا رابط إعادة تعيين كلمة المرور عبر البريد الإلكتروني!", 
+"no_valid_offer"=>"العرض غير صالح
+", 
  ];
