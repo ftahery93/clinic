@@ -18,6 +18,8 @@ use App\ShipmentPrice;
 use App\Utility;
 use function GuzzleHttp\json_decode;
 use Illuminate\Http\Request;
+use DB;
+use App;
 
 class ShipmentController extends Controller
 {
@@ -29,6 +31,7 @@ class ShipmentController extends Controller
         //$this->middleware('checkAuth');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
+        App::setlocale($this->language);   
     }
 
     public $citiesNameAr;
@@ -62,15 +65,19 @@ class ShipmentController extends Controller
      *             required=true,
      *          @SWG\Schema(
      *              @SWG\Property(
-     *                  property="shipments",
+     *                  property="address_to_ids",
      *                  type="array",
-     *                  description="list of shipments",
+     *                  description="Address IDs - *(Required)",
      *                  @SWG\items(
-     *                      type="object",
-     *                      @SWG\Property(property="category_id", type="integer"),
-     *                      @SWG\Property(property="quantity", type="integer"),
-     *                      @SWG\Property(property="address_to_id", type="integer"),
+     *                      type="integer",
+     *                      example=1
      *                  ),
+     *              ),
+     *           @SWG\Property(
+     *                  property="category_id",
+     *                  type="integer",
+     *                  description="Categgory ID",
+     *                  example=1
      *              ),
      *              @SWG\Property(
      *                  property="delivery_companies_id",
@@ -122,10 +129,10 @@ class ShipmentController extends Controller
     {
         json_decode($request->getContent(), true);
         $validationMessages = [
-            'shipments' => 'required|array|min:1',
-            'shipments.*.category_id' => 'required|exists:categories,id',
-            'shipments.*.quantity' => 'required|numeric',
-            'shipments.*.address_to_id' => 'required|exists:addresses,id',
+            'address_to_ids' => 'required|array|min:1',
+            'category_id' => 'required|exists:categories,id',
+            //'shipments.*.quantity' => 'required|numeric',
+            //'shipments.*.address_to_id' => 'required|exists:addresses,id',
             'delivery_companies_id' => 'required|array|min:1',
             'delivery_companies_id.*' => 'numeric',
             'address_from_id' => 'required|exists:addresses,id',
@@ -173,11 +180,14 @@ class ShipmentController extends Controller
             'price' => $price,
         ]);
 
-        foreach ($request->shipments as $eachShipment) {
-            $address = Address::find($eachShipment['address_to_id']);
-            $shipment->categories()->attach($eachShipment["category_id"], ['quantity' => $eachShipment["quantity"],
-                'address_to_id' => $eachShipment['address_to_id'], 'city_id_to' => $address->city_id, 'city_id_from' => $address_from->city_id]);
-        }
+        $shipment->addresses()->sync($request->address_to_ids);
+
+        //foreach ($request->shipments as $eachShipment) {
+           // $address = Address::find($eachShipment['address_to_id']);
+            $shipment->categories()->attach($request->category_id);
+            //['quantity' => $eachShipment["quantity"],
+              //  'address_to_id' => $eachShipment['address_to_id'], 'city_id_to' => $address->city_id, 'city_id_from' => $address_from->city_id]);
+        //}
 
         $companies = Company::findMany($request->delivery_companies_id);
 
@@ -198,6 +208,9 @@ class ShipmentController extends Controller
         global $citiesNameEn;
 
         if (count($companies) == 1) {
+            $shipment->update([
+                'is_single' => 1,
+            ]);
             $message_en = "New shipment arrived: #" . $shipment->id . "\n JUST FOR YOU \n From: " . $city_from->name_en . " -  To: " . $citiesNameEn;
             $message_ar = "وصل شحنة جديدة: #" . $shipment->id . "\nفقط لك" . "\nمن: " . $city_from->name_ar . " -  لك: " . $citiesNameAr;
         } else {
@@ -213,11 +226,11 @@ class ShipmentController extends Controller
             $message_ar = $message_ar . " \nلاحقاً";
         }
 
-        return response()->json([
-            'player_ids'=> $playerIds,
-            'message_en'=>$message_en,
-            'message_ar'=>$message_ar,
-        ]);
+        // return response()->json([
+        //     'player_ids'=> $playerIds,
+        //     'message_en'=>$message_en,
+        //     'message_ar'=>$message_ar,
+        // ]);
 
         Notification::sendNotificationToMultipleUser($playerIds, $message_en, $message_ar);
 
@@ -455,16 +468,20 @@ class ShipmentController extends Controller
      *                  description="Shipment ID",
      *                  example=1
      *              ),
-     *              @SWG\Property(
-     *                  property="shipments",
+     *                 @SWG\Property(
+     *                  property="address_to_ids",
      *                  type="array",
-     *                  description="list of shipments",
+     *                  description="Address IDs - *(Required)",
      *                  @SWG\items(
-     *                      type="object",
-     *                      @SWG\Property(property="category_id", type="integer"),
-     *                      @SWG\Property(property="quantity", type="integer"),
-     *                      @SWG\Property(property="address_to_id", type="integer")
+     *                      type="integer",
+     *                      example=1
      *                  ),
+     *              ),
+     *           @SWG\Property(
+     *                  property="category_id",
+     *                  type="integer",
+     *                  description="Categgory ID",
+     *                  example=1
      *              ),
      *              @SWG\Property(
      *                  property="address_from_id",
@@ -511,10 +528,10 @@ class ShipmentController extends Controller
     {
         $validationMessages = [
             'shipment_id' => 'required',
-            'shipments' => 'required|array|min:1',
-            'shipments.*.category_id' => 'required',
-            'shipments.*.quantity' => 'required|numeric',
-            'shipments.*.address_to_id' => 'required|exists:addresses,id',
+            'address_to_ids' => 'required|array|min:1',
+            'category_id' => 'required|exists:categories,id',
+            //'shipments.*.quantity' => 'required|numeric',
+            //'shipments.*.address_to_id' => 'required|exists:addresses,id',
             //'delivery_companies_id' => 'required|array|min:1',
             'address_from_id' => 'required',
             //'address_to_id' => 'required',
@@ -554,12 +571,15 @@ class ShipmentController extends Controller
                 'status' => 1,
                 'payment_type' => 1,
             ]);
+        
+            $shipment->addresses()->sync($request->address_to_ids);
+           
+           //$shipment->categories()->detach();
+           $shipment->categories()->sync($request->category_id);
 
-            $shipment->categories()->detach();
-
-            foreach ($request->shipments as $eachShipment) {
-                $shipment->categories()->attach($eachShipment["category_id"], ['quantity' => $eachShipment["quantity"], 'address_to_id' => $eachShipment["address_to_id"]]);
-            }
+            // foreach ($request->shipments as $eachShipment) {
+            //     $shipment->categories()->attach($eachShipment["category_id"], ['quantity' => $eachShipment["quantity"], 'address_to_id' => $eachShipment["address_to_id"]]);
+            // }
 
             return response()->json([
                 'message' => LanguageManagement::getLabel('edit_shipment_success', $this->language),
@@ -658,33 +678,130 @@ class ShipmentController extends Controller
         return response()->json($response);
     }
 
+    /**
+     *
+     * @SWG\Post(
+     *         path="/user/getAddressPrice",
+     *         tags={"User Shipment"},
+     *         operationId="getAddressPrice",
+     *         summary="Get User Address Price",
+     *         security={{"ApiAuthentication":{}}},
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Registration Body",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="from_governorateid",
+     *                  type="integer",
+     *                  description="Governorate ID",
+     *                  example=116
+     *              ),
+     *          @SWG\Property(
+     *                  property="from_cityid",
+     *                  type="integer",
+     *                  description="City ID",
+     *                  example=1018
+     *              ),
+     *         @SWG\Property(
+     *                  property="to_governorateid",
+     *                  type="integer",
+     *                  description="Governorate ID",
+     *                  example=117
+     *              ),
+     *          @SWG\Property(
+     *                  property="to_cityid",
+     *                  type="integer",
+     *                  description="City ID",
+     *                  example=1080
+     *              ),
+     *          ),
+     *        ),
+     *                 
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=404,
+     *             description="Shipments not found"
+     *        ),
+     *     )
+     *
+     */
+    public function getAddressPrice(Request $request)
+    {
+        $validator = [
+            'from_governorateid' => 'required|exists:governorates,id',
+            'from_cityid' => 'required|exists:cities,id',            
+            'to_governorateid' => 'required|exists:governorates,id',
+            'to_cityid' => 'required|exists:cities,id',
+        ];
+
+        $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForMessages) {
+            return $checkForMessages;
+        }
+
+        $exceptionCities = ExceptionCity::all();
+       
+        //From Address
+        $governorate_from = Governorate::find($request->from_governorateid);        
+        $fromValueExists = collect($exceptionCities)->where('city_id', $request->from_cityid)->first();
+        $price_from = $this->calculateShipmentFromPrice($fromValueExists, $governorate_from);
+
+        //To Address
+        $governorate_to = Governorate::find($request->to_governorateid);        
+        $toValueExists = collect($exceptionCities)->where('city_id', $request->to_cityid)->first();
+        $price_to= $this->calculateShipmentFromPrice($toValueExists, $governorate_to);
+        $price= $price_to; 
+
+        if ($price_from > $price_to) {
+            $price = $price_from;
+         } 
+
+         return response()->json($price);
+    }
+
     private function getShipmentDetailsResponse($shipment)
     {
-        $items = [];
-        $categories = $shipment->categories()->get();
-        $groupedCategories = collect($categories)->groupBy('pivot.address_to_id');
-        $groupingCategories = [];
-        foreach ($groupedCategories as $categories) {
-            $eachCategory["address_to"] = Address::find($categories[0]->pivot->address_to_id);
-            $items = [];
-            foreach ($categories as $category) {
-                $item["category_id"] = $category->id;
-                $item["category_name"] = $category->name;
-                $item["quantity"] = $category->pivot->quantity;
-                $items[] = $item;
-            }
-            $eachCategory["products"] = $items;
-            $groupingCategories[] = $eachCategory;
+        $item = [];
+        
+        $categories = $shipment->categories()->first();
+        $address_to_ids = $shipment->addresses()->get();
+         
+        $shipment["address_from"] = Address::find($shipment->address_from_id);
+        if($categories){
+            $item["category_id"] = $categories->id;
+            $item["category_name"] = $categories->name;
         }
-        $shipment["items"] = $groupingCategories;
+       
+        $shipment["category"] = $item;
+        $shipment["addresses"] = $address_to_ids;
+       
         return $shipment;
     }
 
     private function calculateShipmentPrice($shipment, $request, $exceptionCities, $price_from, $citiesNameAr, $citiesNameEn)
     {
-        $groupedShipments = collect($request->shipments)->groupBy('address_to_id');
+       //$groupedShipments = collect($request->shipments)->groupBy('address_to_id');
         $price = 0;
-        $address_to_ids = array_keys($groupedShipments->toArray());
+       // $address_to_ids = array_keys($groupedShipments->toArray());
+       $address_to_ids = $request->address_to_ids;
 
         global $citiesNameAr;
         global $citiesNameEn;

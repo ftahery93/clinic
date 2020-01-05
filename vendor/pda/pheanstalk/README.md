@@ -1,52 +1,37 @@
 Pheanstalk
 ==========
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/pda/pheanstalk.svg)](https://packagist.org/packages/pda/pheanstalk)
-[![Total Downloads](https://img.shields.io/packagist/dt/pda/pheanstalk.svg)](https://packagist.org/pda/pheanstalk)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/pheanstalk/pheanstalk/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/pheanstalk/pheanstalk/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/pheanstalk/pheanstalk/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/pheanstalk/pheanstalk/?branch=master)
-[![Build Status](https://travis-ci.org/pheanstalk/pheanstalk.svg?branch=master)](https://travis-ci.org/pheanstalk/pheanstalk)
+[![Build Status](https://travis-ci.org/pda/pheanstalk.png?branch=master)](https://travis-ci.org/pda/pheanstalk)
 
-Pheanstalk is a pure PHP 7.2+ client for the [beanstalkd workqueue][1].  It has
+Pheanstalk is a pure PHP 5.2+ client for the [beanstalkd workqueue][1].  It has
 been actively developed, and used in production by many, since late 2008.
 
 Created by [Paul Annesley][2], Pheanstalk is rigorously unit tested and written
 using encapsulated, maintainable object oriented design.  Community feedback,
-bug reports and patches has led to a stable 1.0 release in 2010, a 2.0 release
-in 2013, and a 3.0 release in 2014.
+bug reports and patches has led to a stable 1.0.0 release in 2010, and a 2.0.0
+release in 2013.
 
-Pheanstalk 3.0 introduces PHP namespaces, PSR-1 and PSR-2 coding standards,
-and PSR-4 autoloader standard.
-
-In 2018 [Sam Mousa][3] took on the responsibility of maintaining Pheanstalk.
-
-Pheanstalk 4.0 drops support for older PHP versions. It contains the following changes (among other things):
-- Strict PHP type hinting
-- Value objects for Job IDs
-- Functions without side effects
-- Dropped support for persistent connections
-- Add support for multiple socket implementations (streams extension, socket extension, fsockopen)
-
-
-beanstalkd up to the latest version 1.10 is supported.  All commands and
-responses specified in the [protocol documentation][4] for beanstalkd 1.3 are
+beanstalkd up to the latest version 1.4 is supported.  All commands and
+responses specified in the [protocol documentation][3] for beanstalkd 1.3 are
 implemented.
 
-  [1]: https://beanstalkd.github.io/
-  [2]: https://paul.annesley.cc/
-  [3]: https://github.com/sammousa
-  [4]: https://github.com/kr/beanstalkd/tree/v1.3/doc/protocol.txt?raw=true
-
+  [1]: http://xph.us/software/beanstalkd/
+  [2]: http://paul.annesley.cc/
+  [3]: http://github.com/kr/beanstalkd/tree/v1.3/doc/protocol.txt?raw=true
+  [4]: http://semver.org/
 
 Installation with Composer
 -------------
 
-Install pheanstalk as a dependency with composer:
+Declare pheanstalk as a dependency in your projects `composer.json` file:
 
-```bash
-composer require pda/pheanstalk
+``` json
+{
+  "require": {
+    "pda/pheanstalk": "dev-master"
+  }
+}
 ```
-
 
 Usage Example
 -------------
@@ -54,11 +39,10 @@ Usage Example
 ```php
 <?php
 
-// Hopefully you're using Composer autoloading.
+// If you aren't using composer, register Pheanstalk class loader
+require_once('pheanstalk_init.php');
 
-use Pheanstalk\Pheanstalk;
-// Create using autodetection of socket implementation
-$pheanstalk = Pheanstalk::create('127.0.0.1');
+$pheanstalk = new Pheanstalk_Pheanstalk('127.0.0.1');
 
 // ----------------------------------------
 // producer (queues jobs)
@@ -79,21 +63,47 @@ echo $job->getData();
 
 $pheanstalk->delete($job);
 
+// ----------------------------------------
+// check server availability
+
+$pheanstalk->getConnection()->isServiceListening(); // true or false
+
 ```
 
 
 Running the tests
 -----------------
 
-If you have docker-compose installed running tests is as simple as:
-```sh
-> composer test
+There is a section of the test suite which depends on a running beanstalkd
+at 127.0.0.1:11300, which was previously opt-in via `--with-server`.
+Since porting to PHPUnit, all tests are run at once. Feel free to submit
+a pull request to rectify this.
+
+```
+# ensure you have PHPUnit
+$ sudo pear channel-discover pear.phpunit.de
+$ sudo pear channel-discover components.ez.no
+$ sudo pear channel-discover pear.symfony.com
+$ sudo pear install phpunit/PHPUnit
+$ hash -r
+
+# ensure you have Composer set up
+$ wget http://getcomposer.org/composer.phar
+$ php composer.phar install
+
+$ phpunit
+PHPUnit 3.7.10 by Sebastian Bergmann.
+
+Configuration read from /Users/pda/code/pheanstalk/phpunit.xml.dist
+
+................................................................. 65 / 79 ( 82%)
+..............
+
+Time: 0 seconds, Memory: 8.75Mb
+
+OK (79 tests, 387 assertions)
 ```
 
-If you don't then you manually need to set up a beanstalk server and run:
-```sh
-> vendor/bin/phpunit
-```
 
 Contributors
 ------------
@@ -101,28 +111,20 @@ Contributors
   * [Paul Annesley](https://github.com/pda)
   * [Lachlan Donald](https://github.com/lox)
   * [Joakim Bick](https://github.com/minimoe)
-  * [Vyacheslav](https://github.com/SlNPacifist)
+  * [SlNPacifist](https://github.com/SlNPacifist)
   * [leprechaun](https://github.com/leprechaun)
   * [Peter McArthur](https://github.com/ptrmcrthr)
   * [robbiehudson](https://github.com/robbiehudson)
   * [Geoff Catlin](https://github.com/gcatlin)
-  * [Steven Lewis](https://github.com/srjlewis)
+  * [srjlewis](https://github.com/srjlewis)
   * [Lars Yencken](https://github.com/larsyencken)
   * [Josh Butts](https://github.com/jimbojsb)
   * [Henry Smith](https://github.com/h2s)
   * [Javier Spagnoletti](https://github.com/phansys)
-  * [Graham Campbell](https://github.com/GrahamCampbell)
-  * [Thomas Tourlourat](https://github.com/armetiz)
-  * [Matthieu Napoli](https://github.com/mnapoli)
-  * [Christoph](https://github.com/xrstf)
-  * [James Hamilton](https://github.com/mrjameshamilton)
-  * [Hannes Van De Vreken](https://github.com/hannesvdvreken)
-  * [Yaniv Davidovitch](https://github.com/YanivD)
-  * [Sam Mousa](https://github.com/sammousa)
   * .. [more?](https://github.com/pda/pheanstalk/contributors) Let me know if you're missing.
 
 
-License
+Licence
 -------
 
 © Paul Annesley

@@ -71,6 +71,12 @@ class AddressController extends Controller
      *                  example="12, 14A"
      *              ),
      *              @SWG\Property(
+     *                  property="jeddah",
+     *                  type="string",
+     *                  description="Jeddah",
+     *                  example="99A"
+     *              ),
+     *              @SWG\Property(
      *                  property="country_id",
      *                  type="integer",
      *                  description="Country ID",
@@ -116,7 +122,7 @@ class AddressController extends Controller
      *                  property="save",
      *                  type="boolean",
      *                  description="Should the address be saved",
-     *                  example="true"
+     *                  example=true
      *              ),
      *          ),
      *        ),
@@ -135,8 +141,9 @@ class AddressController extends Controller
     {
         $validationMessages = [
             'name' => 'required',
-            'block' => 'required',
+            'block' => 'required',            
             'street' => 'required',
+            'jeddah' => 'required',
             'country_id' => 'required|exists:countries,id',
             'governorate_id' => 'required|exists:governorates,id',
             'city_id' => 'required|exists:cities,id',
@@ -254,7 +261,7 @@ class AddressController extends Controller
     /**
      *
      * @SWG\Put(
-     *         path="/user/editAddress/",
+     *         path="/user/editAddress",
      *         tags={"User Address"},
      *         operationId="editAddress",
      *         summary="Edit Address",
@@ -302,6 +309,12 @@ class AddressController extends Controller
      *                  description="Street",
      *                  example="12, 14A"
      *              ),
+     *            @SWG\Property(
+     *                  property="jeddah",
+     *                  type="string",
+     *                  description="Jeddah",
+     *                  example="99A"
+     *              ),
      *              @SWG\Property(
      *                  property="country_id",
      *                  type="integer",
@@ -348,7 +361,7 @@ class AddressController extends Controller
      *                  property="save",
      *                  type="boolean",
      *                  description="Should the address be saved",
-     *                  example="true"
+     *                  example=true
      *              ),
      *          ),
      *        ),
@@ -370,6 +383,7 @@ class AddressController extends Controller
             'name' => 'required',
             'block' => 'required',
             'street' => 'required',
+            'jeddah' => 'required',
             'country_id' => 'required|exists:countries,id',
             'governorate_id' => 'required|exists:governorates,id',
             'city_id' => 'required|exists:cities,id',
@@ -640,12 +654,49 @@ class AddressController extends Controller
         return collect($cities);
     }
 
+     /**
+     *
+     * @SWG\Get(
+     *         path="/user/getAddressTitles",
+     *         tags={"User Address"},
+     *         operationId="getAddressTitles",
+     *         summary="Get address title",
+     *         security={{"ApiAuthentication":{}}},
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
+    public function getAddressTitles(Request $request)
+    {
+        $titles = Address::titles();
+        return collect($titles);
+    }
+
+
     private function createAddress($request)
     {
         $address = Address::create([
             'name' => $request->name,
             'block' => $request->block,
             'street' => $request->street,
+            'jeddah' => $request->jeddah,
             'country_id' => $request->country_id,
             'governorate_id' => $request->governorate_id,
             'city_id' => $request->city_id,
@@ -666,6 +717,7 @@ class AddressController extends Controller
             'name' => $request->name,
             'block' => $request->block,
             'street' => $request->street,
+            'jeddah' => $request->jeddah,
             'country_id' => $request->country_id,
             'governorate_id' => $request->governorate_id,
             'city_id' => $request->city_id,

@@ -12,6 +12,7 @@ use App\RegisteredUser;
 use App\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Contact;
 
 class UserProfileController extends Controller
 {
@@ -379,6 +380,40 @@ class UserProfileController extends Controller
         return response()->json([
             'message' => LanguageManagement::getLabel('text_successLoggout', $this->language),
         ]);
+    }
+
+      /**
+     *
+     * @SWG\Get(
+     *         path="/user/getEmail",
+     *         tags={"User Profile"},
+     *         operationId="getEmail",
+     *         summary="Get User's emai;'",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
+    public function getEmail()
+    {
+        $page = Contact::find(1);
+        return response()->json($page);
     }
 
     

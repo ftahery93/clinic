@@ -7,6 +7,7 @@ use App\Shipment;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App;
 
 class Company extends Authenticatable
 {
@@ -20,15 +21,15 @@ class Company extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'image', 'mobile', 'status', 'approved', 'country_id', 'rating'];
-
+        'name', 'email', 'password', 'image', 'mobile', 'status', 'approved', 'country_id', 'rating','description_en','description_ar'];
+        protected $appends = ['description'];
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
     protected $hidden = [
-        'password', 'created_at', 'updated_at', 'approved', 'country_id', 'status',
+        'password', 'created_at', 'updated_at', 'approved', 'country_id', 'status','description_en','description_ar'
     ];
 
     // Probably on the user model, but pick wherever the data is
@@ -53,6 +54,11 @@ class Company extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new CompanyResetPassword($token));
+    }
+
+    public function getDescriptionAttribute()
+    {
+        return $this->{'description_' . App::getLocale()};
     }
 
 }

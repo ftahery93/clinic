@@ -6,11 +6,13 @@ use App\City;
 use App\Country;
 use App\Governorate;
 use Illuminate\Database\Eloquent\Model;
+use DB;
+use App;
 
 class Address extends Model
 {
     protected $table = "addresses";
-    protected $fillable = array('name', 'block', 'street', 'country_id', 'city_id', 'governorate_id', 'building', 'notes', 'user_id', 'details', 'status', 'mobile', 'save');
+    protected $fillable = array('name', 'block', 'street', 'country_id', 'city_id', 'governorate_id', 'building', 'notes', 'user_id', 'details', 'status', 'mobile', 'save', 'jeddah');
     protected $hidden = array('created_at', 'updated_at', 'user_id', 'status', 'country_id', 'governorate_id', 'city_id', 'area', 'save');
     protected $appends = ['country', 'city', 'governorate'];
 
@@ -35,6 +37,15 @@ class Address extends Model
     {
         return Governorate::find($this->{'governorate_id'});
         //return $governorate->name;
+    }
+
+    public static function titles()
+    {
+        $name = 'name_en';
+        if(App::getLocale() == 'ar'){
+            $name = 'name_ar';
+        }
+        return DB::table('address_titles')->select('id',$name.' AS name')->get();
     }
 
 }

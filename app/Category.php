@@ -3,15 +3,17 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App;
 
 class Category extends Model
 {
 
     protected $guarded = ['uploaded_image_removed'];
     protected $table = "categories";
-    protected $fillable = ['name'];
-    protected $hidden = ['created_at', 'updated_at', 'description', 'image', 'parent_id', 'status'];
-
+    protected $fillable = ['name_en','name_ar'];
+    protected $hidden = ['created_at', 'updated_at', 'description', 'image', 'parent_id', 'status','name_en','name_ar'];
+    protected $appends = ['name'];
+    
     public function getCategories()
     {
 
@@ -46,5 +48,11 @@ class Category extends Model
 
         return $categories;
     }
+
+    public function getNameAttribute()
+    {
+        return $this->{'name_' . App::getLocale()};
+    }
+
 
 }

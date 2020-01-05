@@ -191,7 +191,7 @@ class AuthController extends Controller
     {
         $validator = [
             'idToken' => 'required',
-            'mobile' => 'bail|required|digits:8',
+            'mobile' => 'bail|required',
             'country_id' => 'required|exists:countries,id',
             'player_id' => 'required',
             'device_type' => 'required',

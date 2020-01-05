@@ -1,9 +1,9 @@
 #!/usr/bin/env php
 <?php
 
-define('BASE_DIR', realpath(__DIR__.'/..'));
-define('PHAR_FILENAME', 'pheanstalk.phar');
-define('PHAR_FULLPATH', BASE_DIR.'/'.PHAR_FILENAME);
+define('BASE_DIR', realpath(__DIR__ . '/..'));
+define('PHAR_PATH', BASE_DIR . '/pheanstalk.phar');
+define('PHAR_FILENAME', basename(PHAR_PATH));
 
 // ----------------------------------------
 
@@ -34,24 +34,38 @@ function reexecute_if_phar_readonly($argv)
 
 function delete_existing_pheanstalk_phar()
 {
-    if (file_exists(PHAR_FULLPATH)) {
+    if (file_exists(PHAR_PATH)) {
         printf("- Deleting existing %s\n", PHAR_FILENAME);
-        unlink(PHAR_FULLPATH);
+        unlink(PHAR_PATH);
     }
 }
 
 function build_pheanstalk_phar()
 {
-    printf("- Building %s from %s\n", PHAR_FILENAME, BASE_DIR);
-    $phar = new Phar(PHAR_FULLPATH);
-    $phar->buildFromDirectory(BASE_DIR);
-    $phar->setStub(
-        $phar->createDefaultStub('vendor/autoload.php')
-    );
+    $classDir = BASE_DIR . '/classes';
+    printf("- Building %s from %s\n", PHAR_FILENAME, $classDir);
+    $phar = new Phar(PHAR_PATH);
+    $phar->buildFromDirectory($classDir);
+    $phar->setStub(pheanstalk_phar_stub());
+}
+
+function pheanstalk_phar_stub()
+{
+	$pheanstalkInit = BASE_DIR . '/pheanstalk_init.php';
+	printf("- Generating Phar stub based on %s\n", basename($pheanstalkInit));
+	$stub = file_get_contents($pheanstalkInit);
+	$stub = str_replace('<?php', '', $stub);
+	$stub = str_replace("dirname(__FILE__) . '/classes';", "'phar://' . __FILE__;", $stub);
+	return implode(array(
+		'<?php',
+		'Phar::mapPhar();',
+		$stub,
+		'__HALT_COMPILER();'
+	), PHP_EOL);
 }
 
 function verify_pheanstalk_phar()
 {
-    $phar = new Phar(PHAR_FULLPATH);
+    $phar = new Phar(PHAR_PATH);
     printf("- %s built with %d files.\n", PHAR_FILENAME, $phar->count());
 }

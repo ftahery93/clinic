@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ad1fc6ebbd18fd684ef47dbb4c505e1",
+    "content-hash": "66e043c79618543d798f4de70ed80b41",
     "packages": [
         {
             "name": "anhskohbo/no-captcha",
@@ -122,12 +122,12 @@
             "version": "v0.11.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/barryvdh/laravel-cors.git",
+                "url": "https://github.com/fruitcake/laravel-cors.git",
                 "reference": "c95ac944f2f20a17949aae6645692dfd3b402bca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-cors/zipball/c95ac944f2f20a17949aae6645692dfd3b402bca",
+                "url": "https://api.github.com/repos/fruitcake/laravel-cors/zipball/c95ac944f2f20a17949aae6645692dfd3b402bca",
                 "reference": "c95ac944f2f20a17949aae6645692dfd3b402bca",
                 "shasum": ""
             },
@@ -1623,31 +1623,25 @@
         },
         {
             "name": "pda/pheanstalk",
-            "version": "v4.0.0",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/pheanstalk/pheanstalk.git",
-                "reference": "328708b2cb843c214579a9ac3d1730c074038d6a"
+                "url": "https://github.com/pda/pheanstalk.git",
+                "reference": "672eb5cc9049d61e4eb68d30f0f33de65a947e6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pheanstalk/pheanstalk/zipball/328708b2cb843c214579a9ac3d1730c074038d6a",
-                "reference": "328708b2cb843c214579a9ac3d1730c074038d6a",
+                "url": "https://api.github.com/repos/pda/pheanstalk/zipball/672eb5cc9049d61e4eb68d30f0f33de65a947e6b",
+                "reference": "672eb5cc9049d61e4eb68d30f0f33de65a947e6b",
                 "shasum": ""
             },
             "require": {
-                "ext-mbstring": "*",
-                "php": ">=7.1.0"
-            },
-            "require-dev": {
-                "phpdocumentor/phpdocumentor": "^2",
-                "phpunit/phpunit": "^7",
-                "vimeo/psalm": "^2.0"
+                "php": ">=5.3.0"
             },
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "Pheanstalk\\": "src/"
+                "psr-0": {
+                    "Pheanstalk": "classes/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1660,11 +1654,6 @@
                     "email": "paul@annesley.cc",
                     "homepage": "http://paul.annesley.cc/",
                     "role": "Developer"
-                },
-                {
-                    "name": "Sam Mousa",
-                    "email": "sam@mousa.nl",
-                    "role": "Maintainer"
                 }
             ],
             "description": "PHP client for beanstalkd queue",
@@ -1672,7 +1661,7 @@
             "keywords": [
                 "beanstalkd"
             ],
-            "time": "2019-01-19T15:11:35+00:00"
+            "time": "2014-12-02T22:44:56+00:00"
         },
         {
             "name": "phpoption/phpoption",

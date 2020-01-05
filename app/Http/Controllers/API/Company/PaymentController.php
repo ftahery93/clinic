@@ -214,13 +214,21 @@ class PaymentController extends Controller
         $validator = [
             'isOffer' => 'required|boolean',
             'offer_id' => 'required_if:isOffer,true',
-            'amount' => 'required_if:isOffer,false',
+            'amount' => ['required_if:isOffer,false','regex:/^\d*(\.\d{3})?$/'],
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError != null) {
             return $checkForError;
         }
+
+        if($request->amount < 10){
+            return response()->json([
+                'error' => LanguageManagement::getLabel('no_valid_amount', $this->language),
+            ], 404);
+        }
+
+        die;
 
         $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
         $company = Company::find($request->company_id);

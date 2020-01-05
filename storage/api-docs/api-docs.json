@@ -5,7 +5,7 @@
         "description": "Api description...",
         "version": "1.0.0"
     },
-    "basePath": "/~tvavisa/masafah/api",
+    "basePath": "/masafah/api",
     "paths": {
         "/company/register": {
             "post": {
@@ -1286,6 +1286,61 @@
                 ]
             }
         },
+        "/company/deleteShipments": {
+            "delete": {
+                "tags": [
+                    "Company Shipments"
+                ],
+                "summary": "Delete Company shipments ",
+                "operationId": "deleteShipments",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Add Shipment Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "shipment_ids": {
+                                    "description": "shipment IDs - *(Required)",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "Shipment not found"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
         "/company/getWalletOffers": {
             "get": {
                 "tags": [
@@ -1399,6 +1454,11 @@
                                     "type": "string",
                                     "example": "12, 14A"
                                 },
+                                "jeddah": {
+                                    "description": "Jeddah",
+                                    "type": "string",
+                                    "example": "99A"
+                                },
                                 "country_id": {
                                     "description": "Country ID",
                                     "type": "integer",
@@ -1437,7 +1497,7 @@
                                 "save": {
                                     "description": "Should the address be saved",
                                     "type": "boolean",
-                                    "example": "true"
+                                    "example": true
                                 }
                             }
                         }
@@ -1538,7 +1598,7 @@
                 ]
             }
         },
-        "/user/editAddress/": {
+        "/user/editAddress": {
             "put": {
                 "tags": [
                     "User Address"
@@ -1586,6 +1646,11 @@
                                     "type": "string",
                                     "example": "12, 14A"
                                 },
+                                "jeddah": {
+                                    "description": "Jeddah",
+                                    "type": "string",
+                                    "example": "99A"
+                                },
                                 "country_id": {
                                     "description": "Country ID",
                                     "type": "integer",
@@ -1624,7 +1689,7 @@
                                 "save": {
                                     "description": "Should the address be saved",
                                     "type": "boolean",
-                                    "example": "true"
+                                    "example": true
                                 }
                             }
                         }
@@ -1844,6 +1909,41 @@
                         "description": "Successful"
                     }
                 }
+            }
+        },
+        "/user/getAddressTitles": {
+            "get": {
+                "tags": [
+                    "User Address"
+                ],
+                "summary": "Get address title",
+                "operationId": "getAddressTitles",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
             }
         },
         "/user/register": {
@@ -2317,23 +2417,18 @@
                         "required": true,
                         "schema": {
                             "properties": {
-                                "shipments": {
-                                    "description": "list of shipments",
+                                "address_to_ids": {
+                                    "description": "Address IDs - *(Required)",
                                     "type": "array",
                                     "items": {
-                                        "properties": {
-                                            "category_id": {
-                                                "type": "integer"
-                                            },
-                                            "quantity": {
-                                                "type": "integer"
-                                            },
-                                            "address_to_id": {
-                                                "type": "integer"
-                                            }
-                                        },
-                                        "type": "object"
+                                        "type": "integer",
+                                        "example": 1
                                     }
+                                },
+                                "category_id": {
+                                    "description": "Categgory ID",
+                                    "type": "integer",
+                                    "example": 1
                                 },
                                 "delivery_companies_id": {
                                     "description": "Delivery Company IDs - *(Required)",
@@ -2540,23 +2635,18 @@
                                     "type": "integer",
                                     "example": 1
                                 },
-                                "shipments": {
-                                    "description": "list of shipments",
+                                "address_to_ids": {
+                                    "description": "Address IDs - *(Required)",
                                     "type": "array",
                                     "items": {
-                                        "properties": {
-                                            "category_id": {
-                                                "type": "integer"
-                                            },
-                                            "quantity": {
-                                                "type": "integer"
-                                            },
-                                            "address_to_id": {
-                                                "type": "integer"
-                                            }
-                                        },
-                                        "type": "object"
+                                        "type": "integer",
+                                        "example": 1
                                     }
+                                },
+                                "category_id": {
+                                    "description": "Categgory ID",
+                                    "type": "integer",
+                                    "example": 1
                                 },
                                 "address_from_id": {
                                     "description": "User pick up address id",
@@ -2661,6 +2751,73 @@
                 "responses": {
                     "200": {
                         "description": "Successful"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiAuthentication": []
+                    }
+                ]
+            }
+        },
+        "/user/getAddressPrice": {
+            "post": {
+                "tags": [
+                    "User Shipment"
+                ],
+                "summary": "Get User Address Price",
+                "operationId": "getAddressPrice",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Registration Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "from_governorateid": {
+                                    "description": "Governorate ID",
+                                    "type": "integer",
+                                    "example": 116
+                                },
+                                "from_cityid": {
+                                    "description": "City ID",
+                                    "type": "integer",
+                                    "example": 1018
+                                },
+                                "to_governorateid": {
+                                    "description": "Governorate ID",
+                                    "type": "integer",
+                                    "example": 117
+                                },
+                                "to_cityid": {
+                                    "description": "City ID",
+                                    "type": "integer",
+                                    "example": 1080
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    },
+                    "404": {
+                        "description": "Shipments not found"
                     }
                 },
                 "security": [
@@ -2885,6 +3042,36 @@
                         "ApiAuthentication": []
                     }
                 ]
+            }
+        },
+        "/user/getEmail": {
+            "get": {
+                "tags": [
+                    "User Profile"
+                ],
+                "summary": "Get User's emai;'",
+                "operationId": "getEmail",
+                "parameters": [
+                    {
+                        "name": "Accept-Language",
+                        "in": "header",
+                        "description": "user prefered language",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "Version",
+                        "in": "header",
+                        "description": "1.0.0",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful"
+                    }
+                }
             }
         }
     },

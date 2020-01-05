@@ -193,7 +193,7 @@ class ShipmentController extends Controller
     {
         $shipments = Shipment::where('company_id', $request->company_id)->where(function ($query) {
             $query->where('status', 2)->orWhere('status', 3);
-        })->get();
+        })->orderBy('created_at', 'DESC')->get();
         $response = [];
         foreach ($shipments as $shipment) {
             $shipment = $this->getShipmentDetailsResponse($shipment);
@@ -260,7 +260,7 @@ class ShipmentController extends Controller
         if ($shipment != null && $shipment->company_id == $request->company_id) {
             $shipment = $this->getShipmentDetailsResponse($shipment);
             $shipment["address_from"] = Address::find($shipment->address_from_id);
-            $shipment["address_to"] = Address::find($shipment->address_to_id);
+           // $shipment["address_to"] = Address::find($shipment->address_to_id);
             return collect($shipment);
         } else {
             return response()->json([
@@ -346,13 +346,15 @@ class ShipmentController extends Controller
         }
         $request['use_free_deliveries'] = false;
         $response = $this->getShipmentsPrice($request, $shipments);
-        ReserveShipment::dispatch($shipments)->delay(Carbon::now()->addSeconds(30));
+        ReserveShipment::dispatch($shipments)->delay(Carbon::now()->addSeconds(60));
+        $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
         return response()->json([
             'message' => LanguageManagement::getLabel('reserve_success', $this->language),
             'shipment_prices' => $shipmentPrices,
             'total_amount' => $response["total_amount"],
             'free_deliveries_used' => $response["free_deliveries_used"],
             'wallet_amount_used' => $response["wallet_amount_used"],
+            'wallet_balance'=>$wallet->balance,
             'free_deliveries_available' => $freeDeliveries->quantity,
         ]);
     }
@@ -793,7 +795,7 @@ class ShipmentController extends Controller
      */
     public function getShipmentHistory(Request $request)
     {
-        $shipments = Shipment::where('company_id', $request->company_id)->where('status', 4)->get();
+        $shipments = Shipment::where('company_id', $request->company_id)->where('status', 4)->where('company_status', '!=', 1)->orderBy('created_at', 'DESC')->get();
         $response = [];
         foreach ($shipments as $shipment) {
             $shipment = $this->getShipmentDetailsResponse($shipment);
@@ -854,6 +856,66 @@ class ShipmentController extends Controller
         ], 404);
     }
 
+    /**
+     *
+     * @SWG\Delete(
+     *         path="/company/deleteShipments",
+     *         tags={"Company Shipments"},
+     *         operationId="deleteShipments",
+     *         summary="Delete Company shipments ",
+     *         security={{"ApiAuthentication":{}}},
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Add Shipment Body",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="shipment_ids",
+     *                  type="array",
+     *                  description="shipment IDs - *(Required)",
+     *                  @SWG\items(
+     *                      type="integer",
+     *                      example=1
+     *                  ), 
+     *               ),
+     *        ),
+     * ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=404,
+     *             description="Shipment not found"
+     *        ),
+     *     )
+     *
+     */
+    public function deleteShipments(Request $request)
+    {
+        $ids = $request->shipment_ids;       
+        Shipment::whereIn('id',$ids)->update([
+            'company_status' => 1,
+        ]);
+        return response()->json([
+            'message' => LanguageManagement::getLabel('deleted_shipment_success', $this->language),
+        ]);
+    }
+
     public function getShipmentsPrice($request, $shipments)
     {
         $totalShipments = count($request->shipment_ids);
@@ -907,25 +969,44 @@ class ShipmentController extends Controller
         return $response;
     }
 
+    // private function getShipmentDetailsResponse($shipment)
+    // {
+    //     $items = [];
+    //     $categories = $shipment->categories()->get();
+    //     $groupedCategories = collect($categories)->groupBy('pivot.address_to_id');
+    //     $groupingCategories = [];
+    //     foreach ($groupedCategories as $categories) {
+    //         $eachCategory["address_to"] = Address::find($categories[0]->pivot->address_to_id);
+    //         $items = [];
+    //         foreach ($categories as $category) {
+    //             $item["category_id"] = $category->id;
+    //             $item["category_name"] = $category->name;
+    //             $item["quantity"] = $category->pivot->quantity;
+    //             $items[] = $item;
+    //         }
+    //         $eachCategory["products"] = $items;
+    //         $groupingCategories[] = $eachCategory;
+    //     }
+    //     $shipment["items"] = $groupingCategories;
+    //     return $shipment;
+    // }
+
     private function getShipmentDetailsResponse($shipment)
     {
-        $items = [];
-        $categories = $shipment->categories()->get();
-        $groupedCategories = collect($categories)->groupBy('pivot.address_to_id');
-        $groupingCategories = [];
-        foreach ($groupedCategories as $categories) {
-            $eachCategory["address_to"] = Address::find($categories[0]->pivot->address_to_id);
-            $items = [];
-            foreach ($categories as $category) {
-                $item["category_id"] = $category->id;
-                $item["category_name"] = $category->name;
-                $item["quantity"] = $category->pivot->quantity;
-                $items[] = $item;
-            }
-            $eachCategory["products"] = $items;
-            $groupingCategories[] = $eachCategory;
+        $item = [];
+        
+        $categories = $shipment->categories()->first();
+        $address_to_ids = $shipment->addresses()->get();
+         
+        $shipment["address_from"] = Address::find($shipment->address_from_id);
+        if($categories){
+            $item["category_id"] = $categories->id;
+            $item["category_name"] = $categories->name;
         }
-        $shipment["items"] = $groupingCategories;
+       
+        $shipment["category"] = $item;
+        $shipment["addresses"] = $address_to_ids;
+       
         return $shipment;
     }
 

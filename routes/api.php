@@ -33,6 +33,7 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     Route::get('/user/getCitiesByGovernorate/{governorate_id}', 'API\User\AddressController@getCitiesByGovernorate');
     Route::get('/user/getAddressById/{address_id}', 'API\User\AddressController@getAddressById');
     Route::get('/user/getGovernorateByCity/{city_id}', 'API\User\AddressController@getGovernorateByCity');
+    Route::get('/user/getAddressTitles', 'API\User\AddressController@getAddressTitles');
 
     /* User shipments  */
     Route::post('/user/addShipment', 'API\User\ShipmentController@addShipment');
@@ -43,6 +44,7 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     Route::delete('/user/deleteShipmentById/{shipment_id}', 'API\User\ShipmentController@deleteShipmentById');
 
     Route::get('/user/getShipmentHistory', 'API\User\ShipmentController@getShipmentHistory');
+    Route::post('/user/getAddressPrice', 'API\User\ShipmentController@getAddressPrice');
 
     /* Price API */
     Route::post('/user/getShipmentPrice', 'API\User\PriceController@getShipmentPrice');
@@ -82,6 +84,7 @@ Route::group(['middleware' => ['checkAuth', 'checkCompanyVersion']], function ()
     Route::get('/company/markShipmentAsPicked/{shipment_id}', 'API\Company\ShipmentController@markShipmentAsPicked');
     Route::get('/company/markShipmentAsDelivered/{shipment_id}', 'API\Company\ShipmentController@markShipmentAsDelivered');
     Route::get('/company/getShipmentDetailsForDeliveries/{shipment_id}', 'API\Company\ShipmentController@getShipmentDetailsForDeliveries');
+    Route::delete('/company/deleteShipments', 'API\Company\ShipmentController@deleteShipments');
 
     /* Company Free deliveries */
     Route::get('/company/getFreeDeliveriesCount', 'API\Company\CompanyProfileController@getFreeDeliveriesCount');
@@ -125,6 +128,8 @@ Route::group(['middleware' => 'checkVersion'], function () {
 
     /* Countries */
     Route::get('/user/getCountries', 'API\User\CountryController@getCountries');
+
+    Route::get('/user/getEmail', 'API\User\UserProfileController@getEmail');
 
 });
 
