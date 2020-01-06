@@ -46,11 +46,11 @@ class Address extends Model
             $name = 'name_ar';
         }
         $return = DB::table('address_titles')
-        ->select($name.' AS name')
+        ->select('id',$name.' AS name')
         ->where('id',$this->{'title_id'})
         ->first(); 
 
-        return $return->name;    
+        return $return;    
     }
 
     public static function titles()
