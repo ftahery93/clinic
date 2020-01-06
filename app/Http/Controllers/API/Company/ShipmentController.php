@@ -191,9 +191,12 @@ class ShipmentController extends Controller
      */
     public function getMyShipments(Request $request)
     {
-        $shipments = Shipment::where('company_id', $request->company_id)->where(function ($query) {
-            $query->where('status', 2)->orWhere('status', 3);
-        })->orderBy('created_at', 'DESC')->get();
+        $shipments = Shipment::where('company_id', $request->company_id)
+        ->where(function ($query) {
+           $query->where('status', 2)->orWhere('status', 3);
+        })
+        ->orderBy('created_at', 'DESC')->get();
+       
         $response = [];
         foreach ($shipments as $shipment) {
             $shipment = $this->getShipmentDetailsResponse($shipment);

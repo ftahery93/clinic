@@ -43,4 +43,9 @@ class Shipment extends Model
     {
         return $this->belongsToMany(Company::class);
     }
+
+    public function getIsSingleAttribute($value)
+    {
+        return $value ? true : false;
+    }
 }
