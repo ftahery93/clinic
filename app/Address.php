@@ -14,7 +14,7 @@ class Address extends Model
     protected $table = "addresses";
     protected $fillable = array('name', 'block', 'street', 'country_id', 'city_id', 'governorate_id', 'building', 'notes', 'user_id', 'details', 'status', 'mobile', 'save', 'jeddah','title_id');
     protected $hidden = array('created_at', 'updated_at', 'user_id', 'status', 'country_id', 'governorate_id', 'city_id', 'area', 'save');
-    protected $appends = ['country', 'city', 'governorate'];
+    protected $appends = ['country', 'city', 'governorate', 'title'];
 
     public function city()
     {
@@ -37,6 +37,20 @@ class Address extends Model
     {
         return Governorate::find($this->{'governorate_id'});
         //return $governorate->name;
+    }
+
+    public function getTitleAttribute()
+    {
+        $name = 'name_en';
+        if(App::getLocale() == 'ar'){
+            $name = 'name_ar';
+        }
+        $return = DB::table('address_titles')
+        ->select($name.' AS name')
+        ->where('id',$this->{'title_id'})
+        ->first(); 
+
+        return $return->name;    
     }
 
     public static function titles()
