@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Shipment extends Model
 {
     protected $table = "shipments";
-    protected $fillable = array('address_from_id', 'city_id_from', 'city_id_to', 'is_today', 'pickup_time_from', 'pickup_time_to', 'quantity', 'user_id', 'status', 'company_id', 'price', 'payment_type','is_single');
+    protected $fillable = array('address_from_id', 'city_id_from', 'city_id_to', 'is_today', 'pickup_time_from', 'pickup_time_to', 'quantity', 'user_id', 'status', 'company_id', 'price', 'payment_type','is_single','date');
     protected $hidden = array('name', 'image', 'description', 'updated_at', 'address_from_id', 'company_id', 'city_id_from', 'city_id_to', 'address_to_id');
 
     public function categories()

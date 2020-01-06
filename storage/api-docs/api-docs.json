@@ -811,7 +811,7 @@
             }
         },
         "/company/getPendingShipments": {
-            "get": {
+            "post": {
                 "tags": [
                     "Company Shipments"
                 ],
@@ -833,18 +833,33 @@
                         "type": "string"
                     },
                     {
-                        "name": "from_id",
-                        "in": "query",
-                        "description": "145",
-                        "required": false,
-                        "type": "integer"
-                    },
-                    {
-                        "name": "to_id",
-                        "in": "query",
-                        "description": "11",
-                        "required": false,
-                        "type": "integer"
+                        "name": "Registration Body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "from_governorateid": {
+                                    "description": "Governorate ID",
+                                    "type": "integer",
+                                    "example": 116
+                                },
+                                "to_governorateid": {
+                                    "description": "Governorate ID",
+                                    "type": "integer",
+                                    "example": 117
+                                },
+                                "from_cityid": {
+                                    "description": "City ID",
+                                    "type": "integer",
+                                    "example": 1018
+                                },
+                                "to_cityid": {
+                                    "description": "City ID",
+                                    "type": "integer",
+                                    "example": 1080
+                                }
+                            }
+                        }
                     }
                 ],
                 "responses": {
@@ -1439,6 +1454,11 @@
                         "required": true,
                         "schema": {
                             "properties": {
+                                "title_id": {
+                                    "description": "Address Title ID",
+                                    "type": "integer",
+                                    "example": 1
+                                },
                                 "name": {
                                     "description": "Address name",
                                     "type": "string",
@@ -1630,6 +1650,11 @@
                                     "description": "Address ID - * Required",
                                     "type": "integer",
                                     "example": 24
+                                },
+                                "title_id": {
+                                    "description": "Address Title ID",
+                                    "type": "integer",
+                                    "example": 1
                                 },
                                 "name": {
                                     "description": "Address name",
@@ -2453,10 +2478,10 @@
                                     "type": "string",
                                     "example": "10:00"
                                 },
-                                "pickup_time_to": {
-                                    "description": "Parcel pickup time",
+                                "date": {
+                                    "description": "Date Format YYYY-MM-DD",
                                     "type": "string",
-                                    "example": "18:00"
+                                    "example": "2020-01-10"
                                 }
                             }
                         }
@@ -2663,10 +2688,10 @@
                                     "type": "string",
                                     "example": "10:00"
                                 },
-                                "pickup_time_to": {
-                                    "description": "Parcel pickup time",
+                                "date": {
+                                    "description": "Date Format YYYY-MM-DD",
                                     "type": "string",
-                                    "example": "16:00"
+                                    "example": "2020-01-10"
                                 }
                             }
                         }
