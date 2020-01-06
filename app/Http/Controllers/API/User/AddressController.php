@@ -53,6 +53,12 @@ class AddressController extends Controller
      *             required=true,
      *          @SWG\Schema(
      *              @SWG\Property(
+     *                  property="title_id",
+     *                  type="integer",
+     *                  description="Address Title ID",
+     *                  example=1
+     *              ),
+     *              @SWG\Property(
      *                  property="name",
      *                  type="string",
      *                  description="Address name",
@@ -140,6 +146,7 @@ class AddressController extends Controller
     public function addAddress(Request $request)
     {
         $validationMessages = [
+            'title_id' => 'required',
             'name' => 'required',
             'block' => 'required',            
             'street' => 'required',
@@ -291,6 +298,12 @@ class AddressController extends Controller
      *                  description="Address ID - * Required",
      *                  example=24
      *              ),
+     *                @SWG\Property(
+     *                  property="title_id",
+     *                  type="integer",
+     *                  description="Address Title ID",
+     *                  example=1
+     *              ),
      *              @SWG\Property(
      *                  property="name",
      *                  type="string",
@@ -380,6 +393,7 @@ class AddressController extends Controller
     {
         $validationMessages = [
             'id' => 'required',
+            'title_id' => 'required',
             'name' => 'required',
             'block' => 'required',
             'street' => 'required',
@@ -693,6 +707,7 @@ class AddressController extends Controller
     private function createAddress($request)
     {
         $address = Address::create([
+            'title_id' => $request->title_id,
             'name' => $request->name,
             'block' => $request->block,
             'street' => $request->street,
@@ -714,6 +729,7 @@ class AddressController extends Controller
     private function updateAddress($address, $request)
     {
         $address->update([
+            'title_id' => $request->title_id,
             'name' => $request->name,
             'block' => $request->block,
             'street' => $request->street,

@@ -75,7 +75,7 @@ class ShipmentController extends Controller
     }
     /**
      *
-     * @SWG\Get(
+     * @SWG\Post(
      *         path="/company/getPendingShipments",
      *         tags={"Company Shipments"},
      *         operationId="getPendingShipments",
@@ -94,21 +94,38 @@ class ShipmentController extends Controller
      *             required=true,
      *             type="string",
      *             description="1.0.0",
+     *        ),@SWG\Parameter(
+     *             name="Registration Body",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="from_governorateid",
+     *                  type="integer",
+     *                  description="Governorate ID",
+     *                  example=116
+     *              ),      
+     *         @SWG\Property(
+     *                  property="to_governorateid",
+     *                  type="integer",
+     *                  description="Governorate ID",
+     *                  example=117
+     *              ),
+     *          @SWG\Property(
+     *                  property="from_cityid",
+     *                  type="integer",
+     *                  description="City ID",
+     *                  example=1018
+     *              ),
+     *          @SWG\Property(
+     *                  property="to_cityid",
+     *                  type="integer",
+     *                  description="City ID",
+     *                  example=1080
+     *              ),
+     *          ),
      *        ),
-     *        @SWG\Parameter(
-     *             name="from_id",
-     *             in="query",
-     *             required=false,
-     *             type="integer",
-     *             description="145",
-     *        ),
-     *        @SWG\Parameter(
-     *             name="to_id",
-     *             in="query",
-     *             required=false,
-     *             type="integer",
-     *             description="11",
-     *        ),
+     *                
      *        @SWG\Response(
      *             response=200,
      *             description="Successful"
@@ -123,14 +140,17 @@ class ShipmentController extends Controller
     public function getPendingShipments(Request $request)
     {
         $validator = [
-            'from_id' => 'sometimes|required|exists:cities,id',
-            'to_id' => 'sometimes|required|exists:cities,id',
+            'from_governorateid' => 'sometimes|required|numeric|exists:governorates,id',                      
+            'to_governorateid' => 'sometimes|required|numeric|exists:governorates,id',
+            'from_cityid' => 'sometimes|required|numeric|exists:cities,id', 
+            'to_cityid' => 'sometimes|required|numeric|exists:cities,id',
         ];
 
         $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForMessages) {
             return $checkForMessages;
         }
+   
         $company = Company::find($request->company_id);
 
         if ($company == null) {
@@ -145,8 +165,8 @@ class ShipmentController extends Controller
         }
 
         //return response()->json($companyShipments);
-        $shipments = $this->getShipmentsBasedOnCityId($request, $companyShipments);
-
+        $shipments = $this->getShipmentsBasedOnFilter($request, $companyShipments);
+     
         $response = [];
         if (count($shipments) > 0) {
             foreach ($shipments as $shipment) {
@@ -1013,14 +1033,49 @@ class ShipmentController extends Controller
         return $shipment;
     }
 
+    private function getShipmentsBasedOnFilter($request, $companyShipments)
+    {    
+        $return = Shipment::select('shipments.*')
+        ->join('shipment_price', 'shipment_price.shipment_id', '=', 'shipments.id');
+        if ((!empty($request->from_cityid) && empty($request->to_cityid)) || (empty($request->from_cityid) && !empty($request->to_cityid))) {
+            $return->where(function ($query) use($request) {
+            $query->where('shipment_price.city_from_id', $request->from_cityid)
+                  ->orWhere('shipment_price.city_to_id', $request->to_cityid);
+        });
+     }
+     if (!empty($request->from_cityid) && !empty($request->to_cityid)) {
+        $return->orWhere(function ($query) use($request){
+            $query->where('shipment_price.city_from_id', $request->from_cityid)
+                  ->Where('shipment_price.city_to_id', $request->to_cityid);
+        });
+     }
+    
+     if ((!empty($request->from_governorateid) && empty($request->to_governorateid)) || (empty($request->from_governorateid) && !empty($request->to_governorateid))) {
+        $return->orWhere(function ($query) use($request) {
+            $query->where('shipment_price.governorate_from_id', $request->from_governorateid)
+                  ->orWhere('shipment_price.governorate_to_id', $request->to_governorateid);
+        });
+    }
+
+        if (!empty($request->from_governorateid) && !empty($request->to_governorateid)) {
+        $return->orWhere(function ($query) use($request) {
+            $query->where('shipment_price.governorate_from_id', $request->from_governorateid)
+                  ->Where('shipment_price.governorate_to_id', $request->to_governorateid);
+        });
+      }
+      $return->groupBy('shipments.id');
+       $return= $return->get();
+       return $return;
+    }
+
     private function getShipmentsBasedOnCityId($request, $companyShipments)
     {
-        if (!empty($request->from_id) && !empty($request->to_id)) {
-            $shipments = $this->findShipmentsWithFromAndToCity($companyShipments, $request->from_id, $request->to_id);
-        } else if (!empty($request->from_id) && empty($request->to_id)) {
-            $shipments = $this->findShipmentsWithOnlyFromCity($companyShipments, $request->from_id);
-        } else if (empty($request->from_id) && !empty($request->to_id)) {
-            $shipments = $this->findShipmentsWithOnlyToCity($companyShipments, $request->to_id);
+        if (!empty($request->from_cityid) && !empty($request->to_cityid)) {
+            $shipments = $this->findShipmentsWithFromAndToCity($companyShipments, $request->from_cityid, $request->to_cityid);
+        } else if (!empty($request->from_cityid) && empty($request->to_cityid)) {
+            $shipments = $this->findShipmentsWithOnlyFromCity($companyShipments, $request->from_cityid);
+        } else if (empty($request->from_cityid) && !empty($request->to_cityid)) {
+            $shipments = $this->findShipmentsWithOnlyToCity($companyShipments, $request->to_cityid);
         } else {
             $shipments = collect($companyShipments)->where('status', 1)->values()->all();
         }

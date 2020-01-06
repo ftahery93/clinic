@@ -107,10 +107,10 @@ class ShipmentController extends Controller
      *                  example="10:00"
      *              ),
      *              @SWG\Property(
-     *                  property="pickup_time_to",
+     *                  property="date",
      *                  type="string",
-     *                  description="Parcel pickup time",
-     *                  example="18:00"
+     *                  description="Date Format YYYY-MM-DD",
+     *                  example="2020-01-10"
      *              ),
      *          ),
      *        ),
@@ -138,14 +138,14 @@ class ShipmentController extends Controller
             'address_from_id' => 'required|exists:addresses,id',
             'is_today' => 'required|boolean',
             'pickup_time_from' => 'required',
-            'pickup_time_to' => 'required',
+            'date' => 'required_if:is_today,false|date|date_format:Y-m-d',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
         if ($checkForError) {
             return $checkForError;
         }
-
+       
         $shipment = new Shipment();
         $address_from = Address::find($request->address_from_id);
         //$address_to = Address::find($request->address_to_id);
@@ -170,6 +170,10 @@ class ShipmentController extends Controller
         $shipment->user_id = $request->user_id;
         $shipment->status = 1;
         $shipment->payment_type = 1;
+
+        if($request->date){
+            $shipment->date = $request->date;
+        }
 
         $citiesNameAr = "";
         $citiesNameEn = "";
@@ -501,11 +505,11 @@ class ShipmentController extends Controller
      *                  description="Parcel pickup time",
      *                  example="10:00"
      *              ),
-     *              @SWG\Property(
-     *                  property="pickup_time_to",
+     *            @SWG\Property(
+     *                  property="date",
      *                  type="string",
-     *                  description="Parcel pickup time",
-     *                  example="16:00"
+     *                  description="Date Format YYYY-MM-DD",
+     *                  example="2020-01-10"
      *              ),
      *          ),
      *        ),
@@ -537,7 +541,7 @@ class ShipmentController extends Controller
             //'address_to_id' => 'required',
             'is_today' => 'required|boolean',
             'pickup_time_from' => 'required_if:is_today,false',
-            'pickup_time_to' => 'required_if:is_today,false',
+            'date' => 'required_if:is_today,false|date|date_format:Y-m-d',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
@@ -571,6 +575,13 @@ class ShipmentController extends Controller
                 'status' => 1,
                 'payment_type' => 1,
             ]);
+
+            if($request->date){               
+                $shipment->update([
+                    'date' => $request->date
+                ]);
+            }
+            
         
             $shipment->addresses()->sync($request->address_to_ids);
            
@@ -820,10 +831,10 @@ class ShipmentController extends Controller
 
             if ($price_from >= $price_to) {
                 $price = $price + $price_from;
-                $this->createShipmentPrice($shipment, $address_from->city_id, $city_to->id, $price_from);
+                $this->createShipmentPrice($shipment, $address_from->city_id, $city_to->id,$address_from->governorate_id, $address_to->governorate_id, $price_from);
             } else {
                 $price = $price + $price_to;
-                $this->createShipmentPrice($shipment, $address_from->city_id, $city_to->id, $price_to);
+                $this->createShipmentPrice($shipment, $address_from->city_id, $city_to->id,$address_from->governorate_id, $address_to->governorate_id, $price_to);
             }
 
             if ($iterator < 2) {
@@ -849,12 +860,14 @@ class ShipmentController extends Controller
         return $price_from;
     }
 
-    public function createShipmentPrice($shipment, $city_from_id, $city_to_id, $price)
+    public function createShipmentPrice($shipment, $city_from_id, $city_to_id,$governorate_from_id, $governorate_to_id, $price)
     {
         ShipmentPrice::create([
             'shipment_id' => $shipment->id,
             'city_from_id' => $city_from_id,
             'city_to_id' => $city_to_id,
+            'governorate_from_id' => $governorate_from_id,
+            'governorate_to_id' => $governorate_to_id,
             'price' => $price,
         ]);
     }
