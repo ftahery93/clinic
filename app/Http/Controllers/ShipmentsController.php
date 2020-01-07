@@ -9,6 +9,7 @@ use DB;
 use Illuminate\Config;
 use Redirect;
 use Response;
+use App;
 
 class ShipmentsController extends Controller
 {
@@ -60,10 +61,15 @@ class ShipmentsController extends Controller
 
         $categories = array();
 
+        $name = 'categories.name_en';
+        if(App::getLocale() == 'ar'){
+            $name = 'categories.name_ar';
+        }
+
         $categories = DB::table('shipments')
             ->leftJoin('category_shipment', 'category_shipment.shipment_id', '=', 'shipments.id')
             ->leftJoin('categories', 'categories.id', '=', 'category_shipment.category_id')
-            ->select('categories.name', 'category_shipment.quantity')
+            ->select($name.' AS name', 'category_shipment.quantity')
             ->where('shipments.id', '=', $id)
             ->get();
 

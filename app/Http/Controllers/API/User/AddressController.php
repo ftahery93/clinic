@@ -57,13 +57,7 @@ class AddressController extends Controller
      *                  type="integer",
      *                  description="Address Title ID",
      *                  example=1
-     *              ),
-     *              @SWG\Property(
-     *                  property="name",
-     *                  type="string",
-     *                  description="Address name",
-     *                  example="Home, office"
-     *              ),
+     *              ),               
      *              @SWG\Property(
      *                  property="block",
      *                  type="string",
@@ -147,7 +141,7 @@ class AddressController extends Controller
     {
         $validationMessages = [
             'title_id' => 'required',
-            'name' => 'required',
+            // 'name' => 'required',
             'block' => 'required',            
             'street' => 'required',
             'jeddah' => 'required',
@@ -303,13 +297,7 @@ class AddressController extends Controller
      *                  type="integer",
      *                  description="Address Title ID",
      *                  example=1
-     *              ),
-     *              @SWG\Property(
-     *                  property="name",
-     *                  type="string",
-     *                  description="Address name",
-     *                  example="Home, office"
-     *              ),
+     *              ),                
      *              @SWG\Property(
      *                  property="block",
      *                  type="string",
@@ -394,7 +382,7 @@ class AddressController extends Controller
         $validationMessages = [
             'id' => 'required',
             'title_id' => 'required',
-            'name' => 'required',
+           // 'name' => 'required',
             'block' => 'required',
             'street' => 'required',
             'jeddah' => 'required',
