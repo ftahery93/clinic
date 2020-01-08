@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API\Company;
 
 use App;
@@ -140,9 +141,9 @@ class ShipmentController extends Controller
     public function getPendingShipments(Request $request)
     {
         $validator = [
-            'from_governorateid' => 'sometimes|required|numeric|exists:governorates,id',                      
+            'from_governorateid' => 'sometimes|required|numeric|exists:governorates,id',
             'to_governorateid' => 'sometimes|required|numeric|exists:governorates,id',
-            'from_cityid' => 'sometimes|required|numeric|exists:cities,id', 
+            'from_cityid' => 'sometimes|required|numeric|exists:cities,id',
             'to_cityid' => 'sometimes|required|numeric|exists:cities,id',
         ];
 
@@ -150,7 +151,7 @@ class ShipmentController extends Controller
         if ($checkForMessages) {
             return $checkForMessages;
         }
-   
+
         $company = Company::find($request->company_id);
 
         if ($company == null) {
@@ -166,7 +167,7 @@ class ShipmentController extends Controller
 
         //return response()->json($companyShipments);
         $shipments = $this->getShipmentsBasedOnFilter($request, $companyShipments);
-     
+
         $response = [];
         if (count($shipments) > 0) {
             foreach ($shipments as $shipment) {
@@ -178,7 +179,6 @@ class ShipmentController extends Controller
             return response()->json($response);
         }
         return response()->json([]);
-
     }
     /**
      *
@@ -212,11 +212,11 @@ class ShipmentController extends Controller
     public function getMyShipments(Request $request)
     {
         $shipments = Shipment::where('company_id', $request->company_id)
-        ->where(function ($query) {
-           $query->where('status', 2)->orWhere('status', 3);
-        })
-        ->orderBy('created_at', 'DESC')->get();
-       
+            ->where(function ($query) {
+                $query->where('status', 2)->orWhere('status', 3);
+            })
+            ->orderBy('created_at', 'DESC')->get();
+
         $response = [];
         foreach ($shipments as $shipment) {
             $shipment = $this->getShipmentDetailsResponse($shipment);
@@ -283,7 +283,7 @@ class ShipmentController extends Controller
         if ($shipment != null && $shipment->company_id == $request->company_id) {
             $shipment = $this->getShipmentDetailsResponse($shipment);
             $shipment["address_from"] = Address::find($shipment->address_from_id);
-           // $shipment["address_to"] = Address::find($shipment->address_to_id);
+            // $shipment["address_to"] = Address::find($shipment->address_to_id);
             return collect($shipment);
         } else {
             return response()->json([
@@ -377,7 +377,7 @@ class ShipmentController extends Controller
             'total_amount' => $response["total_amount"],
             'free_deliveries_used' => $response["free_deliveries_used"],
             'wallet_amount_used' => $response["wallet_amount_used"],
-            'wallet_balance'=>$wallet->balance,
+            'wallet_balance' => $wallet->balance,
             'free_deliveries_available' => $freeDeliveries->quantity,
         ]);
     }
@@ -930,8 +930,8 @@ class ShipmentController extends Controller
      */
     public function deleteShipments(Request $request)
     {
-        $ids = $request->shipment_ids;       
-        Shipment::whereIn('id',$ids)->update([
+        $ids = $request->shipment_ids;
+        Shipment::whereIn('id', $ids)->update([
             'company_status' => 1,
         ]);
         return response()->json([
@@ -1017,55 +1017,55 @@ class ShipmentController extends Controller
     private function getShipmentDetailsResponse($shipment)
     {
         $item = [];
-        
+
         $categories = $shipment->categories()->first();
         $address_to_ids = $shipment->addresses()->get();
-         
+
         $shipment["address_from"] = Address::find($shipment->address_from_id);
-        if($categories){
+        if ($categories) {
             $item["category_id"] = $categories->id;
-            $item["category_name"] = $categories->name;
+            $item["category_name"] = $categories->{'name_' . App::getLocale()};
         }
-       
+
         $shipment["category"] = $item;
         $shipment["addresses"] = $address_to_ids;
-       
+
         return $shipment;
     }
 
     private function getShipmentsBasedOnFilter($request, $companyShipments)
-    {    
+    {
         $return = Shipment::select('shipments.*')
-        ->join('shipment_price', 'shipment_price.shipment_id', '=', 'shipments.id');
+            ->join('shipment_price', 'shipment_price.shipment_id', '=', 'shipments.id');
         if ((!empty($request->from_cityid) && empty($request->to_cityid)) || (empty($request->from_cityid) && !empty($request->to_cityid))) {
-            $return->where(function ($query) use($request) {
-            $query->where('shipment_price.city_from_id', $request->from_cityid)
-                  ->orWhere('shipment_price.city_to_id', $request->to_cityid);
-        });
-     }
-     if (!empty($request->from_cityid) && !empty($request->to_cityid)) {
-        $return->orWhere(function ($query) use($request){
-            $query->where('shipment_price.city_from_id', $request->from_cityid)
-                  ->Where('shipment_price.city_to_id', $request->to_cityid);
-        });
-     }
-    
-     if ((!empty($request->from_governorateid) && empty($request->to_governorateid)) || (empty($request->from_governorateid) && !empty($request->to_governorateid))) {
-        $return->orWhere(function ($query) use($request) {
-            $query->where('shipment_price.governorate_from_id', $request->from_governorateid)
-                  ->orWhere('shipment_price.governorate_to_id', $request->to_governorateid);
-        });
-    }
+            $return->where(function ($query) use ($request) {
+                $query->where('shipment_price.city_from_id', $request->from_cityid)
+                    ->orWhere('shipment_price.city_to_id', $request->to_cityid);
+            });
+        }
+        if (!empty($request->from_cityid) && !empty($request->to_cityid)) {
+            $return->orWhere(function ($query) use ($request) {
+                $query->where('shipment_price.city_from_id', $request->from_cityid)
+                    ->Where('shipment_price.city_to_id', $request->to_cityid);
+            });
+        }
+
+        if ((!empty($request->from_governorateid) && empty($request->to_governorateid)) || (empty($request->from_governorateid) && !empty($request->to_governorateid))) {
+            $return->orWhere(function ($query) use ($request) {
+                $query->where('shipment_price.governorate_from_id', $request->from_governorateid)
+                    ->orWhere('shipment_price.governorate_to_id', $request->to_governorateid);
+            });
+        }
 
         if (!empty($request->from_governorateid) && !empty($request->to_governorateid)) {
-        $return->orWhere(function ($query) use($request) {
-            $query->where('shipment_price.governorate_from_id', $request->from_governorateid)
-                  ->Where('shipment_price.governorate_to_id', $request->to_governorateid);
-        });
-      }
-      $return->groupBy('shipments.id');
-       $return= $return->get();
-       return $return;
+            $return->orWhere(function ($query) use ($request) {
+                $query->where('shipment_price.governorate_from_id', $request->from_governorateid)
+                    ->Where('shipment_price.governorate_to_id', $request->to_governorateid);
+            });
+        }
+        $return->groupBy('shipments.id');
+        $return = $return->get();
+        return $return;
     }
 
     private function getShipmentsBasedOnCityId($request, $companyShipments)
