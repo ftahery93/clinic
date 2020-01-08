@@ -107,12 +107,6 @@ class AddressController extends Controller
      *                  example="88553854"
      *              ),
      *              @SWG\Property(
-     *                  property="details",
-     *                  type="string",
-     *                  description="Any other address details",
-     *                  example="Al-Kuwait, near Hamra"
-     *              ),
-     *              @SWG\Property(
      *                  property="notes",
      *                  type="string",
      *                  description="Extra user notes",
@@ -141,8 +135,7 @@ class AddressController extends Controller
     {
         $validationMessages = [
             'title_id' => 'required',
-            // 'name' => 'required',
-            'block' => 'required',            
+            'block' => 'required',
             'street' => 'required',
             'jeddah' => 'required',
             'country_id' => 'required|exists:countries,id',
@@ -221,7 +214,6 @@ class AddressController extends Controller
                 'error' => LanguageManagement::getLabel('no_address_found', $this->language),
             ], 404);
         }
-
     }
 
     /**
@@ -382,7 +374,7 @@ class AddressController extends Controller
         $validationMessages = [
             'id' => 'required',
             'title_id' => 'required',
-           // 'name' => 'required',
+            // 'name' => 'required',
             'block' => 'required',
             'street' => 'required',
             'jeddah' => 'required',
@@ -575,7 +567,6 @@ class AddressController extends Controller
 
         $governorate = Governorate::find($city->governorate_id);
         return collect($governorate);
-
     }
 
     /**
@@ -656,7 +647,7 @@ class AddressController extends Controller
         return collect($cities);
     }
 
-     /**
+    /**
      *
      * @SWG\Get(
      *         path="/user/getAddressTitles",
@@ -696,7 +687,6 @@ class AddressController extends Controller
     {
         $address = Address::create([
             'title_id' => $request->title_id,
-            'name' => $request->name,
             'block' => $request->block,
             'street' => $request->street,
             'jeddah' => $request->jeddah,
@@ -706,8 +696,8 @@ class AddressController extends Controller
             'building' => $request->building,
             'mobile' => $request->mobile,
             'notes' => $request->notes,
-            'details' => $request->details,
             'user_id' => $request->user_id,
+            'save' => $request->save,
             'status' => 1,
         ]);
 
@@ -732,5 +722,4 @@ class AddressController extends Controller
         ]);
         return $address;
     }
-
 }
