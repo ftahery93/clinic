@@ -31,7 +31,7 @@ class ShipmentController extends Controller
         //$this->middleware('checkAuth');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
-        App::setlocale($this->language);   
+        App::setlocale($this->language);
     }
 
     public $citiesNameAr;
@@ -145,7 +145,7 @@ class ShipmentController extends Controller
         if ($checkForError) {
             return $checkForError;
         }
-       
+
         $shipment = new Shipment();
         $address_from = Address::find($request->address_from_id);
         //$address_to = Address::find($request->address_to_id);
@@ -171,7 +171,7 @@ class ShipmentController extends Controller
         $shipment->status = 1;
         $shipment->payment_type = 1;
 
-        if($request->date){
+        if ($request->date) {
             $shipment->date = $request->date;
         }
 
@@ -187,10 +187,10 @@ class ShipmentController extends Controller
         $shipment->addresses()->sync($request->address_to_ids);
 
         //foreach ($request->shipments as $eachShipment) {
-           // $address = Address::find($eachShipment['address_to_id']);
-            $shipment->categories()->attach($request->category_id);
-            //['quantity' => $eachShipment["quantity"],
-              //  'address_to_id' => $eachShipment['address_to_id'], 'city_id_to' => $address->city_id, 'city_id_from' => $address_from->city_id]);
+        // $address = Address::find($eachShipment['address_to_id']);
+        $shipment->categories()->attach($request->category_id);
+        //['quantity' => $eachShipment["quantity"],
+        //  'address_to_id' => $eachShipment['address_to_id'], 'city_id_to' => $address->city_id, 'city_id_from' => $address_from->city_id]);
         //}
 
         $companies = Company::findMany($request->delivery_companies_id);
@@ -576,17 +576,17 @@ class ShipmentController extends Controller
                 'payment_type' => 1,
             ]);
 
-            if($request->date){               
+            if ($request->date) {
                 $shipment->update([
                     'date' => $request->date
                 ]);
             }
-            
-        
+
+
             $shipment->addresses()->sync($request->address_to_ids);
-           
-           //$shipment->categories()->detach();
-           $shipment->categories()->sync($request->category_id);
+
+            //$shipment->categories()->detach();
+            $shipment->categories()->sync($request->category_id);
 
             // foreach ($request->shipments as $eachShipment) {
             //     $shipment->categories()->attach($eachShipment["category_id"], ['quantity' => $eachShipment["quantity"], 'address_to_id' => $eachShipment["address_to_id"]]);
@@ -758,7 +758,7 @@ class ShipmentController extends Controller
     {
         $validator = [
             'from_governorateid' => 'required|exists:governorates,id',
-            'from_cityid' => 'required|exists:cities,id',            
+            'from_cityid' => 'required|exists:cities,id',
             'to_governorateid' => 'required|exists:governorates,id',
             'to_cityid' => 'required|exists:cities,id',
         ];
@@ -769,50 +769,50 @@ class ShipmentController extends Controller
         }
 
         $exceptionCities = ExceptionCity::all();
-       
+
         //From Address
-        $governorate_from = Governorate::find($request->from_governorateid);        
+        $governorate_from = Governorate::find($request->from_governorateid);
         $fromValueExists = collect($exceptionCities)->where('city_id', $request->from_cityid)->first();
         $price_from = $this->calculateShipmentFromPrice($fromValueExists, $governorate_from);
 
         //To Address
-        $governorate_to = Governorate::find($request->to_governorateid);        
+        $governorate_to = Governorate::find($request->to_governorateid);
         $toValueExists = collect($exceptionCities)->where('city_id', $request->to_cityid)->first();
-        $price_to= $this->calculateShipmentFromPrice($toValueExists, $governorate_to);
-        $price= $price_to; 
+        $price_to = $this->calculateShipmentFromPrice($toValueExists, $governorate_to);
+        $price = $price_to;
 
         if ($price_from > $price_to) {
             $price = $price_from;
-         } 
+        }
 
-         return response()->json($price);
+        return response()->json($price);
     }
 
     private function getShipmentDetailsResponse($shipment)
     {
         $item = [];
-        
+
         $categories = $shipment->categories()->first();
         $address_to_ids = $shipment->addresses()->get();
-         
+
         $shipment["address_from"] = Address::find($shipment->address_from_id);
-        if($categories){
-            $item["category_id"] = $categories->id;
-            $item["category_name"] = $categories->name;
+        if ($categories) {
+            $item["id"] = $categories->id;
+            $item["name"] = $categories->{'name_' . App::getLocale()};
         }
-       
+
         $shipment["category"] = $item;
         $shipment["addresses"] = $address_to_ids;
-       
+
         return $shipment;
     }
 
     private function calculateShipmentPrice($shipment, $request, $exceptionCities, $price_from, $citiesNameAr, $citiesNameEn)
     {
-       //$groupedShipments = collect($request->shipments)->groupBy('address_to_id');
+        //$groupedShipments = collect($request->shipments)->groupBy('address_to_id');
         $price = 0;
-       // $address_to_ids = array_keys($groupedShipments->toArray());
-       $address_to_ids = $request->address_to_ids;
+        // $address_to_ids = array_keys($groupedShipments->toArray());
+        $address_to_ids = $request->address_to_ids;
 
         global $citiesNameAr;
         global $citiesNameEn;
@@ -831,10 +831,10 @@ class ShipmentController extends Controller
 
             if ($price_from >= $price_to) {
                 $price = $price + $price_from;
-                $this->createShipmentPrice($shipment, $address_from->city_id, $city_to->id,$address_from->governorate_id, $address_to->governorate_id, $price_from);
+                $this->createShipmentPrice($shipment, $address_from->city_id, $city_to->id, $address_from->governorate_id, $address_to->governorate_id, $price_from);
             } else {
                 $price = $price + $price_to;
-                $this->createShipmentPrice($shipment, $address_from->city_id, $city_to->id,$address_from->governorate_id, $address_to->governorate_id, $price_to);
+                $this->createShipmentPrice($shipment, $address_from->city_id, $city_to->id, $address_from->governorate_id, $address_to->governorate_id, $price_to);
             }
 
             if ($iterator < 2) {
@@ -860,7 +860,7 @@ class ShipmentController extends Controller
         return $price_from;
     }
 
-    public function createShipmentPrice($shipment, $city_from_id, $city_to_id,$governorate_from_id, $governorate_to_id, $price)
+    public function createShipmentPrice($shipment, $city_from_id, $city_to_id, $governorate_from_id, $governorate_to_id, $price)
     {
         ShipmentPrice::create([
             'shipment_id' => $shipment->id,
