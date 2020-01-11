@@ -642,8 +642,21 @@ class AddressController extends Controller
      */
     public function getAllCities(Request $request)
     {
+        $items=[];
+        $item=[];
         $cities = City::where('country_code', 'KW')->get();
-        return collect($cities);
+     
+        foreach($cities As $key=>$value){
+            $item['id'] = $value->id;
+            $item['name'] = $value->name;
+            $items[$value->getGovernorate['id']]['governorate_name'] = $value->getGovernorate['name'];
+            $items[$value->getGovernorate['id']]['governorate_id'] = $value->getGovernorate['id'];
+            $items[$value->getGovernorate['id']]['cities'][]=$item;
+            $items[$value->getGovernorate['id']];
+        }
+           
+        return collect($items)->values();
+       
     }
 
     /**

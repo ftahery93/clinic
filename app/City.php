@@ -10,7 +10,7 @@ class City extends Model
 {
     protected $table = "cities";
     protected $fillable = ['name_en', 'name_ar'];
-    protected $hidden = ['created_at', 'updated_at', 'state_name', 'name_en', 'name_ar', 'country_code', 'governorate_id'];
+    protected $hidden = ['created_at', 'updated_at', 'state_name', 'name_en', 'name_ar', 'country_code'];
     protected $appends = ['name'];
 
     public function getNameAttribute()
@@ -26,5 +26,10 @@ class City extends Model
     public function governorate()
     {
         return $this->hasOne(Governorate::class);
+    }
+
+    public function getGovernorate()
+    {
+        return $this->belongsTo(Governorate::class,'governorate_id');
     }
 }
