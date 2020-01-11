@@ -66,13 +66,20 @@ class ShipmentController extends Controller
      */
     public function getMyCities(Request $request)
     {
-        $companyUser = Company::find($request->company_id);
-        $country_id = $companyUser->country_id;
-        $country = Country::find($country_id);
+        $items = [];
+        $item = [];
+        $cities = City::where('country_code', 'KW')->get();
 
-        $cities = City::where('country_code', $country->iso_code_2)->get();
-        $cities = collect($cities)->sortBy('name')->values()->all();
-        return response()->json($cities);
+        foreach ($cities as $key => $value) {
+            $item['id'] = $value->id;
+            $item['name'] = $value->name;
+            $items[$value->getGovernorate['id']]['governorate_name'] = $value->getGovernorate['name'];
+            $items[$value->getGovernorate['id']]['governorate_id'] = $value->getGovernorate['id'];
+            $items[$value->getGovernorate['id']]['cities'][] = $item;
+            $items[$value->getGovernorate['id']];
+        }
+
+        return collect($items)->values();
     }
     /**
      *
