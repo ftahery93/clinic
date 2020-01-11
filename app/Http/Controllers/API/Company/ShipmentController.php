@@ -987,7 +987,7 @@ class ShipmentController extends Controller
         $response['shipment_price_list'] = $shipmentPriceArray;
         $response['total_amount'] = $actualTotalAmount;
         $response['free_deliveries_used'] = $freeShipments;
-        $response['wallet_amount_used'] = $walletAmount;
+        $response['wallet_amount_used'] = sprintf("%0.3f", $walletAmount);
 
         return $response;
     }
