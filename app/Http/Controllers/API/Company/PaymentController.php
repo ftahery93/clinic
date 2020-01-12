@@ -228,8 +228,6 @@ class PaymentController extends Controller
             ], 404);
         }
 
-        die;
-
         $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
         $company = Company::find($request->company_id);
 
