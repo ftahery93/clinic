@@ -556,4 +556,9 @@
   'new_company_user' => 'مستخدم الشركة الجديد',
   'password' => 'كلمه السر',
   'selectCountry' => 'حدد الدولة',
+  'instagram_link' => 'رابط انستغرام',
+  'total' => 'مجموع',
+  'body' => 'الجسم',
+  'contact' => 'اتصل',
+  'address_titles' => 'عناوين العناوين'
  ];

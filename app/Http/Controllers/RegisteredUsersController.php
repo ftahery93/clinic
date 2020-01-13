@@ -51,6 +51,11 @@ class RegisteredUsersController extends Controller
      */
     public function updateAll(Request $request)
     {
+        if(empty($request->ids)){
+             
+            return redirect()->route('registered_users_list');
+        }
+
         if ($request->action == "activate") {
             RegisteredUser::wherein('id', $request->ids)->update(['status' => 1]);
         } elseif ($request->action == "block") {

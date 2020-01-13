@@ -13,11 +13,19 @@
                 {{Form::open(['route'=>['company_users_update',$CompanyUser->id],'method'=>'POST', 'files' => true])}}
                     @if(Helper::GeneralWebmasterSettings("companyusers_status"))
                         <div class="form-group row">
-                            <label for="name"
-                                class="col-sm-2 form-control-label">{!!  trans('backend.name') !!}
+                            <label for="name_en"
+                                class="col-sm-2 form-control-label">{!!  trans('backend.name').' (EN)' !!}
                             </label>
                             <div class="col-sm-10">
-                                {!! Form::text('name',$CompanyUser->name, array('placeholder' => '','class' => 'form-control','id'=>'name','required'=>'', 'dir'=>trans('backend.ltr'))) !!}
+                                {!! Form::text('name_en',$CompanyUser->name_en, array('placeholder' => '','class' => 'form-control','id'=>'name_en','required'=>'', 'dir'=>trans('backend.ltr'))) !!}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="name_ar"
+                                class="col-sm-2 form-control-label">{!!  trans('backend.name').' (AR)' !!}
+                            </label>
+                            <div class="col-sm-10">
+                                {!! Form::text('name_ar',$CompanyUser->name_ar, array('placeholder' => '','class' => 'form-control','id'=>'name_ar','required'=>'', 'dir'=>trans('backend.rtl'))) !!}
                             </div>
                         </div>
                     @endif
@@ -79,11 +87,31 @@
                     @endif
                     @if(Helper::GeneralWebmasterSettings("companyusers_status"))
                         <div class="form-group row">
-                            <label for="description"
-                            class="col-sm-2 form-control-label">{!!  trans('backend.description') !!}
+                            <label for="description_en"
+                            class="col-sm-2 form-control-label">{!!  trans('backend.description').' (EN)' !!}
                             </label>
                             <div class="col-sm-10">
-                            {!! Form::textarea('description',$CompanyUser->description, array('placeholder' => '','class' => 'form-control', 'dir'=>trans('backend.ltr'))) !!}
+                            {!! Form::textarea('description_en',$CompanyUser->description_en, array('placeholder' => '','class' => 'form-control', 'dir'=>trans('backend.ltr'))) !!}
+                            </div>
+                        </div>
+                    @endif
+                    @if(Helper::GeneralWebmasterSettings("companyusers_status"))
+                        <div class="form-group row">
+                            <label for="description_ar"
+                            class="col-sm-2 form-control-label">{!!  trans('backend.description').' (AR)' !!}
+                            </label>
+                            <div class="col-sm-10">
+                            {!! Form::textarea('description_ar',$CompanyUser->description_ar, array('placeholder' => '','class' => 'form-control', 'dir'=>trans('backend.rtl'))) !!}
+                            </div>
+                        </div>
+                    @endif
+                    @if(Helper::GeneralWebmasterSettings("companyusers_status"))
+                        <div class="form-group row">
+                            <label for="instagram_link"
+                            class="col-sm-2 form-control-label">{!!  trans('backend.instagram_link') !!}
+                            </label>
+                            <div class="col-sm-10">
+                            {!! Form::text('instagram_link',$CompanyUser->instagram_link, array('placeholder' => '','class' => 'form-control', 'dir'=>trans('backend.ltr'))) !!}
                             </div>
                         </div>
                     @endif

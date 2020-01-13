@@ -20,7 +20,7 @@ class Shipment extends Model
 
     public function addresses()
     {
-        return $this->belongsToMany(Address::class);
+        return $this->belongsToMany(Address::class)->withPivot(['shipment_price']);
     }
 
 

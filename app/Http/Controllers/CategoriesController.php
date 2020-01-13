@@ -62,11 +62,13 @@ class CategoriesController extends Controller
         }
 
         $this->validate($request, [
-            'name' => 'required',
+            'name_en' => 'required',
+            'name_ar' => 'required',
         ]);
 
         $Category = new Category;
-        $Category->name = $request->name;
+        $Category->name_en = $request->name_en;
+        $Category->name_ar = $request->name_ar;
         $Category->status = $request->status;
         $Category->created_at = date("Y-m-d H:i:s");
         $Category->updated_at = date("Y-m-d H:i:s");
@@ -115,10 +117,12 @@ class CategoriesController extends Controller
         if ($Category != null) {
 
             $this->validate($request, [
-                'name' => 'required',
+                'name_en' => 'required',
+                'name_ar' => 'required',
             ]);
 
-            $Category->name = $request->name;
+            $Category->name_en = $request->name_en;
+            $Category->name_ar = $request->name_ar;
             $Category->status = $request->status;
             $Category->updated_at = date("Y-m-d H:i:s");
             $Category->save();
@@ -173,6 +177,11 @@ class CategoriesController extends Controller
             // Check Permissions
             if (!@Auth::user()->permissionsGroup->delete_status) {
                 return Redirect::to(route('NoPermission'))->send();
+            }
+
+            if(empty($request->ids)){
+             
+                return redirect()->route('categories_list');
             }
 
             Category::wherein('id', $request->ids)

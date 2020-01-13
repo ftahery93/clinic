@@ -44,9 +44,9 @@ class ShipmentsController extends Controller
 
         foreach ($Shipments as $Shipment) {
             $ShipmentDetails[$Shipment->id] = array(
-                'categories' => $this->getCategory($Shipment->id),
-                'toAddress' => $this->getAddress($Shipment->id, 'To'),
-                'fromAddress' => $this->getAddress($Shipment->id, 'From'),
+                'categories' => $this->getCategory($Shipment),
+                'toAddress' => $this->getToAddress($Shipment),
+                'fromAddress' => $this->getFromAddress($Shipment->id),
                 'company' => $this->getCompany($Shipment->id),
                 'registered_user' => $this->getUser($Shipment->id),
                 'transactions' => $this->getTransactions($Shipment->id),
@@ -56,48 +56,32 @@ class ShipmentsController extends Controller
         return view("backend.shipments", compact("Shipments", "ShipmentDetails", "Commission"));
     }
 
-    public function getCategory($id)
+    public function getCategory($Shipment)
     {
-
         $categories = array();
-
-        $name = 'categories.name_en';
-        if(App::getLocale() == 'ar'){
-            $name = 'categories.name_ar';
-        }
-
-        $categories = DB::table('shipments')
-            ->leftJoin('category_shipment', 'category_shipment.shipment_id', '=', 'shipments.id')
-            ->leftJoin('categories', 'categories.id', '=', 'category_shipment.category_id')
-            ->select($name.' AS name', 'category_shipment.quantity')
-            ->where('shipments.id', '=', $id)
-            ->get();
-
+        $categories = $Shipment->categories()->first();
         return $categories;
+    }
+
+    public function getFromAddress($id)
+    {      
+
+        $addresses = DB::table('shipments')
+            ->leftJoin('addresses', 'addresses.id', '=', 'shipments.address_from_id')
+            ->leftJoin('address_titles', 'address_titles.id', '=', 'addresses.title_id')
+            ->select('addresses.mobile','addresses.block', 'addresses.building','addresses.street','address_titles.name_en As name')
+            ->where('shipments.id', '=', $id)
+            ->first();
+        
+        return $addresses;
 
     }
 
-    public function getAddress($id, $string)
-    {
-
-        $addresses = array();
-
-        if ($string = "To") {
-            $joinKey = 'shipments.address_to_id';
-        }
-
-        if ($string = "From") {
-            $joinKey = 'shipments.address_from_id';
-        }
-
-        $addresses = DB::table('shipments')
-            ->leftJoin('addresses', 'addresses.id', '=', $joinKey)
-            ->select(DB::raw('addresses.name, addresses.mobile, CONCAT(addresses.block, ", ", addresses.building,",",addresses.street) AS address'))
-            ->where('shipments.id', '=', $id)
-            ->first();
-
+    public function getToAddress($Shipment)
+    {      
+        $addresses = array();   
+        $addresses = $Shipment->addresses()->get();        
         return $addresses;
-
     }
 
     public function getCompany($id)
@@ -107,7 +91,7 @@ class ShipmentsController extends Controller
 
         $company = DB::table('shipments')
             ->leftJoin('companies', 'companies.id', '=', 'shipments.company_id')
-            ->select('companies.name')
+            ->select('companies.name_en as name')
             ->where('shipments.id', '=', $id)
             ->first();
 

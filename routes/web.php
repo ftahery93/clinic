@@ -28,6 +28,7 @@ Auth::routes();
 // Default path for home app landing page
 Route::get('/', function () {return view('backend.home.landing');})->name("landingPage");
 Route::get('/driver', function () {return view('backend.home.driver');})->name("driverPage");
+Route::get('/page', function () {return view('backend.home.page');})->name("page");
 
 Route::Group(['prefix' => env('BACKEND_PATH')], function () {
 
@@ -90,6 +91,22 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('/settings/price', 'SettingsController@showPrice')->name('price_setting');
     Route::post('/settings/price/update', 'SettingsController@updatePrice')->name('price_update_setting');
 
+    //Address Title List
+    Route::get('/addressTitle/List', 'AddressController@index')->name('addressTitle_list');
+    Route::get('/addressTitle/create', 'AddressController@create')->name('addressTitle_create');
+    Route::post('/addressTitle/store', 'AddressController@store')->name('addressTitle_store');
+    Route::get('/addressTitle/{id}/edit', 'AddressController@edit')->name('addressTitle_edit');
+    Route::post('/addressTitle/{id}/update', 'AddressController@update')->name('addressTitle_update');
+    Route::get('/addressTitle/destroy/{id}', 'AddressController@destroy')->name('addressTitle_destroy');
+    Route::post('/addressTitle/updateAll', 'AddressController@updateAll')->name('addressTitle_update_all');
+
+    //Exceptional Cities List
+    Route::get('/exceptionalCity/List', 'ExceptionalCityController@index')->name('exceptionalCity_list');
+    Route::get('/exceptionalCity/create', 'ExceptionalCityController@create')->name('exceptionalCity_create');
+    Route::post('/exceptionalCity/store', 'ExceptionalCityController@store')->name('exceptionalCity_store');
+    Route::get('/exceptionalCity/destroy/{id}', 'ExceptionalCityController@destroy')->name('exceptionalCity_destroy');
+    Route::post('/exceptionalCity/updateAll', 'ExceptionalCityController@updateAll')->name('exceptionalCity_update_all');
+
     // Notifications
     // Route::get('/notifications', 'NotificationsController@index')->name('notifications_list');
     // Route::get('/notifications/{id}/edit', 'NotificationsController@edit')->name('notifications_edit');
@@ -103,6 +120,16 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::post('/languages/{id}/update', 'LanguageManagementController@update')->name('adminLanguageUpdate');
     Route::get('/languages', 'LanguageManagementController@index')->name('adminLanguages');
     Route::get('/languages/{lang}/updateLocale', 'LanguageManagementController@updateLocale')->name('adminLanguageUpdateVariable');
+
+    //Pages
+    Route::get('/page/List', 'PageController@index')->name('page_list');
+    Route::get('/page/create', 'PageController@create')->name('page_create');
+    Route::post('/addrpageessTitle/store', 'PageController@store')->name('page_store');
+    Route::get('/page/{id}/edit', 'PageController@edit')->name('page_edit');
+    Route::post('/page/{id}/update', 'PageController@update')->name('page_update');
+    Route::get('/page/destroy/{id}', 'PageController@destroy')->name('page_destroy');
+    Route::post('/page/updateAll', 'PageController@updateAll')->name('page_update_all');
+
 
     // Users & Permissions
     Route::get('/users', 'UsersController@index')->name('users_list');

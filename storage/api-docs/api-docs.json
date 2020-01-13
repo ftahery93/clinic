@@ -1459,11 +1459,6 @@
                                     "type": "integer",
                                     "example": 1
                                 },
-                                "name": {
-                                    "description": "Address name",
-                                    "type": "string",
-                                    "example": "Home, office"
-                                },
                                 "block": {
                                     "description": "Block",
                                     "type": "string",
@@ -1503,11 +1498,6 @@
                                     "description": "users mobile number",
                                     "type": "string",
                                     "example": "88553854"
-                                },
-                                "details": {
-                                    "description": "Any other address details",
-                                    "type": "string",
-                                    "example": "Al-Kuwait, near Hamra"
                                 },
                                 "notes": {
                                     "description": "Extra user notes",
@@ -1655,11 +1645,6 @@
                                     "description": "Address Title ID",
                                     "type": "integer",
                                     "example": 1
-                                },
-                                "name": {
-                                    "description": "Address name",
-                                    "type": "string",
-                                    "example": "Home, office"
                                 },
                                 "block": {
                                     "description": "Block",

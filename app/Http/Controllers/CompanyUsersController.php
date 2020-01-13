@@ -39,10 +39,16 @@ class CompanyUsersController extends Controller
     {
         if (@Auth::user()->permissionsGroup->view_status) {
             $CompanyUsers = Company::
-                select('companies.id', 'companies.name', 'companies.email', 'companies.mobile', 'companies.phone', 'companies.status',
-                'companies.rating', 'companies.approved', 'companies.image', 'wallet.balance')
-                ->orderby('id', 'asc')
+                select('companies.id', 'companies.name_en','companies.name_ar','companies.description_en','companies.instagram_link','companies.description_ar', 'companies.email', 'companies.mobile', 'companies.phone', 'companies.status',
+                'companies.rating', 'companies.approved', 'companies.image', 'wallet.balance',
+                DB::raw("IFNULL((SELECT COUNT(shipments.id) FROM shipments
+                WHERE shipments.status >= 2 AND shipments.company_id!='NULL' AND shipments.company_id=companies.id
+                GROUP BY shipments.company_id),0) as approved_shipments"),
+                DB::raw("IFNULL((SELECT SUM(orders.wallet_amount) FROM orders
+                WHERE orders.company_id!='NULL' AND orders.company_id=companies.id
+                GROUP BY orders.company_id),0.000) as admin_totalCommission"))                
                 ->leftJoin('wallet', 'wallet.company_id', '=', 'companies.id')
+                ->orderby('companies.id', 'asc')
                 ->paginate(env('BACKEND_PAGINATION'));
             $Permissions = Permissions::orderby('id', 'asc')->get();
         }
@@ -71,10 +77,13 @@ class CompanyUsersController extends Controller
     {
         $this->validate($request, [
             'image' => 'mimes:png,jpeg,jpg,gif|max:3000',
-            'name' => 'required',
+            'name_en' => 'required',
+            'name_ar' => 'required',
             'email' => 'required|email|unique:companies',
             'password' => 'required',
             'country_id' => 'required',
+            'mobile' => 'required|digits:8|unique:companies',
+            'instagram_link' => 'sometimes|url',
         ]);
 
         // Start of Upload Files
@@ -89,14 +98,17 @@ class CompanyUsersController extends Controller
         // End of Upload Files
 
         $Company = new Company;
-        $Company->name = $request->name;
+        $Company->name_en = $request->name_en;
+        $Company->name_ar = $request->name_ar;
         $Company->email = $request->email;
+        $Company->instagram_link = $request->instagram_link;
         $Company->password = bcrypt($request->password);
         $Company->country_id = $request->country_id;
         $Company->mobile = $request->mobile;
         $Company->phone = $request->phone;
         $Company->image = $fileFinalName_ar;
-        $Company->description = $request->description;
+        $Company->description_en = $request->description_en;
+        $Company->description_ar = $request->description_ar;
         $Company->status = 1;
         $Company->approved = 1;
         $Company->save();
@@ -148,15 +160,21 @@ class CompanyUsersController extends Controller
         $CompanyUser = Company::find($id);
         if ($CompanyUser != null) {
             $this->validate($request, [
-                'name' => 'required',
-                'email' => 'required',
+                'name_en' => 'required',
+                'name_ar' => 'required',
+                'email' => 'required|unique:companies,email,' . $id,
+                'instagram_link' => 'sometimes|url',
+                'mobile' => 'required|digits:8|unique:companies,mobile,' . $id,
             ]);
 
-            $CompanyUser->name = $request->name;
+            $CompanyUser->name_en = $request->name_en;
+            $CompanyUser->name_ar = $request->name_ar;
             $CompanyUser->email = $request->email;
+            $CompanyUser->instagram_link = $request->instagram_link;
             $CompanyUser->mobile = $request->mobile;
             $CompanyUser->phone = $request->phone;
-            $CompanyUser->description = $request->description;
+            $CompanyUser->description_en = $request->description_en;
+            $CompanyUser->description_ar = $request->description_ar;
             $CompanyUser->status = $request->status;
             $CompanyUser->approved = $request->approved;
             $CompanyUser->updated_at = date("Y-m-d H:i:s");
@@ -176,6 +194,12 @@ class CompanyUsersController extends Controller
      */
     public function updateAll(Request $request)
     {
+         
+        if(empty($request->ids)){
+             
+            return redirect()->route('company_users_list');
+        }
+
         if ($request->action == "activate") {
             Company::wherein('id', $request->ids)->update(['status' => 1]);
         } elseif ($request->action == "block") {
@@ -190,6 +214,7 @@ class CompanyUsersController extends Controller
             }
             Company::wherein('id', $request->ids)->where('id', "!=", 1)->delete();
         }
+        
         return redirect()->action('CompanyUsersController@index')->with('doneMessage', trans('backend.saveDone'));
     }
 
@@ -204,7 +229,7 @@ class CompanyUsersController extends Controller
     {
         if (@Auth::user()->permissionsGroup->view_status) {
             $CompanyOrders = Order::
-                select('companies.name As company_name', DB::raw("COUNT(order_shipment.shipment_id) as count_shipment"),
+                select('companies.name_en As company_name', DB::raw("COUNT(order_shipment.shipment_id) as count_shipment"),
                 DB::raw("SUM(orders.wallet_amount) as wallet_amount"), DB::raw("SUM(orders.card_amount) as card_amount"), DB::raw("SUM(orders.free_deliveries) as free_deliveries"))
                 ->leftJoin('companies', 'companies.id', '=', 'orders.company_id')
                 ->leftJoin('order_shipment', 'order_shipment.order_id', '=', 'orders.id')

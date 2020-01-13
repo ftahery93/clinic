@@ -24,15 +24,17 @@
                     <table class="table table-striped  b-t">
                         <thead>
                         <tr>
-                            <th style="width:20px;">
+                            <!-- <th style="width:20px;">
                                 <label class="ui-check m-a-0">
                                     <input id="checkAll" type="checkbox"><i></i>
                                 </label>
-                            </th>
+                            </th> -->
                             <th>{{ trans('backend.fullName') }}</th>
                             <th>{{ trans('backend.email') }}</th>
                             <th>{{ trans('backend.mobile') }}</th>
-                            <th>{{ trans('backend.phone') }}</th>
+                            <th>{{ trans('backend.approved') }} {{ trans('backend.shipments') }}</th>
+                            <th>{{ trans('backend.wallet_amount') }}</th>                            
+                            <th>Admin {{ trans('backend.commission') }}</th>
                             <th class="text-center" style="width:50px;">{{ trans('backend.status') }}</th>
                             <th class="text-center" style="width:200px;">{{ trans('backend.options') }}</th>
                         </tr>
@@ -40,16 +42,18 @@
                         <tbody>
                         @foreach($CompanyUsers as $CompanyUser)
                             <tr>
-                                <td><label class="ui-check m-a-0">
+                                <!-- <td><label class="ui-check m-a-0">
                                         <input type="checkbox" name="ids[]" value="{{ $CompanyUser->id }}"><i
                                             class="dark-white"></i>
                                         {!! Form::hidden('row_ids[]',$CompanyUser->id, array('class' => 'form-control row_no')) !!}
                                     </label>
-                                </td>
+                                </td> -->
                                 <td>{!! $CompanyUser->name   !!}</td>
                                 <td><small>{!! $CompanyUser->email !!}</small></td>
                                 <td><small>{!! $CompanyUser->mobile !!}</small></td>
-                                <td><small>{!! $CompanyUser->phone !!}</small></td>
+                                <td><small>{!! $CompanyUser->approved_shipments !!}</small></td>
+                                <td><small>{{ ($CompanyUser->balance!=0)?$CompanyUser->balance:'0.000' }} KWD</small></td>                               
+                                <td><small>{!! sprintf('%0.3f',$CompanyUser->admin_totalCommission) !!}  KWD</small></td>
                                 <td class="text-center">
                                     <i class="fa {{ ($CompanyUser->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
                                 </td>
@@ -57,7 +61,7 @@
                                     @if(@Auth::user()->permissionsGroup->edit_status)
                                         <a class="btn btn-sm success"
                                         href="{{ route("company_users_edit",["id"=>$CompanyUser->id]) }}">
-                                            <small><i class="material-icons">&#xe3c9;</i> {{ trans('backend.edit') }}
+                                            <small><i class="material-icons">&#xe3c9;</i> 
                                             </small>
                                         </a>
                                     @endif
@@ -65,7 +69,7 @@
                                         <button class="btn btn-sm warning customer_view" data-toggle="modal"
                                                 data-target="#mv-{{ $CompanyUser->id }}" ui-toggle-class="bounce"
                                                 ui-target="#animate"  data-rating="{{ $CompanyUser->rating }}">
-                                            <small><i class="material-icons">visibility</i> {{ trans('backend.view') }}
+                                            <small><i class="material-icons">visibility</i> 
                                             </small>
                                         </button>
                                     @endif
@@ -85,13 +89,21 @@
                                                     @else
                                                       <img src="{{ url('/uploads/appusers/appuser_thumb.png') }}" name="aboutme" width="140" height="140" border="0" class="img-circle">
                                                     @endif
-                                                    <h3 class="media-heading">{{ $CompanyUser->name }}</h3>
+                                                    <h6 class="media-heading">{{ $CompanyUser->name_en }}</h6>
+                                                    <h6 class="media-heading">{{ $CompanyUser->name_ar }}</h6>
                                                 </p>
                                                 <p class="text-center"><strong>Email: </strong><br>{{ $CompanyUser->email }}</p>
                                                 <p class="text-center"><strong>Mobile: </strong><br>{{ $CompanyUser->mobile }}</p>
+                                                <p class="text-center"><strong>Description (EN): </strong><br>{{ $CompanyUser->description_en }}</p>
+                                                <p class="text-center"><strong>Description (AR): </strong><br>{{ $CompanyUser->description_ar }}</p>
                                                 <p class="text-center"><strong>Status: </strong><br>
                                                     <i class="fa {{ ($CompanyUser->status==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
                                                 </p>
+                                                @if(@$CompanyUser->instagram_link)
+                                                <p class="text-center"><strong>Instagram Link: </strong><br>
+                                                {{ $CompanyUser->instagram_link }}
+                                                </p>
+                                                @endif
                                                 <p class="text-center"><strong>Approved: </strong><br>
                                                     <i class="fa {{ ($CompanyUser->approved==1) ? "fa-check text-success":"fa-times text-danger" }} inline"></i>
                                                 </p>
@@ -142,7 +154,7 @@
                             </div>
                             <!-- / .modal -->
                             @if(@Auth::user()->permissionsGroup->webmaster_status)
-                                <select name="action" id="action" class="input-sm form-control w-sm inline v-middle"
+                                <!-- <select name="action" id="action" class="input-sm form-control w-sm inline v-middle"
                                         required>
                                     <option value="">{{ trans('backend.bulkAction') }}</option>
                                     <option value="activate">{{ trans('backend.activeSelected') }}</option>
@@ -154,7 +166,7 @@
                                         style="display: none"
                                         data-target="#m-all" ui-toggle-class="bounce"
                                         ui-target="#animate">{{ trans('backend.apply') }}
-                                </button>
+                                </button> -->
                             @endif
                         </div>
                         <div class="col-sm-3 text-center">

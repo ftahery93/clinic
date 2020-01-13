@@ -134,3 +134,7 @@ Route::group(['middleware' => 'checkVersion'], function () {
 });
 
 Route::post('/sendMail', 'API\User\AuthController@sendMail');
+
+//Pages
+    Route::get('/user/getPage', 'API\User\PagesController@getPage');
+

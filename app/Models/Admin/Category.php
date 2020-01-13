@@ -3,6 +3,7 @@
 namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
+use App;
 
 class Category extends Model
 {
@@ -46,6 +47,11 @@ class Category extends Model
         });
 
         return $categories;
+    }
+
+    public function getNameAttribute()
+    {
+        return $this->{'name_' . App::getLocale()};
     }
 
 }

@@ -6,6 +6,7 @@ use App\Company;
 use App\RegisteredUser;
 use App\Shipment;
 use Auth;
+use App\Order;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -42,13 +43,18 @@ class HomeController extends Controller
             $NumberofPendingShipments = count($pShipments);
 
             //Get the Number of Approved Shipments
-            $aShipments = Shipment::where('status', '=', '2')->get();
+            $aShipments = Shipment::where('status', '>=', '2')->get();
             $NumberofApprovedShipments = count($aShipments);
 
-            //Get Latest 20 Shipments
-            $Shipments = Shipment::take(13)->orderby('id', 'asc')->get();
+            //Get Total Commission
+            $totalCommission = Order::sum('wallet_amount');           
 
-            return view('backend.home', compact("NumberofCompanyUsers", "NumberofRegisteredUsers", "NumberofPendingShipments", "NumberofApprovedShipments", "Shipments"));
+            //Get Latest 20 Shipments
+            $Shipments = Shipment::select('shipments.*','companies.name_en AS company_name')
+            ->leftJoin('companies', 'companies.id', '=', 'shipments.company_id')
+            ->take(13)->orderby('id', 'asc')->get();
+
+            return view('backend.home', compact("NumberofCompanyUsers", "NumberofRegisteredUsers", "NumberofPendingShipments", "NumberofApprovedShipments", "Shipments", "totalCommission"));
         }
     }
 

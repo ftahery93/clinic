@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Page;
 use App\Utility;
 use Illuminate\Http\Request;
+use App;
 
 class PagesController extends Controller
 {
@@ -18,6 +19,7 @@ class PagesController extends Controller
         //$this->middleware('checkAuth');
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
+        App::setlocale($this->language);
     }
 
     /**
@@ -50,10 +52,17 @@ class PagesController extends Controller
      */
     public function getTermsAndConditions()
     {
-        $page = Page::find(1);
+        $page = Page::find(1);       
 
         return response()->json([
             "terms_and_conditions" => $page->message,
         ]);
+    }
+
+       public function getPage()
+    {
+        $page = Page::find(1);
+        
+        return $page;
     }
 }

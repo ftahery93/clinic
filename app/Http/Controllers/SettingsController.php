@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Commission;
 use App\Price;
 use App\Setting;
+use App\Contact;
 use Auth;
 use Illuminate\Http\Request;
 use Redirect;
@@ -28,7 +29,7 @@ class SettingsController extends Controller
     public function edit()
     {
         $id = $this->getId();
-        $Setting = Setting::find($id);
+        $Setting = Contact::find($id);
         if ($Setting != null) {
             return view("backend.settings.settings", compact("Setting"));
         } else {
@@ -105,12 +106,11 @@ class SettingsController extends Controller
     {
         //
         $id = $this->getId();
-        $Setting = Setting::find($id);
+        $Setting = Contact::find($id);
         if ($Setting != null) {
-            $Setting->site_url = $request->site_url;
-            $Setting->site_title_en = $request->site_title_en;
-            $Setting->site_title_ar = $request->site_title_ar;
-            $Setting->updated_by = Auth::user()->id;
+            $Setting->email = $request->email;
+            $Setting->subject = $request->subject;
+            $Setting->body = $request->body;
             $Setting->save();
             return redirect()->action('SettingsController@edit')
                 ->with('doneMessage', trans('backend.saveDone'))

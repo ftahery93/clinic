@@ -9,9 +9,9 @@
             </h5>
         </div>
         <div class="row m-b">           
-            <div class="col-sm-3 col-md-3 col-lg-3">
+            <div class="col-sm-12 col-md-12 col-lg-12">
             <a href="{{ route("company_users_list") }}">
-                <div class="box-color p-a-3 blue">
+                <div class="box-color p-a-3 blue col-sm-12 col-md-4 col-lg-4">
                     <div class="pull-right m-l">
                         <span class="w-56 dker text-center rounded">
                         <i class="text-lg material-icons">&#xe7fb;</i>
@@ -24,7 +24,7 @@
                 </div>
                 </a>
                 <a href="{{ route("registered_users_list") }}">
-                <div class="box-color p-a-3 orange">
+                <div class="box-color p-a-3 orange  col-sm-12 col-md-4 col-lg-4">
                     <div class="pull-right m-l">
                         <span class="w-56 dker text-center rounded">
                         <i class="text-lg material-icons">&#xe7fb;</i>
@@ -37,7 +37,7 @@
                 </div>
                 </a>
                 <a href="{{ route("shipments_list") }}">
-                <div class="box-color p-a-3 red">
+                <div class="box-color p-a-3 red  col-sm-12 col-md-4 col-lg-4">
                     <div class="pull-right m-l">
                         <span class="w-56 dker text-center rounded">
                         <i class="material-icons">local_shipping</i>
@@ -50,21 +50,34 @@
                 </div>
                 </a>
                 <a href="{{ route("shipments_list") }}">
-                <div class="box-color p-a-3 green">
+                <div class="box-color p-a-3 green  col-sm-12 col-md-4 col-lg-4">
                     <div class="pull-right m-l">
                         <span class="w-56 dker text-center rounded">
                         <i class="material-icons">local_shipping</i>
                         </span>
                     </div>
                     <div class="clear">
-                        <h6 class="text-muted">{{ trans('backend.approved') }} {{ trans('backend.shipments') }}</h6>
+                        <h6 class="text-muted">{{ trans('backend.approved') }}{{ trans('backend.shipments') }}</h6>
                         <h3 class="m-a-0 text-lg">{{ $NumberofApprovedShipments }}</h3>
+                    </div>
+                </div>
+                </a>
+                <a href="{{ route("shipments_list") }}">
+                <div class="box-color p-a-3 black  col-sm-12 col-md-4 col-lg-4">
+                    <div class="pull-right m-l">
+                        <span class="w-56 dker text-center rounded">
+                        <i class="material-icons">local_atm</i>
+                        </span>
+                    </div>
+                    <div class="clear">
+                        <h6 class="text-muted">{{ trans('backend.total') }} {{ trans('backend.commission') }}</h6>
+                        <h3 class="m-a-0 text-lg">{{ sprintf('%0.3f',$totalCommission) }} KWD</h3>
                     </div>
                 </div>
                 </a>
             </div>
 
-            <div class="col-sm-9 col-md-9 col-lg-9">
+            <div class="col-sm-12 col-md-12 col-lg-12">
             <h3>Recent Shipments</h3>
             <div class="table-responsive">
             <table class="table table-striped  b-t">
@@ -73,7 +86,8 @@
                             <th>{{ trans('backend.shipment_identifier') }}</th>
                             <th>{{ trans('backend.price') }}</th>
                             <th>{{ trans('backend.date_created') }}</th>
-                            <th>{{ trans('backend.status') }}</th>                            
+                            <th>{{ trans('backend.status') }}</th>     
+                            <th>{{ trans('backend.companyName') }}</th>                       
                         </tr>
                         </thead>
                         <tbody>
@@ -93,8 +107,9 @@
                                         <span class="label label-success inline">{{ trans('backend.delivered') }}</span>
                                     @endif 
                                 </td>
-                                
+                                <td>{!! $Shipment->company_name !!}</td>
                             </tr>
+                           
                            
                            
                         @endforeach

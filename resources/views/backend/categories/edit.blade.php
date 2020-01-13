@@ -3,7 +3,7 @@
     <div class="padding">
         <div class="box">
             <div class="box-header dker">
-                <h3><i class="material-icons">&#xe3c9;</i> {{ trans('backend.categories_edit') }}</h3>
+                <h3><i class="material-icons">&#xe3c9;</i> {{ trans('backend.category_edit') }}</h3>
                 <small>
                     <a href="{{ route('adminHome') }}">{{ trans('backend.home') }}</a> /
                     <a href="">{{ trans('backend.categories') }}</a>
@@ -22,11 +22,19 @@
                 {{Form::open(['route'=>['categories_update',$Category->id],'method'=>'POST', 'files' => true])}}
                 @if(Helper::GeneralWebmasterSettings("en_box_status"))
                 <div class="form-group row">
-                    <label for="name"
-                           class="col-sm-2 form-control-label">{!!  trans('backend.category_name') !!}
+                    <label for="name_en"
+                           class="col-sm-2 form-control-label">{!!  trans('backend.category_name').' (EN)' !!}
                     </label>
                     <div class="col-sm-10">
-                        {!! Form::text('name',$Category->name, array('placeholder' => '','class' => 'form-control','id'=>'name','required'=>'', 'dir'=>trans('backend.ltl    '))) !!}
+                        {!! Form::text('name_en',$Category->name_en, array('placeholder' => '','class' => 'form-control','id'=>'name_en','required'=>'', 'dir'=>trans('backend.ltl    '))) !!}
+                    </div>                   
+                </div>
+                <div class="form-group row">
+                    <label for="name_ar"
+                           class="col-sm-2 form-control-label">{!!  trans('backend.category_name').' (AR)' !!}
+                    </label>                   
+                    <div class="col-sm-10">
+                        {!! Form::text('name_ar',$Category->name_ar, array('placeholder' => '','class' => 'form-control','id'=>'name_ar','required'=>'', 'dir'=>trans('backend.rtl    '))) !!}
                     </div>
                 </div>
                 @endif

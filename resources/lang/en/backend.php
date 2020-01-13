@@ -563,4 +563,11 @@ return [
   'new_company_user' => 'New Company User',
   'password' => 'Password',
   'selectCountry' => 'Select Country',
+  'instagram_link' => 'Instagram Link',
+  'total' => 'Total',
+  'body' => 'Body',
+  'contact' => 'Contact',
+  'address_titles' => 'Address Titles',
+  'create' => 'Create',
+  'exceptionalCity' => 'Exceptional Cities',
  ];

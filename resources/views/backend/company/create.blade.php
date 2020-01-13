@@ -21,11 +21,19 @@
             <div class="box-body">
                 {{Form::open(['route'=>['company_users_store'],'method'=>'POST', 'files' => true ])}}
                 <div class="form-group row">
-                    <label for="name"
-                           class="col-sm-2 form-control-label">{!!  trans('backend.name') !!}
+                    <label for="name_en"
+                           class="col-sm-2 form-control-label">{!!  trans('backend.name').' (EN)' !!}
                     </label>
                     <div class="col-sm-10">
-                        {!! Form::text('name','', array('placeholder' => '','class' => 'form-control','id'=>'name','required'=>'')) !!}
+                        {!! Form::text('name_en','', array('placeholder' => '','class' => 'form-control','id'=>'name_en','required'=>'')) !!}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="name_ar"
+                           class="col-sm-2 form-control-label">{!!  trans('backend.name').' (AR)' !!}
+                    </label>
+                    <div class="col-sm-10">
+                        {!! Form::text('name_ar','', array('placeholder' => '','class' => 'form-control','id'=>'name_ar','required'=>'', 'dir'=>trans('backend.rtl'))) !!}
                     </div>
                 </div>
                 <div class="form-group row">
@@ -37,11 +45,11 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="mobile"
+                    <label for="phone"
                            class="col-sm-2 form-control-label">{!!  trans('backend.phone') !!}
                     </label>
                     <div class="col-sm-10">
-                        {!! Form::text('phone','', array('placeholder' => '','class' => 'form-control','id'=>'phone','required'=>'')) !!}
+                        {!! Form::text('phone','', array('placeholder' => '','class' => 'form-control','id'=>'phone')) !!}
                     </div>
                 </div>
                 <div class="form-group row">
@@ -72,11 +80,27 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="description"
-                           class="col-sm-2 form-control-label">{!!  trans('backend.description') !!}
+                    <label for="description_en"
+                           class="col-sm-2 form-control-label">{!!  trans('backend.description').' (EN)' !!}
                     </label>
                     <div class="col-sm-10">
-                        {!! Form::textarea('description','', array('placeholder' => '','class' => 'form-control','id'=>'description','required'=>'')) !!}
+                        {!! Form::textarea('description_en','', array('placeholder' => '','class' => 'form-control','id'=>'description_en')) !!}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="description_ar"
+                           class="col-sm-2 form-control-label">{!!  trans('backend.description').' (AR)' !!}
+                    </label>
+                    <div class="col-sm-10">
+                        {!! Form::textarea('description_ar','', array('placeholder' => '','class' => 'form-control','id'=>'description_ar', 'dir'=>trans('backend.rtl'))) !!}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="instagram_link"
+                           class="col-sm-2 form-control-label">{!!  trans('backend.instagram_link') !!}
+                    </label>
+                    <div class="col-sm-10">
+                        {!! Form::text('instagram_link','', array('placeholder' => '','class' => 'form-control','id'=>'instagram_link')) !!}
                     </div>
                 </div>
                 <div class="form-group row">

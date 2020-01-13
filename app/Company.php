@@ -61,4 +61,9 @@ class Company extends Authenticatable
         return $this->{'description_' . App::getLocale()};
     }
 
+    public function getNameAttribute()
+    {
+        return $this->{'name_' . App::getLocale()};
+    }
+
 }

@@ -19,11 +19,20 @@
                         <th>{{ trans('backend.price') }}</th>
                         <th>{{ trans('backend.date_created') }}</th>
                         <th>{{ trans('backend.status') }}</th>
+                        <th>{{ trans('backend.companyName') }}</th>
                         <th class="text-center" style="width:250px;">{{ trans('backend.options') }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($Shipments as $Shipment)
+                    @if(!empty($ShipmentDetails))                                               
+                                                        <?php 
+                                                            $categories = $ShipmentDetails[$Shipment->id]['categories']; 
+                                                            $toAddresses = $ShipmentDetails[$Shipment->id]['toAddress']; 
+                                                            $fromAddress = $ShipmentDetails[$Shipment->id]['fromAddress']; 
+                                                            $company = $ShipmentDetails[$Shipment->id]['company']; 
+                                                            $user = $ShipmentDetails[$Shipment->id]['registered_user']; 
+                                                        ?>
                     <tr>
                         <td> {!! $Shipment->id !!}</td>
                         <td>{!! $Shipment->price !!} {{ trans('backend.currency') }}</td>
@@ -39,6 +48,7 @@
                             <span class="label label-success inline">{{ trans('backend.delivered') }}</span>
                             @endif
                         </td>
+                        <td>{!! $company->name !!} </td>
                         <td class="text-center">
                             @if(@Auth::user()->permissionsGroup->view_status)
                             <button class="btn btn-sm success" data-toggle="modal" data-target="#ms-{{ $Shipment->id }}"
@@ -54,7 +64,7 @@
                                 </small>
                             </button>
                             @endif
-                        </td>
+                        </td>                       
                     </tr>
                     <!-- .modal -->
                     <div id="ms-{{ $Shipment->id }}" class="modal fade " data-backdrop="true">
@@ -67,69 +77,59 @@
                                     <h5 class="modal-title text-center">
                                         {{ trans('backend.shipment_id',[ 'id' => $Shipment->id]) }}</h5>
                                 </div>
-                                <div class="modal-body text-center p-lg"">                                                                                
-                                            @if(!empty($ShipmentDetails))                                               
-                                                        <?php 
-                                                            $categories = $ShipmentDetails[$Shipment->id]['categories']; 
-                                                            $toAddress = $ShipmentDetails[$Shipment->id]['toAddress']; 
-                                                            $fromAddress = $ShipmentDetails[$Shipment->id]['fromAddress']; 
-                                                            $company = $ShipmentDetails[$Shipment->id]['company']; 
-                                                            $user = $ShipmentDetails[$Shipment->id]['registered_user']; 
-                                                        ?>
-                                                       
+                                <div class="modal-body text-center p-lg"">  
                                             <div class=" row">
-                                    <div class="col-lg-12">
-
-                                        @if(count($categories) > 0)
-                                        <!-- <p class="text-center"><strong>{{ trans('backend.categories') }} <?php echo "(".count($categories).")"; ?> </strong><br></p> -->
-                                        @foreach($categories as $category)
-                                        @if(!empty($category->name))
-                                        <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
-                                            @if($loop->first)
-                                            <p class="text-center margin-btm5">
-                                                <strong>{{ trans('backend.category_name') }} </strong></p>
-                                            @endif
-                                            <p class="text-center margin-btm5"> {{ $category->name }}</p>
-                                            @endif
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
-                                            @if(!empty($category->quantity))
-                                            @if($loop->first)
-                                            <p class="text-center margin-btm5"><strong>{{ trans('backend.quantity') }}
-                                                </strong></p>
-                                            @endif
-                                            <p class="text-center margin-btm5"> {{ $category->quantity }}</p>
-                                            @endif
-                                        </div>
-                                        @endforeach
-                                        @endif
-
-                                    </div>
+                                                <div class="col-lg-12">
+                                                    <div class="col-lg-6 col-md-6 col-xs-6 col-sm-6">
+                                                        <p class="text-center margin-btm5">
+                                                            <strong>{{ trans('backend.category_name') }} </strong>
+                                                            <br><p style="font-size:15px;">{{ $categories['name'] }}</p>
+                                                        </p>
+                                                        
+                                                    </div>
+                                                   
+                                                    <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                                                        <p class="text-center"><strong>{{ trans('backend.shipment_from') }}
+                                                            </strong><br>{{ $user->fullname }} 
+                                                             {{ $fromAddress->name }} <br>
+                                                             <strong>{{ trans('backend.block') }}:</strong> {{ $fromAddress->block }},
+                                                             <strong>{{ trans('backend.building') }}:</strong> {{ $fromAddress->building }},
+                                                             <strong>{{ trans('backend.street') }}:</strong> {{ $fromAddress->street }} <br>
+                                                             <strong>{{ trans('backend.mobile') }}:</strong> {{ $fromAddress->mobile }} <br>
+                                                            </p>
+                                                    </div>
+                
+                                                </div>
 
                                     @endif
-                                    <br>
+                                
                                 </div>
 
                                 <div class="row">
-                                    <hr>
-                                    <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                                        <p class="text-center"><strong>{{ trans('backend.shipment_from') }}
-                                            </strong><br>{{ $user->fullname }} <br> {{ $fromAddress->address }}</p>
-                                    </div>
-
-                                    <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12 borderLeft0"
-                                        style="border-left:1px solid #dadada;">
-                                        <p class="text-center"><strong>{{ trans('backend.shipment_to') }}
-                                            </strong><br>{{ $toAddress->name }}<br>{{ $toAddress->mobile }}<br>{{ $toAddress->address }}
+                                    <hr>                                   
+                                    @foreach ($toAddresses as $toAddress)
+                                    <div @if ($loop->first)  class="col-lg-12 col-md-12 col-xs-12 col-sm-12 borderLeft0" @else class="col-lg-6 col-md-6 col-xs-12 col-sm-12 borderLeft0" @endif style="{{ $loop->index % 2 ? 'border-right:1px solid #dadada;':'' }}">
+                                        <p class="text-center">
+                                            <strong>{{ trans('backend.shipment_to') }}</strong><br> 
+                                            {{ $toAddress->title->name }}<br>
+                                                  <strong>{{ trans('backend.block') }}:</strong> {{ $toAddress->block }},
+                                                             <strong>{{ trans('backend.building') }}:</strong> {{ $toAddress->building }},
+                                                             <strong>{{ trans('backend.street') }}:</strong> {{ $toAddress->street }} <br>
+                                                             <strong>{{ trans('backend.mobile') }}:</strong> {{ $toAddress->mobile }} <br>
+                                                            
+                                              <p><strong>{{ trans('backend.price') }}</strong> {{ $toAddress->price }}</p>                                               
+                                          
+                                            
                                         </p>
                                     </div>
+                                    @endforeach
                                 </div>
 
                                 <div class="row">
                                     <hr>
                                     <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
                                         <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
-                                            <strong>{{ trans('backend.price') }} </strong> : {{ $Shipment->price }}
+                                            <strong>{{ trans('backend.eventTotal') }} {{ trans('backend.price') }} </strong> : {{ $Shipment->price }}
                                             {{ trans('backend.currency') }}</p>
                                             @if ($Shipment->status != 1 )
                                             <span class="label label-warning inline fontsize12"><strong>{{ trans('backend.approved_by_company',['company_name' => $company->name]) }}
@@ -183,24 +183,24 @@
                         ?>
                          <div class="row"> 
                          <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">                              
-                        <div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
+                        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
                             <p class="text-center margin-btm5"><strong>{{ trans('backend.wallet_amount') }} </strong>
                             </p>
                             <p class="text-center">{{ ($transaction->wallet_amount) ? ($transaction->wallet_amount) : 0  }} {{ trans('backend.currency') }}</p>
                         </div>
 
-                        <div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
+                        <!-- <div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
                             <p class="text-center margin-btm5"><strong>{{ trans('backend.card_amount') }} </strong></p>
                             <p class="text-center">{{ ($transaction->card_amount) ? ($transaction->card_amount) : 0  }} {{ trans('backend.currency') }}</p>
-                        </div>
+                        </div> -->
 
-                        <div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
+                        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
                             <p class="text-center margin-btm5"><strong>{{ trans('backend.free_deliveries') }} </strong>
                             </p>
                             <p class="text-center">{{ ($transaction->free_deliveries) ? ($transaction->free_deliveries) : 0 }} </p>
                         </div>
 
-                        <div class="col-lg-3 col-md-3 col-xs-12 col-sm-12">
+                        <div class="col-lg-4 col-md-4 col-xs-12 col-sm-12">
                             <p class="text-center margin-btm5"><strong>{{ trans('backend.shipmentPrice') }} </strong>
                             </p>
                             <p class="text-center">{{ ($Shipment->price) ? ($Shipment->price) : 0 }} {{ trans('backend.currency') }}</p>

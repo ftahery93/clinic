@@ -1070,6 +1070,7 @@ class ShipmentController extends Controller
                     ->Where('shipment_price.governorate_to_id', $request->to_governorateid);
             });
         }
+        $return->Where('shipments.status',1);
         $return->groupBy('shipments.id');
         $return = $return->get();
         return $return;
