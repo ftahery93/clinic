@@ -21,15 +21,16 @@ class Company extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'image', 'mobile', 'status', 'approved', 'country_id', 'rating','description_en','description_ar'];
-        protected $appends = ['description'];
+        'name_en','name_ar', 'email', 'password', 'image', 'mobile', 'status', 'approved', 'country_id', 'rating','description_en','description_ar'];
+        
+        protected $appends = ['description','name'];
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
     protected $hidden = [
-        'password', 'created_at', 'updated_at', 'approved', 'country_id', 'status','description_en','description_ar'
+        'password', 'created_at', 'updated_at', 'approved', 'country_id', 'status','description_en','description_ar','name_en','name_ar'
     ];
 
     // Probably on the user model, but pick wherever the data is
