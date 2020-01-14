@@ -384,7 +384,7 @@ class ShipmentController extends Controller
             'total_amount' => $response["total_amount"],
             'free_deliveries_used' => $response["free_deliveries_used"],
             'wallet_amount_used' => $response["wallet_amount_used"],
-            'wallet_balance' => $wallet->balance,
+            'wallet_balance' => sprintf("%0.3f", $wallet->balance),
             'free_deliveries_available' => $freeDeliveries->quantity,
         ]);
     }
@@ -490,7 +490,7 @@ class ShipmentController extends Controller
         return response()->json([
             'total_amount' => $totalShipmentsPrice,
             'free_deliveries_used' => count($request->free_delivery_ids),
-            'wallet_amount_used' => $commisionAmount,
+            'wallet_amount_used' => sprintf("%0.3f", $commisionAmount),
             'free_deliveries_available' => $free_deliveries_available,
         ]);
     }
@@ -1000,7 +1000,7 @@ class ShipmentController extends Controller
 
         $response = [];
         $response['shipment_price_list'] = $shipmentPriceArray;
-        $response['total_amount'] = $actualTotalAmount;
+        $response['total_amount'] = sprintf("%0.3f", $actualTotalAmount);
         $response['free_deliveries_used'] = $freeShipments;
         $response['wallet_amount_used'] = sprintf("%0.3f", $walletAmount);
 
