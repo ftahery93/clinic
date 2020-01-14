@@ -452,8 +452,8 @@ class ShipmentController extends Controller
         $validator = [
             'shipment_ids' => 'required|array|min:1',
             'shipment_ids.*' => 'distinct',
-            'free_delivery_ids' => 'required|array',
-            'free_delivery_ids.*' => 'required|exists:shipment_price,id|distinct',
+            'free_delivery_ids' => 'sometimes|array',
+            'free_delivery_ids.*' => 'sometimes|exists:shipment_price,id|distinct',
         ];
 
         $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
@@ -464,20 +464,28 @@ class ShipmentController extends Controller
         $totalShipmentsPrice = 0;
         $shipments = Shipment::findMany($request->shipment_ids);
         $totalShipmentsPrice = collect($shipments)->sum('price');
-        $freeDeliveriesTaken = ShipmentPrice::findMany($request->free_delivery_ids);
         $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->first();
+        if ($request->free_delivery_ids != null) {
+            $freeDeliveriesTaken = ShipmentPrice::findMany($request->free_delivery_ids);
 
-        if (count($request->free_delivery_ids) > $freeDeliveries->quantity) {
-            return response()->json([
-                "error" => LanguageManagement::getLabel('insufficient_free_deliveries', $this->language),
-            ], 422);
+
+            if (count($request->free_delivery_ids) > $freeDeliveries->quantity) {
+                return response()->json([
+                    "error" => LanguageManagement::getLabel('insufficient_free_deliveries', $this->language),
+                ], 422);
+            }
+
+            $totalFreeDeliveryAmount = collect($freeDeliveriesTaken)->sum('price');
+            $free_deliveries_available = $freeDeliveries->quantity - count($request->free_delivery_ids);
+        } else {
+            $totalFreeDeliveryAmount = 0;
+            $free_deliveries_available = $freeDeliveries->quantity;
         }
 
-        $totalFreeDeliveryAmount = collect($freeDeliveriesTaken)->sum('price');
         $commission = Commission::find(1);
         $commisionAmount = ($totalShipmentsPrice - $totalFreeDeliveryAmount) * ($commission->percentage / 100);
 
-        $free_deliveries_available = $freeDeliveries->quantity - count($request->free_delivery_ids);
+
 
         return response()->json([
             'total_amount' => $totalShipmentsPrice,
@@ -1070,7 +1078,7 @@ class ShipmentController extends Controller
                     ->Where('shipment_price.governorate_to_id', $request->to_governorateid);
             });
         }
-        $return->Where('shipments.status',1);
+        $return->Where('shipments.status', 1);
         $return->groupBy('shipments.id');
         $return = $return->get();
         return $return;
