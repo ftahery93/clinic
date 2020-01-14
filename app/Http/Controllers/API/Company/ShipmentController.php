@@ -488,7 +488,7 @@ class ShipmentController extends Controller
 
 
         return response()->json([
-            'total_amount' => $totalShipmentsPrice,
+            'total_amount' => sprintf("%0.3f", $totalShipmentsPrice),
             'free_deliveries_used' => count($request->free_delivery_ids),
             'wallet_amount_used' => sprintf("%0.3f", $commisionAmount),
             'free_deliveries_available' => $free_deliveries_available,
