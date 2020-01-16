@@ -376,7 +376,7 @@ class AddressController extends Controller
             // 'name' => 'required',
             'block' => 'required',
             'street' => 'required',
-            'jeddah' => 'required',
+            // 'jeddah' => 'required',
             'country_id' => 'required|exists:countries,id',
             'governorate_id' => 'required|exists:governorates,id',
             'city_id' => 'required|exists:cities,id',
