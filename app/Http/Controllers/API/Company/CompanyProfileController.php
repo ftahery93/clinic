@@ -13,6 +13,7 @@ use App\OneSignalCompanyUser;
 use App\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class CompanyProfileController extends Controller
 {
@@ -453,5 +454,103 @@ class CompanyProfileController extends Controller
         return response()->json([
             'message' => LanguageManagement::getLabel('text_successLoggout', $this->language),
         ]);
+    }
+
+
+
+    /**
+     *
+     * @SWG\Patch(
+     *         path="/api/provider/changePassword",
+     *         tags={"Not in Use"},
+     *         operationId="changePassword",
+     *         summary="Change User's Password",
+     *         security={{"ApiAuthentication":{}}},
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *       
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Change Password body",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *               @SWG\Property(
+     *                  property="old_password",
+     *                  type="string",
+     *                  description="Provider's Old password - *(Required)",
+     *                  example="123456"
+     *              ),
+     *             @SWG\Property(
+     *                  property="password",
+     *                  type="string",
+     *                  description="Provider's password (min 6) - *(Required)",
+     *                  example="78787878"
+     *              ),
+     *               @SWG\Property(
+     *                  property="confirm_password",
+     *                  type="string",
+     *                  description="Provider's confirm password - *(Required)",
+     *                  example="78787878"
+     *              ),
+     *          ),
+     *        ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=422,
+     *             description="Unprocessable entity"
+     *        ),
+     *        @SWG\Response(
+     *             response=409,
+     *             description="Old Password Mismatch"
+     *        ),
+     * @SWG\Response(
+     *             response=405,
+     *             description="Method Not Allowed"
+     *        ),
+     * @SWG\Response(
+     *             response=503,
+     *             description="Service Unavailable"
+     *        ),
+     *     )
+     *
+     */
+    public function changePassword(Request $request)
+    {
+        $validator = [
+            'old_password' => 'required',
+            'password' => 'required|min:6|confirm',
+        ];
+        $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
+        if ($checkForMessages) {
+            return $checkForMessages;
+        }
+        $user = Company::find($request->company_id);
+        if (Hash::check($request->old_password, $user->password)) {
+            $user->fill([
+                'password' => Hash::make($request->password)
+            ])->save();
+            return response()->json([
+                'message' => LanguageManagement::getLabel('success_changed_password', $this->language),
+            ]);
+        } else {
+            return response()->json([
+                'message' => LanguageManagement::getLabel('old_password_match', $this->language),
+            ], 409);
+        }
     }
 }

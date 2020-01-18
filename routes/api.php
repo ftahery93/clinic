@@ -56,7 +56,6 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     /* Ratings */
     Route::post('/user/rateCompany', 'API\User\RatingController@rateCompany');
     Route::get('/user/getMyRatingByCompanyId/{company_id}', 'API\User\RatingController@getMyRatingByCompanyId');
-
 });
 
 Route::group(['middleware' => ['checkAuth', 'checkCompanyVersion']], function () {
@@ -101,6 +100,7 @@ Route::group(['middleware' => ['checkAuth', 'checkCompanyVersion']], function ()
 
     Route::get('/company/getMyCities', 'API\Company\ShipmentController@getMyCities');
 
+    Route::patch('/company/changePassword', 'API\Company\CompanyProfileController@changePassword');
 });
 
 Route::group(['middleware' => 'checkCompanyVersion'], function () {
@@ -130,11 +130,9 @@ Route::group(['middleware' => 'checkVersion'], function () {
     Route::get('/user/getCountries', 'API\User\CountryController@getCountries');
 
     Route::get('/user/getEmail', 'API\User\UserProfileController@getEmail');
-
 });
 
 Route::post('/sendMail', 'API\User\AuthController@sendMail');
 
 //Pages
-    Route::get('/user/getPage', 'API\User\PagesController@getPage');
-
+Route::get('/user/getPage', 'API\User\PagesController@getPage');
