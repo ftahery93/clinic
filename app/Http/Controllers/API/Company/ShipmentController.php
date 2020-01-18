@@ -565,9 +565,8 @@ class ShipmentController extends Controller
         $validator = [
             'shipment_ids' => 'required|array|min:1',
             'shipment_ids.*' => 'distinct',
-            'use_free_deliveries' => 'required|boolean',
-            'free_delivery_ids' => 'array|required_if:use_free_deliveries,true',
-            'free_delivery_ids.*' => 'exists:shipment_price,id|distinct|required_if:use_free_deliveries,true',
+            'free_delivery_ids' => 'required|array',
+            'free_delivery_ids.*' => 'required|distinct',
         ];
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError) {
@@ -592,11 +591,10 @@ class ShipmentController extends Controller
         }
 
         $totalShipmentsPrice = collect($shipments)->sum('price');
-
         $free_deliveries_used = 0;
-        if ($request->use_free_deliveries) {
-            $freeDeliveriesTaken = ShipmentPrice::findMany($request->free_delivery_ids);
 
+        if (count($request->free_delivery_ids) > 0) {
+            $freeDeliveriesTaken = ShipmentPrice::findMany($request->free_delivery_ids);
             if (count($request->free_delivery_ids) > $freeDeliveries->quantity) {
                 return response()->json([
                     "error" => LanguageManagement::getLabel('insufficient_free_deliveries', $this->language),
