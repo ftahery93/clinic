@@ -461,7 +461,7 @@ class CompanyProfileController extends Controller
     /**
      *
      * @SWG\Patch(
-     *         path="/api/provider/changePassword",
+     *         path="/company/changePassword",
      *         tags={"Not in Use"},
      *         operationId="changePassword",
      *         summary="Change User's Password",
@@ -533,7 +533,7 @@ class CompanyProfileController extends Controller
     {
         $validator = [
             'old_password' => 'required',
-            'password' => 'required|min:6|confirm',
+            'password' => 'required|min:6|confirmed',
         ];
         $checkForMessages = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForMessages) {
