@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\User;
 use App\Country;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class CountryController extends Controller
 {
@@ -13,6 +14,7 @@ class CountryController extends Controller
     {
         $this->middleware('api');
         $this->language = $request->header('Accept-Language');
+        App::setLocale($this->language);
     }
 
     /**
@@ -45,19 +47,21 @@ class CountryController extends Controller
      */
     public function getCountries()
     {
+
         $countries = Country::all();
-        $response = [];
-        if ($this->language == 'ar') {
-            foreach ($countries as $country) {
-                $country["name"] = $country["name_ar"];
-                $response[] = collect($country);
-            }
-        } else {
-            foreach ($countries as $country) {
-                $country["name"] = $country["name_en"];
-                $response[] = collect($country);
-            }
-        }
-        return $response;
+        return response()->json($countries);
+        // $response = [];
+        // if ($this->language == 'ar') {
+        //     foreach ($countries as $country) {
+        //         $country["name"] = $country["name_ar"];
+        //         $response[] = collect($country);
+        //     }
+        // } else {
+        //     foreach ($countries as $country) {
+        //         $country["name"] = $country["name_en"];
+        //         $response[] = collect($country);
+        //     }
+        // }
+        // return $response;
     }
 }
