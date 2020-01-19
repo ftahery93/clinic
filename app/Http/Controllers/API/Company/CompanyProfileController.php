@@ -499,7 +499,7 @@ class CompanyProfileController extends Controller
      *                  example="78787878"
      *              ),
      *               @SWG\Property(
-     *                  property="confirm_password",
+     *                  property="password_confirmation",
      *                  type="string",
      *                  description="Provider's confirm password - *(Required)",
      *                  example="78787878"

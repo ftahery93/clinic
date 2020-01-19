@@ -183,7 +183,7 @@ class ShipmentController extends Controller
         $shipment->update([
             'price' => $price,
         ]);
-        
+
         //foreach ($request->shipments as $eachShipment) {
         // $address = Address::find($eachShipment['address_to_id']);
         $shipment->categories()->attach($request->category_id);
@@ -235,6 +235,7 @@ class ShipmentController extends Controller
         // ]);
 
         Notification::sendNotificationToMultipleUser($playerIds, $message_en, $message_ar);
+        
 
         return response()->json([
             'message' => LanguageManagement::getLabel('add_shipment_success', $this->language),
@@ -775,11 +776,9 @@ class ShipmentController extends Controller
         $toValueExists = collect($exceptionCities)->where('city_id', $request->to_cityid)->first();
         $price_to = $this->calculateShipmentFromPrice($toValueExists, $governorate_to);
         $price = $price_to;
-
         if ($price_from > $price_to) {
             $price = $price_from;
         }
-
         return response()->json($price);
     }
 
@@ -827,12 +826,12 @@ class ShipmentController extends Controller
             if ($price_from >= $price_to) {
                 $price = $price + $price_from;
                 $this->createShipmentPrice($shipment, $address_from->city_id, $city_to->id, $address_from->governorate_id, $address_to->governorate_id, $price_from);
-                $pivot[$eachAddressId] = ['shipment_price' => $price_from,'address_id'=>$eachAddressId];
+                $pivot[$eachAddressId] = ['shipment_price' => $price_from, 'address_id' => $eachAddressId];
                 $shipment->addresses()->sync($pivot);
             } else {
                 $price = $price + $price_to;
                 $this->createShipmentPrice($shipment, $address_from->city_id, $city_to->id, $address_from->governorate_id, $address_to->governorate_id, $price_to);
-                $pivot[$eachAddressId] = ['shipment_price' => $price_to,'address_id'=>$eachAddressId];
+                $pivot[$eachAddressId] = ['shipment_price' => $price_to, 'address_id' => $eachAddressId];
                 $shipment->addresses()->sync($pivot);
             }
 
@@ -840,6 +839,10 @@ class ShipmentController extends Controller
                 //$city_to = City::find($address_to->city_id);
                 $citiesNameAr = $citiesNameAr . $city_to->name_ar . ", ";
                 $citiesNameEn = $citiesNameEn . $city_to->name_en . ", ";
+            }
+            if ($iterator >= 2) {
+                $citiesNameAr = $citiesNameAr . "+" . count($address_to_ids) - 2 . ", ";
+                $citiesNameEn = $citiesNameEn . "+" . count($address_to_ids) - 2 . ", ";
             }
             $iterator = $iterator + 1;
         }

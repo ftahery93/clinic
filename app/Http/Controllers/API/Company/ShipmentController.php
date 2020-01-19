@@ -1062,14 +1062,12 @@ class ShipmentController extends Controller
                     ->Where('shipment_price.city_to_id', $request->to_cityid);
             });
         }
-
         if ((!empty($request->from_governorateid) && empty($request->to_governorateid)) || (empty($request->from_governorateid) && !empty($request->to_governorateid))) {
             $return->orWhere(function ($query) use ($request) {
                 $query->where('shipment_price.governorate_from_id', $request->from_governorateid)
                     ->orWhere('shipment_price.governorate_to_id', $request->to_governorateid);
             });
         }
-
         if (!empty($request->from_governorateid) && !empty($request->to_governorateid)) {
             $return->orWhere(function ($query) use ($request) {
                 $query->where('shipment_price.governorate_from_id', $request->from_governorateid)
