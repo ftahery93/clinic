@@ -1050,30 +1050,38 @@ class ShipmentController extends Controller
     {
         $return = Shipment::select('shipments.*')
             ->join('shipment_price', 'shipment_price.shipment_id', '=', 'shipments.id');
-        if ((!empty($request->from_cityid) && empty($request->to_cityid)) || (empty($request->from_cityid) && !empty($request->to_cityid))) {
-            $return->where(function ($query) use ($request) {
-                $query->where('shipment_price.city_from_id', $request->from_cityid)
-                    ->orWhere('shipment_price.city_to_id', $request->to_cityid);
-            });
+
+        if (!empty($request->from_cityid)) {
+            $return->where('shipment_price.city_from_id', $request->from_cityid);
         }
-        if (!empty($request->from_cityid) && !empty($request->to_cityid)) {
-            $return->orWhere(function ($query) use ($request) {
-                $query->where('shipment_price.city_from_id', $request->from_cityid)
-                    ->Where('shipment_price.city_to_id', $request->to_cityid);
-            });
+        if (!empty($request->to_cityid)) {
+            $return->where('shipment_price.city_to_id', $request->to_cityid);
         }
-        if ((!empty($request->from_governorateid) && empty($request->to_governorateid)) || (empty($request->from_governorateid) && !empty($request->to_governorateid))) {
-            $return->orWhere(function ($query) use ($request) {
-                $query->where('shipment_price.governorate_from_id', $request->from_governorateid)
-                    ->orWhere('shipment_price.governorate_to_id', $request->to_governorateid);
-            });
+        if (!empty($request->from_governorateid)) {
+            $return->where('shipment_price.governorate_from_id', $request->from_governorateid);
         }
-        if (!empty($request->from_governorateid) && !empty($request->to_governorateid)) {
-            $return->orWhere(function ($query) use ($request) {
-                $query->where('shipment_price.governorate_from_id', $request->from_governorateid)
-                    ->Where('shipment_price.governorate_to_id', $request->to_governorateid);
-            });
+        if (!empty($request->to_governorateid)) {
+            $return->where('shipment_price.governorate_to_id', $request->to_governorateid);
         }
+
+        // if (!empty($request->from_cityid) && !empty($request->to_cityid)) {
+        //     $return->orWhere(function ($query) use ($request) {
+        //         $query->where('shipment_price.city_from_id', $request->from_cityid)
+        //             ->Where('shipment_price.city_to_id', $request->to_cityid);
+        //     });
+        // }
+        // if ((!empty($request->from_governorateid) && empty($request->to_governorateid)) || (empty($request->from_governorateid) && !empty($request->to_governorateid))) {
+        //     $return->orWhere(function ($query) use ($request) {
+        //         $query->where('shipment_price.governorate_from_id', $request->from_governorateid)
+        //             ->orWhere('shipment_price.governorate_to_id', $request->to_governorateid);
+        //     });
+        // }
+        // if (!empty($request->from_governorateid) && !empty($request->to_governorateid)) {
+        //     $return->orWhere(function ($query) use ($request) {
+        //         $query->where('shipment_price.governorate_from_id', $request->from_governorateid)
+        //             ->Where('shipment_price.governorate_to_id', $request->to_governorateid);
+        //     });
+        // }
         $return->Where('shipments.status', 1);
         $return->groupBy('shipments.id');
         $return = $return->get();
