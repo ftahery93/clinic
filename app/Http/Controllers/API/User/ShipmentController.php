@@ -840,10 +840,10 @@ class ShipmentController extends Controller
                 $citiesNameAr = $citiesNameAr . $city_to->name_ar . ", ";
                 $citiesNameEn = $citiesNameEn . $city_to->name_en . ", ";
             }
-            // if ($iterator >= 2) {
-            //     $citiesNameAr = $citiesNameAr . "+" . (count($address_to_ids) - 2) . ", ";
-            //     $citiesNameEn = $citiesNameEn . "+" . (count($address_to_ids) - 2) . ", ";
-            // }
+            if ($iterator >= 2) {
+                $citiesNameAr = $citiesNameAr . "+" . (sizeof($address_to_ids) - 2) . ", ";
+                $citiesNameEn = $citiesNameEn . "+" . (sizeof($address_to_ids) - 2) . ", ";
+            }
             $iterator = $iterator + 1;
         }
 
