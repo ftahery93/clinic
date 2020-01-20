@@ -277,7 +277,7 @@ class ShipmentController extends Controller
         $pending = [];
         $accepted = [];
 
-        $shipments = Shipment::where('user_id', $request->user_id)->get();
+        $shipments = Shipment::where('user_id', $request->user_id)->orderBy('created_at', 'DESC')->get();
 
         if ($shipments) {
             foreach ($shipments as $shipment) {
@@ -669,7 +669,7 @@ class ShipmentController extends Controller
      */
     public function getShipmentHistory(Request $request)
     {
-        $shipments = Shipment::where('user_id', $request->user_id)->where('status', 4)->get();
+        $shipments = Shipment::where('user_id', $request->user_id)->where('status', 4)->orderBy('created_at', 'DESC')->get();
         $response = [];
         foreach ($shipments as $shipment) {
             $company = Company::find($shipment->company_id);
