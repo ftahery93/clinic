@@ -88,7 +88,7 @@ class WalletController extends Controller
     public function getWalletDetails(Request $request)
     {
         $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
-        $walletTransactions = WalletTransaction::where('company_id', $request->company_id)->get();
+        $walletTransactions = WalletTransaction::where('company_id', $request->company_id)->orderBy('created_at', 'DESC')->get();
         $transactionDetails = [];
         if ($walletTransactions != null) {
             foreach ($walletTransactions as $walletTransaction) {
