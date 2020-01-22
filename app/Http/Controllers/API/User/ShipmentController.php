@@ -20,6 +20,7 @@ use function GuzzleHttp\json_decode;
 use Illuminate\Http\Request;
 use DB;
 use App;
+use App\OneSignalUser;
 
 class ShipmentController extends Controller
 {
