@@ -426,7 +426,9 @@ class ShipmentController extends Controller
                 $message_ar = "شحنة #" . $shipment->id . "يتم حذف";
 
                 Notification::sendNotificationToMultipleForUser($playerIds, $message_en, $message_ar);
-                $shipment->delete();
+                $shipment->update([
+                    'status' => 6
+                ]);
                 return response()->json([
                     'message' => LanguageManagement::getLabel('shipment_delete_success', $this->language),
                 ]);
