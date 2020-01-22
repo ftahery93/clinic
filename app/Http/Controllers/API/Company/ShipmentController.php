@@ -540,12 +540,6 @@ class ShipmentController extends Controller
      *                      example=1
      *                  )
      *              ),
-     *             @SWG\Property(
-     *                 property="use_free_deliveries",
-     *                 type="boolean",
-     *                 description="Using free deliveries or not",
-     *                 example=true
-     *              ),
      *          ),
      *        ),
      *        @SWG\Response(
@@ -565,8 +559,8 @@ class ShipmentController extends Controller
         $validator = [
             'shipment_ids' => 'required|array|min:1',
             'shipment_ids.*' => 'distinct',
-            'free_delivery_ids' => 'required|array',
-            'free_delivery_ids.*' => 'required|distinct',
+            'free_delivery_ids' => 'sometimes|array',
+            'free_delivery_ids.*' => 'sometimes|distinct',
         ];
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError) {
@@ -650,7 +644,7 @@ class ShipmentController extends Controller
             $company = Company::find($request->company_id);
             $message_en = "Shipment #" . $shipment->id . " is Accepted by " . $company->name_en;
             $message_ar = "شحنة #" . $shipment->id . "هو مقبول من قبل " . $company->name_ar;
-            Notification::sendNotificationToMultipleUser($playerIds, $message_en, $message_ar);
+            Notification::sendNotificationToMultipleForUser($playerIds, $message_en, $message_ar);
         }
 
         return response()->json([
