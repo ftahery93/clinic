@@ -139,7 +139,7 @@ class ShipmentController extends Controller
             'address_from_id' => 'required|exists:addresses,id',
             'is_today' => 'required|boolean',
             'pickup_time_from' => 'required',
-            'date' => 'required_if:is_today,false|date|date_format:Y-m-d',
+            'date' => 'required_if:is_today,false|date',
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
@@ -166,14 +166,15 @@ class ShipmentController extends Controller
         $price_from = $this->calculateShipmentFromPrice($fromValueExists, $governorate_from);
 
         $shipment->is_today = $request->is_today;
-        $shipment->pickup_time_from = $request->pickup_time_from;
+        $shipment->pickup_time_from = date('H:m A', strtotime($request->pickup_time_from));
         $shipment->pickup_time_to = $request->pickup_time_to;
         $shipment->user_id = $request->user_id;
         $shipment->status = 1;
         $shipment->payment_type = 1;
 
         if ($request->date) {
-            $shipment->date = $request->date;
+            //$shipment->date = $request->date;
+            $shipment->date = date('d/m/Y', strtotime($request->date));
         }
 
         $citiesNameAr = "";
