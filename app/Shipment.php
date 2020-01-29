@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class Shipment extends Model
 {
     protected $table = "shipments";
-    protected $fillable = array('address_from_id', 'city_id_from', 'city_id_to', 'is_today', 'pickup_time_from', 'pickup_time_to', 'quantity', 'user_id', 'status', 'company_id', 'price', 'payment_type','is_single','date');
+    protected $fillable = array('address_from_id', 'city_id_from', 'city_id_to', 'is_today', 'pickup_time_from', 'pickup_time_to', 'quantity', 'user_id', 'status', 'company_id', 'price', 'payment_type','is_single','date','created_at');
     protected $hidden = array('name', 'image', 'description', 'updated_at', 'address_from_id', 'company_id', 'city_id_from', 'city_id_to', 'address_to_id');
 
     public function categories()
@@ -29,10 +29,10 @@ class Shipment extends Model
         return $value ? true : false;
     }
 
-    public function getPickupTimeFromAttribute($value)
-    {
-        return $value == null ? null : substr($value, 0, -3);
-    }
+    // public function getPickupTimeFromAttribute($value)
+    // {
+    //     return $value == null ? null : substr($value, 0, -3);
+    // }
 
     public function getPickupTimeToAttribute($value)
     {
@@ -47,5 +47,17 @@ class Shipment extends Model
     public function getIsSingleAttribute($value)
     {
         return $value ? true : false;
+    }
+    
+    public function getDateAttribute($value){
+        return date('Y-m-d', strtotime($value));
+    }
+    
+    public function getPickupTimeFromAttribute($value){
+        return date('h:m A', strtotime($value));
+    }
+    
+    public function getCreatedAtAttribute($value){
+        return date('Y-m-d h:m A', strtotime($value));
     }
 }
