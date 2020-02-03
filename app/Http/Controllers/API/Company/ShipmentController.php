@@ -1154,4 +1154,19 @@ class ShipmentController extends Controller
 
         return $shipmentPriceArray;
     }
+
+    public function sendmail($template, $data)
+    {
+
+        Mail::send($template,  $data, function ($message) use ($data) {
+            $message->to($data['email'], $data['fullname'])->subject($data['event_name'] . '- Registration for the Event');
+            $message->from($data['MAIL_FROM_ADDRESS'], $data['APP_NAME']);
+        });
+
+        if (Mail::failures()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
