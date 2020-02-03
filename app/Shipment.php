@@ -54,10 +54,10 @@ class Shipment extends Model
     }
     
     public function getPickupTimeFromAttribute($value){
-        return date('h:m A', strtotime($value));
+        return date('g:i A', strtotime($value));
     }
     
     public function getCreatedAtAttribute($value){
-        return date('Y-m-d h:m A', strtotime($value));
+        return date('Y-m-d g:i A', strtotime($value));
     }
 }
