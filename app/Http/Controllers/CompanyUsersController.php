@@ -112,6 +112,15 @@ class CompanyUsersController extends Controller
         $Company->status = 1;
         $Company->approved = 1;
         $Company->save();
+        
+        Wallet::create([
+            'company_id' =>  $Company->id,
+            'balance' => 0,
+        ]);
+        FreeDelivery::create([
+            'company_id' =>  $Company->id,
+            'quantity' => 0,
+        ]);
 
         return redirect()->action('CompanyUsersController@index')->with('doneMessage', trans('backend.addDone'));
     }
