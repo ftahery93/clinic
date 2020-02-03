@@ -12,6 +12,8 @@ use DB;
 use File;
 use Illuminate\Http\Request;
 use Redirect;
+use App\Wallet;
+use App\FreeDelivery;
 
 class CompanyUsersController extends Controller
 {
