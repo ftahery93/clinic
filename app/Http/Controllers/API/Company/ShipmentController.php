@@ -23,6 +23,7 @@ use App\Wallet;
 use App\WalletTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Mail;
 
 class ShipmentController extends Controller
 {
@@ -645,7 +646,28 @@ class ShipmentController extends Controller
             $message_en = "Shipment #" . $shipment->id . " is Accepted by " . $company->name_en;
             $message_ar = "شحنة #" . $shipment->id . "هو مقبول من قبل " . $company->name_ar;
             Notification::sendNotificationToMultipleForUser($playerIds, $message_en, $message_ar);
+            //mail from and Name
+            $data['MAIL_FROM_ADDRESS'] = env('MAIL_FROM_ADDRESS');
+            $data['APP_NAME'] = env('APP_NAME');
+            $data['detail'] = (App::getLocale() == 'en') ? $message_en : $message_ar;
+            $data['subject'] = 'Shipment Accepted';
+
+            $user = RegisteredUser::where('id', $shipment->user_id)->where('email', '!=', '')->first();
+            if ($user) {
+                $data['fullname'] = '';
+                $data['email'] = $user->email;
+                $this->sendmail('emails.userShipmentStatus', $data);
+            }
         }
+
+        //Send to company
+        $data['amount'] = $commisionAmount;
+        $data['shipment_ids'] = implode(',', $request->shipment_ids);
+        $data['freeDeliveryUsed'] = $free_deliveries_used;
+        $data['fullname'] = (App::getLocale() == 'en') ? $company->name_en : $company->name_ar;
+        $data['email'] = $company->email;
+
+        $this->sendmail('emails.companyShipmentStatus', $data);
 
         return response()->json([
             'message' => LanguageManagement::getLabel('accept_shipment_success', $this->language),
@@ -1159,7 +1181,7 @@ class ShipmentController extends Controller
     {
 
         Mail::send($template,  $data, function ($message) use ($data) {
-            $message->to($data['email'], $data['fullname'])->subject($data['event_name'] . '- Registration for the Event');
+            $message->to($data['email'], $data['fullname'])->subject($data['subject']);
             $message->from($data['MAIL_FROM_ADDRESS'], $data['APP_NAME']);
         });
 
