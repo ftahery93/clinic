@@ -168,13 +168,14 @@ class ShipmentController extends Controller
             ], 404);
         }
 
-        $companyShipments = $company->shipments()->get();
+        $query = $company->shipments();
+        $companyShipments = $query->get();
         if (count($companyShipments) == 0) {
             return response()->json([]);
         }
 
         //return response()->json($companyShipments);
-        $shipments = $this->getShipmentsBasedOnFilter($request, $companyShipments);
+        $shipments = $this->getShipmentsBasedOnFilter($request, $query);
 
         $response = [];
         if (count($shipments) > 0) {
@@ -1064,7 +1065,7 @@ class ShipmentController extends Controller
 
     private function getShipmentsBasedOnFilter($request, $companyShipments)
     {
-        $return = Shipment::select('shipments.*')
+        $return = $companyShipments
             ->join('shipment_price', 'shipment_price.shipment_id', '=', 'shipments.id');
 
         if (!empty($request->from_cityid)) {
