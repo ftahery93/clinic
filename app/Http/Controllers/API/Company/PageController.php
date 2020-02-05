@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Page;
 use App\Utility;
 use Illuminate\Http\Request;
+use App;
 
 class PageController extends Controller
 {
@@ -16,6 +17,7 @@ class PageController extends Controller
     {
         $this->utility = new Utility();
         $this->language = $request->header('Accept-Language');
+        App::setlocale($this->language);
     }
 
     /**
