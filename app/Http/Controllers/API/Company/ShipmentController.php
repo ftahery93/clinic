@@ -605,7 +605,7 @@ class ShipmentController extends Controller
         if ($commisionAmount > ($wallet->balance)) {
             return response()->json([
                 'error' => LanguageManagement::getLabel('insufficient_balance', $this->language),
-            ], 403);
+            ], 404);
         }
 
         $order = Order::create([
