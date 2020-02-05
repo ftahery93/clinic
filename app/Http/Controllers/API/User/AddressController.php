@@ -653,7 +653,6 @@ class AddressController extends Controller
      *         tags={"User Address"},
      *         operationId="getAddressTitles",
      *         summary="Get address title",
-     *         security={{"ApiAuthentication":{}}},
      *         @SWG\Parameter(
      *             name="Accept-Language",
      *             in="header",
