@@ -998,7 +998,7 @@ class ShipmentController extends Controller
             }
         }
         $commission = Commission::find(1);
-        $remainingAmount = $totalShipments * $price * ($commission->percentage / 100);
+        $remainingAmount = $price * ($commission->percentage / 100);
         $walletAmount = $remainingAmount;
         if ($totalShipments > 0) {
             $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
