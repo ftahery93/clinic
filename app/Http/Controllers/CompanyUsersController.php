@@ -40,15 +40,31 @@ class CompanyUsersController extends Controller
     public function index()
     {
         if (@Auth::user()->permissionsGroup->view_status) {
-            $CompanyUsers = Company::
-                select('companies.id', 'companies.name_en','companies.name_ar','companies.description_en','companies.instagram_link','companies.description_ar', 'companies.email', 'companies.mobile', 'companies.phone', 'companies.status',
-                'companies.rating', 'companies.approved', 'companies.image', 'wallet.balance',
+            $CompanyUsers = Company::select(
+                'companies.id',
+                'companies.name_en',
+                'companies.name_ar',
+                'companies.description_en',
+                'companies.instagram_link',
+                'companies.description_ar',
+                'companies.email',
+                'companies.mobile',
+                'companies.phone',
+                'companies.status',
+                'companies.rating',
+                'companies.approved',
+                'companies.image',
+                'wallet.balance',
                 DB::raw("IFNULL((SELECT COUNT(shipments.id) FROM shipments
                 WHERE shipments.status >= 2 AND shipments.company_id!='NULL' AND shipments.company_id=companies.id
                 GROUP BY shipments.company_id),0) as approved_shipments"),
                 DB::raw("IFNULL((SELECT SUM(orders.wallet_amount) FROM orders
                 WHERE orders.company_id!='NULL' AND orders.company_id=companies.id
-                GROUP BY orders.company_id),0.000) as admin_totalCommission"))                
+                GROUP BY orders.company_id),0.000) as admin_totalCommission"),
+                DB::raw("IFNULL((SELECT free_deliveries.quantity FROM free_deliveries
+                WHERE free_deliveries.company_id!='NULL' AND free_deliveries.company_id=companies.id
+                GROUP BY free_deliveries.company_id),0) as freeDeliveries")
+            )
                 ->leftJoin('wallet', 'wallet.company_id', '=', 'companies.id')
                 ->orderby('companies.id', 'asc')
                 ->paginate(env('BACKEND_PAGINATION'));
@@ -57,7 +73,7 @@ class CompanyUsersController extends Controller
         return view("backend.company_users", compact("CompanyUsers", "Permissions"));
     }
 
-     /**
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -78,7 +94,6 @@ class CompanyUsersController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'image' => 'mimes:png,jpeg,jpg,gif|max:3000',
             'name_en' => 'required',
             'name_ar' => 'required',
             'email' => 'required|email|unique:companies',
@@ -86,14 +101,17 @@ class CompanyUsersController extends Controller
             'country_id' => 'required',
             'mobile' => 'required|digits:8|unique:companies',
             'instagram_link' => 'sometimes|url',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:3000'
         ]);
 
         // Start of Upload Files
         $formFileName = "image";
         $fileFinalName_ar = "";
         if ($request->$formFileName != "") {
-            $fileFinalName_ar = time() . rand(1111,
-                9999) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+            $fileFinalName_ar = time() . rand(
+                1111,
+                9999
+            ) . '.' . $request->file($formFileName)->getClientOriginalExtension();
             $path = base_path() . "/public/" . $this->getUploadPath();
             $request->file($formFileName)->move($path, $fileFinalName_ar);
         }
@@ -114,14 +132,15 @@ class CompanyUsersController extends Controller
         $Company->status = 1;
         $Company->approved = 1;
         $Company->save();
-        
+
         Wallet::create([
             'company_id' =>  $Company->id,
             'balance' => 0,
         ]);
+
         FreeDelivery::create([
             'company_id' =>  $Company->id,
-            'quantity' => 0,
+            'quantity' => $request->free_deliveries,
         ]);
 
         return redirect()->action('CompanyUsersController@index')->with('doneMessage', trans('backend.addDone'));
@@ -145,10 +164,17 @@ class CompanyUsersController extends Controller
         }
 
         if (@Auth::user()->permissionsGroup->view_status) {
-            $CompanyUser = Company::find($id);
+            $CompanyUser = DB::table('companies')->find($id);
         }
+
         if ($CompanyUser != null) {
-            return view("backend.company.edit", compact("CompanyUser"));
+            $freeDelivery = FreeDelivery::where('company_id', $id)->first();
+            if (!$freeDelivery) {
+                $freeDelivery = new FreeDelivery();
+                $freeDelivery->quantity = 0;
+            }
+
+            return view("backend.company.edit", compact("CompanyUser", "freeDelivery"));
         } else {
             return redirect()->action('CompanyUsersController@index');
         }
@@ -175,8 +201,16 @@ class CompanyUsersController extends Controller
                 'name_ar' => 'required',
                 'email' => 'required|unique:companies,email,' . $id,
                 'instagram_link' => 'sometimes|url',
-                'mobile' => 'required|digits:8|unique:companies,mobile,' . $id,
+                'mobile' => 'required|digits:8|unique:companies,mobile,' . $id
             ]);
+
+            // Image Validate
+            //If Uploaded Image removed
+            if ($request->hasFile('image')) {
+                $this->validate($request, [
+                    'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:3000'
+                ]);
+            }
 
             $CompanyUser->name_en = $request->name_en;
             $CompanyUser->name_ar = $request->name_ar;
@@ -189,7 +223,37 @@ class CompanyUsersController extends Controller
             $CompanyUser->status = $request->status;
             $CompanyUser->approved = $request->approved;
             $CompanyUser->updated_at = date("Y-m-d H:i:s");
+
+
+            // Start of Upload Files
+            $formFileName = "image";
+            $fileFinalName_ar = "";
+
+            if ($request->hasFile('image')) {
+                $fileFinalName_ar = time() . rand(
+                    1111,
+                    9999
+                ) . '.' . $request->file($formFileName)->getClientOriginalExtension();
+                $path = base_path() . "/public/" . $this->getUploadPath();
+                $request->file($formFileName)->move($path, $fileFinalName_ar);
+                $CompanyUser->image = $fileFinalName_ar;
+                if ($request->hidden_image != "") {
+                    $destinationPath = public_path('/uploads/company_images/');
+                    if (file_exists($destinationPath . $request->hidden_image) && $request->hidden_image != '') {
+                        unlink($destinationPath . $request->hidden_image);
+                    }
+                }
+            }
+            // End of Upload Files
+
+
             $CompanyUser->save();
+
+            FreeDelivery::updateOrCreate(
+                ['company_id' =>  $CompanyUser->id],
+                ['quantity' => $request->free_deliveries]
+            );
+
             return redirect()->action('CompanyUsersController@edit', $id)->with('doneMessage', trans('backend.saveDone'));
         } else {
             return redirect()->action('CompanyUsersController@index');
@@ -205,9 +269,9 @@ class CompanyUsersController extends Controller
      */
     public function updateAll(Request $request)
     {
-         
-        if(empty($request->ids)){
-             
+
+        if (empty($request->ids)) {
+
             return redirect()->route('company_users_list');
         }
 
@@ -225,7 +289,7 @@ class CompanyUsersController extends Controller
             }
             Company::wherein('id', $request->ids)->where('id', "!=", 1)->delete();
         }
-        
+
         return redirect()->action('CompanyUsersController@index')->with('doneMessage', trans('backend.saveDone'));
     }
 
@@ -239,9 +303,13 @@ class CompanyUsersController extends Controller
     public function commissions(Request $request)
     {
         if (@Auth::user()->permissionsGroup->view_status) {
-            $CompanyOrders = Order::
-                select('companies.name_en As company_name', DB::raw("COUNT(order_shipment.shipment_id) as count_shipment"),
-                DB::raw("SUM(orders.wallet_amount) as wallet_amount"), DB::raw("SUM(orders.card_amount) as card_amount"), DB::raw("SUM(orders.free_deliveries) as free_deliveries"))
+            $CompanyOrders = Order::select(
+                'companies.name_en As company_name',
+                DB::raw("COUNT(order_shipment.shipment_id) as count_shipment"),
+                DB::raw("SUM(orders.wallet_amount) as wallet_amount"),
+                DB::raw("SUM(orders.card_amount) as card_amount"),
+                DB::raw("SUM(orders.free_deliveries) as free_deliveries")
+            )
                 ->leftJoin('companies', 'companies.id', '=', 'orders.company_id')
                 ->leftJoin('order_shipment', 'order_shipment.order_id', '=', 'orders.id')
                 ->where('orders.status', '=', 1)
@@ -251,9 +319,7 @@ class CompanyUsersController extends Controller
 
             $Commission = Commission::first();
             $commissionPercentage = $Commission->percentage;
-
         }
         return view("backend.company_commissions", compact("CompanyOrders", "commissionPercentage"));
     }
-
 }

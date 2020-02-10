@@ -59,23 +59,20 @@ class Helper
         return $icon;
     }
 
-    static function getAttribute($obj){
+    static function getAttribute($obj)
+    {
         return implode($obj->toArray());
     }
 
     //Get Query Parameter from URL
-    static function getParam($obj){
-        if(!empty($obj)){
+    static function getParam($obj)
+    {
+        if (!empty($obj)) {
             $query =  parse_url($obj)['query'];
-            parse_str($query,$output);
+            parse_str($query, $output);
             return $output['page'];
         } else {
             return false;
         }
-        
     }
-
 }
-
-
-?>

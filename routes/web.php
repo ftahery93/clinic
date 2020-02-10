@@ -26,17 +26,27 @@ Auth::routes();
 // });
 
 // Default path for home app landing page
-Route::get('/', function () {return view('backend.home.landing');})->name("landingPage");
-Route::get('/driver', function () {return view('backend.home.driver');})->name("driverPage");
-Route::get('/page', function () {return view('backend.home.page');})->name("page");
+Route::get('/', function () {
+    return view('backend.home.landing');
+})->name("landingPage");
+Route::get('/driver', function () {
+    return view('backend.home.driver');
+})->name("driverPage");
+Route::get('/page', function () {
+    return view('backend.home.page');
+})->name("page");
 
 Route::Group(['prefix' => env('BACKEND_PATH')], function () {
 
     // No Permission
-    Route::get('/403', function () {return view('errors.403');})->name('NoPermission');
+    Route::get('/403', function () {
+        return view('errors.403');
+    })->name('NoPermission');
 
     // Not Found
-    Route::get('/404', function () {return view('errors.404');})->name('NotFound');
+    Route::get('/404', function () {
+        return view('errors.404');
+    })->name('NotFound');
 
     // Admin Home
     Route::get('/dashboard', 'HomeController@index')->name('adminHome');
@@ -151,6 +161,14 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     //API Provider Reset Password
     Route::get('/password/resetCompanyPassword/{token}', 'Auth\ResetCompanyPasswordController@showResetForm');
     Route::post('/password/resetCompanyPassword', 'Auth\ResetCompanyPasswordController@reset');
+
+    // Company Users
+    Route::get('/governorates', 'GovernorateController@index')->name('governorate_list');
+    Route::post('/governorates/updateAll', 'GovernorateController@updateAll')->name('governorate_update_all');
+    Route::get('/governorates/create', 'GovernorateController@create')->name('governorate_create');
+    Route::post('/governorates/store', 'GovernorateController@store')->name('governorate_store');
+    Route::get('/governorates/edit/{id}', 'GovernorateController@edit')->name('governorate_edit');
+    Route::post('/governorates/update/{id}', 'GovernorateController@update')->name('governorate_update');
 });
 
 // .. End of Backend Routes

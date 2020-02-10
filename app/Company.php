@@ -21,16 +21,17 @@ class Company extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name_en','name_ar', 'email', 'password', 'image', 'mobile', 'status', 'approved', 'country_id', 'rating','description_en','description_ar'];
-        
-        protected $appends = ['description','name'];
+        'name_en', 'name_ar', 'email', 'password', 'image', 'mobile', 'status', 'approved', 'country_id', 'rating', 'description_en', 'description_ar'
+    ];
+
+    protected $appends = ['description', 'name', 'image_only'];
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
     protected $hidden = [
-        'password', 'created_at', 'updated_at', 'approved', 'country_id', 'status','description_en','description_ar','name_en','name_ar'
+        'password', 'created_at', 'updated_at', 'approved', 'country_id', 'status', 'description_en', 'description_ar', 'name_en', 'name_ar'
     ];
 
     // Probably on the user model, but pick wherever the data is
@@ -66,5 +67,4 @@ class Company extends Authenticatable
     {
         return $this->{'name_' . App::getLocale()};
     }
-
 }

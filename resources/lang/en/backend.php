@@ -5,7 +5,7 @@ return [
   'company_users_edit' => 'Edit Company User Details',
   'registered_users' => 'Registered Users',
   'registered_users_details' => 'Registered Users Details',
-  'hi' => 'Hi',       
+  'hi' => 'Hi',
   'welcome' => 'Welcome',
   'image' => 'Image',
   'name' => 'Name',
@@ -570,4 +570,6 @@ return [
   'address_titles' => 'Address Titles',
   'create' => 'Create',
   'exceptionalCity' => 'Exceptional Cities',
- ];
+  'governorates' => 'Governorates',
+  'country_code' => 'Country Code',
+];

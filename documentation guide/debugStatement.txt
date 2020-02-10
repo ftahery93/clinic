@@ -1,1 +1,0 @@
-https://scotch.io/tutorials/debugging-queries-in-laravel

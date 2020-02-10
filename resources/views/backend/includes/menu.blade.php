@@ -135,6 +135,15 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                         </a>
                     </li>
 
+                    <li {{ (request()->is('admin/governorates/*')) ? 'class=active' : '' }}>
+                        <a href="{{ route('governorate_list') }}">
+                            <span class="nav-icon">
+                                <i class="material-icons">subject</i>
+                            </span>
+                            <span class="nav-text">{{ trans('backend.governorates') }}</span>
+                        </a>
+                    </li>
+
                     {{-- Notifications --}}
                     @if(Helper::GeneralWebmasterSettings("notifications_status"))
                     @if(@Auth::user()->permissionsGroup->notifications_status)
