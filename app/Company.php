@@ -24,7 +24,7 @@ class Company extends Authenticatable
         'name_en', 'name_ar', 'email', 'password', 'image', 'mobile', 'status', 'approved', 'country_id', 'rating', 'description_en', 'description_ar'
     ];
 
-    protected $appends = ['description', 'name', 'image_only'];
+    protected $appends = ['description', 'name'];
     /**
      * The attributes that should be hidden for arrays.
      *
