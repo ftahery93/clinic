@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API\Company;
 
 use App\Authentication;
@@ -238,7 +239,7 @@ class CompanyEntryController extends Controller
         if (!Company::where('email', $request->email)
             ->where('status', '=', 1)
             ->exists()) {
-            return response()->json(['error' => LanguageManagement::getLabel('text_accountDeactivated', $this->language)], 401);
+            return response()->json(['error' => LanguageManagement::getLabel('text_accountDeactivated', $this->language)], 404);
         }
         $registeredCompany = Company::where('email', $request->email)->get()->first();
         //$player_id = OneSignalCompanyUser::where('player_id', $request->player_id)->get()->first();
@@ -264,12 +265,12 @@ class CompanyEntryController extends Controller
             } else {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('text_accountNotApproved', $this->language),
-                ], 401);
+                ], 404);
             }
         } else {
             return response()->json([
                 'error' => LanguageManagement::getLabel('invalid_credentials', $this->language),
-            ], 401);
+            ], 404);
         }
     }
 }
