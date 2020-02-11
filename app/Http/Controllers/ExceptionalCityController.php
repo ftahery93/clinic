@@ -29,10 +29,10 @@ class ExceptionalCityController extends Controller
     public function index()
     {
         if (@Auth::user()->permissionsGroup->view_status) {
-            $exceptionalCities = ExceptionalCity::select('exception_cities.id','cities.name_en As name')
-            ->join('cities','cities.id','=','exception_cities.city_id')->paginate(env('BACKEND_PAGINATION'));          
-        }       
-       
+            $exceptionalCities = ExceptionalCity::select('exception_cities.id', 'cities.name_en As name')
+                ->join('cities', 'cities.id', '=', 'exception_cities.city_id')->paginate(env('BACKEND_PAGINATION'));
+        }
+
         return view("backend.exceptionalCities", compact("exceptionalCities"));
     }
 
@@ -49,10 +49,10 @@ class ExceptionalCityController extends Controller
             return Redirect::to(route('NoPermission'))->send();
         }
 
-        $cities= City::select('id', 'name_en')
-        ->whereNotIn('id', DB::table('exception_cities')->pluck('city_id'))
-        ->get();
-        
+        $cities = City::select('id', 'name_en')->where('country_code', 'KW')
+            ->whereNotIn('id', DB::table('exception_cities')->pluck('city_id'))
+            ->get();
+
 
         return view("backend.exceptional_cities.create", compact("cities"));
     }
@@ -118,9 +118,9 @@ class ExceptionalCityController extends Controller
      */
     public function updateAll(Request $request)
     {
-    
-        if(empty($request->ids)){
-             
+
+        if (empty($request->ids)) {
+
             return redirect()->route('exceptionalCity_list');
         }
 
@@ -132,7 +132,6 @@ class ExceptionalCityController extends Controller
 
             ExceptionalCity::wherein('id', $request->ids)
                 ->delete();
-
         }
         return redirect()->action('ExceptionalCityController@index')->with('doneMessage', trans('backend.saveDone'));
     }
