@@ -6,11 +6,14 @@ use App\Http\Controllers\Controller;
 use App\LanguageManagement;
 use App\Utility;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+use Illuminate\Contracts\Encryption\DecryptException;
+
 
 class ResetCompanyPasswordController extends Controller
 {
@@ -24,6 +27,10 @@ class ResetCompanyPasswordController extends Controller
     private $accessToken;
     protected $guard = 'api';
     protected $broker = 'companies';
+
+
+    use ResetsPasswords;
+
     public function __construct(Request $request)
     {
         $this->utility = new Utility();
@@ -33,25 +40,16 @@ class ResetCompanyPasswordController extends Controller
     {
         return $this->showLinkRequestForm();
     }
+
+
     public function showResetForm(Request $request, $token = null)
     {
 
-        $token = $request->token;
-
-        if (is_null($token)) {
-            return $this->getEmail();
-        }
-        $email = $request->input('email');
-
-        if (property_exists($this, 'resetView')) {
-            return view($this->resetView)->with(compact('token', 'email'));
-        }
-        if (view()->exists('auth.api_passwords.reset_')) {
-            return view('auth.api_passwords.reset')->with(compact('token', 'email'));
-        }
-
-        return view('auth.api_passwords.reset')->with(compact('token', 'email'));
+        return view('auth.api_passwords.reset')->with(
+            ['token' => $token, 'email' => decrypt($request->email), 'url' => env('BACKEND_PATH') . '/password/resetCompanyPassword']
+        );
     }
+
 
     /**
      * Reset the given user's password.
@@ -59,31 +57,13 @@ class ResetCompanyPasswordController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    public function reset(Request $request)
-    {
-        $request->validate($this->ruless(), $this->validationErrorMessages());
 
-        // Here we will attempt to reset the user's password. If it is successful we
-        // will update the password on an actual user model and persist it to the
-        // database. Otherwise we will parse the error and return the response.
-        $response = $this->broker()->reset(
-            $this->credentials($request), function ($user, $password) {
-                $this->resetPassword($user, $password);
-            }
-        );
-        // If the password was successfully reset, we will redirect the user back to
-        // the application's home authenticated view. If there is an error we can
-        // redirect them back to where they came from with their error message.
-        return $response == Password::PASSWORD_RESET
-        ? $this->sendResetResponse($request, $response)
-        : $this->sendResetFailedResponse($request, $response);
-    }
     /**
      * Get the password reset validation rules.
      *
      * @return array
      */
-    protected function ruless()
+    protected function rules()
     {
         return [
             'token' => 'required',
@@ -91,27 +71,7 @@ class ResetCompanyPasswordController extends Controller
             'password' => 'required|confirmed|min:8',
         ];
     }
-    /**
-     * Get the password reset validation error messages.
-     *
-     * @return array
-     */
-    protected function validationErrorMessages()
-    {
-        return [];
-    }
-    /**
-     * Get the password reset credentials from the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    protected function credentials(Request $request)
-    {
-        return $request->only(
-            'email', 'password', 'password_confirmation', 'token'
-        );
-    }
+
     /**
      * Reset the given user's password.
      *
@@ -126,8 +86,9 @@ class ResetCompanyPasswordController extends Controller
         $user->setRememberToken(Str::random(60));
         $user->save();
         event(new PasswordReset($user));
-
     }
+
+
     /**
      * Get the response for a successful password reset.
      *
@@ -137,7 +98,7 @@ class ResetCompanyPasswordController extends Controller
      */
     protected function sendResetResponse(Request $request, $response)
     {
-        return view('auth.api_passwords.success')->with('success', LanguageManagement::getLabel('reset_password_success', 'en'));
+        return view('auth.api_passwords.success')->with('success',  trans('messages.reset_password_success'));
     }
     /**
      * Get the response for a failed password reset.

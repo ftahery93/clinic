@@ -134,5 +134,4 @@ class ForgotPasswordController extends Controller
     {
         return Auth::guard($this->guard);
     }
-
 }

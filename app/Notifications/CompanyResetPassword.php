@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -40,7 +41,7 @@ class CompanyResetPassword extends Notification
         return (new MailMessage)
             ->subject(Lang::getFromJson('Reset Password Notification'))
             ->line('You are receiving this email because we received a password reset request for your account.')
-            ->action('Reset Password', url($action, $this->token))
+            ->action('Reset Password', url($action, [$this->token, encrypt($notifiable->email)]))
             ->line(Lang::getFromJson('This password reset link will expire in :count minutes.', ['count' => config('auth.passwords.users.expire')]))
             ->line(Lang::getFromJson('If you did not request a password reset, no further action is required.'));
     }

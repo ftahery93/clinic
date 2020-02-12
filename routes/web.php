@@ -159,7 +159,7 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
     Route::get('paymentForWallet/{wallet_id?}/{isOffer?}/{offer_id?}/{company_id?}', 'API\Company\PaymentController@paymentForWallet');
 
     //API Provider Reset Password
-    Route::get('/password/resetCompanyPassword/{token}', 'Auth\ResetCompanyPasswordController@showResetForm');
+    Route::get('/password/resetCompanyPassword/{token}/{email}', 'Auth\ResetCompanyPasswordController@showResetForm');
     Route::post('/password/resetCompanyPassword', 'Auth\ResetCompanyPasswordController@reset');
 
     // Company Users
