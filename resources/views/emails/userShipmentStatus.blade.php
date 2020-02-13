@@ -112,7 +112,8 @@
             @if ($shipment->is_today)
             <span style="margin-left:10px;float:right">Pickup time: <b>Now</b></span>
             @else
-            <span style="margin-left:10px;float:right">Pickup time: <b>{{ $shipment->pickup_time_from }}</b></span>
+            <span style="margin-left:10px;float:right">Pickup time:
+                <b>{{ date('d/m/Y',strtotime($shipment->date))}} {{ $shipment->pickup_time_from }}</b></span>
             @endif
         </div>
     </div>

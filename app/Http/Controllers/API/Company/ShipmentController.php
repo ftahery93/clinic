@@ -660,8 +660,8 @@ class ShipmentController extends Controller
                 $data['email'] = $user->email;
                 $data['shipment'] = $this->getShipmentDetailsResponse($shipment);
                 $allShipments[] = $data['shipment'];
-                EmailJob::dispatch($data, 'emails.userShipmentStatus');
-                //$this->sendmail('emails.userShipmentStatus', $data);
+                // EmailJob::dispatch($data, 'emails.userShipmentStatus');
+                $this->sendmail('emails.userShipmentStatus', $data);
             }
         }
 
@@ -675,8 +675,8 @@ class ShipmentController extends Controller
         unset($data['shipment']);
         $data['shipments'] = $allShipments;
 
-        EmailJob::dispatch($data, 'emails.companyShipmentStatus');
-        //$this->sendmail('emails.companyShipmentStatus', $data);
+        //EmailJob::dispatch($data, 'emails.companyShipmentStatus');
+        $this->sendmail('emails.companyShipmentStatus', $data);
 
         return response()->json([
             'message' => LanguageManagement::getLabel('accept_shipment_success', $this->language),
