@@ -9,7 +9,7 @@ class Governorate extends Model
 {
     protected $table = "governorates";
 
-    protected $hidden = ['created_at', 'updated_at', 'country_id', 'code', 'status', 'name_en', 'name_ar'];
+    protected $hidden = ['created_at', 'updated_at', 'country_id', 'code', 'status', 'name_en', 'name_ar','price'];
     protected $appends = ['name'];
 
     public function getNameAttribute()
