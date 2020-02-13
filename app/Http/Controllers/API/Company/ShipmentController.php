@@ -631,7 +631,7 @@ class ShipmentController extends Controller
         $freeDeliveries->update([
             'quantity' => ($freeDeliveries->quantity - $free_deliveries_used),
         ]);
-
+        $allShipments = [];
         foreach ($shipments as $shipment) {
             $message_en = "";
             $message_ar = "";
@@ -658,19 +658,25 @@ class ShipmentController extends Controller
             if ($user) {
                 $data['fullname'] = '';
                 $data['email'] = $user->email;
-                EmailJob::dispatch($data, 'emails.userShipmentStatus');
-                //$this->sendmail('emails.userShipmentStatus', $data);
+                $data['shipment'] = $this->getShipmentDetailsResponse($shipment);
+                $allShipments[] = $data['shipment'];
+                // EmailJob::dispatch($data, 'emails.userShipmentStatus');
+                $this->sendmail('emails.userShipmentStatus', $data);
             }
         }
 
         //Send to company
-        $data['amount'] = $commisionAmount;
-        $data['shipment_ids'] = implode(',', $request->shipment_ids);
+        $data['paid'] = $commisionAmount;
+        $data['totalAmount'] = $totalShipmentsPrice;
+        //$data['shipment_ids'] = implode(',', $request->shipment_ids);
         $data['freeDeliveryUsed'] = $free_deliveries_used;
         $data['fullname'] = (App::getLocale() == 'en') ? $company->name_en : $company->name_ar;
         $data['email'] = $company->email;
-        EmailJob::dispatch($data, 'emails.companyShipmentStatus');
-        //$this->sendmail('emails.companyShipmentStatus', $data);
+        unset($data['shipment']);
+        $data['shipments'] = $allShipments;
+
+        //EmailJob::dispatch($data, 'emails.companyShipmentStatus');
+        $this->sendmail('emails.companyShipmentStatus', $data);
 
         return response()->json([
             'message' => LanguageManagement::getLabel('accept_shipment_success', $this->language),
