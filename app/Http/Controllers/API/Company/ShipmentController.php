@@ -11,6 +11,7 @@ use App\Country;
 use App\FreeDelivery;
 use App\Helpers\Notification;
 use App\Http\Controllers\Controller;
+use App\Jobs\EmailJob;
 use App\Jobs\ReserveShipment;
 use App\LanguageManagement;
 use App\OneSignalUser;
@@ -657,7 +658,8 @@ class ShipmentController extends Controller
             if ($user) {
                 $data['fullname'] = '';
                 $data['email'] = $user->email;
-                $this->sendmail('emails.userShipmentStatus', $data);
+                EmailJob::dispatch($data, 'emails.userShipmentStatus');
+                //$this->sendmail('emails.userShipmentStatus', $data);
             }
         }
 
@@ -667,8 +669,8 @@ class ShipmentController extends Controller
         $data['freeDeliveryUsed'] = $free_deliveries_used;
         $data['fullname'] = (App::getLocale() == 'en') ? $company->name_en : $company->name_ar;
         $data['email'] = $company->email;
-
-        $this->sendmail('emails.companyShipmentStatus', $data);
+        EmailJob::dispatch($data, 'emails.companyShipmentStatus');
+        //$this->sendmail('emails.companyShipmentStatus', $data);
 
         return response()->json([
             'message' => LanguageManagement::getLabel('accept_shipment_success', $this->language),
