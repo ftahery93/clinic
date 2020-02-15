@@ -69,14 +69,11 @@
 	<!-- Section Navbar -->
 	<nav class="navbar-1 navbar navbar-expand-lg" id="myHeader">
 		<div class="container navbar-container">
-			<a class="navbar-brand" @if(empty(Request::get('lang'))) href="{{ URL::to('/') }}" @else
-				href="{{ URL::to('/?lang=en') }}" @endif><img src="{{ asset('assets/images/masafah_logo.png') }}"
-					alt="Masafah"></a>
+			<a class="navbar-brand" @if(empty(Request::get('lang'))) href="{{ URL::to('/') }}" @else href="{{ URL::to('/?lang=en') }}" @endif><img src="{{ asset('assets/images/masafah_logo.png') }}" alt="Masafah"></a>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item">
-						<a @if(empty(Request::get('lang'))) href="{{ URL::to('/') }}" @else
-							href="{{ URL::to('/?lang=en') }}" @endif class="nav-link scroll-down">
+						<a @if(empty(Request::get('lang'))) href="{{ URL::to('/') }}" @else href="{{ URL::to('/?lang=en') }}" @endif class="nav-link scroll-down">
 							@if(empty(Request::get('lang')))
 							الرئيسية @else
 							Home
@@ -90,8 +87,7 @@
 							@endif</a>
 					</li>
 					<li class="nav-item">
-						<a href="@if(empty(Request::get('lang'))) {{ URL::to('/?lang=en') }} @else {{ URL::to('/') }} @endif"
-							class="nav-link scroll-down">
+						<a href="@if(empty(Request::get('lang'))) {{ URL::to('/?lang=en') }} @else {{ URL::to('/') }} @endif" class="nav-link scroll-down">
 							@if(empty(Request::get('lang'))) English @else العربية @endif
 
 						</a>
@@ -107,9 +103,7 @@
 				التحميل الان @else
 				Download Now
 				@endif</a>
-			<button type="button" id="sidebarCollapse" class="navbar-toggler active" data-toggle="collapse"
-				data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true"
-				aria-label="Toggle navigation">
+			<button type="button" id="sidebarCollapse" class="navbar-toggler active" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
 				<span></span>
 				<span></span>
 				<span></span>
@@ -140,12 +134,8 @@
 										dolore magna aliqua.
 										@endif</p>
 									<ul>
-										<li><a href="#"><img class="img-fluid ez-animate"
-													src="{{ asset('assets/images/img-appstore.png')}}" alt="Masafah"
-													data-animation="fadeInUp"></a></li>
-										<li><a href="#"><img class="img-fluid ez-animate"
-													src="{{ asset('assets/images/img-googleplay.png')}}" alt="Masafah"
-													data-animation="fadeInUp"></a></li>
+										<li><a href="#"><img class="img-fluid ez-animate" src="{{ asset('assets/images/img-appstore.png')}}" alt="Masafah" data-animation="fadeInUp"></a></li>
+										<li><a href="#"><img class="img-fluid ez-animate" src="{{ asset('assets/images/img-googleplay.png')}}" alt="Masafah" data-animation="fadeInUp"></a></li>
 									</ul>
 								</div>
 								<div class="right ez-animate col-12 col-sm-12 col-md-5" data-animation="fadeInRight">
@@ -241,6 +231,11 @@
 				<div class="owl-carousel owl-theme">
 					<!-- Item -->
 					<div class="item">
+						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user1.png')}}" alt="Masafah">
+					</div>
+					<!-- /.Item -->
+					<!-- Item -->
+					<div class="item">
 						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user2.png')}}" alt="Masafah">
 					</div>
 					<!-- /.Item -->
@@ -255,14 +250,9 @@
 					</div>
 					<!-- /.Item -->
 					<!-- Item -->
-					<div class="item">
-						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user2.png')}}" alt="Masafah">
-					</div>
-					<!-- /.Item -->
-					<!-- Item -->
-					<div class="item">
+					<!-- <div class="item">
 						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user3.png')}}" alt="Masafah">
-					</div>
+					</div> -->
 					<!-- /.Item -->
 				</div>
 				<!-- Add Pagination -->
@@ -282,14 +272,12 @@
 					<ul>
 						<li>
 							<a href="#">
-								<img class="img-fluid ez-animate" src="{{ asset('assets/images/img-appstore.png')}}"
-									alt="Masafah" data-animation="fadeInUp">
+								<img class="img-fluid ez-animate" src="{{ asset('assets/images/img-appstore.png')}}" alt="Masafah" data-animation="fadeInUp">
 							</a>
 						</li>
 						<li>
 							<a href="#">
-								<img class="img-fluid ez-animate" src="{{ asset('assets/images/img-googleplay.png')}}"
-									alt="Masafah" data-animation="fadeInUp">
+								<img class="img-fluid ez-animate" src="{{ asset('assets/images/img-googleplay.png')}}" alt="Masafah" data-animation="fadeInUp">
 							</a>
 						</li>
 					</ul>
@@ -345,22 +333,25 @@
 	<script src="{{ asset('assets/js/carousel-testimonial1.js') }}"></script>
 	<script>
 		// When the user scrolls the page, execute myFunction
-		window.onscroll = function() {myFunction()};
-		
+		window.onscroll = function() {
+			myFunction()
+		};
+
 		// Get the header
 		var header = document.getElementById("myHeader");
-		
+
 		// Get the offset position of the navbar
 		var sticky = header.offsetTop;
-		
+
 		// Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll
 		position
+
 		function myFunction() {
-		if (window.pageYOffset > sticky) {
-		header.classList.add("sticky");
-		} else {
-		header.classList.remove("sticky");
-		}
+			if (window.pageYOffset > sticky) {
+				header.classList.add("sticky");
+			} else {
+				header.classList.remove("sticky");
+			}
 		}
 	</script>
 
