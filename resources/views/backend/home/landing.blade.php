@@ -18,7 +18,7 @@
 	<!-- Title -->
 	<title>Masafah</title>
 	<!-- Favicon -->
-	<link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}">
+	<link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 	<!-- Bootstrap 4 -->
 	<link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" type="text/css">
 	<!-- Swiper Slider -->
@@ -67,24 +67,46 @@
 	</div>
 	<!-- /.Section Preloader -->
 	<!-- Section Navbar -->
-	<nav class="navbar-1 navbar navbar-expand-lg">
+	<nav class="navbar-1 navbar navbar-expand-lg" id="myHeader">
 		<div class="container navbar-container">
-			<a class="navbar-brand" href="#"><img src="{{ asset('assets/images/masafah_logo.png') }}" alt="Masafah"></a>
+			<a class="navbar-brand" @if(empty(Request::get('lang'))) href="{{ URL::to('/') }}" @else
+				href="{{ URL::to('/?lang=en') }}" @endif><img src="{{ asset('assets/images/masafah_logo.png') }}"
+					alt="Masafah"></a>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item">
-						<a href="#" class="nav-link scroll-down">
+						<a @if(empty(Request::get('lang'))) href="{{ URL::to('/') }}" @else
+							href="{{ URL::to('/?lang=en') }}" @endif class="nav-link scroll-down">
+							@if(empty(Request::get('lang')))
+							الرئيسية @else
 							Home
+							@endif
 						</a>
 					</li>
 					<li class="nav-item">
-						<a href="#section-features1" class="nav-link scroll-down">Features</a>
+						<a href="#section-features1" class="nav-link scroll-down">@if(empty(Request::get('lang')))
+							المميزات @else
+							Features
+							@endif</a>
 					</li>
+					<li class="nav-item">
+						<a href="@if(empty(Request::get('lang'))) {{ URL::to('/?lang=en') }} @else {{ URL::to('/') }} @endif"
+							class="nav-link scroll-down">
+							@if(empty(Request::get('lang'))) English @else العربية @endif
 
+						</a>
+					</li>
 				</ul>
 			</div>
-			<a href="{{ route('driverPage') }}" class="btn-1 shadow1 style1 bgschemeblack">Driver</a>
-			<a href="#section-download1" class="btn-1 shadow1 style3 bgscheme">Download Now</a>
+			{{-- <a href="{{ route('driverPage') }}"
+			class="btn-1 shadow1 style1 bgschemeblack">@if(empty(Request::get('lang')))
+			سائق @else
+			Driver
+			@endif</a> --}}
+			<a href="#section-download1" class="btn-1 shadow1 style3 bgscheme">@if(empty(Request::get('lang')))
+				التحميل الان @else
+				Download Now
+				@endif</a>
 			<button type="button" id="sidebarCollapse" class="navbar-toggler active" data-toggle="collapse"
 				data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true"
 				aria-label="Toggle navigation">
@@ -107,10 +129,16 @@
 						<div class="container">
 							<div class="row">
 								<div class="left col-12 col-sm-12 col-md-7">
-									<h1 class="ez-animate" data-animation="fadeInLeft">Perfect app for users.</h1>
-									<p class="ez-animate" data-animation="fadeInLeft">Lorem ipsum dolor sit amet,
+									<h1 class="ez-animate" data-animation="fadeInLeft">@if(empty(Request::get('lang')))
+										التطبيق المثالي للمستخدمين. @else
+										Perfect app for users.
+										@endif</h1>
+									<p class="ez-animate" data-animation="fadeInLeft">@if(empty(Request::get('lang')))
+										أبجد هوز دولور الجلوس امات، @else
+										Lorem ipsum dolor sit amet,
 										consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua.</p>
+										dolore magna aliqua.
+										@endif</p>
 									<ul>
 										<li><a href="#"><img class="img-fluid ez-animate"
 													src="{{ asset('assets/images/img-appstore.png')}}" alt="Masafah"
@@ -137,7 +165,9 @@
 		<div class="container">
 			<div class="row">
 				<div class="left">
-					<h6 class="clscheme">Checkout features</h6>
+					<h6 class="clscheme">@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
+						Easy steps to use
+						@endif</h6>
 					<ul>
 						<li><i class="fa fa-long-arrow-left clscheme"></i></li>
 						<li><i class="fa fa-long-arrow-right clscheme"></i></li>
@@ -150,9 +180,12 @@
 							<div class="swiper-slide">
 								<div class="item">
 									<img src="{{ asset('assets/images/img-icon1.png')}}" alt="Masafah">
-									<h3>Sign Up & Login</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-										incididunt ut labore et dolore magna aliqua.</p>
+									<h3>@if(empty(Request::get('lang'))) اشترك تسجيل الدخول @else
+										Sign Up & Login
+										@endif</h3>
+									<p>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
+										Easily register by phone number.
+										@endif <br /><br /></p>
 								</div>
 							</div>
 							<!-- /.Item -->
@@ -160,9 +193,12 @@
 							<div class="swiper-slide">
 								<div class="item">
 									<img src="{{ asset('assets/images/img-icon2.png')}}" alt="Masafah">
-									<h3>Profile Details</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-										incididunt ut labore et dolore magna aliqua.</p>
+									<h3>@if(empty(Request::get('lang'))) شركات التوصيل @else
+										Delivery Companies
+										@endif</h3>
+									<p>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
+										A list of most Kuwait delivery companies waiting for your order
+										@endif</p>
 								</div>
 							</div>
 							<!-- /.Item -->
@@ -170,9 +206,12 @@
 							<div class="swiper-slide">
 								<div class="item">
 									<img src="{{ asset('assets/images/img-icon3.png')}}" alt="Masafah">
-									<h3>Shipments</h3>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-										incididunt ut labore et dolore magna aliqua.</p>
+									<h3>@if(empty(Request::get('lang'))) شحنات @else
+										Shipments
+										@endif</h3>
+									<p>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
+										The ability to deliver more than one shipment through in one order
+										@endif</p>
 								</div>
 							</div>
 							<!-- /.Item -->
@@ -188,8 +227,12 @@
 		<div class="container">
 			<div class="row">
 				<div class="title1 col-12">
-					<h6 class="clscheme">APP SCREEN</h6>
-					<h2>How our app looks like</h2>
+					<h6 class="clscheme">@if(empty(Request::get('lang'))) شاشة التطبيق @else
+						APP SCREEN
+						@endif</h6>
+					<h2>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
+						How our app looks like
+						@endif</h2>
 				</div>
 			</div>
 		</div>
@@ -233,7 +276,9 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-					<h1>Download User app today</h1>
+					<h1>@if(empty(Request::get('lang'))) قم بتنزيل تطبيق المستخدم اليوم @else
+						Download User app today
+						@endif</h1>
 					<ul>
 						<li>
 							<a href="#">
@@ -298,6 +343,26 @@
 	<script src="{{ asset('assets/js/carousel-appscreen1.js') }}"></script>
 	<!-- Carousel Testimonial 1 -->
 	<script src="{{ asset('assets/js/carousel-testimonial1.js') }}"></script>
+	<script>
+		// When the user scrolls the page, execute myFunction
+		window.onscroll = function() {myFunction()};
+		
+		// Get the header
+		var header = document.getElementById("myHeader");
+		
+		// Get the offset position of the navbar
+		var sticky = header.offsetTop;
+		
+		// Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll
+		position
+		function myFunction() {
+		if (window.pageYOffset > sticky) {
+		header.classList.add("sticky");
+		} else {
+		header.classList.remove("sticky");
+		}
+		}
+	</script>
 
 </body>
 

@@ -18,7 +18,7 @@
 	<!-- Title -->
 	<title>Masafah</title>
 	<!-- Favicon -->
-	<link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}">
+	<link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 	<!-- Bootstrap 4 -->
 	<link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" type="text/css">
 	<!-- Swiper Slider -->
@@ -137,7 +137,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="left">
-					<h6 class="clscheme">Checkout features</h6>
+					<h6 class="clscheme">Easy Steps</h6>
 					<ul>
 						<li><i class="fa fa-long-arrow-left clscheme"></i></li>
 						<li><i class="fa fa-long-arrow-right clscheme"></i></li>
@@ -343,7 +343,26 @@
 	<script src="{{ asset('assets/js/carousel-appscreen1.js') }}"></script>
 	<!-- Carousel Testimonial 1 -->
 	<script src="{{ asset('assets/js/carousel-testimonial1.js') }}"></script>
-
+	<script>
+		// When the user scrolls the page, execute myFunction
+		window.onscroll = function() {myFunction()};
+		
+		// Get the header
+		var header = document.getElementById("myHeader");
+		
+		// Get the offset position of the navbar
+		var sticky = header.offsetTop;
+		
+		// Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll
+		position
+		function myFunction() {
+		if (window.pageYOffset > sticky) {
+		header.classList.add("sticky");
+		} else {
+		header.classList.remove("sticky");
+		}
+		}
+	</script>
 </body>
 
 </html>

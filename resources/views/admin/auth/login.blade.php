@@ -6,14 +6,32 @@ Login
 
 @section('css')
 <style>
-    body{background-image: url('{{ asset("assets/images/admin_Login_bg.jpg") }}') !important;background-size: cover !important;background-position: center center !important;}
-    .login-page .login-header{background:none !important;}
-    .login-page .login-form .form-group .input-group{background-color:#fff !important;}
-    .login-page .login-form .form-group .input-group .form-control {
-        color:#252525 !important;
+    body {
+        background-image: url('{{ asset("assets/images/admin_Login_bg.jpg") }}') !important;
+        background-size: cover !important;
+        background-position: center center !important;
     }
-    .login-page .login-form .form-group .btn-login{background-color:#000 !important;}
-    .login-page .login-form{padding-top:38px;}
+
+    .login-page .login-header {
+        background: none !important;
+    }
+
+    .login-page .login-form .form-group .input-group {
+        background-color: #fff !important;
+    }
+
+    .login-page .login-form .form-group .input-group .form-control {
+        color: #252525 !important;
+    }
+
+    .login-page .login-form .form-group .btn-login {
+        background-color: #000 !important;
+    }
+
+    .login-page .login-form {
+        padding-top: 38px;
+    }
+
     .login-page .login-form .form-group .btn-login {
         height: 51px;
         padding: 0px 10px;
@@ -32,7 +50,7 @@ Login
 
             <a href="{{ url('admin') }}" class="logo">
                 <img src="{{ asset('assets/images/logo_white.png') }}" width="120" alt="" />
-            </a> 
+            </a>
 
 
         </div>
@@ -47,14 +65,14 @@ Login
 
         <div class="login-content">
 
-            <form role="form"  autocomplete="off"  method="POST" action="{{ url('/admin/login') }}" id="form1">
+            <form role="form" autocomplete="off" method="POST" action="{{ url('/admin/login') }}" id="form1">
                 {{ method_field('POST') }}
                 {{ csrf_field() }}
 
                 @if(count($errors))
                 @include('layouts.flash-message')
                 @yield('form-error')
-                @endif                 
+                @endif
                 @if(Session::has('error'))
                 @include('layouts.flash-message')
                 @endif
@@ -64,7 +82,8 @@ Login
                         <div class="input-group-addon">
                             <i class="entypo-user"></i>
                         </div>
-                        <input type="text" class="form-control" id="username"  autocomplete="off" value="{{ old('username') }}" name="username" placeholder="Username" required >
+                        <input type="text" class="form-control" id="username" autocomplete="off"
+                            value="{{ old('username') }}" name="username" placeholder="Username" required>
 
                         <!--                        @if ($errors->has('username'))
                         
@@ -83,7 +102,8 @@ Login
                             <i class="entypo-key"></i>
                         </div>
 
-                        <input type="password" class="form-control" name="password" id="password" placeholder="Password" autocomplete="off" required/>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Password"
+                            autocomplete="off" required />
 
                         <!--                        @if ($errors->has('password'))
                         
@@ -99,7 +119,7 @@ Login
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block btn-login">
                         <i class="entypo-login"></i>
-                        Login 
+                        Login
                     </button>
                 </div>
 
@@ -145,7 +165,7 @@ Login
 <script src="{{ asset('assets/js/neon-login.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.validate.js') }}"></script>
 <script type="text/javascript">
-$(document).ready(function () {
+    $(document).ready(function () {
 
     var validator = $("#form1").validate({
         ignore: 'input[type=hidden], .select2-input, .select2-focusser',
