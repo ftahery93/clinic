@@ -252,13 +252,14 @@
 					<!-- Item -->
 					<div class="item">
 						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user3.png')}}" alt="Masafah">
+
 					</div>
 					<!-- /.Item -->
 					<!-- Item -->
 					<div class="item">
+
 						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user4.png')}}" alt="Masafah">
 					</div>
-					<!-- /.Item -->
 
 				</div>
 				<!-- Add Pagination -->
@@ -341,23 +342,28 @@
 	<script src="{{ asset('assets/js/carousel-testimonial1.js') }}"></script>
 	<script>
 		// When the user scrolls the page, execute myFunction
-		window.onscroll = function() {myFunction()};
-		
+		window.onscroll = function() {
+			myFunction()
+		};
+
 		// Get the header
 		var header = document.getElementById("myHeader");
-		
+
 		// Get the offset position of the navbar
 		var sticky = header.offsetTop;
-		
+
 		// Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll
 		position
+
 		function myFunction() {
+
 		if (window.pageYOffset > sticky) {
 		header.classList.add("sticky");
 		} else {
 		header.classList.remove("sticky");
 		}
 		}	
+
 	</script>
 
 </body>
