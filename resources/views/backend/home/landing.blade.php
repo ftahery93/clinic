@@ -184,8 +184,8 @@
 										Sign Up & Login
 										@endif</h3>
 									<p>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
-										Easily register by phone number.
-										@endif <br /><br /></p>
+										Easily register by phone number. <br /><br />
+										@endif </p>
 								</div>
 							</div>
 							<!-- /.Item -->
@@ -241,6 +241,11 @@
 				<div class="owl-carousel owl-theme">
 					<!-- Item -->
 					<div class="item">
+						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user1.png')}}" alt="Masafah">
+					</div>
+					<!-- /.Item -->
+					<!-- Item -->
+					<div class="item">
 						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user2.png')}}" alt="Masafah">
 					</div>
 					<!-- /.Item -->
@@ -254,16 +259,7 @@
 						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user4.png')}}" alt="Masafah">
 					</div>
 					<!-- /.Item -->
-					<!-- Item -->
-					<div class="item">
-						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user2.png')}}" alt="Masafah">
-					</div>
-					<!-- /.Item -->
-					<!-- Item -->
-					<div class="item">
-						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user3.png')}}" alt="Masafah">
-					</div>
-					<!-- /.Item -->
+
 				</div>
 				<!-- Add Pagination -->
 				<div class="swiper-pagination"></div>
@@ -361,7 +357,7 @@
 		} else {
 		header.classList.remove("sticky");
 		}
-		}
+		}	
 	</script>
 
 </body>
