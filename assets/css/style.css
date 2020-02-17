@@ -124,7 +124,7 @@ body {
 
 p {
     font-family: 'Poppins-Regular';
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 300;
     line-height: 26px;
     color: #878787;
@@ -1174,7 +1174,7 @@ a.animated-button.style2:hover:after {
 
 #section-slider1 .swiper-slide .slider-content .left h1 {
     font-family: 'Poppins-Medium';
-    font-size: 48px;
+    font-size: 35px;
     color: #ffffff;
     margin-bottom: 30px;
 }
@@ -2901,6 +2901,9 @@ a.animated-button.style2:hover:after {
 }
 
 @media only screen and ( min-width: 1200px) {
+    .swiper-container {
+        margin: 0px 0px 0px 15px;
+    }
     .container {
         max-width: 1170px;
         padding-right: 0;

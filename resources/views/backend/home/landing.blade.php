@@ -130,15 +130,12 @@
 							<div class="row">
 								<div class="left col-12 col-sm-12 col-md-7">
 									<h1 class="ez-animate" data-animation="fadeInLeft">@if(empty(Request::get('lang')))
-										التطبيق المثالي للمستخدمين. @else
-										Perfect app for users.
+										تطبيق مسافة يتيح لك توصيل الطلبات الاستهلاكية في أي وقت ومن أي مكان وبأسرع وقت
+										ممكن @else
+										Masafah app allows you to deliver orders anytime, anywhere as quickly as
+										possible
 										@endif</h1>
-									<p class="ez-animate" data-animation="fadeInLeft">@if(empty(Request::get('lang')))
-										أبجد هوز دولور الجلوس امات، @else
-										Lorem ipsum dolor sit amet,
-										consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua.
-										@endif</p>
+
 									<ul>
 										<li><a href="#"><img class="img-fluid ez-animate"
 													src="{{ asset('assets/images/img-appstore.png')}}" alt="Masafah"
@@ -161,7 +158,7 @@
 	</div>
 	<!-- /.Section Slider 1 -->
 	<!-- Section Features 1 -->
-	<div id="section-features1">
+	{{-- <div id="section-features1">
 		<div class="container">
 			<div class="row">
 				<div class="left">
@@ -180,47 +177,47 @@
 							<div class="swiper-slide">
 								<div class="item">
 									<img src="{{ asset('assets/images/img-icon1.png')}}" alt="Masafah">
-									<h3>@if(empty(Request::get('lang'))) اشترك تسجيل الدخول @else
-										Sign Up & Login
-										@endif</h3>
-									<p>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
-										Easily register by phone number. <br /><br />
-										@endif </p>
-								</div>
-							</div>
-							<!-- /.Item -->
-							<!-- Item -->
-							<div class="swiper-slide">
-								<div class="item">
-									<img src="{{ asset('assets/images/img-icon2.png')}}" alt="Masafah">
-									<h3>@if(empty(Request::get('lang'))) شركات التوصيل @else
-										Delivery Companies
-										@endif</h3>
-									<p>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
-										A list of most Kuwait delivery companies waiting for your order
-										@endif</p>
-								</div>
-							</div>
-							<!-- /.Item -->
-							<!-- Item -->
-							<div class="swiper-slide">
-								<div class="item">
-									<img src="{{ asset('assets/images/img-icon3.png')}}" alt="Masafah">
-									<h3>@if(empty(Request::get('lang'))) شحنات @else
-										Shipments
-										@endif</h3>
-									<p>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
-										The ability to deliver more than one shipment through in one order
-										@endif</p>
-								</div>
-							</div>
-							<!-- /.Item -->
-						</div>
-					</div>
-				</div>
-			</div>
+	<h3>@if(empty(Request::get('lang'))) اشترك تسجيل الدخول @else
+		Sign Up & Login
+		@endif</h3>
+	<p>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
+		Easily register by phone number. <br /><br />
+		@endif </p>
+	</div>
+	</div>
+	<!-- /.Item -->
+	<!-- Item -->
+	<div class="swiper-slide">
+		<div class="item">
+			<img src="{{ asset('assets/images/img-icon2.png')}}" alt="Masafah">
+			<h3>@if(empty(Request::get('lang'))) شركات التوصيل @else
+				Delivery Companies
+				@endif</h3>
+			<p>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
+				A list of most Kuwait delivery companies waiting for your order
+				@endif</p>
 		</div>
 	</div>
+	<!-- /.Item -->
+	<!-- Item -->
+	<div class="swiper-slide">
+		<div class="item">
+			<img src="{{ asset('assets/images/img-icon3.png')}}" alt="Masafah">
+			<h3>@if(empty(Request::get('lang'))) شحنات @else
+				Shipments
+				@endif</h3>
+			<p>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
+				The ability to deliver more than one shipment through in one order
+				@endif</p>
+		</div>
+	</div>
+	<!-- /.Item -->
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div> --}}
 	<!-- /.Section Features 1 -->
 	<!-- Section APP Screen 1 -->
 	<div id="section-appscreen1">
@@ -230,40 +227,66 @@
 					<h6 class="clscheme">@if(empty(Request::get('lang'))) شاشة التطبيق @else
 						APP SCREEN
 						@endif</h6>
-					<h2>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
+					<h2>@if(empty(Request::get('lang'))) كيف يبدو التطبيق لدينا @else
 						How our app looks like
 						@endif</h2>
 				</div>
 			</div>
 		</div>
-		<div class="container appscreen1">
-			<div class="row">
-				<div class="owl-carousel owl-theme">
-					<!-- Item -->
+		<div class="swiper-container features1">
+			<div class="swiper-wrapper">
+				<!-- Item -->
+				<div class="swiper-slide">
 					<div class="item">
+						<h3>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
+							Sign Up & Login
+							@endif</h3>
+						<p>@if(empty(Request::get('lang'))) التسجيل عن طريق رقم الهاتف بسهولة @else
+							Easily register by phone number. <br /><br />
+							@endif </p>
 						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user1.png')}}" alt="Masafah">
 					</div>
-					<!-- /.Item -->
-					<!-- Item -->
+				</div>
+				<!-- /.Item -->
+				<!-- Item -->
+				<div class="swiper-slide">
 					<div class="item">
+						<h3>@if(empty(Request::get('lang'))) اضافة شحنة @else
+							Add Shipment
+							@endif</h3>
+						<p>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
+							Easy steps to use <br /><br />
+							@endif </p>
 						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user2.png')}}" alt="Masafah">
 					</div>
-					<!-- /.Item -->
-					<!-- Item -->
+				</div>
+				<!-- /.Item -->
+				<!-- Item -->
+				<div class="swiper-slide">
 					<div class="item">
+						<h3>@if(empty(Request::get('lang'))) شركات التوصيل @else
+							Delivery Companies
+							@endif</h3>
+						<p>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
+							A list of most Kuwait delivery companies waiting for your order
+							@endif</p>
 						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user3.png')}}" alt="Masafah">
-
 					</div>
-					<!-- /.Item -->
-					<!-- Item -->
+				</div>
+				<!-- /.Item -->
+				<!-- Item -->
+				<div class="swiper-slide">
 					<div class="item">
-
+						<h3>@if(empty(Request::get('lang'))) طلب @else
+							Order
+							@endif</h3>
+						<p>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
+							The ability to deliver more than one shipment through in one order
+							@endif</p>
 						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user4.png')}}" alt="Masafah">
 					</div>
-
 				</div>
-				<!-- Add Pagination -->
-				<div class="swiper-pagination"></div>
+				<!-- /.Item -->
 			</div>
 		</div>
 	</div>
@@ -273,8 +296,8 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-					<h1>@if(empty(Request::get('lang'))) قم بتنزيل تطبيق المستخدم اليوم @else
-						Download User app today
+					<h1>@if(empty(Request::get('lang'))) تحميل التطبيق اليوم @else
+						Download app today
 						@endif</h1>
 					<ul>
 						<li>
@@ -305,8 +328,8 @@
 					</div>
 					<div class="right col-md-6">
 						<div class="social-links">
-							<a href="#"><i class="fa fa-twitter fa-lg"></i></a>
-							<a href="#"><i class="fa fa-instagram fa-lg"></i></a>
+							<a href="https://twitter.com/masafah_kw"><i class="fa fa-twitter fa-lg"></i></a>
+							<a href="https://www.instagram.com/masafah_kw/"><i class="fa fa-instagram fa-lg"></i></a>
 						</div>
 					</div>
 				</div>
