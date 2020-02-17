@@ -328,8 +328,10 @@
 					</div>
 					<div class="right col-md-6">
 						<div class="social-links">
-							<a href="https://twitter.com/masafah_kw"><i class="fa fa-twitter fa-lg"></i></a>
-							<a href="https://www.instagram.com/masafah_kw/"><i class="fa fa-instagram fa-lg"></i></a>
+							<a href="https://twitter.com/masafah_kw" target="_balnk"><i
+									class="fa fa-twitter fa-lg"></i></a>
+							<a href="https://www.instagram.com/masafah_kw/" target="_balnk"><i
+									class="fa fa-instagram fa-lg"></i></a>
 						</div>
 					</div>
 				</div>
