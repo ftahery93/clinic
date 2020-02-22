@@ -374,7 +374,7 @@ class ShipmentController extends Controller
             } else {
                 return response()->json([
                     'error' => LanguageManagement::getLabel('shipment_booked_already', $this->language),
-                ]);
+                ],404);
             }
         }
         $request['use_free_deliveries'] = false;
