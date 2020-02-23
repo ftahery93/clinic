@@ -6,6 +6,7 @@ use App;
 use App\Authentication;
 use App\LanguageManagement;
 use Closure;
+use App\Company;
 
 class CheckAuth
 {
@@ -29,7 +30,14 @@ class CheckAuth
                 if ($authenticatedUser->type == 1) {
                     $request->request->add(['user_id' => $authenticatedUser["user_id"]]);
                 } else {
-                    $request->request->add(['company_id' => $authenticatedUser["user_id"]]);
+                   $company = Company::find($authenticatedUser["user_id"]);
+                    if ($company->status == 1 && $company->approved == 1) {
+                        $request->request->add(['company_id' => $authenticatedUser["user_id"]]);
+                    } else {
+                        return response()->json([
+                            'error' => LanguageManagement::getLabel('text_unauthorized', $language),
+                        ], 403);
+                    }
                 }
 
                 return $next($request);
