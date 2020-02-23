@@ -370,13 +370,16 @@ class UserProfileController extends Controller
             ], 404);
         }
         $oneSignalUser = OneSignalUser::where('user_id', $request->user_id)->where('player_id', $request->player_id)->get()->first();
-        if ($oneSignalUser == null) {
-            return response()->json([
-                'error' => LanguageManagement::getLabel('no_user_found', $this->language),
-            ], 404);
-        }
+        // if ($oneSignalUser == null) {
+        //     return response()->json([
+        //         'error' => LanguageManagement::getLabel('no_user_found', $this->language),
+        //     ], 404);
+        // }
         $authenticateEntry->delete();
-        $oneSignalUser->delete();
+        if($oneSignalUser!=null){
+            $oneSignalUser->delete();
+        }
+        
         return response()->json([
             'message' => LanguageManagement::getLabel('text_successLoggout', $this->language),
         ]);
