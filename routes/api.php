@@ -110,6 +110,7 @@ Route::group(['middleware' => 'checkCompanyVersion'], function () {
     Route::get('/company/getCountries', 'API\Company\CountryController@getCountries');
     Route::get('/company/getTermsAndConditions', 'API\Company\PageController@getTermsAndConditions');
     Route::get('/company/getEmail', 'API\Company\PageController@getEmail');
+    Route::post('/company/forgotPassword', 'API\Company\ForgotPasswordController@sendResetLinkEmail');
 });
 
 Route::group(['middleware' => 'checkVersion'], function () {
@@ -121,8 +122,6 @@ Route::group(['middleware' => 'checkVersion'], function () {
     /* User */
     Route::post('/user/login', 'API\User\AuthController@login');
     Route::post('/user/register', 'API\User\AuthController@register');
-
-    Route::post('/company/forgotPassword', 'API\Company\ForgotPasswordController@sendResetLinkEmail');
 
     //Pages
     Route::get('/user/getTermsAndConditions', 'API\User\PagesController@getTermsAndConditions');

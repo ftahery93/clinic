@@ -15,6 +15,7 @@ class Notification
             'include_player_ids' => $playerIds == null ? [] : $playerIds,
             'data' => array("foo" => "bar"),
             'contents' => $content,
+            'android_channel_id'=>'10799716-9bd7-4272-acb4-7cc648f348c9'
         );
 
         $fields = json_encode($fields);
@@ -45,6 +46,7 @@ class Notification
             'include_player_ids' => $playerIds == null ? [] : $playerIds,
             'data' => array("foo" => "bar"),
             'contents' => $content,
+            'android_channel_id'=>'b2a3c225-215f-41eb-afb5-7eb862f339c9'
         );
 
         $fields = json_encode($fields);
