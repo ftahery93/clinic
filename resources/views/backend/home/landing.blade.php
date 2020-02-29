@@ -129,7 +129,9 @@
 						<div class="container">
 							<div class="row">
 								<div class="left col-12 col-sm-12 col-md-7">
-									<h1 class="ez-animate" data-animation="fadeInLeft">@if(empty(Request::get('lang')))
+									<h1 class="ez-animate" data-animation="fadeInLeft" @if(empty(Request::get('lang')))
+										style="text-align:right" @endif>
+										@if(empty(Request::get('lang')))
 										تطبيق مسافة يتيح لك توصيل الطلبات الاستهلاكية في أي وقت ومن أي مكان وبأسرع وقت
 										ممكن @else
 										Masafah app allows you to deliver orders anytime, anywhere as quickly as
