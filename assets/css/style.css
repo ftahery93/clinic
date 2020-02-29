@@ -2955,6 +2955,9 @@ a.animated-button.style2:hover:after {
 }
 
 @media only screen and ( min-width: 992px) and ( max-width: 1199px) {
+    #section-slider1 .swiper-slide .slider-content .left h1 {
+        font-size: 30px !important;
+    }
     #section-testimonial1 .item i {
         font-size: 15px;
         margin: 0 0px;
@@ -3159,6 +3162,9 @@ a.animated-button.style2:hover:after {
 }
 
 @media only screen and ( max-width: 767px) {
+    #section-slider1 .swiper-slide .slider-content .left h1 {
+        font-size: 25px !important;
+    }
     h2 {
         font-size: 28px !important;
     }

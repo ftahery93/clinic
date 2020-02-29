@@ -137,10 +137,14 @@
 										@endif</h1>
 
 									<ul>
-										<li><a href="#"><img class="img-fluid ez-animate"
+										<li><a target="_blank"
+												href="https://apps.apple.com/kw/app/masafah-%D9%85%D8%B3%D8%A7%D9%81%D8%A9/id1469860185"><img
+													class="img-fluid ez-animate"
 													src="{{ asset('assets/images/img-appstore.png')}}" alt="Masafah"
 													data-animation="fadeInUp"></a></li>
-										<li><a href="#"><img class="img-fluid ez-animate"
+										<li><a target="_blank"
+												href="https://play.google.com/store/apps/details?id=com.vavisa.masafah"><img
+													class="img-fluid ez-animate"
 													src="{{ asset('assets/images/img-googleplay.png')}}" alt="Masafah"
 													data-animation="fadeInUp"></a></li>
 									</ul>
@@ -224,9 +228,9 @@
 		<div class="container">
 			<div class="row">
 				<div class="title1 col-12">
-					<h6 class="clscheme">@if(empty(Request::get('lang'))) شاشة التطبيق @else
+					<h3 class="clscheme">@if(empty(Request::get('lang'))) شاشة التطبيق @else
 						APP SCREEN
-						@endif</h6>
+						@endif</h3>
 					<h2>@if(empty(Request::get('lang'))) كيف يبدو التطبيق لدينا @else
 						How our app looks like
 						@endif</h2>
@@ -238,12 +242,12 @@
 				<!-- Item -->
 				<div class="swiper-slide">
 					<div class="item">
-						<h3>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
+						{{-- <h3>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
 							Sign Up & Login
-							@endif</h3>
-						<p>@if(empty(Request::get('lang'))) التسجيل عن طريق رقم الهاتف بسهولة @else
+							@endif</h3> --}}
+						<h6>@if(empty(Request::get('lang'))) التسجيل عن طريق رقم الهاتف بسهولة @else
 							Easily register by phone number. <br /><br />
-							@endif </p>
+							@endif </h6><br />
 						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user1.png')}}" alt="Masafah">
 					</div>
 				</div>
@@ -251,12 +255,12 @@
 				<!-- Item -->
 				<div class="swiper-slide">
 					<div class="item">
-						<h3>@if(empty(Request::get('lang'))) اضافة شحنة @else
+						{{-- <h3>@if(empty(Request::get('lang'))) اضافة شحنة @else
 							Add Shipment
-							@endif</h3>
-						<p>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
+							@endif</h3> --}}
+						<h6>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
 							Easy steps to use <br /><br />
-							@endif </p>
+							@endif </h6><br />
 						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user2.png')}}" alt="Masafah">
 					</div>
 				</div>
@@ -264,12 +268,12 @@
 				<!-- Item -->
 				<div class="swiper-slide">
 					<div class="item">
-						<h3>@if(empty(Request::get('lang'))) شركات التوصيل @else
+						{{-- <h3>@if(empty(Request::get('lang'))) شركات التوصيل @else
 							Delivery Companies
-							@endif</h3>
-						<p>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
+							@endif</h3> --}}
+						<h6>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
 							A list of most Kuwait delivery companies waiting for your order
-							@endif</p>
+							@endif</h6><br />
 						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user3.png')}}" alt="Masafah">
 					</div>
 				</div>
@@ -277,12 +281,12 @@
 				<!-- Item -->
 				<div class="swiper-slide">
 					<div class="item">
-						<h3>@if(empty(Request::get('lang'))) طلب @else
+						{{-- <h3>@if(empty(Request::get('lang'))) طلب @else
 							Order
-							@endif</h3>
-						<p>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
+							@endif</h3> --}}
+						<h6>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
 							The ability to deliver more than one shipment through in one order
-							@endif</p>
+							@endif</h6><br />
 						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user4.png')}}" alt="Masafah">
 					</div>
 				</div>
@@ -296,18 +300,19 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
-					<h1>@if(empty(Request::get('lang'))) تحميل التطبيق اليوم @else
-						Download app today
+					<h1>@if(empty(Request::get('lang'))) تحميل التطبيق @else
+						Download app
 						@endif</h1>
 					<ul>
 						<li>
-							<a href="#">
+							<a target="_blank"
+								href="https://apps.apple.com/kw/app/masafah-%D9%85%D8%B3%D8%A7%D9%81%D8%A9/id1469860185">
 								<img class="img-fluid ez-animate" src="{{ asset('assets/images/img-appstore.png')}}"
 									alt="Masafah" data-animation="fadeInUp">
 							</a>
 						</li>
 						<li>
-							<a href="#">
+							<a target="_blank" href="https://play.google.com/store/apps/details?id=com.vavisa.masafah">
 								<img class="img-fluid ez-animate" src="{{ asset('assets/images/img-googleplay.png')}}"
 									alt="Masafah" data-animation="fadeInUp">
 							</a>
