@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<!-- Uniocde -->
-	<meta charset="utf-8">
+	
 	<!--[if IE]>
     <meta http-equiv="X-UA Compatible" content="IE=edge">
     <![endif]-->
@@ -271,7 +271,7 @@
 						{{-- <h3>@if(empty(Request::get('lang'))) شركات التوصيل @else
 							Delivery Companies
 							@endif</h3> --}}
-						<h6>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
+						<h6>@if(empty(Request::get('lang'))) قائمة باغلب شركات التوصيل بالكويت بانتظار طلبك @else
 							A list of most Kuwait delivery companies waiting for your order
 							@endif</h6><br />
 						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user3.png')}}" alt="Masafah">
@@ -284,7 +284,7 @@
 						{{-- <h3>@if(empty(Request::get('lang'))) طلب @else
 							Order
 							@endif</h3> --}}
-						<h6>@if(empty(Request::get('lang'))) خطوات سهلة الاستخدام @else
+						<h6>@if(empty(Request::get('lang'))) امكانية توصيل اكثر من شحنة من خلال طلب واحد @else
 							The ability to deliver more than one shipment through in one order
 							@endif</h6><br />
 						<img class="img-fluid" src="{{ asset('assets/images/img-screen-user4.png')}}" alt="Masafah">
@@ -337,6 +337,8 @@
 									class="fa fa-twitter fa-lg"></i></a>
 							<a href="https://www.instagram.com/masafah_kw/" target="_balnk"><i
 									class="fa fa-instagram fa-lg"></i></a>
+							<a href="mailto:info@masafah-kw.com" target="_balnk"><i
+									class="fa fa-envelope fa-lg"></i></a>
 						</div>
 					</div>
 				</div>
