@@ -474,7 +474,7 @@ class PaymentController extends Controller
 
     private function makeInvoiceCreateIsoRequest($invoiceString)
     {
-        $url = "https://apidemo.myfatoorah.com/ApiInvoices/CreateInvoiceIso";
+        $url = "https://apikw.myfatoorah.com/ApiInvoices/CreateInvoiceIso";
         $header[] = 'Content-Type: application/json';
         $header[] = 'Accept: application/json';
         $header[] = 'authorization: bearer ' . env('MY_FATOORAH_API_KEY');
@@ -494,7 +494,7 @@ class PaymentController extends Controller
         $header[] = 'Accept: application/json';
         $header[] = 'authorization: bearer ' . env('MY_FATOORAH_API_KEY');
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://apidemo.myfatoorah.com/ApiInvoices/Transaction/" . $paymentId);
+        curl_setopt($ch, CURLOPT_URL, "https://apikw.myfatoorah.com/ApiInvoices/Transaction/" . $paymentId);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HEADER, false);
