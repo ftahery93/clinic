@@ -215,10 +215,10 @@ class ShipmentController extends Controller
                 'is_single' => 1,
             ]);
             $message_en = "New shipment arrived: #" . $shipment->id . "\n JUST FOR YOU \n From: " . $city_from->name_en . " -  To: " . $citiesNameEn;
-            $message_ar = "وصل شحنة جديدة: #" . $shipment->id . "\nفقط لك" . "\nمن: " . $city_from->name_ar . " -  لك: " . $citiesNameAr;
+            $message_ar = "وصل شحنة جديدة: #" . $shipment->id . "\nفقط لك" . "\nمن: " . $city_from->name_ar . " -  إلى: " . $citiesNameAr;
         } else {
             $message_en = "New shipment arrived: #" . $shipment->id . "\n From: " . $city_from->name_en . " -  To: " . $citiesNameEn;
-            $message_ar = "وصل شحنة جديدة : #" . $shipment->id . "\nمن: " . $city_from->name_ar . " -  لك: " . $citiesNameAr;
+            $message_ar = "وصل شحنة جديدة : #" . $shipment->id . "\nمن: " . $city_from->name_ar . " -  إلى: " . $citiesNameAr;
         }
 
         if ($request->is_today) {
