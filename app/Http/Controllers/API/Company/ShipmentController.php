@@ -361,6 +361,7 @@ class ShipmentController extends Controller
         $shipmentPrices = [];
         $shipments = Shipment::findMany($request->shipment_ids);
         $freeDeliveries = FreeDelivery::where('company_id', $request->company_id)->first();
+        
         foreach ($shipments as $shipment) {
 
             $price = [];
@@ -379,7 +380,8 @@ class ShipmentController extends Controller
         }
         $request['use_free_deliveries'] = false;
         $response = $this->getShipmentsPrice($request, $shipments);
-        ReserveShipment::dispatch($shipments)->delay(Carbon::now()->addSeconds(60));
+    
+        ReserveShipment::dispatch($shipments)->delay(Carbon::now()->addSeconds(60))->onQueue("shipmentQueue");
         $wallet = Wallet::where('company_id', $request->company_id)->get()->first();
         return response()->json([
             'message' => LanguageManagement::getLabel('reserve_success', $this->language),
@@ -660,7 +662,7 @@ class ShipmentController extends Controller
                 $data['email'] = $user->email;
                 $data['shipment'] = $this->getShipmentDetailsResponse($shipment);
                 $allShipments[] = $data['shipment'];
-                EmailJob::dispatch($data, 'emails.userShipmentStatus');
+                EmailJob::dispatch($data, 'emails.userShipmentStatus')->onQueue("emailQueue");
                 //$this->sendmail('emails.userShipmentStatus', $data);
             }
         }
@@ -675,7 +677,7 @@ class ShipmentController extends Controller
         unset($data['shipment']);
         $data['shipments'] = $allShipments;
 
-        EmailJob::dispatch($data, 'emails.companyShipmentStatus');
+        EmailJob::dispatch($data, 'emails.companyShipmentStatus')->onQueue("emailQueue");
         //$this->sendmail('emails.companyShipmentStatus', $data);
 
         return response()->json([
