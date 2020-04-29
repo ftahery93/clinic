@@ -24,7 +24,7 @@ class CommonController extends Controller
     /**
      *
      * @SWG\Post(
-     *         path="/common/getDeliveryPrice",
+     *         path="/user/getDeliveryPrice",
      *         tags={"Pricing"},
      *         operationId="getDeliveryPrice",
      *         summary="Get Delivery prices",
@@ -70,6 +70,64 @@ class CommonController extends Controller
      *
      */
     public function getDeliveryPrice(Request $request)
+    {
+        $this->getPrice($request);
+    }
+
+    /**
+     *
+     * @SWG\Post(
+     *         path="/company/getDeliveryPrice",
+     *         tags={"Pricing"},
+     *         operationId="getDeliveryPrice",
+     *         summary="Get Delivery prices",
+     *         @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Registration Body",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="from_cityid",
+     *                  type="integer",
+     *                  description="City ID",
+     *                  example=1018
+     *              ),
+     *              @SWG\Property(
+     *                  property="to_cityid",
+     *                  type="integer",
+     *                  description="City ID",
+     *                  example=1080
+     *              ),
+     *          ),
+     *        ),
+     *                 
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *     )
+     *
+     */
+    public function getDeliveryPriceForCompany(Request $request)
+    {
+        $this->getPrice($request);
+    }
+
+    public function getPrice($request)
     {
         $validator = [
             'from_cityid' => 'required|exists:cities,id',

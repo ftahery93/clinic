@@ -113,6 +113,7 @@ Route::group(['middleware' => 'checkCompanyVersion'], function () {
     Route::get('/company/getTermsAndConditions', 'API\Company\PageController@getTermsAndConditions');
     Route::get('/company/getEmail', 'API\Company\PageController@getEmail');
     Route::post('/company/forgotPassword', 'API\Company\ForgotPasswordController@sendResetLinkEmail');
+    Route::post('/company/getDeliveryPrice', 'API\Common\CommonController@getDeliveryPriceForCompany');
 });
 
 Route::group(['middleware' => 'checkVersion'], function () {
@@ -133,7 +134,7 @@ Route::group(['middleware' => 'checkVersion'], function () {
 
     Route::get('/user/getEmail', 'API\User\UserProfileController@getEmail');
 
-    Route::post('/common/getDeliveryPrice', 'API\Common\CommonController@getDeliveryPrice');
+    Route::post('/user/getDeliveryPrice', 'API\Common\CommonController@getDeliveryPrice');
 });
 
 Route::post('/sendMail', 'API\User\AuthController@sendMail');
