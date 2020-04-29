@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API\User;
 
 use App\Authentication;
@@ -213,7 +214,7 @@ class AuthController extends Controller
                 'error' => LanguageManagement::getLabel('mobile_not_found', $this->language),
             ], 404);
         }
-        
+
         $registeredUser = RegisteredUser::where('mobile', $request->mobile)->where('country_id', $country->id)->get()->first();
         $player_id = OneSignalUser::where('player_id', $request->player_id)->get()->first();
         if ($registeredUser == null) {
@@ -228,12 +229,18 @@ class AuthController extends Controller
                 'device_type' => $request->device_type,
             ]);
         } else {
-            if ($player_id == null) {
-                OneSignalUser::create([
-                    'user_id' => $registeredUser->id,
-                    'player_id' => $request->player_id,
-                    'device_type' => $request->device_type,
-                ]);
+            if ($registeredUser->status == 0) {
+                return response()->json([
+                    'error' => LanguageManagement::getLabel('user_blocked', $this->language)
+                ], 404);
+            } else {
+                if ($player_id == null) {
+                    OneSignalUser::create([
+                        'user_id' => $registeredUser->id,
+                        'player_id' => $request->player_id,
+                        'device_type' => $request->device_type,
+                    ]);
+                }
             }
         }
         $token = '' . $registeredUser->id . '' . $registeredUser->mobile . '' . $this->accessToken;

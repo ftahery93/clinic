@@ -97,9 +97,9 @@ class ShipmentController extends Controller
      *              ),
      *              @SWG\Property(
      *                  property="is_today",
-     *                  type="boolean",
-     *                  description="Parcel should be delivered today?",
-     *                  example=false
+     *                  type="integer",
+     *                  description="Parcel should be delivered now, today or anyday?",
+     *                  example=2
      *              ),
      *              @SWG\Property(
      *                  property="pickup_time_from",
@@ -137,9 +137,9 @@ class ShipmentController extends Controller
             'delivery_companies_id' => 'required|array|min:1',
             'delivery_companies_id.*' => 'numeric',
             'address_from_id' => 'required|exists:addresses,id',
-            'is_today' => 'required|boolean',
+            'is_today' => 'required|integer',
             'pickup_time_from' => 'required',
-            'date'=> 'required_if:is_today,false'
+            'date' => 'required_if:is_today,0'
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
@@ -221,12 +221,15 @@ class ShipmentController extends Controller
             $message_ar = "وصل شحنة جديدة : #" . $shipment->id . "\nمن: " . $city_from->name_ar . " -  إلى: " . $citiesNameAr;
         }
 
-        if ($request->is_today) {
+        if ($request->is_today == 1) {
             $message_en = $message_en . " \nNOW";
             $message_ar = $message_ar . " \nالآن";
-        } else {
+        } else if ($request->is_today == 0) {
             $message_en = $message_en . " \nLater";
             $message_ar = $message_ar . " \nلاحقاً";
+        } else {
+            $message_en = $message_en . " \nToday";
+            $message_ar = $message_ar . " \nاليوم";
         }
 
         // return response()->json([
@@ -439,6 +442,66 @@ class ShipmentController extends Controller
                 'error' => LanguageManagement::getLabel('no_shipment_found', $this->language),
             ], 404);
         }
+    }
+
+    /**
+     *
+     * @SWG\Delete(
+     *         path="/user/deleteShipments",
+     *         tags={"User Shipment"},
+     *         operationId="deleteShipments",
+     *         summary="Delete User shipments ",
+     *         security={{"ApiAuthentication":{}}},
+     *          @SWG\Parameter(
+     *             name="Accept-Language",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="user prefered language",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Version",
+     *             in="header",
+     *             required=true,
+     *             type="string",
+     *             description="1.0.0",
+     *        ),
+     *        @SWG\Parameter(
+     *             name="Delete Shipment IDs",
+     *             in="body",
+     *             required=true,
+     *          @SWG\Schema(
+     *              @SWG\Property(
+     *                  property="shipment_ids",
+     *                  type="array",
+     *                  description="shipment IDs - *(Required)",
+     *                  @SWG\items(
+     *                      type="integer",
+     *                      example=1
+     *                  ), 
+     *               ),
+     *        ),
+     * ),
+     *        @SWG\Response(
+     *             response=200,
+     *             description="Successful"
+     *        ),
+     *        @SWG\Response(
+     *             response=404,
+     *             description="Shipment not found"
+     *        ),
+     *     )
+     *
+     */
+    public function deleteShipments(Request $request)
+    {
+        $ids = $request->shipment_ids;
+        Shipment::whereIn('id', $ids)->update([
+            'user_status' => 1,
+        ]);
+        return response()->json([
+            'message' => LanguageManagement::getLabel('deleted_shipment_success', $this->language),
+        ]);
     }
 
     /**
@@ -672,7 +735,7 @@ class ShipmentController extends Controller
      */
     public function getShipmentHistory(Request $request)
     {
-        $shipments = Shipment::where('user_id', $request->user_id)->where('status', 4)->orderBy('created_at', 'DESC')->get();
+        $shipments = Shipment::where('user_id', $request->user_id)->where('status', 4)->where('user_status', '!=', 1)->orderBy('created_at', 'DESC')->get();
         $response = [];
         foreach ($shipments as $shipment) {
             $company = Company::find($shipment->company_id);
@@ -768,20 +831,7 @@ class ShipmentController extends Controller
         }
 
         $exceptionCities = ExceptionCity::all();
-
-        //From Address
-        $governorate_from = Governorate::find($request->from_governorateid);
-        $fromValueExists = collect($exceptionCities)->where('city_id', $request->from_cityid)->first();
-        $price_from = $this->calculateShipmentFromPrice($fromValueExists, $governorate_from);
-
-        //To Address
-        $governorate_to = Governorate::find($request->to_governorateid);
-        $toValueExists = collect($exceptionCities)->where('city_id', $request->to_cityid)->first();
-        $price_to = $this->calculateShipmentFromPrice($toValueExists, $governorate_to);
-        $price = $price_to;
-        if ($price_from > $price_to) {
-            $price = $price_from;
-        }
+        $price = $this->getDeliveryPrice($exceptionCities, $request->from_governorateid, $request->to_governorateid, $request->from_cityid, $request->to_cityid);
         return response()->json($price);
     }
 
@@ -855,7 +905,24 @@ class ShipmentController extends Controller
         return $price;
     }
 
-    public function calculateShipmentFromPrice($fromValueExists, $governorate_from)
+    public static function getDeliveryPrice($exceptionCities, $from_governorateid, $to_governorateid, $from_cityid, $to_cityid)
+    {
+        $governorate_from = Governorate::find($from_governorateid);
+        $fromValueExists = collect($exceptionCities)->where('city_id', $from_cityid)->first();
+        $price_from = ShipmentController::calculateShipmentFromPrice($fromValueExists, $governorate_from);
+
+        //To Address
+        $governorate_to = Governorate::find($to_governorateid);
+        $toValueExists = collect($exceptionCities)->where('city_id', $to_cityid)->first();
+        $price_to = ShipmentController::calculateShipmentFromPrice($toValueExists, $governorate_to);
+        $price = $price_to;
+        if ($price_from > $price_to) {
+            $price = $price_from;
+        }
+        return $price;
+    }
+
+    public static function calculateShipmentFromPrice($fromValueExists, $governorate_from)
     {
         if ($fromValueExists != null) {
             $price_from = $fromValueExists->price;
@@ -864,6 +931,7 @@ class ShipmentController extends Controller
         }
         return $price_from;
     }
+
 
     public function createShipmentPrice($shipment, $city_from_id, $city_to_id, $governorate_from_id, $governorate_to_id, $price)
     {

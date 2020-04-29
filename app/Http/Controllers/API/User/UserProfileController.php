@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\API\User;
 
 use App\Authentication;
@@ -61,7 +62,7 @@ class UserProfileController extends Controller
         $user["country"] = collect($country);
         return collect($user);
     }
-    
+
     /**
      *
      * @SWG\Put(
@@ -348,6 +349,12 @@ class UserProfileController extends Controller
      *                  description="users one signal player id",
      *                  example="22eshlsaj-a98asdmha-asdjad"
      *              ),
+     *              @SWG\Property(
+     *                  property="all_devices",
+     *                  type="boolean",
+     *                  description="Want to logout from all devices?",
+     *                  example="true"
+     *              ),
      *          ),
      *        ),
      *        @SWG\Response(
@@ -363,29 +370,34 @@ class UserProfileController extends Controller
      */
     public function logout(Request $request)
     {
-        $authenticateEntry = Authentication::where('access_token', $request->header('Authorization'))->get()->first();
-        if ($authenticateEntry == null) {
-            return response()->json([
-                'error' => LanguageManagement::getLabel('no_user_found', $this->language),
-            ], 404);
+        if ($request->all_devices) {
+            $authenticateEntry = Authentication::where('user_id', $request->user_id)->delete();
+            $oneSignalUser = OneSignalUser::where('user_id', $request->user_id)->delete();
+        } else {
+            $authenticateEntry = Authentication::where('access_token', $request->header('Authorization'))->get()->first();
+            if ($authenticateEntry == null) {
+                return response()->json([
+                    'error' => LanguageManagement::getLabel('no_user_found', $this->language),
+                ], 404);
+            }
+            $oneSignalUser = OneSignalUser::where('user_id', $request->user_id)->where('player_id', $request->player_id)->get()->first();
+            // if ($oneSignalUser == null) {
+            //     return response()->json([
+            //         'error' => LanguageManagement::getLabel('no_user_found', $this->language),
+            //     ], 404);
+            // }
+            $authenticateEntry->delete();
+            if ($oneSignalUser != null) {
+                $oneSignalUser->delete();
+            }
         }
-        $oneSignalUser = OneSignalUser::where('user_id', $request->user_id)->where('player_id', $request->player_id)->get()->first();
-        // if ($oneSignalUser == null) {
-        //     return response()->json([
-        //         'error' => LanguageManagement::getLabel('no_user_found', $this->language),
-        //     ], 404);
-        // }
-        $authenticateEntry->delete();
-        if($oneSignalUser!=null){
-            $oneSignalUser->delete();
-        }
-        
+
         return response()->json([
             'message' => LanguageManagement::getLabel('text_successLoggout', $this->language),
         ]);
     }
 
-      /**
+    /**
      *
      * @SWG\Get(
      *         path="/user/getEmail",
@@ -419,7 +431,7 @@ class UserProfileController extends Controller
         return response()->json($page);
     }
 
-    
+
     private function getFirebaseUser($idToken)
     {
         $fields = array(

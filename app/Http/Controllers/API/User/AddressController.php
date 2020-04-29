@@ -53,10 +53,10 @@ class AddressController extends Controller
      *             required=true,
      *          @SWG\Schema(
      *              @SWG\Property(
-     *                  property="title_id",
-     *                  type="integer",
-     *                  description="Address Title ID",
-     *                  example=1
+     *                  property="name",
+     *                  type="string",
+     *                  description="user name",
+     *                  example="Mohammed Sulaiman"
      *              ),               
      *              @SWG\Property(
      *                  property="block",
@@ -118,6 +118,12 @@ class AddressController extends Controller
      *                  description="Should the address be saved",
      *                  example=true
      *              ),
+     *              @SWG\Property(
+     *                  property="pick_up",
+     *                  type="boolean",
+     *                  description="It is pickup address",
+     *                  example=true
+     *              ),
      *          ),
      *        ),
      *        @SWG\Response(
@@ -134,7 +140,7 @@ class AddressController extends Controller
     public function addAddress(Request $request)
     {
         $validationMessages = [
-            'title_id' => 'required',
+            'name' => 'required',
             'block' => 'required',
             'street' => 'required',
             'country_id' => 'required|exists:countries,id',
@@ -143,6 +149,7 @@ class AddressController extends Controller
             'building' => 'required',
             'mobile' => 'required|digits:8',
             'save' => 'required|boolean',
+            'pick_up' => 'required|boolean'
         ];
 
         $checkForError = $this->utility->checkForErrorMessages($request, $validationMessages, 422);
@@ -237,6 +244,12 @@ class AddressController extends Controller
      *             type="string",
      *             description="1.0.0",
      *        ),
+     *        @SWG\Parameter(
+     *             name="pickup",
+     *             in="query",
+     *             description="Is pick up address",
+     *             type="boolean",
+     *        ),
      *        @SWG\Response(
      *             response=200,
      *             description="Successful"
@@ -246,7 +259,11 @@ class AddressController extends Controller
      */
     public function getAddresses(Request $request)
     {
-        $addresses = Address::where('user_id', $request->user_id)->where('status', 1)->where('save', 1)->get();
+        if ($request->pickup == "true") {
+            $addresses = Address::where('user_id', $request->user_id)->where('pick_up', 1)->where('status', 1)->where('save', 1)->get();
+        } else {
+            $addresses = Address::where('user_id', $request->user_id)->where('status', 1)->where('save', 1)->get();
+        }
         return collect($addresses);
     }
 

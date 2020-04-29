@@ -80,7 +80,6 @@ class ShipmentController extends Controller
             $items[$value->getGovernorate['id']]['cities'][] = $item;
             $items[$value->getGovernorate['id']];
         }
-
         return collect($items)->values();
     }
     /**

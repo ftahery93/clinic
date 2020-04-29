@@ -26,7 +26,7 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     /* User Address */
     Route::post('/user/addAddress', 'API\User\AddressController@addAddress');
     Route::get('/user/getAddressById/{address_id}', 'API\User\AddressController@getAddressById');
-    Route::get('/user/getAddresses', 'API\User\AddressController@getAddresses');
+    Route::get('/user/getAddresses/{pickup?}', 'API\User\AddressController@getAddresses');
     Route::put('/user/editAddress', 'API\User\AddressController@editAddress');
     Route::delete('/user/deleteAddressById/{address_id}', 'API\User\AddressController@deleteAddressById');
     Route::get('/user/getGovernoratesByCountry/{country_id}', 'API\User\AddressController@getGovernoratesByCountry');
@@ -41,6 +41,7 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     Route::put('/user/editShipment', 'API\User\ShipmentController@editShipment');
     Route::get('/user/getCategories', 'API\User\ShipmentController@getCategories');
     Route::delete('/user/deleteShipmentById/{shipment_id}', 'API\User\ShipmentController@deleteShipmentById');
+    Route::delete('/user/deleteShipments', 'API\User\ShipmentController@deleteShipments');
 
     Route::get('/user/getShipmentHistory', 'API\User\ShipmentController@getShipmentHistory');
     Route::post('/user/getAddressPrice', 'API\User\ShipmentController@getAddressPrice');
@@ -51,6 +52,7 @@ Route::group(['middleware' => ['checkAuth', 'checkVersion']], function () {
     /* Additional APIs for development sake */
     Route::get('/user/getCompanies', 'API\User\CompanyController@getCompanies');
     Route::get('/user/getCompanyDetailsById/{company_id}', 'API\User\CompanyController@getCompanyDetailsById');
+    Route::get('/user/markCompanyFavorite/{company_id}', 'API\User\CompanyController@markCompanyFavorite');
 
     /* Ratings */
     Route::post('/user/rateCompany', 'API\User\RatingController@rateCompany');
@@ -114,8 +116,8 @@ Route::group(['middleware' => 'checkCompanyVersion'], function () {
 });
 
 Route::group(['middleware' => 'checkVersion'], function () {
-    
-     Route::get('/user/getAddressTitles', 'API\User\AddressController@getAddressTitles');
+
+    Route::get('/user/getAddressTitles', 'API\User\AddressController@getAddressTitles');
 
     Route::get('/user/getAllCities', 'API\User\AddressController@getAllCities');
 
@@ -130,6 +132,8 @@ Route::group(['middleware' => 'checkVersion'], function () {
     Route::get('/user/getCountries', 'API\User\CountryController@getCountries');
 
     Route::get('/user/getEmail', 'API\User\UserProfileController@getEmail');
+
+    Route::post('/common/getDeliveryPrice', 'API\Common\CommonController@getDeliveryPrice');
 });
 
 Route::post('/sendMail', 'API\User\AuthController@sendMail');
