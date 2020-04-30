@@ -560,9 +560,9 @@ class ShipmentController extends Controller
      *              ),
      *              @SWG\Property(
      *                  property="is_today",
-     *                  type="boolean",
+     *                  type="integer",
      *                  description="Parcel should be delivered today?",
-     *                  example=false
+     *                  example=2
      *              ),
      *              @SWG\Property(
      *                  property="pickup_time_from",
@@ -604,8 +604,8 @@ class ShipmentController extends Controller
             //'delivery_companies_id' => 'required|array|min:1',
             'address_from_id' => 'required',
             //'address_to_id' => 'required',
-            'is_today' => 'required|boolean',
-            'pickup_time_from' => 'required_if:is_today,false',
+            'is_today' => 'required|integer',
+            'pickup_time_from' => 'required_if:is_today,0',
             'date' => 'required_if:is_today,false|date|date_format:Y-m-d',
         ];
 
