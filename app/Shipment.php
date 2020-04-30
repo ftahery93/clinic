@@ -24,10 +24,10 @@ class Shipment extends Model
     }
 
 
-    public function getIsTodayAttribute($value)
-    {
-        return $value ? true : false;
-    }
+    // public function getIsTodayAttribute($value)
+    // {
+    //     return $value ? true : false;
+    // }
 
     // public function getPickupTimeFromAttribute($value)
     // {
