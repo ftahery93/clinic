@@ -5,10 +5,16 @@ namespace App\Helpers;
 
 use DB;
 use Carbon\Carbon;
+use App\ExceptionCity;
+use App\Governorate;
+use App\City;
 
-class Common {
 
-     public static function generateThumbnails($source_image_path, $thumbnail_image_path, $reduceSize, $reduceSizePercentage, $thumbnailMaxWidth, $thumbnailMaxHeight, $maintainAspectRatio, $cropImage , $bgColor = 0, $quality = 100) {
+class Common
+{
+
+    public static function generateThumbnails($source_image_path, $thumbnail_image_path, $reduceSize, $reduceSizePercentage, $thumbnailMaxWidth, $thumbnailMaxHeight, $maintainAspectRatio, $cropImage, $bgColor = 0, $quality = 100)
+    {
 
         //The getimagesize() function will determine the size of any supported given image file
         //and return the dimensions along with the file type and a height/width
@@ -36,17 +42,17 @@ class Common {
         if ($reduceSize == true) {
             $reducedWidth = $thumbnailMaxWidth;
             $reducedHeight = $thumbnailMaxHeight;
-            
+
             $info = getimagesize($source_image_path);
 
-        if ($info['mime'] == 'image/jpeg')
-              $source_gd_image = imagecreatefromjpeg($source_image_path);
+            if ($info['mime'] == 'image/jpeg')
+                $source_gd_image = imagecreatefromjpeg($source_image_path);
 
-        elseif ($info['mime'] == 'image/gif')
-              $source_gd_image = imagecreatefromgif($source_image_path);
+            elseif ($info['mime'] == 'image/gif')
+                $source_gd_image = imagecreatefromgif($source_image_path);
 
-      elseif ($info['mime'] == 'image/png')
-              $source_gd_image = imagecreatefrompng($source_image_path);
+            elseif ($info['mime'] == 'image/png')
+                $source_gd_image = imagecreatefrompng($source_image_path);
             // Create a new true color image
             // imagecreatetruecolor() returns an image identifier representing a black image of the specified size
             $thumbnail_gd_image = imagecreatetruecolor($reducedWidth, $reducedHeight);
@@ -54,7 +60,7 @@ class Common {
             // imagecopyresampled() copies a rectangular portion of one image to another image,
             // smoothly interpolating pixel values so that, in particular, reducing the size of an image still retains a great deal of clarity
             imagecopyresampled($thumbnail_gd_image, $source_gd_image, 0, 0, 0, 0, $reducedWidth, $reducedHeight, $source_image_width, $source_image_height);
-             
+
             // imagejpeg() creates a JPEG file from the given image
             imagejpeg($thumbnail_gd_image, $thumbnail_image_path, $quality);
             imagedestroy($source_gd_image);
@@ -108,18 +114,18 @@ class Common {
             imagedestroy($img_disp);
             return true;
         } elseif ($cropImage == true) { // Then check $cropImage parameter is true or false
-                //$image = imagecreatefromjpeg($source_image_path);
+            //$image = imagecreatefromjpeg($source_image_path);
             $info = getimagesize($source_image_path);
 
-        if ($info['mime'] == 'image/jpeg')
-              $image = imagecreatefromjpeg($source_image_path);
+            if ($info['mime'] == 'image/jpeg')
+                $image = imagecreatefromjpeg($source_image_path);
 
-        elseif ($info['mime'] == 'image/gif')
-              $image = imagecreatefromgif($source_image_path);
+            elseif ($info['mime'] == 'image/gif')
+                $image = imagecreatefromgif($source_image_path);
 
-      elseif ($info['mime'] == 'image/png')
-              $image = imagecreatefrompng($source_image_path);
-      
+            elseif ($info['mime'] == 'image/png')
+                $image = imagecreatefrompng($source_image_path);
+
             $filename = $thumbnail_image_path;
             $thumb_width = $thumbnailMaxWidth;
             $thumb_height = $thumbnailMaxHeight;
@@ -139,9 +145,16 @@ class Common {
             $thumb = imagecreatetruecolor($thumb_width, $thumb_height);
             // Resize and crop
             imagecopyresampled(
-                    $thumb, $image, 0 - ($new_width - $thumb_width) / 2, // Center the image horizontally
-                    0 - ($new_height - $thumb_height) / 2, // Center the image vertically
-                    0, 0, $new_width, $new_height, $width, $height
+                $thumb,
+                $image,
+                0 - ($new_width - $thumb_width) / 2, // Center the image horizontally
+                0 - ($new_height - $thumb_height) / 2, // Center the image vertically
+                0,
+                0,
+                $new_width,
+                $new_height,
+                $width,
+                $height
             );
             imagejpeg($thumb, $filename, 100);
             imagedestroy($thumb);
@@ -162,32 +175,57 @@ class Common {
             return true;
         }
     }
-    
-    
-            //Free Package
-     public static function freePackage($id){
-           
-                    $package_array['subscriber_id'] = $id;
-                    $package_array['package_id'] = 1;
-                    $package_array['start_date'] =Carbon::now();
-                    $exp = Carbon::now();
-                    $exp->addDays(365);
-                    $package_array['end_date'] = $exp->format('Y-m-d');
-                    $package_array['name_en'] = 'free package';
-                    $package_array['name_ar'] = 'free package';
-                    $package_array['description_en'] = 'free package';
-                    $package_array['description_ar'] = 'free package';
-                    $package_array['num_days'] = 365;
-                    $package_array['price'] = '0.000';
-                    $exp->subDays(5);
-                    $package_array['notification_date'] = $exp->format('Y-m-d');
-                    $package_array['active_status'] = 1;
-                    $package_array['created_at'] = Carbon::now();
-                    $package_array['updated_at'] = Carbon::now();
-                    
-                    DB::table('subscribers_package_details')->insertGetId($package_array);
-     }
-     
-     
-    
+
+
+    //Free Package
+    public static function freePackage($id)
+    {
+
+        $package_array['subscriber_id'] = $id;
+        $package_array['package_id'] = 1;
+        $package_array['start_date'] = Carbon::now();
+        $exp = Carbon::now();
+        $exp->addDays(365);
+        $package_array['end_date'] = $exp->format('Y-m-d');
+        $package_array['name_en'] = 'free package';
+        $package_array['name_ar'] = 'free package';
+        $package_array['description_en'] = 'free package';
+        $package_array['description_ar'] = 'free package';
+        $package_array['num_days'] = 365;
+        $package_array['price'] = '0.000';
+        $exp->subDays(5);
+        $package_array['notification_date'] = $exp->format('Y-m-d');
+        $package_array['active_status'] = 1;
+        $package_array['created_at'] = Carbon::now();
+        $package_array['updated_at'] = Carbon::now();
+
+        DB::table('subscribers_package_details')->insertGetId($package_array);
+    }
+
+    public static function getDeliveryPrice($exceptionCities, $from_governorateid, $to_governorateid, $from_cityid, $to_cityid)
+    {
+        $governorate_from = Governorate::find($from_governorateid);
+        $fromValueExists = collect($exceptionCities)->where('city_id', $from_cityid)->first();
+        $price_from = Common::calculateShipmentFromPrice($fromValueExists, $governorate_from);
+
+        //To Address
+        $governorate_to = Governorate::find($to_governorateid);
+        $toValueExists = collect($exceptionCities)->where('city_id', $to_cityid)->first();
+        $price_to = Common::calculateShipmentFromPrice($toValueExists, $governorate_to);
+        $price = $price_to;
+        if ($price_from > $price_to) {
+            $price = $price_from;
+        }
+        return $price;
+    }
+
+    public static function calculateShipmentFromPrice($fromValueExists, $governorate_from)
+    {
+        if ($fromValueExists != null) {
+            $price_from = $fromValueExists->price;
+        } else {
+            $price_from = $governorate_from->price;
+        }
+        return $price_from;
+    }
 }

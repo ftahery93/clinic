@@ -8,6 +8,7 @@ use App\Utility;
 use App;
 use App\City;
 use App\ExceptionCity;
+use App\Helpers\Common;
 use App\Http\Controllers\API\User\ShipmentController;
 
 class CommonController extends Controller
@@ -71,7 +72,10 @@ class CommonController extends Controller
      */
     public function getDeliveryPrice(Request $request)
     {
-        $this->getPrice($request);
+        $price = $this->getPrice($request);
+        return response()->json([
+            'price' => $price
+        ]);
     }
 
     /**
@@ -79,7 +83,7 @@ class CommonController extends Controller
      * @SWG\Post(
      *         path="/company/getDeliveryPrice",
      *         tags={"Pricing"},
-     *         operationId="getDeliveryPrice",
+     *         operationId="getDeliveryPriceForCompany",
      *         summary="Get Delivery prices",
      *         @SWG\Parameter(
      *             name="Accept-Language",
@@ -124,7 +128,10 @@ class CommonController extends Controller
      */
     public function getDeliveryPriceForCompany(Request $request)
     {
-        $this->getPrice($request);
+        $price = $this->getPrice($request);
+        return response()->json([
+            'price' => $price
+        ]);
     }
 
     public function getPrice($request)
@@ -140,9 +147,7 @@ class CommonController extends Controller
         $exceptionCities = ExceptionCity::all();
         $fromCity = City::find($request->from_cityid);
         $toCity = City::find($request->to_cityid);
-        $price = ShipmentController::getDeliveryPrice($exceptionCities, $fromCity->governorate_id, $toCity->governorate_id, $request->from_cityid, $request->to_cityid);
-        return response()->json([
-            'price' => $price
-        ]);
+        $price = Common::getDeliveryPrice($exceptionCities, $fromCity->governorate_id, $toCity->governorate_id, $request->from_cityid, $request->to_cityid);
+        return $price;
     }
 }

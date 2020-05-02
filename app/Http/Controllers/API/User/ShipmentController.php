@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use DB;
 use App;
 use App\OneSignalUser;
+use App\Helpers\Common;
 
 class ShipmentController extends Controller
 {
@@ -163,7 +164,7 @@ class ShipmentController extends Controller
         $governorate_from = Governorate::find($address_from->governorate_id);
         $exceptionCities = ExceptionCity::all();
         $fromValueExists = collect($exceptionCities)->where('city_id', $address_from->city_id)->first();
-        $price_from = $this->calculateShipmentFromPrice($fromValueExists, $governorate_from);
+        $price_from = Common::calculateShipmentFromPrice($fromValueExists, $governorate_from);
 
         $shipment->is_today = $request->is_today;
         $shipment->pickup_time_from = $request->pickup_time_from;
@@ -626,7 +627,7 @@ class ShipmentController extends Controller
             $governorate_from = Governorate::find($address_from->governorate_id);
             $exceptionCities = ExceptionCity::all();
             $fromValueExists = collect($exceptionCities)->where('city_id', $address_from->city_id)->first();
-            $price_from = $this->calculateShipmentFromPrice($fromValueExists, $governorate_from);
+            $price_from = Common::calculateShipmentFromPrice($fromValueExists, $governorate_from);
             $price = $this->calculateShipmentPrice($shipment, $request, $exceptionCities, $price_from, '', '');
 
             $shipment->update([
@@ -831,7 +832,7 @@ class ShipmentController extends Controller
         }
 
         $exceptionCities = ExceptionCity::all();
-        $price = $this->getDeliveryPrice($exceptionCities, $request->from_governorateid, $request->to_governorateid, $request->from_cityid, $request->to_cityid);
+        $price = Common::getDeliveryPrice($exceptionCities, $request->from_governorateid, $request->to_governorateid, $request->from_cityid, $request->to_cityid);
         return response()->json($price);
     }
 
@@ -905,32 +906,32 @@ class ShipmentController extends Controller
         return $price;
     }
 
-    public static function getDeliveryPrice($exceptionCities, $from_governorateid, $to_governorateid, $from_cityid, $to_cityid)
-    {
-        $governorate_from = Governorate::find($from_governorateid);
-        $fromValueExists = collect($exceptionCities)->where('city_id', $from_cityid)->first();
-        $price_from = ShipmentController::calculateShipmentFromPrice($fromValueExists, $governorate_from);
+    // public static function getDeliveryPrice($exceptionCities, $from_governorateid, $to_governorateid, $from_cityid, $to_cityid)
+    // {
+    //     $governorate_from = Governorate::find($from_governorateid);
+    //     $fromValueExists = collect($exceptionCities)->where('city_id', $from_cityid)->first();
+    //     $price_from = ShipmentController::calculateShipmentFromPrice($fromValueExists, $governorate_from);
 
-        //To Address
-        $governorate_to = Governorate::find($to_governorateid);
-        $toValueExists = collect($exceptionCities)->where('city_id', $to_cityid)->first();
-        $price_to = ShipmentController::calculateShipmentFromPrice($toValueExists, $governorate_to);
-        $price = $price_to;
-        if ($price_from > $price_to) {
-            $price = $price_from;
-        }
-        return $price;
-    }
+    //     //To Address
+    //     $governorate_to = Governorate::find($to_governorateid);
+    //     $toValueExists = collect($exceptionCities)->where('city_id', $to_cityid)->first();
+    //     $price_to = ShipmentController::calculateShipmentFromPrice($toValueExists, $governorate_to);
+    //     $price = $price_to;
+    //     if ($price_from > $price_to) {
+    //         $price = $price_from;
+    //     }
+    //     return $price;
+    // }
 
-    public static function calculateShipmentFromPrice($fromValueExists, $governorate_from)
-    {
-        if ($fromValueExists != null) {
-            $price_from = $fromValueExists->price;
-        } else {
-            $price_from = $governorate_from->price;
-        }
-        return $price_from;
-    }
+    // public static function calculateShipmentFromPrice($fromValueExists, $governorate_from)
+    // {
+    //     if ($fromValueExists != null) {
+    //         $price_from = $fromValueExists->price;
+    //     } else {
+    //         $price_from = $governorate_from->price;
+    //     }
+    //     return $price_from;
+    // }
 
 
     public function createShipmentPrice($shipment, $city_from_id, $city_to_id, $governorate_from_id, $governorate_to_id, $price)
