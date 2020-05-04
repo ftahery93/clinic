@@ -714,6 +714,7 @@ class AddressController extends Controller
             'user_id' => $request->user_id,
             'save' => $request->save,
             'status' => 1,
+            'pick_up' =>$request->pick_up
         ]);
 
         return $address;
