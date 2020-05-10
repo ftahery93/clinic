@@ -38,9 +38,9 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                     @if(Helper::GeneralWebmasterSettings("shipments_status"))
                     @if(@Auth::user()->permissionsGroup->shipments_status)
                     <?php
-                            $currentFolder = "shipments"; // Put folder name here
-                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-                            ?>
+                    $currentFolder = "shipments"; // Put folder name here
+                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                    ?>
                     <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
                         <a href="{{ route('shipments_list') }}">
                             <span class="nav-icon">
@@ -56,9 +56,9 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                     @if(Helper::GeneralWebmasterSettings("registeredusers_status"))
                     @if(@Auth::user()->permissionsGroup->registeredusers_status)
                     <?php
-                            $currentFolder = "registered_users"; // Put folder name here
-                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-                            ?>
+                    $currentFolder = "registered_users"; // Put folder name here
+                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                    ?>
                     <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
                         <a href="{{ route('registered_users_list') }}">
                             <span class="nav-icon">
@@ -74,9 +74,9 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                     @if(Helper::GeneralWebmasterSettings("companyusers_status"))
                     @if(@Auth::user()->permissionsGroup->companyusers_status)
                     <?php
-                            $currentFolder = "company_users"; // Put folder name here
-                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-                            ?>
+                    $currentFolder = "company_users"; // Put folder name here
+                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                    ?>
                     <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
                         <a href="{{ route('company_users_list') }}">
                             <span class="nav-icon">
@@ -93,9 +93,9 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                     @if(Helper::GeneralWebmasterSettings("categories_status"))
                     @if(@Auth::user()->permissionsGroup->categories_status)
                     <?php
-                            $currentFolder = "categories"; // Put folder name here
-                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-                            ?>
+                    $currentFolder = "categories"; // Put folder name here
+                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                    ?>
                     <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
                         <a href="{{ route('categories_list') }}">
                             <span class="nav-icon">
@@ -144,13 +144,47 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                         </a>
                     </li>
 
+                    <li class="nav-header hidden-folded">
+                        <small class="text-muted">{{ trans('backend.reports') }}</small>
+                    </li>
+                    <?php
+                    $currentFolder = "reports"; // Put folder name here
+                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                    $currentFolder2 = "users"; // Put folder name here
+                    $PathCurrentFolder2 = substr($urlAfterRoot, 0, strlen($currentFolder2));
+                    ?>
+                    <li {{ ($PathCurrentFolder==$currentFolder || $PathCurrentFolder2==$currentFolder2 ) ? 'class=active' : '' }}>
+                        <a>
+                            <span class="nav-icon">
+                                <i class="material-icons">list</i>
+                            </span>
+                            <span class="nav-caret">
+                                <i class="fa fa-caret-down"></i>
+                            </span>
+                            <span class="nav-text">{{ trans('backend.reports') }}</span>
+                        </a>
+
+                        <ul class="nav-sub">
+                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
+                                <a href="{{ route('report_commission') }}" onclick="location.href='{{ route('report_commission') }}'">
+                                    <span class="nav-text">{{ trans('backend.commission_report') }}</span>
+                                </a>
+                            </li>
+                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
+                                <a href="{{ route('report_shipments') }}" onclick="location.href='{{ route('report_shipments') }}'">
+                                    <span class="nav-text">{{ trans('backend.shipment_report') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
                     {{-- Notifications --}}
                     @if(Helper::GeneralWebmasterSettings("notifications_status"))
                     @if(@Auth::user()->permissionsGroup->notifications_status)
                     <?php
-                            $currentFolder = "notifications"; // Put folder name here
-                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-                            ?>
+                    $currentFolder = "notifications"; // Put folder name here
+                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                    ?>
                     {{-- <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
                     <a href="{{ route('notifications_list') }}">
                         <span class="nav-icon">
@@ -170,13 +204,12 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                         <small class="text-muted">{{ trans('backend.settings') }}</small>
                     </li>
                     <?php
-                            $currentFolder = "settings"; // Put folder name here
-                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-                            $currentFolder2 = "users"; // Put folder name here
-                            $PathCurrentFolder2 = substr($urlAfterRoot, 0, strlen($currentFolder2));
-                            ?>
-                    <li
-                        {{ ($PathCurrentFolder==$currentFolder || $PathCurrentFolder2==$currentFolder2 ) ? 'class=active' : '' }}>
+                    $currentFolder = "settings"; // Put folder name here
+                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                    $currentFolder2 = "users"; // Put folder name here
+                    $PathCurrentFolder2 = substr($urlAfterRoot, 0, strlen($currentFolder2));
+                    ?>
+                    <li {{ ($PathCurrentFolder==$currentFolder || $PathCurrentFolder2==$currentFolder2 ) ? 'class=active' : '' }}>
                         <a>
                             <span class="nav-caret">
                                 <i class="fa fa-caret-down"></i>
@@ -188,48 +221,45 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                         </a>
                         <ul class="nav-sub">
                             <?php
-                                    $currentFolder = "settings"; // Put folder name here
-                                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-                                    ?>
+                            $currentFolder = "settings"; // Put folder name here
+                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                            ?>
                             <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
                                 <a href="{{ route('settings') }}" onclick="location.href='{{ route('settings') }}'">
                                     <span class="nav-text">{{ trans('backend.contact') }}</span>
                                 </a>
                             </li>
                             <?php
-                                    $currentFolder = "commissions"; // Put folder name here
-                                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-                                    ?>
+                            $currentFolder = "commissions"; // Put folder name here
+                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                            ?>
                             <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
-                                <a href="{{ route('commissions_setting') }}"
-                                    onclick="location.href='{{ route('commissions_setting') }}'">
+                                <a href="{{ route('commissions_setting') }}" onclick="location.href='{{ route('commissions_setting') }}'">
                                     <span class="nav-text">{{ trans('backend.commissions_setting') }}</span>
                                 </a>
                             </li>
                             <?php
-                                    $currentFolder = "price"; // Put folder name here
-                                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-                                    ?>
+                            $currentFolder = "price"; // Put folder name here
+                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                            ?>
                             <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
-                                <a href="{{ route('price_setting') }}"
-                                    onclick="location.href='{{ route('price_setting') }}'">
+                                <a href="{{ route('price_setting') }}" onclick="location.href='{{ route('price_setting') }}'">
                                     <span class="nav-text">{{ trans('backend.price_setting') }}</span>
                                 </a>
                             </li>
                             <?php
-                                    $currentFolder = "wallets"; // Put folder name here
-                                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-                                    ?>
+                            $currentFolder = "wallets"; // Put folder name here
+                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                            ?>
                             <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
-                                <a href="{{ route('wallet_offers_list') }}"
-                                    onclick="location.href='{{ route('wallet_offers_list') }}'">
+                                <a href="{{ route('wallet_offers_list') }}" onclick="location.href='{{ route('wallet_offers_list') }}'">
                                     <span class="nav-text">{{ trans('backend.wallet_offers') }}</span>
                                 </a>
                             </li>
                             <?php
-                                    $currentFolder = "languageManagement"; // Put folder name here
-                                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-                                    ?>
+                            $currentFolder = "languageManagement"; // Put folder name here
+                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                            ?>
                             <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
                                 <a href="{{ route('adminLanguages') }}">
                                     <span class="nav-text">{{ trans('backend.languageManagement') }}
@@ -237,9 +267,9 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                                 </a>
                             </li>
                             <?php
-                                    $currentFolder = "users"; // Put folder name here
-                                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-                                    ?>
+                            $currentFolder = "users"; // Put folder name here
+                            $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                            ?>
                             <!-- <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
                                         <a href="{{ route('users_list') }}">
                                             <span class="nav-text">{{ trans('backend.usersPermissions') }}</span>
@@ -260,8 +290,7 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                             <div class="b-b b m-t-sm"></div>
                         </li>
                         <li class="no-bg">
-                            <a href="{{ url('/logout') }}"
-                                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                            <a href="{{ url('/logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                 <span class="nav-icon"><i class="material-icons">&#xe8ac;</i></span>
                                 <span class="nav-text">{{ trans('backend.logout') }}</span>
                             </a>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Authentication;
 use Auth;
 use File;
 use Redirect;
@@ -10,6 +11,7 @@ use App\RegisteredUser;
 use App\Http\Requests;
 use Illuminate\Config;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RegisteredUsersController extends Controller
 {
@@ -43,6 +45,51 @@ class RegisteredUsersController extends Controller
     }
 
     /**
+     * Show the form for editing the specified Registered user.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        // Check Permissions
+        if (!@Auth::user()->permissionsGroup->edit_status) {
+            return Redirect::to(route('NoPermission'))->send();
+        }
+
+        if (@Auth::user()->permissionsGroup->view_status) {
+            $registeredUsers = DB::table('registered_users')->find($id);
+        }
+
+        if ($registeredUsers != null) {
+            return view("backend.registered_users.edit", compact("registeredUsers"));
+        } else {
+            return redirect()->action('RegisteredUsersController@index');
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+
+        $registeredUser = RegisteredUser::find($id);
+        if ($registeredUser != null) {
+            $this->validate($request, [
+                'status' => 'required',
+            ]);
+            $registeredUser->update([
+                'status' => $request->status
+            ]);
+
+            if ($request->status == 0) {
+                Authentication::where('user_id', $id)->delete();
+            }
+            return redirect()->action('RegisteredUsersController@index')->with('doneMessage', trans('backend.saveDone'));
+        } else {
+            return redirect()->action('RegisteredUsersController@index');
+        }
+    }
+
+    /**
      * Update all selected registered users.
      *
      * @param  \Illuminate\Http\Request $request
@@ -51,8 +98,8 @@ class RegisteredUsersController extends Controller
      */
     public function updateAll(Request $request)
     {
-        if(empty($request->ids)){
-             
+        if (empty($request->ids)) {
+
             return redirect()->route('registered_users_list');
         }
 
@@ -72,5 +119,4 @@ class RegisteredUsersController extends Controller
         }
         return redirect()->action('RegisteredUsersController@index')->with('doneMessage', trans('backend.saveDone'));
     }
-
 }

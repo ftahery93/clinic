@@ -53,6 +53,8 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
 
     // Registered Users
     Route::get('/regular/users', 'RegisteredUsersController@index')->name('registered_users_list');
+    Route::get('/regular/users/edit/{id}', 'RegisteredUsersController@edit')->name('registered_users_edit');
+    Route::post('/regular/users/update/{id}', 'RegisteredUsersController@update')->name('registered_users_update');
     Route::post('/regular/users/updateAll', 'RegisteredUsersController@updateAll')->name('registered_users_update_all');
 
     // Company Users
@@ -79,6 +81,17 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
 
     // Shipments and Transactions
     Route::get('/users/shipments', 'ShipmentsController@index')->name('shipments_list');
+
+
+    //Reports
+    Route::get('/reports', 'ReportsController@index')->name('reports');
+
+    //Commission report
+    Route::get('/reports/commission', 'ReportsController@showCommission')->name('report_commission');
+
+    //Shipment report
+    Route::get('/reports/shipments', 'ReportsController@shipmentReport')->name('report_shipments');
+
 
     // Settings
     Route::get('/settings', 'SettingsController@edit')->name('settings');
