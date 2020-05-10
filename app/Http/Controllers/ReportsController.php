@@ -32,10 +32,10 @@ class ReportsController extends Controller
                 ->where('created_at', '<=', Carbon::parse($request->end_date))->groupBy('company_id')->map(function ($row) {
                     return $row->sum('amount');
                 });
-        else
-            $groupedTransactions = collect($transactions)->groupBy('company_id')->map(function ($row) {
-                return $row->sum('amount');
-            });
+
+        $groupedTransactions = collect($transactions)->groupBy('company_id')->map(function ($row) {
+            return $row->sum('amount');
+        });
         $transactions = [];
         $totalAmount = 0.0;
         foreach ($groupedTransactions as $key => $eachTransaction) {
@@ -52,6 +52,14 @@ class ReportsController extends Controller
     public function shipmentReport(Request $request)
     {
         $shipments = Shipment::whereNotNull('company_id')->get();
+
+        if ($request->start_date && $request->end_date) {
+            $shipments = collect($shipments)->where('created_at', '>=', Carbon::parse($request->start_date))
+                ->where('created_at', '<=', Carbon::parse($request->end_date))->groupBy('company_id')->map(function ($row) {
+                    return $row->sum('amount');
+                });
+        }
+
         $shipmentCounts = collect($shipments)->groupBy('company_id');
         $shipmentCountResponse = [];
 
