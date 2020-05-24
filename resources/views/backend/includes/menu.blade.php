@@ -1,3 +1,11 @@
+<style>
+
+.navside [flex] {
+	overflow-y: auto;
+	direction: ltr;
+	overflow-x: -moz-hidden-unscrollable;
+}
+    </style>
 <?php
 // Current Full URL
 $fullPagePath = Request::url();
@@ -15,7 +23,7 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
             </a>
             <!-- / brand -->
         </div>
-        <div flex class="hide-scroll">
+        <div flex class="">
             <nav class="scroll nav-active-primary">
                 <ul class="nav" ui-nav>
                     <li class="nav-header hidden-folded">
@@ -143,40 +151,7 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                             <span class="nav-text">{{ trans('backend.governorates') }}</span>
                         </a>
                     </li>
-
-                    <li class="nav-header hidden-folded">
-                        <small class="text-muted">{{ trans('backend.reports') }}</small>
-                    </li>
-                    <?php
-                    $currentFolder = "reports"; // Put folder name here
-                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
-                    $currentFolder2 = "users"; // Put folder name here
-                    $PathCurrentFolder2 = substr($urlAfterRoot, 0, strlen($currentFolder2));
-                    ?>
-                    <li {{ ($PathCurrentFolder==$currentFolder || $PathCurrentFolder2==$currentFolder2 ) ? 'class=active' : '' }}>
-                        <a>
-                            <span class="nav-icon">
-                                <i class="material-icons">list</i>
-                            </span>
-                            <span class="nav-caret">
-                                <i class="fa fa-caret-down"></i>
-                            </span>
-                            <span class="nav-text">{{ trans('backend.reports') }}</span>
-                        </a>
-
-                        <ul class="nav-sub">
-                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
-                                <a href="{{ route('report_commission') }}" onclick="location.href='{{ route('report_commission') }}'">
-                                    <span class="nav-text">{{ trans('backend.commission_report') }}</span>
-                                </a>
-                            </li>
-                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
-                                <a href="{{ route('report_shipments') }}" onclick="location.href='{{ route('report_shipments') }}'">
-                                    <span class="nav-text">{{ trans('backend.shipment_report') }}</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    
 
                     {{-- Notifications --}}
                     @if(Helper::GeneralWebmasterSettings("notifications_status"))
@@ -279,10 +254,44 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                     </li>
                     @endif
                     @endif
+                    <li class="nav-header hidden-folded">
+                        <small class="text-muted">{{ trans('backend.reports') }}</small>
+                    </li>
+
+                    <?php
+                    $currentFolder = "reports"; // Put folder name here
+                    $PathCurrentFolder = substr($urlAfterRoot, 0, strlen($currentFolder));
+                    $currentFolder2 = "users"; // Put folder name here
+                    $PathCurrentFolder2 = substr($urlAfterRoot, 0, strlen($currentFolder2));
+                    ?>
+                   <li {{ ($PathCurrentFolder==$currentFolder || $PathCurrentFolder2==$currentFolder2 ) ? 'class=active' : '' }}>
+                        <a>
+                            <span class="nav-icon">
+                                <i class="material-icons">list</i>
+                            </span>
+                            <span class="nav-caret">
+                                <i class="fa fa-caret-down"></i>
+                            </span>
+                            <span class="nav-text">{{ trans('backend.reports') }}</span>
+                        </a>
+
+                        <ul class="nav-sub">
+                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
+                                <a href="{{ route('report_commission') }}" onclick="location.href='{{ route('report_commission') }}'">
+                                    <span class="nav-text">{{ trans('backend.commission_report') }}</span>
+                                </a>
+                            </li>
+                            <li {{ ($PathCurrentFolder==$currentFolder) ? 'class=active' : '' }}>
+                                <a href="{{ route('report_shipments') }}" onclick="location.href='{{ route('report_shipments') }}'">
+                                    <span class="nav-text">{{ trans('backend.shipment_report') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
             </nav>
         </div>
-        <div flex-no-shrink>
+        {{-- <div flex-no-shrink>
             <div>
                 <nav ui-nav>
                     <ul class="nav">
@@ -298,6 +307,6 @@ $urlAfterRoot = substr($fullPagePath, strpos($fullPagePath, env('BACKEND_PATH'))
                     </ul>
                 </nav>
             </div>
-        </div>
+        </div> --}}
     </div>
 </div>
