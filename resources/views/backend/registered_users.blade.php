@@ -3,6 +3,25 @@
 @section('content')
 <div class="padding">
     <div class="box">
+        <div class="row">
+        <div class="col-sm-12" style="margin:20px 0px;">
+                 
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" name="mobile_filter" id="mobile_filter" placeholder="Mobile number" />
+               </div>
+               <div class="col-sm-3">
+                <button class="btn btn-md warning"  id="filter">
+                    <small><i class="material-icons">filter</i> Filter
+                    </small>
+                </button>
+                <button class="btn btn-md success"  id="clear">
+                    <small><i class="material-icons">clear</i> Clear
+                    </small>
+                </button>
+            </div>
+           
+        </div>
+        <div class="col-sm-12">
         <div class="box-header dker">
             <h3>{{ trans('backend.registered_users') }}</h3>
             <small>
@@ -10,6 +29,8 @@
                 <a href="">{{ trans('backend.registered_users') }}</a>
             </small>
         </div>
+    </div>
+</div>
         @if($RegisteredUsers->total() > 0)
         {{Form::open(['route'=>'registered_users_update_all','method'=>'post'])}}
         <div class="table-responsive">
@@ -175,6 +196,15 @@
             $("#submit_all").css("display", "inline-block");
             $("#submit_show_msg").css("display", "none");
         }
+    });
+
+    $("#filter").click(function() {
+        var mobile = $('#mobile_filter').val();
+        window.location.href="{{ url('admin/regular/users') }}?mobile="+mobile;
+    });
+
+    $("#clear").click(function() {        
+        window.location.href="{{ url('admin/regular/users') }}";
     });
 </script>
 @endsection

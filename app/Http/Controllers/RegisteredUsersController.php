@@ -35,10 +35,15 @@ class RegisteredUsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (@Auth::user()->permissionsGroup->view_status) {
-            $RegisteredUsers = RegisteredUser::orderby('id', 'asc')->paginate(env('BACKEND_PAGINATION'));
+            if ($request->mobile){
+                $RegisteredUsers = RegisteredUser::where('mobile',$request->mobile)->orderby('id', 'asc')->paginate(env('BACKEND_PAGINATION'));
+            }else{
+                $RegisteredUsers = RegisteredUser::orderby('id', 'asc')->paginate(env('BACKEND_PAGINATION'));
+            }
+           
             $Permissions = Permissions::orderby('id', 'asc')->get();
         }
         return view("backend.registered_users", compact("RegisteredUsers", "Permissions"));
