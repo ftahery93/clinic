@@ -27,8 +27,8 @@ class CheckCompanyVersion
                 return $next($request);
             } else {
                 return response()->json([
-                    'error' => LanguageManagement::getLabel('invalid_api_request', $language),
-                ], 400);
+                    'error' => LanguageManagement::getLabel('update_app_request', $language),
+                ], 405);
             }
         } else {
             return response()->json([
