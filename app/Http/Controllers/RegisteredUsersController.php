@@ -39,7 +39,7 @@ class RegisteredUsersController extends Controller
     {
         if (@Auth::user()->permissionsGroup->view_status) {
             if ($request->mobile){
-                $RegisteredUsers = RegisteredUser::where('mobile',$request->mobile)->orderby('id', 'asc')->paginate(env('BACKEND_PAGINATION'));
+                $RegisteredUsers = RegisteredUser::where('mobile', 'LIKE', '%' . $request->mobile . '%')->orderby('id', 'asc')->paginate(env('BACKEND_PAGINATION'));
             }else{
                 $RegisteredUsers = RegisteredUser::orderby('id', 'asc')->paginate(env('BACKEND_PAGINATION'));
             }
