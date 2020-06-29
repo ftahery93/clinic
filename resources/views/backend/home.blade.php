@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 </a>
-                <a href="{{ route("shipments_list") }}">
+                <a href="{{ route("report_commission") }}">
                 <div class="box-color p-a-3 black  col-sm-12 col-md-4 col-lg-4">
                     <div class="pull-right m-l">
                         <span class="w-56 dker text-center rounded">

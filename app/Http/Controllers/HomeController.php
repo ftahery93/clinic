@@ -52,7 +52,7 @@ class HomeController extends Controller
             //Get Latest 20 Shipments
             $Shipments = Shipment::select('shipments.*','companies.name_en AS company_name')
             ->leftJoin('companies', 'companies.id', '=', 'shipments.company_id')
-            ->take(13)->orderby('id', 'asc')->get();
+            ->take(13)->orderby('id', 'desc')->get();
 
             return view('backend.home', compact("NumberofCompanyUsers", "NumberofRegisteredUsers", "NumberofPendingShipments", "NumberofApprovedShipments", "Shipments", "totalCommission"));
         }
