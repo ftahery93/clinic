@@ -19,7 +19,6 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
     }
 
     /**
@@ -43,16 +42,16 @@ class HomeController extends Controller
             $NumberofPendingShipments = count($pShipments);
 
             //Get the Number of Approved Shipments
-            $aShipments = Shipment::where('status', '>=', '2')->get();
+            $aShipments = Shipment::where('status', '>=', '2')->where('status', '<=', '4')->get();
             $NumberofApprovedShipments = count($aShipments);
 
             //Get Total Commission
-            $totalCommission = Order::sum('wallet_amount');           
+            $totalCommission = Order::sum('wallet_amount');
 
             //Get Latest 20 Shipments
-            $Shipments = Shipment::select('shipments.*','companies.name_en AS company_name')
-            ->leftJoin('companies', 'companies.id', '=', 'shipments.company_id')
-            ->take(13)->orderby('id', 'desc')->get();
+            $Shipments = Shipment::select('shipments.*', 'companies.name_en AS company_name')
+                ->leftJoin('companies', 'companies.id', '=', 'shipments.company_id')
+                ->take(13)->orderby('id', 'desc')->get();
 
             return view('backend.home', compact("NumberofCompanyUsers", "NumberofRegisteredUsers", "NumberofPendingShipments", "NumberofApprovedShipments", "Shipments", "totalCommission"));
         }
@@ -75,8 +74,11 @@ class HomeController extends Controller
         if ($request->q != "") {
             if (@Auth::user()->permissionsGroup->view_status) {
                 //find Contacts
-                $Contacts = Contact::where('created_by', '=', Auth::user()->id)->where('first_name', 'like',
-                    '%' . $request->q . '%')
+                $Contacts = Contact::where('created_by', '=', Auth::user()->id)->where(
+                    'first_name',
+                    'like',
+                    '%' . $request->q . '%'
+                )
                     ->orwhere('last_name', 'like', '%' . $request->q . '%')
                     ->orwhere('company', 'like', '%' . $request->q . '%')
                     ->orwhere('city', 'like', '%' . $request->q . '%')
@@ -86,8 +88,11 @@ class HomeController extends Controller
                     ->orderby('id', 'desc')->get();
 
                 //find Webmails
-                $Webmails = Webmail::where('created_by', '=', Auth::user()->id)->where('title', 'like',
-                    '%' . $request->q . '%')
+                $Webmails = Webmail::where('created_by', '=', Auth::user()->id)->where(
+                    'title',
+                    'like',
+                    '%' . $request->q . '%'
+                )
                     ->orwhere('from_name', 'like', '%' . $request->q . '%')
                     ->orwhere('from_email', 'like', '%' . $request->q . '%')
                     ->orwhere('from_phone', 'like', '%' . $request->q . '%')
@@ -96,22 +101,31 @@ class HomeController extends Controller
                     ->orderby('id', 'desc')->get();
 
                 //find Events
-                $Events = Event::where('created_by', '=', Auth::user()->id)->where('title', 'like',
-                    '%' . $request->q . '%')
+                $Events = Event::where('created_by', '=', Auth::user()->id)->where(
+                    'title',
+                    'like',
+                    '%' . $request->q . '%'
+                )
                     ->orwhere('details', 'like', '%' . $request->q . '%')
                     ->orderby('start_date', 'desc')->get();
 
                 //find Topics
-                $Topics = Topic::where('created_by', '=', Auth::user()->id)->where('title_ar', 'like',
-                    '%' . $request->q . '%')
+                $Topics = Topic::where('created_by', '=', Auth::user()->id)->where(
+                    'title_ar',
+                    'like',
+                    '%' . $request->q . '%'
+                )
                     ->orwhere('title_en', 'like', '%' . $request->q . '%')
                     ->orwhere('seo_title_ar', 'like', '%' . $request->q . '%')
                     ->orwhere('seo_title_en', 'like', '%' . $request->q . '%')
                     ->orderby('id', 'desc')->get();
 
                 //find Sections
-                $Sections = Section::where('created_by', '=', Auth::user()->id)->where('title_ar', 'like',
-                    '%' . $request->q . '%')
+                $Sections = Section::where('created_by', '=', Auth::user()->id)->where(
+                    'title_ar',
+                    'like',
+                    '%' . $request->q . '%'
+                )
                     ->orwhere('title_en', 'like', '%' . $request->q . '%')
                     ->orwhere('seo_title_ar', 'like', '%' . $request->q . '%')
                     ->orwhere('seo_title_en', 'like', '%' . $request->q . '%')
@@ -154,7 +168,6 @@ class HomeController extends Controller
                     ->orwhere('seo_title_ar', 'like', '%' . $request->q . '%')
                     ->orwhere('seo_title_en', 'like', '%' . $request->q . '%')
                     ->orderby('id', 'desc')->get();
-
             }
             if (count($Webmails) > 0) {
                 $active_tab = 5;
@@ -171,15 +184,23 @@ class HomeController extends Controller
             if (count($Topics) > 0) {
                 $active_tab = 1;
             }
-
         } else {
             return redirect()->action('HomeController@search');
         }
         $search_word = $request->q;
 
-        return view("backEnd.search",
-            compact("GeneralWebmasterSections", "search_word", "Webmails", "Contacts", "Events", "Topics", "Sections",
-                "active_tab"));
+        return view(
+            "backEnd.search",
+            compact(
+                "GeneralWebmasterSections",
+                "search_word",
+                "Webmails",
+                "Contacts",
+                "Events",
+                "Topics",
+                "Sections",
+                "active_tab"
+            )
+        );
     }
-
 }

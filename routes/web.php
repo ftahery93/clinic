@@ -81,7 +81,8 @@ Route::Group(['prefix' => env('BACKEND_PATH')], function () {
 
     // Shipments and Transactions
     Route::get('/users/shipments', 'ShipmentsController@index')->name('shipments_list');
-
+    Route::get('/user/shipments/pending', 'ShipmentsController@getPendingShipments')->name('pending_shipments');
+    Route::get('/user/shipments/accepted', 'ShipmentsController@getAcceptedShipments')->name('accepted_shipments');
 
     //Reports
     Route::get('/reports', 'ReportsController@index')->name('reports');

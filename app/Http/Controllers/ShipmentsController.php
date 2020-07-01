@@ -40,19 +40,27 @@ class ShipmentsController extends Controller
             $Commission = Commission::find(1)->first();
         }
 
-        $ShipmentDetails = array();
+        $ShipmentDetails = $this->getShipmentDetails($Shipments);
+        return view("backend.shipments", compact("Shipments", "ShipmentDetails", "Commission"));
+    }
 
-        foreach ($Shipments as $Shipment) {
-            $ShipmentDetails[$Shipment->id] = array(
-                'categories' => $this->getCategory($Shipment),
-                'toAddress' => $this->getToAddress($Shipment),
-                'fromAddress' => $this->getFromAddress($Shipment->id),
-                'company' => $this->getCompany($Shipment->id),
-                'registered_user' => $this->getUser($Shipment->id),
-                'transactions' => $this->getTransactions($Shipment->id),
-            );
+    public function getPendingShipments()
+    {
+        if (@Auth::user()->permissionsGroup->view_status) {
+            $Shipments = Shipment::where('status', 1)->orderby('status', 'asc')->paginate(env('BACKEND_PAGINATION'));
+            $Commission = Commission::find(1)->first();
         }
+        $ShipmentDetails = $this->getShipmentDetails($Shipments);
+        return view("backend.shipments", compact("Shipments", "ShipmentDetails", "Commission"));
+    }
 
+    public function getAcceptedShipments()
+    {
+        if (@Auth::user()->permissionsGroup->view_status) {
+            $Shipments = Shipment::where('status', '>=', '2')->where('status', '<=', '4')->orderby('status', 'asc')->paginate(env('BACKEND_PAGINATION'));
+            $Commission = Commission::find(1)->first();
+        }
+        $ShipmentDetails = $this->getShipmentDetails($Shipments);
         return view("backend.shipments", compact("Shipments", "ShipmentDetails", "Commission"));
     }
 
@@ -64,23 +72,22 @@ class ShipmentsController extends Controller
     }
 
     public function getFromAddress($id)
-    {      
+    {
 
         $addresses = DB::table('shipments')
             ->leftJoin('addresses', 'addresses.id', '=', 'shipments.address_from_id')
             ->leftJoin('address_titles', 'address_titles.id', '=', 'addresses.title_id')
-            ->select('addresses.mobile','addresses.block', 'addresses.building','addresses.street','address_titles.name_en As name')
+            ->select('addresses.mobile', 'addresses.block', 'addresses.building', 'addresses.street', 'address_titles.name_en As name')
             ->where('shipments.id', '=', $id)
             ->first();
-        
-        return $addresses;
 
+        return $addresses;
     }
 
     public function getToAddress($Shipment)
-    {      
-        $addresses = array();   
-        $addresses = $Shipment->addresses()->get();        
+    {
+        $addresses = array();
+        $addresses = $Shipment->addresses()->get();
         return $addresses;
     }
 
@@ -96,7 +103,6 @@ class ShipmentsController extends Controller
             ->first();
 
         return $company;
-
     }
 
     public function getTransactions($id)
@@ -112,7 +118,6 @@ class ShipmentsController extends Controller
             ->first();
 
         return $transaction;
-
     }
 
     public function getUser($id)
@@ -127,7 +132,6 @@ class ShipmentsController extends Controller
             ->first();
 
         return $user;
-
     }
 
     public function getUploadPath()
@@ -140,4 +144,19 @@ class ShipmentsController extends Controller
         $this->uploadPath = Config::get('app.APP_URL') . $uploadPath;
     }
 
+    private function getShipmentDetails($shipments)
+    {
+        $ShipmentDetails = array();
+        foreach ($shipments as $Shipment) {
+            $ShipmentDetails[$Shipment->id] = array(
+                'categories' => $this->getCategory($Shipment),
+                'toAddress' => $this->getToAddress($Shipment),
+                'fromAddress' => $this->getFromAddress($Shipment->id),
+                'company' => $this->getCompany($Shipment->id),
+                'registered_user' => $this->getUser($Shipment->id),
+                'transactions' => $this->getTransactions($Shipment->id),
+            );
+        }
+        return $ShipmentDetails;
+    }
 }

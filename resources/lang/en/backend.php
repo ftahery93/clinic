@@ -574,5 +574,6 @@ return [
   'country_code' => 'Country Code',
   'commission_report' => 'Commission Report',
   'shipment_report' => 'Shipment Report',
-  'company_report' => 'Company Report'
+  'company_report' => 'Company Report',
+  'deleted' => ' Deleted'
 ];
