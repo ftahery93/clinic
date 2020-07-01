@@ -26,16 +26,16 @@ class ReportsController extends Controller
 
     public function showCommission(Request $request)
     {
-        $transactions = WalletTransaction::all();
+        $transactions = WalletTransaction::where('wallet_in', 0)->get();
         $groupedTransactions = collect($transactions)->groupBy('company_id')->map(function ($row) {
             return $row->sum('amount');
         });
-        
-        if ($request->start_date && $request->end_date){
+
+        if ($request->start_date && $request->end_date) {
             $groupedTransactions = collect($transactions)->where('created_at', '>=', Carbon::parse($request->start_date))
-            ->where('created_at', '<=', Carbon::parse($request->end_date))->groupBy('company_id')->map(function ($row) {
-                return $row->sum('amount');
-            });
+                ->where('created_at', '<=', Carbon::parse($request->end_date))->groupBy('company_id')->map(function ($row) {
+                    return $row->sum('amount');
+                });
         }
         $transactions = [];
         $totalAmount = 0.0;
@@ -54,7 +54,7 @@ class ReportsController extends Controller
     {
         $shipments = Shipment::whereNotNull('company_id')->get();
 
-         if ($request->start_date && $request->end_date){
+        if ($request->start_date && $request->end_date) {
             $shipments = collect($shipments)->where('created_at', '>=', Carbon::parse($request->start_date))
                 ->where('created_at', '<=', Carbon::parse($request->end_date));
         }
