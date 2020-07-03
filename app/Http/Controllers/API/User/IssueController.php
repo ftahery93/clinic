@@ -20,19 +20,19 @@ class IssueController extends Controller
 
 
 
-    public function getIssues()
+    public function getIssues(Request $request)
     {
         $issues = Issue::all();
         $pending = [];
         $approved = [];
         foreach ($issues as $issue) {
-            if ($issues->status == 1) {
+
+            if ($issue->status == 1 && $issue->user_id == $request->user_id) {
                 $pending[] = $issue;
-            } else {
+            } else if ($issue->status == 2 && $issue->user_id == $request->user_id) {
                 $approved[] = $issue;
             }
         }
-
         return response()->json([
             'pending' => $pending,
             'approved' => $approved

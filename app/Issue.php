@@ -8,7 +8,7 @@ class Issue extends Model
 {
     protected $table = "issue";
     protected $fillable = [
-        'image', 'description', 'fullname', 'mobile', 'latitude', 'longitude', 'user_id', 'status', 'approved_date', 'approved_image', 'employee_id'
+        'image', 'description', 'fullname', 'mobile', 'latitude', 'longitude', 'user_id', 'status', 'approved_date', 'approved_image', 'employee_id',
     ];
     protected $hidden = ['created_at', 'updated_at'];
 
