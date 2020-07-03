@@ -48,7 +48,7 @@ class IssueController extends Controller
     {
         $validator = [
             'id' => 'required|integer|exists:issue',
-            'approved_image' => 'required',
+            'file' => 'required',
         ];
         $checkForError = $this->utility->checkForErrorMessages($request, $validator, 422);
         if ($checkForError) {
@@ -57,14 +57,22 @@ class IssueController extends Controller
 
         $issue = Issue::find($request->id);
 
-        $file_data = $request->image;
-        $file_name = 'approved_issue_image' . time() . '.png';
-
-        if ($file_data != null) {
-            Storage::disk('public')->put('approved_issue_images/' . $file_name, base64_decode($file_data));
+        if ($request->hasFile('file')) {
+            $icon = $request->file('file');
+            $filename = time() . '.' . $icon->getClientOriginalExtension();
+            $destinationPath = public_path('approved_issue_images/');
+            $icon->move($destinationPath, $filename);
+            $request['image'] = $filename;
         }
+
+        // $file_data = $request->image;
+        // $file_name = 'approved_issue_image' . time() . '.png';
+
+        // if ($file_data != null) {
+        //     Storage::disk('public')->put('approved_issue_images/' . $file_name, base64_decode($file_data));
+        // }
         $issue->update([
-            'approved_image' => $file_name,
+            'approved_image' => $request->image,
             'approved_date' => Carbon::now(),
             'employee_id' => $request->employee_id,
             'status' => 2
