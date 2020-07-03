@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class Employee extends Model
 {
-    protected $table = "user";
-
+    protected $table = "employee";
+    protected $fillable = ['email', 'password'];
     protected $hidden = ['created_at', 'updated_at'];
 }

@@ -575,5 +575,8 @@ return [
   'commission_report' => 'Commission Report',
   'shipment_report' => 'Shipment Report',
   'company_report' => 'Company Report',
-  'deleted' => ' Deleted'
+  'deleted' => ' Deleted',
+  'report_issue_success' => 'Issue reported successfully',
+  'report_approve_success' => 'Issue approved',
+  'issue_not_found' => 'Issue not found'
 ];
