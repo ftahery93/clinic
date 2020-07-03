@@ -55,7 +55,7 @@ class IssueController extends Controller
     public function reportIssue(Request $request)
     {
         $validator = [
-            'image' => 'required',
+            'file' => 'required',
             'description' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
@@ -66,18 +66,18 @@ class IssueController extends Controller
             return $checkForError;
         }
 
-        $file_data = $request->image;
-        $file_name = 'issue_image' . time() . '.png';
-
-        if ($file_data != null) {
-            Storage::disk('public')->put('company_images/' . $file_name, base64_decode($file_data));
+        if ($request->hasFile('file')) {
+            $icon = $request->file('file');
+            $filename = time() . '.' . $icon->getClientOriginalExtension();
+            $destinationPath = public_path('issue_images/');
+            $icon->move($destinationPath, $filename);
+            $request['image'] = $filename;
         }
 
-        $request['image'] = $file_name;
         $request['status'] = 1;
         $issue = Issue::create($request->all());
         return response()->json([
-            'message' => LanguageManagement::getLabel('report_issue_success', "en"),
+            'message' => LanguageManagement::getLabel('report_issue_success', 'en'),
         ]);
     }
 }

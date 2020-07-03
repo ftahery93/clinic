@@ -54,4 +54,7 @@ return [
     "forgot_password_email_sent" => "We have e-mailed your password reset link",
     "no_valid_offer" => "Offer not valid",
     'reset_password_success' => 'We have successfully reset your password!',
+    'report_issue_success' => 'Issue reported successfully',
+    'report_approve_success' => 'Issue approved',
+    'issue_not_found' => 'Issue not found'
 ];
