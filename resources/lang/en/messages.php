@@ -56,5 +56,11 @@ return [
     'reset_password_success' => 'We have successfully reset your password!',
     'report_issue_success' => 'Issue reported successfully',
     'report_approve_success' => 'Issue approved',
-    'issue_not_found' => 'Issue not found'
+    'issue_not_found' => 'Issue not found',
+    'doctor_approved' => 'Doctor approved',
+    'doctor_disapproved' => 'Doctor disapproved',
+    'appointmnet_create' => 'Appointment created',
+    'appointmnet_delete' => 'Appointment deleted',
+    'appointmnet_edited' => 'Appointment edited',
+    'appointment_booked' => 'Appointment booked'
 ];

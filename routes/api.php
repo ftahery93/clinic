@@ -145,22 +145,33 @@
 
 Route::group(['middleware' => ['checkAuth']], function () {
 
-    Route::get('/user/getIssues', 'API\User\IssueController@getIssues');
+    Route::post('/doctor/createAppointment', 'API\Doctor\AppointmentController@createAppointment');
+    Route::delete('/doctor/deleteAppointment/{id}', 'API\Doctor\AppointmentController@deleteAppointment');
+    Route::post('/doctor/editAppointment', 'API\Doctor\AppointmentController@editAppointment');
+    Route::get('/doctor/getAppointments', 'API\Doctor\AppointmentController@getAppointments');
 
-    Route::post('/user/reportIssue', 'API\User\IssueController@reportIssue');
-
-    Route::get('/user/getIssueDetails/{report_id}', 'API\User\IssueController@getIssueDetails');
-
-    Route::get('/employee/getIssues', 'API\Employee\IssueController@getIssues');
-
-    Route::post('/employee/approveIssue', 'API\Employee\IssueController@approveIssue');
-
-    Route::get('/employee/getIssueDetails/{report_id}', 'API\Employee\IssueController@getIssueDetails');
+    // Patient
+    Route::get('/patient/getMyAppointments', 'API\Patient\AppointmentController@getMyAppointments');
+    Route::get('/patient/getDoctorAppointments/{id}', 'API\Patient\AppointmentController@getDoctorAppointments');
+    Route::post('/patient/bookAppointment', 'API\Patient\AppointmentController@bookAppointment');
+    Route::delete('/patient/cancelAppointment', 'API\Patient\AppointmentController@cancelAppointment');
+    Route::get('/patient/getDoctors', 'API\Patient\AppointmentController@getDoctors');
 });
 
-// USER
-Route::get('/user/login', 'API\User\AuthController@login');
-// EMPLOYEE
-Route::post('/employee/login', 'API\Employee\AuthController@login');
+// PATIENT
 
-Route::post('/employee/createEmployee', 'API\Employee\AuthController@createEmployee');
+
+Route::post('/patient/register', 'API\Patient\AuthController@register');
+Route::post('/patient/login', 'API\Patient\AuthController@login');
+Route::get('/patient/emailUpdate/{id}', 'API\Patient\AppointmentController@emailUpdate');
+
+
+// // Doctor
+Route::post('/doctor/register', 'API\Doctor\AuthController@register');
+Route::post('/doctor/login', 'API\Doctor\AuthController@login');
+
+
+//Admin
+Route::post('/admin/login', 'API\Admin\AuthController@login');
+Route::get('/admin/getDoctors', 'API\Admin\IssueController@getDoctors');
+Route::get('/admin/approveDoctor/{id}', 'API\Admin\IssueController@approveDoctor');

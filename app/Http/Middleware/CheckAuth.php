@@ -6,7 +6,7 @@ use App;
 use App\Authentication;
 use App\LanguageManagement;
 use Closure;
-use App\Employee;
+use App\Doctor;
 
 class CheckAuth
 {
@@ -29,15 +29,17 @@ class CheckAuth
 
                 if ($authenticatedUser->type == 1) {
                     $request->request->add(['user_id' => $authenticatedUser["user_id"]]);
-                } else {
-                    $company = Employee::find($authenticatedUser["user_id"]);
+                } else if ($authenticatedUser->type == 2) {
+                    $company = Doctor::find($authenticatedUser["user_id"]);
                     if ($company != null) {
-                        $request->request->add(['employee_id' => $authenticatedUser["user_id"]]);
+                        $request->request->add(['doctor_id' => $authenticatedUser["user_id"]]);
                     } else {
                         return response()->json([
                             'error' => LanguageManagement::getLabel('text_unauthorized', $language),
                         ], 403);
                     }
+                } else {
+                    $request->request->add(['admin_id' => 1]);
                 }
 
                 return $next($request);
